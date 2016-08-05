@@ -1,0 +1,18 @@
+{
+    "services": {
+        "users": {
+            "create": "/api/v1/users/create",
+            "login": "/api/v1/users/login",
+            "list": "/api/v1/users/list/:page/:limit",
+            "get": "/api/v1/users/get/:userId"
+        }
+    },
+    "locales": {
+        "locales": {
+            "vi_VN": "Việt Nam",
+            "en_US": "English"
+        },
+        "preferredLocale": "en_US"
+    },
+    "debug_mode": true
+}

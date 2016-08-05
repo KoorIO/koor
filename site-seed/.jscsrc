@@ -1,0 +1,5 @@
+{
+  "requireCapitalizedConstructors": true,
+  "requireParenthesesAroundIIFE": true,
+  "excludeFiles": ["app/scripts/config.tpl.js"]
+}
