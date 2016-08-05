@@ -2,6 +2,6 @@
     "views.users.list.Users": "Users",
     "views.users.list.ListOfUsers": "List Of User",
     "views.users.setting.Settings": "Settings",
-    "views.locale.Language": "Language"
-
+    "views.locale.Language": "Language",
+    "views.header.header.Koor": "Koor 1.0.0 (alpha)"
 }

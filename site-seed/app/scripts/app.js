@@ -81,6 +81,69 @@ angular
                 }
             }
         })
+        .state('app', {
+            url: '/app',
+            templateUrl: 'views/app.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/directives/header/header.js',
+                                'scripts/services/locale.js',
+                                'scripts/directives/locale/locale.js',
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.apis', {
+            url: '/apis',
+            templateUrl: 'views/apis/index.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.apis.list', {
+            url: '/list',
+            templateUrl: 'views/apis/list.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.apis.create', {
+            url: '/create',
+            templateUrl: 'views/apis/create.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
         .state('home', {
             url: '/home',
             templateUrl: 'views/main.html',

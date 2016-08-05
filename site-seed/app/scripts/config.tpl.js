@@ -8,6 +8,7 @@ angular
     'oc.lazyLoad',
     'pascalprecht.translate',
     'ngAnimate',
+    'ui.ace',
     'angular-loading-bar'
 ])  
 /* jshint ignore:start */
