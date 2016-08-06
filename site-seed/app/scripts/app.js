@@ -99,6 +99,51 @@ angular
                 }
             }
         })
+        .state('app.projects', {
+            url: '/projects',
+            templateUrl: 'views/projects/index.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.projects.list', {
+            url: '/list',
+            templateUrl: 'views/projects/list.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.projects.create', {
+            url: '/create',
+            templateUrl: 'views/projects/create.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
         .state('app.apis', {
             url: '/apis',
             templateUrl: 'views/apis/index.html',
