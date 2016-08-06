@@ -14,7 +14,7 @@ angular.module('siteSeedApp')
         Users.register(userData).then(function(){
             vs.error = null;
             $state.go('login');
-        }).catch(function(e){
+        }).catch(function(){
             vs.error = 'Register Denied, Your username or Email is exists!';
         });
     };
