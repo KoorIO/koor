@@ -1,0 +1,32 @@
+{
+    "services": {
+        "users": {
+            "create": "/api/v1/users/create",
+            "login": "/api/v1/users/login",
+            "list": "/api/v1/users/list/:page/:limit",
+            "get": "/api/v1/users/get/:userId"
+        },
+        "projects": {
+            "create": "/api/v1/projects/create",
+            "list": "/api/v1/projects/list/:page/:limit",
+            "delete": "/api/v1/projects/delete/:projectId",
+            "update": "/api/v1/projects/update/:projectId",
+            "get": "/api/v1/projects/get/:projectId"
+        },
+        "apis": {
+            "create": "/api/v1/apis/create",
+            "list": "/api/v1/apis/list/:page/:limit",
+            "delete": "/api/v1/apis/delete/:apiId",
+            "update": "/api/v1/apis/update/:apiId",
+            "get": "/api/v1/apis/get/:apiId"
+        }
+    },
+    "locales": {
+        "locales": {
+            "vi_VN": "Việt Nam",
+            "en_US": "English"
+        },
+        "preferredLocale": "en_US"
+    },
+    "debug_mode": true
+}

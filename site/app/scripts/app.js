@@ -42,7 +42,7 @@ angular
             events: true,
         });
 
-        $urlRouterProvider.otherwise('/home/dashboard');
+        $urlRouterProvider.otherwise('/app/projects/list');
 
         $stateProvider
         .state('login',{
@@ -108,7 +108,8 @@ angular
                         {
                             name:'siteSeedApp',
                             files:[
-                                'scripts/services/users.js'
+                                'scripts/services/projects.js',
+                                'scripts/controllers/projects.js'
                             ]
                         });
                 }
@@ -116,33 +117,18 @@ angular
         })
         .state('app.projects.list', {
             url: '/list',
-            templateUrl: 'views/projects/list.html',
-            resolve: {
-                loadMyDirectives:function($ocLazyLoad){
-                    return $ocLazyLoad.load(
-                        {
-                            name:'siteSeedApp',
-                            files:[
-                                'scripts/services/users.js'
-                            ]
-                        });
-                }
-            }
+            controller: "ListProjectCtrl",
+            templateUrl: 'views/projects/list.html'
         })
         .state('app.projects.create', {
             url: '/create',
-            templateUrl: 'views/projects/create.html',
-            resolve: {
-                loadMyDirectives:function($ocLazyLoad){
-                    return $ocLazyLoad.load(
-                        {
-                            name:'siteSeedApp',
-                            files:[
-                                'scripts/services/users.js'
-                            ]
-                        });
-                }
-            }
+            controllerAs: 'pf',
+            controller: 'CreateProjectCtrl',
+            templateUrl: 'views/projects/create.html'
+        })
+        .state('app.projects.update', {
+            url: '/update',
+            templateUrl: 'views/projects/udpate.html'
         })
         .state('app.apis', {
             url: '/apis',
@@ -177,6 +163,21 @@ angular
         .state('app.apis.create', {
             url: '/create',
             templateUrl: 'views/apis/create.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.apis.update', {
+            url: '/update',
+            templateUrl: 'views/apis/update.html',
             resolve: {
                 loadMyDirectives:function($ocLazyLoad){
                     return $ocLazyLoad.load(
