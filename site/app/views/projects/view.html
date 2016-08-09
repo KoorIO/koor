@@ -1,0 +1,69 @@
+<h1 class="page-header"><i class="fa fa-tags"></i> <span ng-bind="project.name"></span></h1>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Project Name</label>
+                <p class="form-control-static" ng-bind="project.name"></p>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-default" ui-sref="app.apis.create({projectId: project._id})"><i class="fa fa-plus"></i> Create API</a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Domain</label>
+                <p class="form-control-static" ng-bind="project.domain"></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Path</th>
+                                    <th>Method</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><a ui-sref="app.apis.update">GET /api/v1/users</a></td>
+                                <td>/api/v1/users</td>
+                                <td>GET</td>
+                                <td><i class="fa fa-trash"></i></td>
+                            </tr>
+                            <tr>
+                                <td><a ui-sref="app.apis.update">POST /api/v1/users/create</a></td>
+                                <td>/api/v1/users/create</td>
+                                <td>POST</td>
+                                <td><i class="fa fa-trash"></i></td>
+                            </tr>
+                            <tr>
+                                <td><a ui-sref="app.apis.update">PUT /api/v1/users/udpate</a></td>
+                                <td>/api/v1/users/update</td>
+                                <td>PUT</td>
+                                <td><i class="fa fa-trash"></i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                    <div class="row">
+                        <div class="pull-right">
+                            <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="current_page" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+</div>

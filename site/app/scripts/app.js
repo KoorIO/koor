@@ -126,12 +126,17 @@ angular
             controller: 'CreateProjectCtrl',
             templateUrl: 'views/projects/create.html'
         })
+        .state('app.projects.view', {
+            url: '/view/:projectId',
+            controller: 'ProjectDetailCtrl',
+            templateUrl: 'views/projects/view.html'
+        })
         .state('app.projects.update', {
             url: '/update',
             templateUrl: 'views/projects/udpate.html'
         })
         .state('app.apis', {
-            url: '/apis',
+            url: '/:projectId/apis',
             templateUrl: 'views/apis/index.html',
             resolve: {
                 loadMyDirectives:function($ocLazyLoad){
@@ -139,7 +144,9 @@ angular
                         {
                             name:'siteSeedApp',
                             files:[
-                                'scripts/services/users.js'
+                                'scripts/services/apis.js',
+                                'scripts/services/projects.js',
+                                'scripts/controllers/apis.js'
                             ]
                         });
                 }
@@ -147,33 +154,13 @@ angular
         })
         .state('app.apis.list', {
             url: '/list',
-            templateUrl: 'views/apis/list.html',
-            resolve: {
-                loadMyDirectives:function($ocLazyLoad){
-                    return $ocLazyLoad.load(
-                        {
-                            name:'siteSeedApp',
-                            files:[
-                                'scripts/services/users.js'
-                            ]
-                        });
-                }
-            }
+            templateUrl: 'views/apis/list.html'
         })
         .state('app.apis.create', {
             url: '/create',
             templateUrl: 'views/apis/create.html',
-            resolve: {
-                loadMyDirectives:function($ocLazyLoad){
-                    return $ocLazyLoad.load(
-                        {
-                            name:'siteSeedApp',
-                            files:[
-                                'scripts/services/users.js'
-                            ]
-                        });
-                }
-            }
+            controllerAs: 'af',
+            controller: 'CreateApiCtrl'
         })
         .state('app.apis.update', {
             url: '/update',
