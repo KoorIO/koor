@@ -18,10 +18,25 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams) {
+.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis) {
+    var page = 1,
+        limit = 10;
+
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
+        Apis.list($scope.project._id, page, limit).then(function(res) {
+            $scope.apis = res.rows;
+            $scope.count = res.count;
+        });
     });
+
+    $scope.pageChanged = function() {
+        Apis.list(projectId, page, limit).then(function(response){
+            $scope.apis = response.rows;
+        });
+    };
+
+    $scope.forUnitTest = true;
 })
 .controller('CreateProjectCtrl', function($scope, Projects, $state) {
     var pf = this;

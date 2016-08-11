@@ -109,7 +109,8 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/services/projects.js',
-                                'scripts/controllers/projects.js'
+                                'scripts/controllers/projects.js',
+                                'scripts/services/apis.js'
                             ]
                         });
                 }

@@ -15,7 +15,7 @@
         },
         "apis": {
             "create": "/api/v1/apis/create",
-            "list": "/api/v1/apis/list/:page/:limit",
+            "list": "/api/v1/apis/list/:projectId/:page/:limit",
             "delete": "/api/v1/apis/delete/:apiId",
             "update": "/api/v1/apis/update/:apiId",
             "get": "/api/v1/apis/get/:apiId"
@@ -28,5 +28,5 @@
         },
         "preferredLocale": "en_US"
     },
-    "debug_mode": true
+    "debugMode": true
 }

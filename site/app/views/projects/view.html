@@ -33,22 +33,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><a ui-sref="app.apis.update">GET /api/v1/users</a></td>
-                                <td>/api/v1/users</td>
-                                <td>GET</td>
-                                <td><i class="fa fa-trash"></i></td>
-                            </tr>
-                            <tr>
-                                <td><a ui-sref="app.apis.update">POST /api/v1/users/create</a></td>
-                                <td>/api/v1/users/create</td>
-                                <td>POST</td>
-                                <td><i class="fa fa-trash"></i></td>
-                            </tr>
-                            <tr>
-                                <td><a ui-sref="app.apis.update">PUT /api/v1/users/udpate</a></td>
-                                <td>/api/v1/users/update</td>
-                                <td>PUT</td>
+                            <tr ng-repeat="api in apis">
+                                <td><a ui-sref="app.apis.update" ng-bind="api.name"></a></td>
+                                <td ng-bind="api.path">/api/v1/users</td>
+                                <td ng-bind="api.method"></td>
                                 <td><i class="fa fa-trash"></i></td>
                             </tr>
                             </tbody>
@@ -57,7 +45,7 @@
                     <!-- /.table-responsive -->
                     <div class="row">
                         <div class="pull-right">
-                            <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="current_page" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
+                            <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="currentPage" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
                         </div>
                     </div>
                 </div>

@@ -13,10 +13,10 @@ angular.module('siteSeedApp').factory('Apis', function($resource, $q, APP_CONFIG
             });
             return deferred.promise;
         },
-        list: function(page, limit){
+        list: function(projectId, page, limit){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.apis.list;
-            var Apis = $resource(url, {limit: limit, page: page});
+            var Apis = $resource(url, {projectId: projectId, limit: limit, page: page});
             
             Apis.get(function(res) {
                 deferred.resolve(res);
