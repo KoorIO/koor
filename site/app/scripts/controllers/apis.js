@@ -28,4 +28,37 @@ angular.module('siteSeedApp')
             $state.go('app.projects.view', { projectId: projectId });
         });
     };
+})
+.controller('UpdateApiCtrl', function($scope, Apis, Projects, $state, $stateParams) {
+    var af = this;
+    var projectId = $stateParams.projectId;
+    var apiId = $stateParams.apiId;
+    Projects.get($stateParams.projectId).then(function(response) {
+        $scope.project = response;
+        Apis.get(apiId).then(function(res) {
+            af.method = res.method;
+            af.path = res.path;
+            af.responseStatus = res.responseStatus;
+            af.contentType = res.headers.contentType;
+            af.contentEncoding = res.headers.contentEncoding;
+            af.responseBody = res.responseBody;
+        });
+    });
+
+    af.update = function() {
+        var data  = {
+            path: af.path,
+            projectId: projectId,
+            name: af.method + ' ' + af.path,
+            method: af.method,
+            headers: {
+                contentType: af.contentType,
+                contentEncoding: af.contentEncoding
+            },
+            response: JSON.parse(af.responseBody)
+        };
+        Apis.update(data).then(function() {
+            $state.go('app.projects.view', { projectId: projectId });
+        });
+    };
 });

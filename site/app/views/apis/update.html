@@ -2,34 +2,34 @@
 <div class="panel-body">
     <div class="row">
         <div class="col-lg-12">
-            <form role="form">
+            <form name="form" ng-submit="af.update()" role="form">
                 <div class="form-group">
                     <label>Path</label>
                     <div class="form-group input-group">
-                        <span class="input-group-addon">http://example.com/</span>
-                        <input type="text" class="form-control" placeholder="/api/v1/users">
+                        <span class="input-group-addon" ng-bind="project.domain"></span>
+                        <input type="text" class="form-control" ng-model="af.path" placeholder="/api/v1/users">
                     </div>
                     <p class="help-block">Example block-level help text here.</p>
                 </div>
                 <div class="form-group">
                     <label>Method</label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" value="option1" checked="">GET
+                        <input type="radio" name="optionsRadiosInline" ng-model="af.method" value="GET" checked="">GET
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" value="option2">POST
+                        <input type="radio" name="optionsRadiosInline" ng-model="af.method" value="POST">POST
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" value="option3">PUT
+                        <input type="radio" name="optionsRadiosInline" ng-model="af.method" value="PUT">PUT
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optionsRadiosInline" value="option3">DELETE
+                        <input type="radio" name="optionsRadiosInline" ng-model="af.method" value="DELETE">DELETE
                     </label>
                 </div>
                 <h3 class="page-header">Headers</h3>
                 <div class="form-group">
                     <label>Response Status</label>
-                    <select class="form-control">
+                    <select class="form-control" ng-model="af.responseStatus">
                         <option value="100">100 - Continue</option>
                         <option value="101">101 - Switching Protocols</option>
                         <option value="102">102 - Processing</option>
@@ -108,19 +108,20 @@
                         <option value="599">599 - Network connect timeout error</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error': form.content_type.$dirty && form.content_type.$invalid }">
                     <label>Content-Type</label>
-                    <input type="text" class="form-control" value="application/json"> 
-        
+                    <input type="text" class="form-control" name="content_type" ng-model="af.contentType" required> 
+                    <span ng-show="form.content_type.$dirty && form.content_type.$invalid" class="help-block">Content-Type is required</span>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error': form.content_encoding.$dirty && form.content_encoding.$invalid }">
                     <label>Content-Encoding</label>
-                    <input type="text" class="form-control" value="UTF-8"> 
+                    <input type="text" class="form-control" ng-model="af.contentEncoding" name="content_encoding" required> 
+                    <span ng-show="form.content_encoding.$dirty && form.content_encoding.$invalid" class="help-block">Content-Encoding is required</span>
                 </div>
                 <hr></hr>
                 <div class="form-group">
                     <label>Reponse Body</label>
-                    <div ui-ace></div>
+                    <div ui-ace ng-model="af.responseBody"></div>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-default">Save</button>

@@ -67,12 +67,14 @@ router.get('/update/:id', function(req, res){
 });
 
 // get list of apis
-router.get('/list/:page/:limit', function(req, res){
+router.get('/list/:projectId/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Api.count({}, function(err, c) {
         db.Api
-        .find()
+        .find({
+            projectId: req.params.projectId
+        })
         .skip(skip)
         .limit(limit)
         .sort({'_id': 'desc'})

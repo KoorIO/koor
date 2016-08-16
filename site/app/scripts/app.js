@@ -164,7 +164,9 @@ angular
             controller: 'CreateApiCtrl'
         })
         .state('app.apis.update', {
-            url: '/update',
+            url: '/update/:apiId',
+            controllerAs: 'af',
+            controller: 'UpdateApiCtrl',
             templateUrl: 'views/apis/update.html',
             resolve: {
                 loadMyDirectives:function($ocLazyLoad){

@@ -34,7 +34,7 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="api in apis">
-                                <td><a ui-sref="app.apis.update" ng-bind="api.name"></a></td>
+                                <td><a ui-sref="app.apis.update({projectId: project._id, apiId: api._id})" ng-bind="api.name"></a></td>
                                 <td ng-bind="api.path">/api/v1/users</td>
                                 <td ng-bind="api.method"></td>
                                 <td><i class="fa fa-trash"></i></td>

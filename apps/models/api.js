@@ -6,7 +6,7 @@ var Api = new Schema({
     name: {
         type: String
     },
-    url: {
+    path: {
         type: String,
         index: true,
         require: true
@@ -19,6 +19,10 @@ var Api = new Schema({
     projectId: {
         type: Schema.Types.ObjectId,
         index: true,
+        require: true
+    },
+    headers: {
+        type: Schema.Types.Mixed,
         require: true
     },
     response: {
