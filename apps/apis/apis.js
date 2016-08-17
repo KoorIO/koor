@@ -4,6 +4,7 @@ var express = require('express'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
     os = require('os'),
+    _ = require('lodash'),
     router = express.Router();
 
 // create a new api
@@ -49,18 +50,19 @@ router.get('/delete/:id', function(req, res){
     });
 });
 
-// delete a api by id
-router.get('/update/:id', function(req, res){
+// update a api by id
+router.put('/update/:id', function(req, res){
     logger.debug('Update Api By Id', req.params.id);
-    var api = new db.Api(req.body);
-    db.Api.findOneAndUpdate({
+    db.Api.findOne({
         _id: req.params.id
-    }, api).then(function(err){
-        if (err) {
-            throw true;
-        } else {
+    }).then(function(api){
+        api.method = req.body.method;
+        api.name = req.body.name;
+        api.path = req.body.path;
+        api.response = req.body.response;
+        api.save(function(){
             res.json({});
-        }
+        });
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
     });

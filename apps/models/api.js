@@ -21,10 +21,6 @@ var Api = new Schema({
         index: true,
         require: true
     },
-    headers: {
-        type: Schema.Types.Mixed,
-        require: true
-    },
     response: {
         type: Schema.Types.Mixed,
         require: true

@@ -13,6 +13,7 @@ angular.module('siteSeedApp')
     $scope.pageChanged = function() {
         Projects.list($scope.current_page, limit).then(function(response){
             $scope.projects = response.rows;
+            $scope.count = response.count;
         });
     };
 
@@ -22,6 +23,7 @@ angular.module('siteSeedApp')
     var page = 1,
         limit = 10;
 
+    $scope.limit = limit;
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
         Apis.list($scope.project._id, page, limit).then(function(res) {
@@ -31,8 +33,9 @@ angular.module('siteSeedApp')
     });
 
     $scope.pageChanged = function() {
-        Apis.list(projectId, page, limit).then(function(response){
+        Apis.list($stateParams.projectId, $scope.currentPage, limit).then(function(response){
             $scope.apis = response.rows;
+            $scope.count = response.count;
         });
     };
 

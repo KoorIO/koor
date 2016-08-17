@@ -51,10 +51,12 @@ angular.module('siteSeedApp').factory('Apis', function($resource, $q, APP_CONFIG
         },
         update: function(apiId, data){
             var deferred = $q.defer();
-            var url = APP_CONFIG.services.apis.delete;
-            var Apis = $resource(url, {apiId: apiId});
+            var url = APP_CONFIG.services.apis.update;
+            var Apis = $resource(url, {apiId: apiId}, {
+                'update': { method: 'PUT' }
+            });
             
-            Apis.save(data, function(res) {
+            Apis.update(data, function(res) {
                 deferred.resolve(res);
             }, function(res) {
                 deferred.reject(res);

@@ -18,11 +18,14 @@ angular.module('siteSeedApp')
             projectId: projectId,
             name: af.method + ' ' + af.path,
             method: af.method,
-            headers: {
-                contentType: af.contentType,
-                contentEncoding: af.contentEncoding
-            },
-            response: JSON.parse(af.responseBody)
+            response: {
+                headers: {
+                    contentType: af.contentType,
+                    contentEncoding: af.contentEncoding
+                },
+                status: af.responseStatus,
+                body: JSON.parse(af.responseBody)
+            }
         };
         Apis.create(data).then(function() {
             $state.go('app.projects.view', { projectId: projectId });
@@ -38,10 +41,10 @@ angular.module('siteSeedApp')
         Apis.get(apiId).then(function(res) {
             af.method = res.method;
             af.path = res.path;
-            af.responseStatus = res.responseStatus;
-            af.contentType = res.headers.contentType;
-            af.contentEncoding = res.headers.contentEncoding;
-            af.responseBody = res.responseBody;
+            af.responseStatus = res.response.status;
+            af.contentType = res.response.headers.contentType;
+            af.contentEncoding = res.response.headers.contentEncoding;
+            af.responseBody = JSON.stringify(res.response.body);
         });
     });
 
@@ -51,13 +54,16 @@ angular.module('siteSeedApp')
             projectId: projectId,
             name: af.method + ' ' + af.path,
             method: af.method,
-            headers: {
-                contentType: af.contentType,
-                contentEncoding: af.contentEncoding
-            },
-            response: JSON.parse(af.responseBody)
+            response: {
+                headers: {
+                    contentType: af.contentType,
+                    contentEncoding: af.contentEncoding
+                },
+                status: af.responseStatus,
+                body: JSON.parse(af.responseBody)
+            }
         };
-        Apis.update(data).then(function() {
+        Apis.update(apiId, data).then(function() {
             $state.go('app.projects.view', { projectId: projectId });
         });
     };
