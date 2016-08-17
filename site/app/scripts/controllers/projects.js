@@ -11,7 +11,7 @@ angular.module('siteSeedApp')
     });
 
     $scope.pageChanged = function() {
-        Projects.list($scope.current_page, limit).then(function(response){
+        Projects.list($scope.currentPage, limit).then(function(response){
             $scope.projects = response.rows;
             $scope.count = response.count;
         });

@@ -4,7 +4,6 @@ var express = require('express'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
     os = require('os'),
-    _ = require('lodash'),
     router = express.Router();
 
 // create a new api
