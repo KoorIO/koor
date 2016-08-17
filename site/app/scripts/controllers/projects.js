@@ -19,7 +19,7 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis) {
+.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log) {
     var page = 1,
         limit = 10;
 
@@ -39,7 +39,59 @@ angular.module('siteSeedApp')
         });
     };
 
+    $scope.delete = function(id) {
+        var modalYesNo = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'modalYesNo.html',
+            controller: 'ModalYesNoCtrl'
+        });
+        modalYesNo.result.then(function() {
+            Projects.remove(id).then(function() {
+                $state.go('app.projects.list');
+            });
+        }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+
+    $scope.deleteApi = function(index, apiId) {
+        var modalUndo = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            backdrop: false,
+            templateUrl: 'modalUndo.html',
+            controller: 'ModalUndoCtrl'
+        });
+        var tmp = $scope.apis[index];
+        $scope.apis.splice(index, 1);
+        $scope.count = $scope.count - 1;
+        modalUndo.result.then(function() {
+            $scope.apis.splice(index, 0, tmp);
+        }, function () {
+            Apis.remove(apiId).then(function() {
+                $log.info('Api was deleted');
+            });
+        });
+    };
+
     $scope.forUnitTest = true;
+})
+.controller('ModalYesNoCtrl', function ($scope, $uibModalInstance) {
+
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+})
+.controller('ModalUndoCtrl', function ($scope, $uibModalInstance, $timeout) {
+    $scope.undo = function() {
+        $uibModalInstance.close();
+    }
+    $timeout(function() {
+        $uibModalInstance.dismiss('cancel');
+    }, 5000);
 })
 .controller('CreateProjectCtrl', function($scope, Projects, $state) {
     var pf = this;

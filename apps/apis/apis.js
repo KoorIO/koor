@@ -34,18 +34,12 @@ router.get('/get/:id', function(req, res){
 });
 
 // delete a api by id
-router.get('/delete/:id', function(req, res){
+router.delete('/delete/:id', function(req, res){
     logger.debug('Delete Api By Id', req.params.id);
     db.Api.remove({
         _id: req.params.id
-    }).then(function(err){
-        if (err) {
-            throw true;
-        } else {
-            res.json({});
-        }
-    }).catch(function(e){
-        res.status(500).send(JSON.stringify(e));
+    }).then(function(){
+        res.json({});
     });
 });
 
@@ -71,7 +65,7 @@ router.put('/update/:id', function(req, res){
 router.get('/list/:projectId/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
-    db.Api.count({}, function(err, c) {
+    db.Api.count({ projectId: req.params.projectId }, function(err, c) {
         db.Api
         .find({
             projectId: req.params.projectId
