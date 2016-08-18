@@ -12,7 +12,7 @@ angular.module('siteSeedApp')
             $rootScope.userInfo = data;
             $cookies.put('userInfo', JSON.stringify(data));
             vm.error = null;
-            $state.go('home.dashboard');
+            $state.go('app.projects.list');
         }).catch(function(){
             vm.error = 'Access Denied!';
         });

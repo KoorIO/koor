@@ -44,7 +44,7 @@ angular.module('siteSeedApp')
             af.responseStatus = res.response.status;
             af.contentType = res.response.headers.contentType;
             af.contentEncoding = res.response.headers.contentEncoding;
-            af.responseBody = JSON.stringify(res.response.body);
+            af.responseBody = JSON.stringify(res.response.body, null, '\t');
         });
     });
 
