@@ -22,4 +22,11 @@ angular.module('siteSeedApp')
     Users.get($stateParams.userId).then(function(res) {
         $scope.user = res;
     });
+})
+.controller('UserProfileCtrl', function($scope, Users, $cookies) {
+    var userInfo = $cookies.get('userInfo') || '{}';
+
+    Users.get(JSON.parse(userInfo).userId).then(function(res) {
+        $scope.user = res;
+    });
 });

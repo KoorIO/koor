@@ -58,6 +58,8 @@ angular.module('siteSeedApp')
         var modalUndo = $uibModal.open({
             animation: $scope.animationsEnabled,
             backdrop: false,
+            keyboard: false,
+            openedClass: 'modal-undo',
             templateUrl: 'modalUndo.html',
             controller: 'ModalUndoCtrl'
         });
@@ -66,6 +68,7 @@ angular.module('siteSeedApp')
         $scope.count = $scope.count - 1;
         modalUndo.result.then(function() {
             $scope.apis.splice(index, 0, tmp);
+            $scope.count = $scope.count + 1;
         }, function () {
             Apis.remove(apiId).then(function() {
                 $log.info('Api was deleted');
@@ -88,7 +91,7 @@ angular.module('siteSeedApp')
 .controller('ModalUndoCtrl', function ($scope, $uibModalInstance, $timeout) {
     $scope.undo = function() {
         $uibModalInstance.close();
-    }
+    };
     $timeout(function() {
         $uibModalInstance.dismiss('cancel');
     }, 5000);

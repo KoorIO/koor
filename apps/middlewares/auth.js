@@ -1,6 +1,33 @@
 'use strict';
+var _ = require('lodash');
+var config = require('config');
+var logger = require('../helpers/logger');
+var cache = require('../helpers/cache');
 
 module.exports = function(req, res, next) {
-    req.body.userId = '57a85bec81a3c41464322cf5';
-    return next();
+    if (req.method === 'OPTIONS') {
+        return next();
+    }
+    var t = req.get('Authorization');
+    var unauthorization = config.get('unauthorization');
+    if (_.indexOf(unauthorization, req.url) < 0) {
+        if (t === undefined) {
+            logger.debug('Access Denied', req.url);
+            return res.status(401).send(JSON.stringify({}));
+        }
+        t = t.replace('Bearer ', '');
+        cache.get(t, function(error, user) {
+            if (!error && user) {
+                req.body.userId = JSON.parse(user)._id;
+                logger.debug('Nice authorization %s !!!', JSON.parse(user)._id);
+                return next();
+            } else {
+                logger.debug('Access Denied %s !!!', t);
+                return res.status(401).send(JSON.stringify({}));
+            }
+        });
+    } else {
+        return next();
+    }
 };
+

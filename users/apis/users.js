@@ -2,6 +2,7 @@
 var express = require('express'), 
     db = require('../models'),
     q = require('../queues'),
+    cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
     moment = require('moment'),
     config = require('config'),
@@ -83,19 +84,26 @@ router.post('/login', function(req, res){
     var username = req.body.username;
     var password = req.body.password;
 
-    var generateToken = function () {
+    var generateToken = function (user) {
         crypto.randomBytes(64, function(ex, buf) {
             var token = buf.toString('base64');
             var today = moment.utc();
             var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
             var token = new db.Token({
-                username: username,
+                userId: user._id,
                 token: token,
                 expired_at: tomorrow.toString()
             });
             token.save(function(error, to){
+                var delta = config.get('token_expire');
+                logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
+                cache.set(to.token, JSON.stringify(user));
+                cache.expire(to.token, delta);
+                to = to.toObject();
+                to['userId'] = user._id;
                 return res.send(JSON.stringify(to));
             });
+
         });
     };
 
@@ -110,10 +118,10 @@ router.post('/login', function(req, res){
         }).then(function(t){
             if (t) {
                 t.remove(function() {
-                    return generateToken();
+                    return generateToken(user);
                 });
             } else {
-                return generateToken();
+                return generateToken(user);
             }
         });
     }).catch(function(e){

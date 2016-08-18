@@ -31,7 +31,8 @@ router.post('/create', function(req, res){
 router.get('/get/:id', function(req, res){
     logger.debug('Get Project By Id', req.params.id);
     db.Project.findOne({
-        _id: req.params.id
+        _id: req.params.id,
+        userId: req.body.userId
     }).then(function(project){
         project = project.toObject();
         res.send(JSON.stringify(project));
@@ -44,7 +45,8 @@ router.get('/get/:id', function(req, res){
 router.delete('/delete/:id', function(req, res){
     logger.debug('Delete Project By Id', req.params.id);
     db.Project.findOneAndRemove({
-        _id: req.params.id
+        _id: req.params.id,
+        userId: req.body.userId
     }).then(function(){
         res.json({});
     }).catch(function(e){
@@ -57,7 +59,8 @@ router.put('/update/:id', function(req, res){
     logger.debug('Update Project By Id', req.params.id);
     var project = new db.Project(req.body);
     db.Project.findOneAndUpdate({
-        _id: req.params.id
+        _id: req.params.id,
+        userId: req.body.userId
     }, project).then(function() {
         res.json({});
     }).catch(function(e){
@@ -71,7 +74,9 @@ router.get('/list/:page/:limit', function(req, res){
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Project.count({}, function(err, c) {
         db.Project
-        .find()
+        .find({
+            userId: req.body.userId
+        })
         .skip(skip)
         .limit(limit)
         .sort({'_id': 'desc'})

@@ -1,9 +1,8 @@
 'use strict';
-var db = require('../models');
 var _ = require('lodash');
 var config = require('config');
 var logger = require('../helpers/logger');
-var moment = require('moment');
+var cache = require('../helpers/cache');
 
 module.exports = function(req, res, next) {
     if (req.method === 'OPTIONS') {
@@ -17,22 +16,14 @@ module.exports = function(req, res, next) {
             return res.status(401).send(JSON.stringify({}));
         }
         t = t.replace('Bearer ', '');
-        db.Token.findOne({
-            token: t
-        }).then(function(token){
-            if (!token){
-                throw('');
-            }
-            var today = moment.utc();
-            var expired_at = moment(token.expired_at, config.get('time_format'));
-            if (expired_at.isBefore(today)) {
-                throw('');
-            } else {
+        cache.get(t, function(error, user) {
+            if (!error && user) {
+                logger.debug('Nice authorization %s !!!', JSON.parse(user)._id);
                 return next();
+            } else {
+                logger.debug('Access Denied %s !!!', t);
+                return res.status(401).send(JSON.stringify({}));
             }
-        }).catch(function(){
-            logger.debug('Access Denied %s !!!', t);
-            return res.status(401).send(JSON.stringify({}));
         });
     } else {
         return next();

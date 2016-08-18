@@ -180,6 +180,34 @@ angular
                 }
             }
         })
+        .state('user', {
+            url: '/user',
+            templateUrl: 'views/user.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/directives/header/header.js',
+                                'scripts/services/locale.js',
+                                'scripts/directives/locale/locale.js',
+                                'scripts/services/users.js',
+                                'scripts/controllers/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('user.profiles', {
+            url: '/profiles',
+            controller: 'UserProfileCtrl',
+            templateUrl: 'views/profiles/view.html'
+        })
+        .state('user.settings', {
+            url: '/settings',
+            templateUrl: 'views/profiles/setting.html'
+        })
         .state('home', {
             url: '/home',
             templateUrl: 'views/main.html',
@@ -257,9 +285,9 @@ angular
 .factory('httpRequestInterceptor', function ($rootScope, $cookies) {
     var ret = {
         request: function (config) {
-            var user_info = $cookies.get('userInfo') || '{}';
-            $rootScope.user_info = JSON.parse(user_info);
-            config.headers.Authorization = 'Bearer ' + $rootScope.user_info.token;
+            var userInfo = $cookies.get('userInfo') || '{}';
+            $rootScope.userInfo = JSON.parse(userInfo);
+            config.headers.Authorization = 'Bearer ' + $rootScope.userInfo.token;
             return config;
         }
     };
