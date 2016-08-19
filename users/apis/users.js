@@ -5,6 +5,7 @@ var express = require('express'),
     cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
     moment = require('moment'),
+    request = require('request'),
     config = require('config'),
     crypto = require('crypto'),
     os = require('os'),
@@ -18,10 +19,10 @@ router.post('/create', function(req, res){
             return res.status(406).send(JSON.stringify({error}));
         }
         // remove security attributes
-        new_user = user.toObject();
+        new_user = new_user.toObject();
         if (new_user) {
             delete new_user.hashed_password;
-            delete user.salt;
+            delete new_user.salt;
         }
         // send email welcome to user
         q.create(os.hostname() + 'email', {
@@ -33,6 +34,58 @@ router.post('/create', function(req, res){
             template: 'welcome'
         }).priority('high').save();
         res.send(JSON.stringify(new_user));
+    });
+});
+
+// new user via github
+router.post('/github', function(req, res){
+    req.body.client_secret = config.get('github.client_secret');
+    var request_url = 'https://github.com/login/oauth/access_token';
+    request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){ 
+        if (err) {
+            res.status(401).send(JSON.stringify(err));
+        } else {
+            request_url = 'https://github.com/user/emails';
+            request.get({url: request_url, access_token: body.access_token,json: true}, function(err, httpResponse, res){ 
+                var emails = [];
+                res.forEach(function(value) {
+                    emails.push(value);
+                });
+                db.User.findOne()
+                .where('email').in(emails)
+                .then(function(user){
+                    // remove security attributes
+                    user = user.toObject();
+                    if (user) {
+                        delete user.hashed_password;
+                        delete user.salt;
+                    }
+                    res.send(JSON.stringify(user));
+                }).catch(function(e){
+                    // if user is not exists
+                    var data = {
+                        email: emails[0]
+                    };
+                    var user = new db.User(data);
+                    // create new user
+                    user.save(function(error, new_user){
+                        if (error) {
+                            return res.status(406).send(JSON.stringify({error}));
+                        } else {
+                            // remove security attributes
+                            new_user = new_user.toObject();
+                            new_user.accessToken = body.access_token;
+                            if (new_user) {
+                                delete new_user.hashed_password;
+                                delete user.salt;
+                            }
+                            res.send(JSON.stringify(new_user));
+                        }
+                    });
+                    res.status(500).send(JSON.stringify(e));
+                });
+            });
+        }
     });
 });
 

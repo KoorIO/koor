@@ -16,6 +16,9 @@
         "password": null,
         "prefix": "api"
     },
+    "github": {
+        "client_secret": "xxxxxxxxx"
+    },
     "mailer": {
         "from": "no-reply@example.com",
         "host": "smtp.mail.com",
@@ -30,6 +33,7 @@
     "unauthorization": [
         "/api/v1/users/login", 
         "/api/v1/users/create",
+        "/api/v1/users/github",
         "/api/v1/config/get"
     ],
     "token_expire": 86400,

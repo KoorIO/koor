@@ -57,7 +57,26 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/controllers/login.js',
-                                'scripts/services/users.js'
+                                'scripts/services/users.js',
+                                'scripts/services/github.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('github',{
+            templateUrl: 'views/pages/login.html',
+            controller: 'SignInGithubCtrl',
+            url: '/github',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/controllers/login.js',
+                                'scripts/services/users.js',
+                                'scripts/services/github.js'
                             ]
                         });
                 }
