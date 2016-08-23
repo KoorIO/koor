@@ -39,28 +39,50 @@ router.post('/create', function(req, res){
 
 // new user via github
 router.post('/github', function(req, res){
+    var generateToken = function (user) {
+        crypto.randomBytes(64, function(ex, buf) {
+            var token = buf.toString('base64');
+            var today = moment.utc();
+            var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
+            var token = new db.Token({
+                userId: user._id,
+                token: token,
+                expired_at: tomorrow.toString()
+            });
+            token.save(function(error, to){
+                var delta = config.get('token_expire');
+                logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
+                cache.set(to.token, JSON.stringify(user));
+                cache.expire(to.token, delta);
+                to = to.toObject();
+                to['userId'] = user._id;
+                return res.send(JSON.stringify(to));
+            });
+
+        });
+    };
     req.body.client_secret = config.get('github.client_secret');
     var request_url = 'https://github.com/login/oauth/access_token';
     request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){ 
         if (err) {
             res.status(401).send(JSON.stringify(err));
         } else {
-            request_url = 'https://github.com/user/emails';
-            request.get({url: request_url, access_token: body.access_token,json: true}, function(err, httpResponse, res){ 
+            request_url = 'https://api.github.com/user/emails';
+            request.get({
+                url: request_url,
+                qs: { access_token: body.access_token },
+                json: true,
+                headers: { 'User-Agent': '' }
+            }, function(err, httpResponse, getEmailBody){ 
                 var emails = [];
-                res.forEach(function(value) {
-                    emails.push(value);
+                getEmailBody.forEach(function(value) {
+                    emails.push(value.email);
                 });
                 db.User.findOne()
                 .where('email').in(emails)
                 .then(function(user){
                     // remove security attributes
-                    user = user.toObject();
-                    if (user) {
-                        delete user.hashed_password;
-                        delete user.salt;
-                    }
-                    res.send(JSON.stringify(user));
+                    generateToken(user);
                 }).catch(function(e){
                     // if user is not exists
                     var data = {
@@ -73,16 +95,9 @@ router.post('/github', function(req, res){
                             return res.status(406).send(JSON.stringify({error}));
                         } else {
                             // remove security attributes
-                            new_user = new_user.toObject();
-                            new_user.accessToken = body.access_token;
-                            if (new_user) {
-                                delete new_user.hashed_password;
-                                delete user.salt;
-                            }
-                            res.send(JSON.stringify(new_user));
+                            generateToken(new_user);
                         }
                     });
-                    res.status(500).send(JSON.stringify(e));
                 });
             });
         }
