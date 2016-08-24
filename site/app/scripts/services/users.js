@@ -54,6 +54,21 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
                 deferred.reject(res);
             });
             return deferred.promise;
+        },
+        update: function(userId, data){
+            var deferred = $q.defer();
+            var url = APP_CONFIG.services.users.update;
+            console.log(url);
+            var Users = $resource(url, {userId: userId}, {
+                'update': { method: 'PUT' }
+            });
+            
+            Users.update(data, function(res) {
+                deferred.resolve(res);
+            }, function(res) {
+                deferred.reject(res);
+            });
+            return deferred.promise;
         }
     };
 });

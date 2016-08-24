@@ -122,6 +122,24 @@ router.get('/get/:id', function(req, res){
     });
 });
 
+// update a user by id
+router.put('/update/:id', function(req, res){
+    logger.debug('Update User By Id', req.params.id);
+    db.User.findOne({
+        _id: req.params.id
+    }).then(function(user){
+        // remove security attributes
+        user.username = req.body.username;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.save(function(u) {
+            res.send(JSON.stringify(u));
+        });
+    }).catch(function(e){
+        res.status(500).send(JSON.stringify(e));
+    });
+});
+
 // get list of users
 router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;

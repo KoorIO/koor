@@ -5,7 +5,8 @@
             "login": "/api/v1/users/login",
             "github": "/api/v1/users/github",
             "list": "/api/v1/users/list/:page/:limit",
-            "get": "/api/v1/users/get/:userId"
+            "get": "/api/v1/users/get/:userId",
+            "get": "/api/v1/users/update/:userId"
         },
         "projects": {
             "create": "/api/v1/projects/create",

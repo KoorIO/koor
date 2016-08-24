@@ -36,7 +36,7 @@ module.exports = function(config) {
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/angular-ui-ace/ui-ace.js',
-      'bower_components/bootstrap/dist/js/bootstrap.js',
+      'bower_components/angular-xeditable/dist/js/xeditable.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/config.js',

@@ -29,4 +29,15 @@ angular.module('siteSeedApp')
     Users.get(JSON.parse(userInfo).userId).then(function(res) {
         $scope.user = res;
     });
+
+    $scope.updateProfile = function(){
+        var userData = {
+            firstname: $scope.user.firstname,
+            lastname: $scope.user.lastname,
+            username: $scope.user.username
+        };
+        Users.update($scope.user._id, userData).then(function(data){
+            console.log(data);
+        });
+    };
 });
