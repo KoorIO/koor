@@ -39,28 +39,6 @@ router.post('/create', function(req, res){
 
 // new user via github
 router.post('/github', function(req, res){
-    var generateToken = function (user) {
-        crypto.randomBytes(64, function(ex, buf) {
-            var token = buf.toString('base64');
-            var today = moment.utc();
-            var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
-            var token = new db.Token({
-                userId: user._id,
-                token: token,
-                expired_at: tomorrow.toString()
-            });
-            token.save(function(error, to){
-                var delta = config.get('token_expire');
-                logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
-                cache.set(to.token, JSON.stringify(user));
-                cache.expire(to.token, delta);
-                to = to.toObject();
-                to['userId'] = user._id;
-                return res.send(JSON.stringify(to));
-            });
-
-        });
-    };
     req.body.client_secret = config.get('github.client_secret');
     var request_url = 'https://github.com/login/oauth/access_token';
     request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){ 
@@ -81,8 +59,9 @@ router.post('/github', function(req, res){
                 db.User.findOne()
                 .where('email').in(emails)
                 .then(function(user){
-                    // remove security attributes
-                    generateToken(user);
+                    db.Token.saveToken(user).then(function(to) {
+                        return res.send(JSON.stringify(to));
+                    });
                 }).catch(function(e){
                     // if user is not exists
                     var data = {
@@ -94,8 +73,9 @@ router.post('/github', function(req, res){
                         if (error) {
                             return res.status(406).send(JSON.stringify({error}));
                         } else {
-                            // remove security attributes
-                            generateToken(new_user);
+                            db.Token.saveToken(new_user).then(function(to) {
+                                return res.send(JSON.stringify(to));
+                            });
                         }
                     });
                 });

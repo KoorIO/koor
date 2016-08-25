@@ -9,19 +9,19 @@ var User = new Schema({
     username: {
         type: String,
         index: true,
-        require: true
+        required: true
     },
     email: {
         type: String,
         unique: true,
-        require: true,
+        required: true,
         lowercase: true
     },
     firstname: String,
     lastname: String,
     hashed_password: {
         type: String,
-        require: true
+        required: true
     },
     salt: {
         type: String

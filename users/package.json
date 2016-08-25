@@ -37,6 +37,7 @@
     "mongoose-timestamp": "^0.5.0",
     "nodemailer": "^2.3.2",
     "nodemailer-smtp-transport": "^2.4.2",
+    "q": "^1.4.1",
     "redis": "^2.6.0-2",
     "supertest": "^1.2.0",
     "swagger-editor": "~2.9.9",
