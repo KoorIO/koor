@@ -3,6 +3,9 @@
         "host": "0.0.0.0",
         "port": 3000
     },
+    "client": {
+        "url": "http://koor.io"
+    },
     "db": {
         "uri": "mongodb://db:27017/api"
     },
@@ -14,7 +17,7 @@
         "host": "redis",
         "port": "6379",
         "password": null,
-        "prefix": "api"
+        "prefix": "users"
     },
     "github": {
         "client_secret": "xxxxxxxxx"
@@ -33,6 +36,7 @@
     "unauthorization": [
         "/api/v1/users/login", 
         "/api/v1/users/create",
+        "/api/v1/users/activate",
         "/api/v1/users/github",
         "/api/v1/config/get"
     ],

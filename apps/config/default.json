@@ -15,7 +15,7 @@
         "host": "redis",
         "port": "6379",
         "password": null,
-        "prefix": "api"
+        "prefix": "apps"
     },
     "mailer": {
         "from": "no-reply@example.com",

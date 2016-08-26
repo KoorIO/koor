@@ -20,18 +20,47 @@ var Token = new Schema({
         index: true,
         required: true
     },
-    expired_at: String
+    expired_at: {
+        type: String,
+        index: true,
+        required: true
+    }
 });
 
 Token.plugin(CreateUpdatedAt);
 
 Token.statics = {
+    saveActiveToken: function (user) {
+        var deferred = q.defer();
+        var _this = this;
+        var today = moment.utc();
+        crypto.randomBytes(20, function(ex, buf) {
+            var t = buf.toString('hex');
+            var tomorrow = moment(today).add(24*60*60, 'seconds').format(config.get('time_format'));
+            (new _this({
+                username: user.username,
+                userId: user._id,
+                token: t,
+                expired_at: tomorrow.toString()
+            })).save(function(error, to){
+                deferred.resolve(to);
+            }).catch(function(e) {
+                deferred.reject(e);
+            });                 
+        });
+        // remove expire token
+        _this.find({
+            expired_at: {'$lt': today.format(config.get('time_format')).toString()}
+        }).remove().exec();
+        return deferred.promise;
+    },
     saveToken: function (user) {
         var deferred = q.defer();
         var _this = this;
+        var today = moment.utc();
+
         crypto.randomBytes(64, function(ex, buf) {
             var t = buf.toString('hex');
-            var today = moment.utc();
             var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
             (new _this({
                 username: user.username,
@@ -50,6 +79,10 @@ Token.statics = {
                 deferred.reject(e);
             });                 
         });
+        // remove expire token
+        _this.find({
+            expired_at: {'$lt': today.format(config.get('time_format')).toString()}
+        }).remove().exec();
         return deferred.promise;
     }
 }

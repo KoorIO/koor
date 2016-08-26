@@ -13,27 +13,65 @@ var express = require('express'),
 
 // create a new user
 router.post('/create', function(req, res){
+    req.body.isActive = false;
     var user = new db.User(req.body);
-    user.save(function(error, new_user){
+    user.save(function(error, newUser){
         if (error) {
             return res.status(406).send(JSON.stringify({error}));
         }
-        // remove security attributes
-        new_user = new_user.toObject();
-        if (new_user) {
-            delete new_user.hashed_password;
-            delete new_user.salt;
-        }
-        // send email welcome to user
-        q.create(os.hostname() + 'email', {
-            title: '[Site Admin] Thank You',
-            to: new_user.email,
-            emailContent: {
-                username: new_user.username
-            },
-            template: 'welcome'
-        }).priority('high').save();
-        res.send(JSON.stringify(new_user));
+        db.Token.saveActiveToken(newUser).then(function(to){
+            // remove security attributes
+            newUser = newUser.toObject();
+            if (newUser) {
+                delete newUser.hashed_password;
+                delete newUser.salt;
+            }
+            // send email welcome to user
+            logger.debug('Send to email %s a token %s', newUser.email, to.token)
+            q.create(os.hostname() + 'email', {
+                title: '[Koor.Io] Activation Email',
+                to: newUser.email,
+                emailContent: {
+                    username: newUser.firstname,
+                    url: config.get('client.url') + '#/activate/' + to.token
+                },
+                template: 'activate'
+            }).priority('high').save();
+            res.send(JSON.stringify(newUser));
+        });
+    });
+});
+
+// activate user
+router.post('/activate', function(req, res){
+    var t = req.body.token;
+    var today = moment.utc();
+    logger.debug('Verify Activate Token', t);
+    db.Token.findOne({ 
+        token: t,
+        expired_at: {'$gte': today.format(config.get('time_format')).toString()}
+    }).then(function(token) {
+        db.User.findOne({
+            username: token.username
+        }).then(function(user) {
+            user.isActive = true;
+            user.save()
+            // send email thankyou to user
+            q.create(os.hostname() + 'email', {
+                title: '[Koor.Io] Thank You',
+                to: token.email,
+                emailContent: {
+                    username: user.firstname
+                },
+                template: 'welcome'
+            }).priority('high').save();
+            user = user.toObject();
+            delete user['hashed_password'];
+            delete user['salt'];
+            res.send(JSON.stringify(user));
+        });
+    }).catch(function(e){
+        return res.status(401).send(JSON.stringify({}));
     });
 });
 
@@ -65,15 +103,16 @@ router.post('/github', function(req, res){
                 }).catch(function(e){
                     // if user is not exists
                     var data = {
-                        email: emails[0]
+                        email: emails[0],
+                        isActive: true
                     };
                     var user = new db.User(data);
                     // create new user
-                    user.save(function(error, new_user){
+                    user.save(function(error, newUser){
                         if (error) {
                             return res.status(406).send(JSON.stringify({error}));
                         } else {
-                            db.Token.saveToken(new_user).then(function(to) {
+                            db.Token.saveToken(newUser).then(function(to) {
                                 return res.send(JSON.stringify(to));
                             });
                         }
@@ -150,46 +189,17 @@ router.post('/login', function(req, res){
     var username = req.body.username;
     var password = req.body.password;
 
-    var generateToken = function (user) {
-        crypto.randomBytes(64, function(ex, buf) {
-            var token = buf.toString('base64');
-            var today = moment.utc();
-            var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
-            var token = new db.Token({
-                userId: user._id,
-                token: token,
-                expired_at: tomorrow.toString()
-            });
-            token.save(function(error, to){
-                var delta = config.get('token_expire');
-                logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
-                cache.set(to.token, JSON.stringify(user));
-                cache.expire(to.token, delta);
-                to = to.toObject();
-                to['userId'] = user._id;
-                return res.send(JSON.stringify(to));
-            });
-
-        });
-    };
-
     db.User.findOne({
-        username: username
+        username: username,
+        isActive: true
     }).then(function(user){
         if (!user.authenticate(password)) {
             throw false;
+        } else {
+            db.Token.saveToken(user).then(function(to) {
+                return res.send(JSON.stringify(to));
+            });
         }
-        db.Token.findOne({
-            username: username
-        }).then(function(t){
-            if (t) {
-                t.remove(function() {
-                    return generateToken(user);
-                });
-            } else {
-                return generateToken(user);
-            }
-        });
     }).catch(function(e){
         res.status(401).send(JSON.stringify(e));
     });

@@ -20,8 +20,13 @@ var User = new Schema({
     firstname: String,
     lastname: String,
     hashed_password: {
-        type: String,
-        required: true
+        type: String
+    },
+    isActive: {
+        type: Boolean,
+        required: true,
+        index: true,
+        default: false
     },
     salt: {
         type: String
