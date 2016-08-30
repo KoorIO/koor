@@ -10,5 +10,10 @@
     "views.users.view.Email": "Email",
     "views.users.view.Username": "Username",
     "views.users.view.Firstname": "First Name",
-    "views.users.view.Lastname": "Last Name"
+    "views.users.view.Lastname": "Last Name",
+    "views.thankyou.ThankYou": "Thank You",
+    "views.thankyou.ThankYouMessage": "Your activation link will be sent to your email in a few minutes, please check your email, and make a note that your token will be expired after 1 day.",
+    "views.thankyou.ClickHereToGoToHomePage": "Click here to go to Home Page",
+    "views.activate.Activation": "Activation",
+    "views.activate.ActivationMessage": "The activation is successfull. Redirecting to login page ..."
 }

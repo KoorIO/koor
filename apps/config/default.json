@@ -15,7 +15,7 @@
         "host": "redis",
         "port": "6379",
         "password": null,
-        "prefix": "apps"
+        "prefix": "koor.io"
     },
     "mailer": {
         "from": "no-reply@example.com",

@@ -97,26 +97,42 @@ router.post('/github', function(req, res){
                 db.User.findOne()
                 .where('email').in(emails)
                 .then(function(user){
-                    db.Token.saveToken(user).then(function(to) {
-                        return res.send(JSON.stringify(to));
-                    });
-                }).catch(function(e){
                     // if user is not exists
-                    var data = {
-                        email: emails[0],
-                        isActive: true
-                    };
-                    var user = new db.User(data);
-                    // create new user
-                    user.save(function(error, newUser){
-                        if (error) {
-                            return res.status(406).send(JSON.stringify({error}));
-                        } else {
-                            db.Token.saveToken(newUser).then(function(to) {
-                                return res.send(JSON.stringify(to));
-                            });
-                        }
-                    });
+                    if (!user) {
+                        var data = {
+                            email: emails[0],
+                            username: emails[0],
+                            isActive: true
+                        };
+                        var user = new db.User(data);
+                        // create new user
+                        user.save(function(error, newUser){
+                            if (error) {
+                                return res.status(406).send(JSON.stringify({error}));
+                            } else {
+                                console.log('aaaa', error);
+                                console.log('b', newUser);
+                                db.Token.saveToken(newUser).then(function(to) {
+                                    return res.send(JSON.stringify(to));
+                                });
+                                // send email thankyou to user
+                                q.create(os.hostname() + 'email', {
+                                    title: '[Koor.Io] Thank You',
+                                    to: newUser.email,
+                                    emailContent: {
+                                        username: newUser.email
+                                    },
+                                    template: 'welcome'
+                                }).priority('high').save();
+                            }
+                        });
+                    } else {
+                        db.Token.saveToken(user).then(function(to) {
+                            return res.send(JSON.stringify(to));
+                        });
+                    }
+                }).catch(function(e){
+                    res.status(500).send(JSON.stringify({}));
                 });
             });
         }

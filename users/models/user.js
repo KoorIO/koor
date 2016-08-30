@@ -9,6 +9,7 @@ var User = new Schema({
     username: {
         type: String,
         index: true,
+        unique: true,
         required: true
     },
     email: {
@@ -24,7 +25,6 @@ var User = new Schema({
     },
     isActive: {
         type: Boolean,
-        required: true,
         index: true,
         default: false
     },

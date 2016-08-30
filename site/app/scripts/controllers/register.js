@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('siteSeedApp')
+
 .controller('RegisterCtrl', function(Users, $state) {
     var vs = this;
     vs.register = function login(){
@@ -13,9 +14,19 @@ angular.module('siteSeedApp')
         };
         Users.register(userData).then(function(){
             vs.error = null;
-            $state.go('login');
+            $state.go('thankyou');
         }).catch(function(){
             vs.error = 'Register Denied, Your username or Email is exists!';
         });
     };
+})
+.controller('ActivateCtrl', function(Users, $stateParams, $state, $timeout, $scope) {
+    $scope.error = false;
+    Users.activate({'token': $stateParams.token}).then(function(){
+        $timeout(function() {
+            $state.go('login');
+        }, 5000);
+    }).catch(function(){
+        $scope.error = 'Access Token Expired!';
+    }); 
 });

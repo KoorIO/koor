@@ -100,6 +100,27 @@ angular
                 }
             }
         })
+        .state('thankyou',{
+            templateUrl:'views/pages/thankyou.html',
+            url:'/thankyou'
+        })
+        .state('activate',{
+            templateUrl:'views/pages/activate.html',
+            controller: 'ActivateCtrl',
+            url:'/activate/:token',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'sbAdminApp',
+                            files:[
+                                'scripts/controllers/register.js',
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
         .state('app', {
             url: '/app',
             templateUrl: 'views/app.html',
@@ -301,6 +322,11 @@ angular
         $httpProvider.interceptors.push('httpRequestInterceptor');
     }
 ])
+.run(['$state', '$rootScope', function($state, $rootScope){
+    $rootScope.$on('unauthorized', function() {
+        $state.go('login');
+    });
+}])
 .factory('httpRequestInterceptor', function ($rootScope, $cookies) {
     var ret = {
         request: function (config) {
@@ -309,6 +335,12 @@ angular
             config.headers.Authorization = 'Bearer ' + $rootScope.userInfo.token;
             return config;
         }
+    };
+    ret.responseError = function(response){
+        if (response.status === 401) {
+            $rootScope.$broadcast('unauthorized');
+        }
+        return response;
     };
     return ret;
 })
