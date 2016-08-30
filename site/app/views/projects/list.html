@@ -1,38 +1,45 @@
-<h1 class="page-header"><i class="fa fa-dashboard"> Projects</i></h1>
-<div class="panel-body">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Domain</th>
-                                    <th></th>
+<div ng-show="projects.length">
+    <h1 class="page-header"><i class="fa fa-dashboard"> Projects</i></h1>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Domain</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="project in projects track by $index">
+                                    <td><a ui-sref="app.projects.view({projectId: project._id})" ng-bind="project.name"></td>
+                                    <td ng-bind="project.domain"></td>
+                                    <td><a ui-sref="app.apis.create({projectId: project._id})"><i class="fa fa-plus"></i> Create API</a></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="project in projects track by $index">
-                                <td><a ui-sref="app.projects.view({projectId: project._id})" ng-bind="project.name"></td>
-                                <td ng-bind="project.domain"></td>
-                                <td><a ui-sref="app.apis.create({projectId: project._id})"><i class="fa fa-plus"></i> Create API</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
-                    <div class="row">
-                        <div class="pull-right">
-                            <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="currentPage" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                        <div class="row">
+                            <div class="pull-right">
+                                <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="currentPage" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
+                            </div>
                         </div>
                     </div>
+                    <!-- /.panel-body -->
                 </div>
-                <!-- /.panel-body -->
+                <!-- /.panel -->
             </div>
-            <!-- /.panel -->
         </div>
     </div>
+</div>
+<div ng-show="!projects.length" class="row panel-body">
+    <p class="text-primary">
+    <strong>You have no project. Please create a project first ...</strong>
+    </p>
 </div>
