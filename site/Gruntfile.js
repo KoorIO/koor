@@ -22,10 +22,10 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
+    env: process.env.NODE_ENV || 'default'
   };
 
-  var env = process.env.NODE_ENV || 'local';
 
   grunt.loadNpmTasks('grunt-preprocess');
   // Define the configuration for all the tasks
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
     preprocess: {
         options: {
             context: {
-                APP_CONFIG: grunt.file.read('config/' + env + '.json'),
+                APP_CONFIG: grunt.file.read('config/' + appConfig.env + '.json'),
             }
         },
         config: {

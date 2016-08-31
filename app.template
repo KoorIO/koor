@@ -1,9 +1,17 @@
-upstream backend {
-    server apis:3000;
+upstream be_users {
+    server users:3000;
 }
 
-upstream frontend {
+upstream be_apps {
+    server apps:3000;
+}
+
+upstream fe_site {
     server site;
+}
+
+upstream fe_land {
+    server land;
 }
 
 server {
@@ -12,11 +20,15 @@ server {
 
     location /api/ {
         rewrite ^/api/(.*)$ /api/$1 break;
-        proxy_pass http://backend/;
+        proxy_pass http://be_users/;
+    }
+
+    location /app/ {
+        rewrite ^/app/(.*)$ /$1 break;
+        proxy_pass http://fe_site/;
     }
 
     location / {
-        proxy_pass http://frontend/;
+        proxy_pass http://fe_land/;
     }
-
 }

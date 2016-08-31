@@ -1,8 +1,19 @@
 version: "2"
 
 services:
-  apis:
-    image: thanhson1085/api-seed
+  users:
+    build: ./users
+    image: registry.gitlab.com/thanhson1085/koor-users
+    depends_on:
+      - db
+      - redis
+    networks:
+      - front-net
+      - back-net
+
+  apps:
+    build: ./apps
+    image: registry.gitlab.com/thanhson1085/koor-apps
     depends_on:
       - db
       - redis
@@ -11,7 +22,14 @@ services:
       - back-net
 
   site:
-    image: thanhson1085/site-seed
+    build: ./site
+    image: registry.gitlab.com/thanhson1085/koor-site
+    networks:
+      - front-net
+
+  land:
+    build: ./land
+    image: registry.gitlab.com/thanhson1085/koor-land
     networks:
       - front-net
 
@@ -39,13 +57,13 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - apis
+      - apps
+      - users
     networks:
       - front-net
 
 volumes:
     mongodb:
-    apis:
 networks:
   front-net:
   back-net:
