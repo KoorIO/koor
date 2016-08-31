@@ -1,0 +1,4 @@
+node_modules
+less
+scss
+.*.sw*
