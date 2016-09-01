@@ -7,7 +7,7 @@
         "url": "http://koor.io"
     },
     "db": {
-        "uri": "mongodb://db:27017/api"
+        "uri": "mongodb://db:27017/users"
     },
     "logs": {
         "level": "debug",
@@ -23,8 +23,8 @@
         "client_secret": "xxxxxxxxx"
     },
     "mailer": {
-        "from": "no-reply@example.com",
-        "host": "smtp.mail.com",
+        "from": "no-reply@koor.io",
+        "host": "smtp.mailgun.org",
         "secureConnection": true,
         "port": 465,
         "transportMethod": "SMTP",
