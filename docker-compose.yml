@@ -3,7 +3,7 @@ version: "2"
 services:
   users:
     build: ./users
-    image: registry.gitlab.com/thanhson1085/koor-users
+    image: registry.gitlab.com/thanhson1085/koor/users
     depends_on:
       - db
       - redis
@@ -13,7 +13,7 @@ services:
 
   apps:
     build: ./apps
-    image: registry.gitlab.com/thanhson1085/koor-apps
+    image: registry.gitlab.com/thanhson1085/koor/apps
     depends_on:
       - db
       - redis
@@ -23,13 +23,13 @@ services:
 
   site:
     build: ./site
-    image: registry.gitlab.com/thanhson1085/koor-site
+    image: registry.gitlab.com/thanhson1085/koor/site
     networks:
       - front-net
 
   land:
     build: ./land
-    image: registry.gitlab.com/thanhson1085/koor-land
+    image: registry.gitlab.com/thanhson1085/koor/land
     networks:
       - front-net
 

@@ -17,6 +17,5 @@ Vagrant.configure(2) do |config|
   config.vm.define "nodeone" do |n1|
     n1.vm.hostname = "nodeone"
     n1.vm.network "private_network", ip: "172.20.20.20"
-    n1.vm.provision :shell, path: "./ops/nodeone.sh"
   end
 end

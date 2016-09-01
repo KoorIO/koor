@@ -2,12 +2,7 @@
 
 sudo su -
 
-COMPOSE_VERSION=1.7.1
-
-echo Cloning Source Code...
-git clone https://github.com/thanhson1085/bean-seed.git /build
-
-wait 
+COMPOSE_VERSION=1.8.0
 
 echo Installing Docker ...
 wget -qO- https://get.docker.com/ | sh
