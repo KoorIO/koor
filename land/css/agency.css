@@ -361,6 +361,94 @@ section h3.section-subheading {
 #portfolio * {
   z-index: 2;
 }
+#pricing .pricing-item .pricing-block .list-group-item.pricing-caption {
+  font-size: 24px;
+  line-height: 50px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+}
+#pricing .pricing-item .pricing-block .list-group-item.pricing-button {
+  text-align: center;
+}
+#pricing .pricing-item .pricing-block .list-group-item.pricing-price {
+  text-align: center;
+  line-height: 50px;
+}
+#pricing .pricing-item .pricing-block .list-group-item {
+  font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border: none;
+  line-height: 35px;
+  padding-left: 20px;
+}
+#pricing .pricing-item .pricing-block .list-group-item span.pricing-num {
+  font-size: 50px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+#pricing .pricing-item .pricing-block .list-group-item span.pricing-dolar {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 24px;
+}
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing {
+  color: white;
+  background-color: #fed136;
+  border-color: #fed136;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 15px 30px;
+}
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing:hover,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing:focus,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing:active,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.active,
+.open .dropdown-toggle#pricing .pricing-item .pricing-block .list-group-item .btn-pricing {
+  color: white;
+  background-color: #fec503;
+  border-color: #f6bf01;
+}
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing:active,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.active,
+.open .dropdown-toggle#pricing .pricing-item .pricing-block .list-group-item .btn-pricing {
+  background-image: none;
+}
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.disabled,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing[disabled],
+fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-pricing,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.disabled:hover,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing[disabled]:hover,
+fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-pricing:hover,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.disabled:focus,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing[disabled]:focus,
+fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-pricing:focus,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.disabled:active,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing[disabled]:active,
+fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-pricing:active,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.disabled.active,
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing[disabled].active,
+fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-pricing.active {
+  background-color: #fed136;
+  border-color: #fed136;
+}
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing .badge {
+  color: #fed136;
+  background-color: white;
+}
+#pricing .pricing-item .pricing-block .list-group-item .btn-pricing.btn-underconstruction {
+  background: #ccc;
+  border: #ccc;
+}
+#pricing .pricing-item .pricing-block .list-group-item > i.fa {
+  margin-right: 10px;
+}
+#pricing * {
+  z-index: 2;
+}
 @media (min-width: 767px) {
   #portfolio .portfolio-item {
     margin: 0 0 30px;
