@@ -1,32 +1,32 @@
 {
     "services": {
         "users": {
-            "create": "/api/v1/users/create",
-            "create": "/api/v1/users/activate",
-            "login": "/api/v1/users/login",
-            "github": "/api/v1/users/github",
-            "list": "/api/v1/users/list/:page/:limit",
-            "get": "/api/v1/users/get/:userId",
-            "get": "/api/v1/users/update/:userId"
+            "create": "/u//api/v1/users/create",
+            "create": "/u/api/v1/users/activate",
+            "login": "/u/api/v1/users/login",
+            "github": "/u/api/v1/users/github",
+            "list": "/u/api/v1/users/list/:page/:limit",
+            "get": "/u/api/v1/users/get/:userId",
+            "update": "/u/api/v1/users/update/:userId"
         },
         "projects": {
-            "create": "/api/v1/projects/create",
-            "list": "/api/v1/projects/list/:page/:limit",
-            "delete": "/api/v1/projects/delete/:projectId",
-            "update": "/api/v1/projects/update/:projectId",
-            "get": "/api/v1/projects/get/:projectId"
+            "create": "/a/api/v1/projects/create",
+            "list": "/a/api/v1/projects/list/:page/:limit",
+            "delete": "/a/api/v1/projects/delete/:projectId",
+            "update": "/a/api/v1/projects/update/:projectId",
+            "get": "/a/api/v1/projects/get/:projectId"
         },
         "apis": {
-            "create": "/api/v1/apis/create",
-            "list": "/api/v1/apis/list/:projectId/:page/:limit",
-            "delete": "/api/v1/apis/delete/:apiId",
-            "update": "/api/v1/apis/update/:apiId",
-            "get": "/api/v1/apis/get/:apiId"
+            "create": "/a/api/v1/apis/create",
+            "list": "/a/api/v1/apis/list/:projectId/:page/:limit",
+            "delete": "/a/api/v1/apis/delete/:apiId",
+            "update": "/a/api/v1/apis/update/:apiId",
+            "get": "/a/api/v1/apis/get/:apiId"
         }
     },
     "github": {
-        "clientId": "xxxxxxxxxxxx",
-        "redirectUrl": "#/login/github"
+        "clientId": "c6c1288d447c31c3e74c",
+        "redirectUrl": "#/github"
     },
     "locales": {
         "locales": {

@@ -18,9 +18,14 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
-    location /api/ {
-        rewrite ^/api/(.*)$ /api/$1 break;
+    location /u/api/ {
+        rewrite ^/u/api/(.*)$ /api/$1 break;
         proxy_pass http://be_users/;
+    }
+
+    location /a/api/ {
+        rewrite ^/a/api/(.*)$ /api/$1 break;
+        proxy_pass http://be_apps/;
     }
 
     location /app/ {
@@ -30,5 +35,14 @@ server {
 
     location / {
         proxy_pass http://fe_land/;
+    }
+}
+
+server {
+    listen 80;
+    server_name *.koor.io;
+    location / {
+        rewrite ^/(.*)$ /run/$host/$1 break;
+        proxy_pass http://be_apps/;
     }
 }

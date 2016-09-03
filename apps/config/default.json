@@ -33,6 +33,6 @@
         "/api/v1/users/create",
         "/api/v1/config/get"
     ],
-    "token_expire": 86400,
+    "token_expire": 864000,
     "time_format": "YYYY-DD-MM H:mm:ss:SSS"
 }

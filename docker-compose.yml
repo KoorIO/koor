@@ -4,6 +4,10 @@ services:
   users:
     build: ./users
     image: registry.gitlab.com/thanhson1085/koor/users
+    environment:
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
+      MAILER_AUTH_USER: ${MAILER_AUTH_USER}
     depends_on:
       - db
       - redis
@@ -17,6 +21,9 @@ services:
     depends_on:
       - db
       - redis
+    environment:
+      MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
+      MAILER_AUTH_USER: ${MAILER_AUTH_USER}
     networks:
       - front-net
       - back-net
