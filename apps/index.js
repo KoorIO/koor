@@ -21,6 +21,9 @@ app.use(function(req, res, next){
     next();
 });
 
+// run apps api
+app.use('/run', require('./apis/run'));
+
 // import middlewares
 app.use(require('./middlewares/auth'));
 

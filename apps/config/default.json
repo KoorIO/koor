@@ -5,7 +5,7 @@
         "domain": "koor.io"
     },
     "db": {
-        "uri": "mongodb://db:27017/api"
+        "uri": "mongodb://db:27017/apps"
     },
     "logs": {
         "level": "debug",
@@ -18,8 +18,8 @@
         "prefix": "koor.io"
     },
     "mailer": {
-        "from": "no-reply@example.com",
-        "host": "smtp.mail.com",
+        "from": "no-reply@koor.io",
+        "host": "smtp.mailgun.org",
         "secureConnection": true,
         "port": 465,
         "transportMethod": "SMTP",
@@ -33,6 +33,6 @@
         "/api/v1/users/create",
         "/api/v1/config/get"
     ],
-    "token_expire": 86400,
+    "token_expire": 864000,
     "time_format": "YYYY-DD-MM H:mm:ss:SSS"
 }

@@ -29,7 +29,7 @@ router.post('/create', function(req, res){
             // send email welcome to user
             logger.debug('Send to email %s a token %s', newUser.email, to.token)
             q.create(os.hostname() + 'email', {
-                title: '[Koor.Io] Activation Email',
+                title: '[Koor.IO] Activation Email',
                 to: newUser.email,
                 emailContent: {
                     username: newUser.firstname,
@@ -58,7 +58,7 @@ router.post('/activate', function(req, res){
             user.save()
             // send email thankyou to user
             q.create(os.hostname() + 'email', {
-                title: '[Koor.Io] Thank You',
+                title: '[Koor.IO] Thank You',
                 to: token.email,
                 emailContent: {
                     username: user.firstname
@@ -117,7 +117,7 @@ router.post('/github', function(req, res){
                                 });
                                 // send email thankyou to user
                                 q.create(os.hostname() + 'email', {
-                                    title: '[Koor.Io] Thank You',
+                                    title: '[Koor.IO] Thank You',
                                     to: newUser.email,
                                     emailContent: {
                                         username: newUser.email
