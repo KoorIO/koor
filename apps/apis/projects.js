@@ -2,6 +2,7 @@
 var express = require('express'), 
     db = require('../models'),
     q = require('../queues'),
+    cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
     os = require('os'),
     config = require('config'),
@@ -23,6 +24,10 @@ router.post('/create', function(req, res){
         q.create(os.hostname() + 'create_domain', {
             projectId: new_project._id
         }).priority('high').save();
+
+        // start websocket
+        cache.publish('start_project', new_project.domain);
+
         res.send(JSON.stringify(new_project));
     });
 });
@@ -48,6 +53,9 @@ router.delete('/delete/:id', function(req, res){
         _id: req.params.id,
         userId: req.body.userId
     }).then(function(){
+        // stop websocket
+        var domain = req.params.id + '.' + config.get('server.domain');
+        cache.publish('start_project', domain);
         res.json({});
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));

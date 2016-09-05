@@ -47,4 +47,4 @@ var io = require('socket.io').listen(app.listen(app.get("port"), app.get("host")
 io.adapter(adapter({ key: config.get('redis.prefix'), pubClient: pub, subClient: sub }));
 
 // Room sockets
-require('./websockets/room')(io); 
+require('./websockets/projects')(io); 
