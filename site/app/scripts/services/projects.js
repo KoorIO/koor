@@ -13,6 +13,18 @@ angular.module('siteSeedApp').factory('Projects', function($resource, $q, APP_CO
             });
             return deferred.promise;
         },
+        start: function(id){
+            var deferred = $q.defer();
+            var url = APP_CONFIG.services.projects.start;
+            var Project = $resource(url, {projectId: id});
+            
+            Project.save(null, function(res) {
+                deferred.resolve(res);
+            }, function(res) {
+                deferred.reject(res);
+            });
+            return deferred.promise;
+        },
         list: function(page, limit){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.projects.list;

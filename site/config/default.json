@@ -14,7 +14,8 @@
             "list": "/a/api/v1/projects/list/:page/:limit",
             "delete": "/a/api/v1/projects/delete/:projectId",
             "update": "/a/api/v1/projects/update/:projectId",
-            "get": "/a/api/v1/projects/get/:projectId"
+            "get": "/a/api/v1/projects/get/:projectId",
+            "start": "/a/api/v1/projects/start/:projectId"
         },
         "apis": {
             "create": "/a/api/v1/apis/create",

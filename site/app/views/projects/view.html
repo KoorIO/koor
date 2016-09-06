@@ -24,8 +24,11 @@
     </div>
     <div class="row" ng-show="apis.length">
         <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <!-- /.panel-heading -->
+                <div class="panel-heading">
+                    APIs
+                </div>
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table">
@@ -52,6 +55,42 @@
                         <div class="pull-right">
                             <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="currentPage" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
                         </div>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <!-- /.panel-heading -->
+                <div class="panel-heading">
+                    Websockets
+                    <div class="btn-group pull-right">
+                        <a ng-href="http://koor.io/websocket/{{project.domain}}" target="_blank"><i class="fa fa-plus"></i> Try It</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p ng-hide="sockets.length">There are no websocket clients.</p>
+                    <div class="table-responsive" ng-show="sockets.length">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Socket ID</th>
+                                    <th>Remote Address</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="socket in sockets track by $index">
+                                <td ng-bind="socket.id">/api/v1/users</td>
+                                <td ng-bind="socket.remoteAddress">/api/v1/users</td>
+                                <td><a class="btn btn-xs btn-danger" ng-click="deleteApi($index, api._id)"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- /.panel-body -->

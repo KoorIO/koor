@@ -32,6 +32,23 @@ router.post('/create', function(req, res){
     });
 });
 
+// start websocket
+router.post('/start/:id', function(req, res){
+    logger.debug('Start Websocket Project By Id', req.params.id);
+    db.Project.findOne({
+        _id: req.params.id,
+        userId: req.body.userId
+    }).then(function(project){
+        project = project.toObject();
+        // start websocket
+        cache.publish('start_project', project.domain);
+        res.send(JSON.stringify(project));
+    }).catch(function(e){
+        res.status(500).send(JSON.stringify(e));
+    });
+
+});
+
 // get a project by id
 router.get('/get/:id', function(req, res){
     logger.debug('Get Project By Id', req.params.id);
@@ -65,12 +82,14 @@ router.delete('/delete/:id', function(req, res){
 // update a project by id
 router.put('/update/:id', function(req, res){
     logger.debug('Update Project By Id', req.params.id);
-    var project = new db.Project(req.body);
-    db.Project.findOneAndUpdate({
+    db.Project.findOne({
         _id: req.params.id,
         userId: req.body.userId
-    }, project).then(function() {
-        res.json({});
+    }).then(function(project) {
+        project.domain = req.body.domain;
+        project.save(function() {
+            res.json({});
+        })
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
     });

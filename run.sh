@@ -9,11 +9,13 @@ trap _interupt INT TERM
 
 workdir=${PWD} 
 
+cd $workdir/websocket && nodemon index.js &
+child_proc=$! 
 cd $workdir/users && nodemon index.js &
 child_proc=$! 
 cd $workdir/apps && nodemon index.js &
 child_proc="$child_proc $!"
-cd $workdir/site && grunt serve &
+cd $workdir/site && npm start &
 child_proc="$child_proc $!"
 cd $workdir/land && gulp dev
 child_proc="$child_proc $!"

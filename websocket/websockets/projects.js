@@ -18,12 +18,21 @@ exports = module.exports = function(io){
     sub.on('message', function(channel, message) {
         logger.debug('New message %s from channel %s', message, channel);
         if (channel === 'start_project') {
+            if (message in io.nsps) {
+                return;
+            }
             var nsp = io.of('/' + message);
             nsp.on('connection', function (socket) {
-                logger.debug('New Client %s connected - namespace %s', socket, message);
-                socket.on('disconnect', function(socket){
-                    logger.info('Disconnected', socket);
-                });
+                logger.debug('New Client %s connected - namespace %s', socket.id, message);
+                var ids = [];
+                for (var k in nsp.connected){
+                    if (k > 10) break;
+                    ids.push({
+                        id: nsp.connected[k].conn.id,
+                        remoteAddress: nsp.connected[k].conn.remoteAddress
+                    });
+                }
+                nsp.emit('clients', ids); 
             });
         }
 

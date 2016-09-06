@@ -149,6 +149,7 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/services/projects.js',
+                                'scripts/services/socket.js',
                                 'scripts/controllers/projects.js',
                                 'scripts/services/apis.js'
                             ]

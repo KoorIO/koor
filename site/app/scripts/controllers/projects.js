@@ -19,13 +19,20 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log) {
+.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket) {
     var page = 1,
         limit = 10;
 
     $scope.limit = limit;
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
+        var socket = Socket.connect(res.domain);
+        socket.on('clients', function(data) {
+            $scope.sockets = data.filter(function(item) {
+                return item.id !== socket.id;
+            });
+            $scope.$apply();
+        });
         Apis.list($scope.project._id, page, limit).then(function(res) {
             $scope.apis = res.rows;
             $scope.count = res.count;
@@ -53,6 +60,8 @@ angular.module('siteSeedApp')
             $log.info('Modal dismissed at: ' + new Date());
         });
     };
+
+    Projects.start($stateParams.projectId);
 
     $scope.deleteApi = function(index, apiId) {
         var modalUndo = $uibModal.open({
