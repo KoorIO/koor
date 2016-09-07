@@ -37,7 +37,8 @@ var sub = redis({
 });
 
 app.get('/', function (req, res) {
-    res.render('index');
+    var url = 'http://' + req.query.u;
+    res.render('index', {url: url});
 });
 
 // Start web server at port 3000
