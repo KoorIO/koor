@@ -84,10 +84,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="socket in sockets track by $index">
+                            <tr ng-repeat="socket in sockets">
                                 <td ng-bind="socket.id">/api/v1/users</td>
                                 <td ng-bind="socket.remoteAddress">/api/v1/users</td>
-                                <td><a class="btn btn-xs btn-danger" ng-click="deleteApi($index, api._id)"><i class="fa fa-trash"></i></a></td>
+                                <td><a class="btn btn-xs btn-primary" ng-click="sendSocketMessage(socket.id)"><i class="fa fa-send"></i></a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -111,5 +111,23 @@
 <script type="text/ng-template" id="modalUndo.html">
     <div class="modal-body">
         Api was deleted <a class="btn btn-link btn-md" ng-click="undo()">Undo</a>
+    </div>
+</script>
+<script type="text/ng-template" id="modalSocket.html">
+    <div class="modal-body">
+        <div ng-repeat="message in messages">
+            <div class="alert alert-info fade in" data-alert="alert">{{ message }}</div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Message</label>
+            <textarea class="form-control" ng-model="socketMessage" placeholder="Enter message"></textarea>
+            <p class="help-block">Lorem ipsum dolor sit amet</p>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="send()">Send</button>
+        <button class="btn btn-default" type="button" ng-click="close()">Close</button>
     </div>
 </script>

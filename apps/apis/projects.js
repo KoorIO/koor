@@ -41,7 +41,7 @@ router.post('/start/:id', function(req, res){
     }).then(function(project){
         project = project.toObject();
         // start websocket
-        cache.publish('start_project', project.domain);
+        cache.publish('start_project', '57ce40dd1545c4bb32781bd0.koor.io');//project.domain);
         res.send(JSON.stringify(project));
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));

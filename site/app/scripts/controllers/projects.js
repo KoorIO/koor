@@ -37,6 +37,24 @@ angular.module('siteSeedApp')
             $scope.apis = res.rows;
             $scope.count = res.count;
         });
+
+        $scope.sendSocketMessage = function(id) {
+            var modalSocket = $uibModal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'modalSocket.html',
+                controller: 'ModalSocketCtrl',
+                resolve: {
+                    socket: function () {
+                        return socket;
+                    }
+                }
+            });
+            modalSocket.result.then(function() {
+                console.log(id);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
     });
 
     $scope.pageChanged = function() {
@@ -86,6 +104,16 @@ angular.module('siteSeedApp')
     };
 
     $scope.forUnitTest = true;
+})
+.controller('ModalSocketCtrl', function ($scope, $uibModalInstance, socket) {
+    $scope.send = function () {
+        socket.emit('test_message', $scope.socketMessage);
+        $uibModalInstance.close();
+    };
+
+    $scope.close = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 })
 .controller('ModalYesNoCtrl', function ($scope, $uibModalInstance) {
 

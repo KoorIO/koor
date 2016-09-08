@@ -32,6 +32,9 @@ exports = module.exports = function(io){
                         remoteAddress: nsp.connected[k].conn.remoteAddress
                     });
                 }
+                socket.on('test_message', function (message) {
+                    socket.broadcast.emit('test_message', message);
+                });
                 nsp.emit('clients', ids); 
             });
         }
