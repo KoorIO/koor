@@ -28,6 +28,15 @@ services:
       - front-net
       - back-net
 
+  socket:
+    build: ./websocket
+    image: registry.gitlab.com/thanhson1085/koor/socket
+    depends_on:
+      - redis
+    networks:
+      - front-net
+      - back-net
+
   site:
     build: ./site
     image: registry.gitlab.com/thanhson1085/koor/site

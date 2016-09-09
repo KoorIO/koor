@@ -15,6 +15,7 @@ var express = require('express'),
 router.post('/create', function(req, res){
     req.body.isActive = false;
     var user = new db.User(req.body);
+    logger.debug('Register new user %s', req.body.email);
     user.save(function(error, newUser){
         if (error) {
             return res.status(406).send(JSON.stringify({error}));
@@ -79,6 +80,7 @@ router.post('/activate', function(req, res){
 router.post('/github', function(req, res){
     req.body.client_secret = config.get('github.client_secret');
     var request_url = 'https://github.com/login/oauth/access_token';
+    logger.info('Login via Github ...');
     request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){ 
         if (err) {
             res.status(401).send(JSON.stringify(err));

@@ -39,7 +39,14 @@
     </div>
 </div>
 <div ng-show="!projects.length" class="row panel-body">
-    <p class="text-primary">
-    <strong>You have no project. Please create a project first ...</strong>
-    </p>
+    <div class="alert alert-info fade in" data-alert="alert">
+        <h3>
+            <strong>
+                Welcome to Koor.IO
+            </strong>
+        </h3>
+        <p class="text-primary">
+        You have no project. Please <a ui-sref="app.projects.create"><strong>create a project</strong></a> firstly ...
+        </p>
+    </div>
 </div>
