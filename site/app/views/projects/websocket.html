@@ -1,0 +1,22 @@
+<h1 class="page-header">Websocket</h1>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <form>
+                <div class="form-group">
+                    <label class="control-label" for="exampleInputEmail1">Message</label>
+                    <textarea class="form-control" id="message" ng-model="message" placeholder="Enter message" required></textarea>
+                    <p class="help-block">We are using "test_message" channel to send message.</p>
+                </div>
+                <div class="form-group">
+                    <button type="button" ng-click="sendMessage()" class="btn btn-success" ng-disabled="form.$invalid">Send</button>
+                    <button type="reset" class="btn btn-default">Cancel</button>
+                </div>
+                <div ng-repeat="msg in messages">
+                    <div class="alert fade in" ng-class="msg.socketId == 'me'?'alert-warning':'alert-info'" data-alert="alert">[{{ msg.time }}] {{ msg.socketId }}: {{ msg.message }}</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.row (nested) -->
+</div>

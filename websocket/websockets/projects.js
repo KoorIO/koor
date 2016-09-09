@@ -15,15 +15,16 @@ exports = module.exports = function(io){
     sub.subscribe('start_project');
     sub.subscribe('stop_project');
 
-    sub.on('message', function(channel, message) {
-        logger.debug('New message %s from channel %s', message, channel);
+    sub.on('message', function(channel, namespace) {
+        logger.debug('New message %s from channel %s', namespace, channel);
         if (channel === 'start_project') {
-            if (message in io.nsps) {
+            if (namespace in io.nsps) {
                 return;
             }
-            var nsp = io.of('/' + message);
+            var nsp = io.of('/' + namespace);
+            var adminRoom = namespace + '-admins';
             nsp.on('connection', function (socket) {
-                logger.debug('New Client %s connected - namespace %s', socket.id, message);
+                logger.debug('New Client %s connected - namespace %s', socket.id, namespace);
                 var ids = [];
                 for (var k in nsp.connected){
                     if (k > 10) break;
@@ -32,8 +33,18 @@ exports = module.exports = function(io){
                         remoteAddress: nsp.connected[k].conn.remoteAddress
                     });
                 }
+                socket.on('admins', function (message) {
+                    socket.join(adminRoom);
+                });
                 socket.on('test_message', function (message) {
-                    socket.broadcast.emit('test_message', message);
+                    if ('socketId' in message) {
+                        socket.to('/' + namespace + '#' + message.socketId).emit('test_message', message);
+                    } else {
+                        socket.broadcast.to(adminRoom).emit('test_message', message);
+                    }
+                });
+                socket.on('broadcast_message', function (message) {
+                    socket.broadcast.emit('broadcast_message', message);
                 });
                 nsp.emit('clients', ids); 
             });

@@ -19,6 +19,31 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
+.controller('WebsocketProjectCtrl', function($scope, Projects, $stateParams, $state, $log, Socket) {
+    Projects.get($stateParams.projectId).then(function(res) {
+        $scope.project = res;
+        var socket = Socket.connect(res.domain);
+        $scope.messages = [];
+        socket.on('test_message', function(data) {
+            data.time = new Date(new Date().getTime()).toLocaleString();
+            data.socketId = $stateParams.socketId;
+            $scope.messages.push(data);
+            $scope.$apply();
+        });
+        $scope.sendMessage = function() {
+            var message = {
+                message: $scope.message,
+                socketId: 'me',
+                time: new Date(new Date().getTime()).toLocaleString()
+            };
+            socket.emit('test_message', {
+                message: $scope.message,
+                socketId: $stateParams.socketId
+            });
+            $scope.messages.push(message);
+        };
+    });
+})
 .controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket) {
     var page = 1,
         limit = 10;
@@ -38,7 +63,7 @@ angular.module('siteSeedApp')
             $scope.count = res.count;
         });
 
-        $scope.sendSocketMessage = function(id) {
+        $scope.sendBroadcastMessage = function() {
             var modalSocket = $uibModal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: 'modalSocket.html',
@@ -50,7 +75,7 @@ angular.module('siteSeedApp')
                 }
             });
             modalSocket.result.then(function() {
-                console.log(id);
+                $log.info('Sent Broadcast ' + new Date());
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -107,7 +132,7 @@ angular.module('siteSeedApp')
 })
 .controller('ModalSocketCtrl', function ($scope, $uibModalInstance, socket) {
     $scope.send = function () {
-        socket.emit('test_message', $scope.socketMessage);
+        socket.emit('broadcast_message', $scope.socketMessage);
         $uibModalInstance.close();
     };
 

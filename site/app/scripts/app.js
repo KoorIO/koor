@@ -162,6 +162,11 @@ angular
             controller: "ListProjectCtrl",
             templateUrl: 'views/projects/list.html'
         })
+        .state('app.projects.websocket', {
+            url: '/websocket/:projectId/:socketId',
+            controller: "WebsocketProjectCtrl",
+            templateUrl: 'views/projects/websocket.html'
+        })
         .state('app.projects.create', {
             url: '/create',
             controllerAs: 'pf',
