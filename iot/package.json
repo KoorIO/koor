@@ -1,0 +1,16 @@
+{
+  "name": "koor-iot",
+  "version": "1.0.0",
+  "description": "IoT Module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nguyen Sy Thanh Son",
+  "license": "MIT",
+  "dependencies": {
+    "config": "^1.21.0",
+    "mqtt": "^1.14.1",
+    "winston": "^2.2.0"
+  }
+}

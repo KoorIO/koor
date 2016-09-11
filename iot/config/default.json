@@ -1,0 +1,22 @@
+{
+    "server": {
+        "host": "0.0.0.0",
+        "port": 80
+    },
+    "logs": {
+        "level": "debug"
+    },
+    "redis": {
+        "host": "redis",
+        "port": "6379",
+        "password": null,
+        "prefix": "socket.io"
+    },
+    "broker": {
+        "host": "broker",
+        "port": "1883"
+    },
+    "services": {
+        "auth": "http://some-service/"
+    }
+}
