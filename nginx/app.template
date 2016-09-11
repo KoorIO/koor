@@ -14,6 +14,10 @@ upstream fe_land {
     server land;
 }
 
+upstream be_socket {
+    server socket;
+}
+
 server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
@@ -40,9 +44,18 @@ server {
 
 server {
     listen 80;
-    server_name *.koor.io;
+    server_name *-api.koor.io;
     location / {
         rewrite ^/(.*)$ /run/$host/$1 break;
         proxy_pass http://be_apps/;
+    }
+}
+
+server {
+    listen 80;
+    server_name *-socket.koor.io;
+    location / {
+        rewrite ^/(.*)$ /$host/$1 break;
+        proxy_pass http://be_socket/;
     }
 }

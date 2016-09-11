@@ -17,6 +17,9 @@ router.post('/create', function(req, res){
             return res.status(406).send(JSON.stringify({error}));
         }
         new_project.domain = new_project._id + '.' + config.get('server.domain');
+        new_project.socket = new_project._id + '-socket.' + config.get('server.domain');
+        new_project.iot = new_project._id + '-iot.' + config.get('server.domain');
+        new_project.api = new_project._id + '-api.' + config.get('server.domain');
         new_project.save();
         // remove security attributes
         new_project = project.toObject();
@@ -26,7 +29,7 @@ router.post('/create', function(req, res){
         }).priority('high').save();
 
         // start websocket
-        cache.publish('start_project', new_project.domain);
+        cache.publish('start_project', new_project.socket);
 
         res.send(JSON.stringify(new_project));
     });
@@ -41,7 +44,7 @@ router.post('/start/:id', function(req, res){
     }).then(function(project){
         project = project.toObject();
         // start websocket
-        cache.publish('start_project', project.domain);
+        cache.publish('start_project', project.socket);
         res.send(JSON.stringify(project));
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
@@ -71,8 +74,8 @@ router.delete('/delete/:id', function(req, res){
         userId: req.body.userId
     }).then(function(){
         // stop websocket
-        var domain = req.params.id + '.' + config.get('server.domain');
-        cache.publish('start_project', domain);
+        var domain = req.params.id + '-socket.' + config.get('server.domain');
+        cache.publish('stop_project', domain);
         res.json({});
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
@@ -86,7 +89,7 @@ router.put('/update/:id', function(req, res){
         _id: req.params.id,
         userId: req.body.userId
     }).then(function(project) {
-        project.domain = req.body.domain;
+        project.name = req.body.name;
         project.save(function() {
             res.json({});
         })
