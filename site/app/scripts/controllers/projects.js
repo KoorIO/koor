@@ -89,6 +89,26 @@ angular.module('siteSeedApp')
         });
     };
 
+    $scope.channelSubscribe = 'demo';
+    $scope.channelPublish = 'demo';
+    var client = mqtt.connect('ws://192.168.1.191:8080/mqtt');
+
+    $scope.inbox = [];
+    client.on("message", function(topic, payload) {
+        var data = {
+            time: new Date(new Date().getTime()).toLocaleString(),
+            message: payload.toString()
+        };
+        $scope.inbox.push(data);
+        $scope.$apply();
+    });
+
+    $scope.publish = function() {
+        client.subscribe($scope.channelSubscribe);
+        client.publish($scope.channelPublish, $scope.mqttMessage);
+    };
+
+
     $scope.delete = function(id) {
         var modalYesNo = $uibModal.open({
             animation: $scope.animationsEnabled,

@@ -28,9 +28,25 @@
                 <!-- /.panel-heading -->
                 <div class="panel-heading">
                     APIs
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Actions
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a ui-sref="app.apis.create({projectId: project._id})" class="btn"><i class="fa fa-plus"></i> Create API</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
-                    <p ng-hide="apis.length">There are no websocket clients.</p>
+                    <div class="form-group">
+                        <label>Domain</label>
+                        <p class="form-control-static" ng-bind="project.api"></p>
+                    </div>
+                    <p ng-hide="apis.length">There are no APIs.</p>
                     <div class="table-responsive" ng-show="apis.length">
                         <table class="table">
                             <thead>
@@ -78,7 +94,7 @@
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li>
-                                    <a ng-href="http://koor.io/websocket/?u={{project.domain}}" target="_blank"><i class="fa fa-plus"></i> Start a Client</a>
+                                <a ng-href="http://koor.io/websocket/?u={{project.domain}}" target="_blank"><i class="fa fa-plus"></i> Start a Client</a>
                                 </li>
                                 <li><a ng-click="sendBroadcastMessage(socket.id)" class="btn"><i class="fa fa-send"></i> Send Broadcast</a>
                                 </li>
@@ -87,6 +103,10 @@
                     </div>
                 </div>
                 <div class="panel-body">
+                    <div class="form-group">
+                        <label>Domain</label>
+                        <p class="form-control-static" ng-bind="project.socket"></p>
+                    </div>
                     <p ng-hide="sockets.length">There are no websocket clients.</p>
                     <div class="table-responsive" ng-show="sockets.length">
                         <table class="table">
@@ -105,6 +125,49 @@
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <!-- /.panel-heading -->
+                <div class="panel-heading">
+                    MQTT
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Domain</label>
+                        <p class="form-control-static" ng-bind="project.iot"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Publish</label>
+                        <input type="text" class="form-control" ng-model="channelPublish" placeholder="test_message">
+                        <p class="help-block">Enter the channel which you will publish on.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea type="text" class="form-control" ng-model="mqttMessage" placeholder="Enter message ..."></textarea>
+                        <p class="help-block">Enter the channel which you will publish on.</p>
+                    </div>
+                    <div class="form-group form-actions">
+                        <button type="button" ng-click="publish()" class="btn btn-success">Publish</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Subscribe</label>
+                        <input type="text" class="form-control" ng-model="channelSubscribe" placeholder="test_message">
+                        <p class="help-block">Enter the channel which you will subscribe on.</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="alert alert-info fade in" data-alert="alert" ng-repeat="ib in inbox | orderBy: '-time'">
+                            <p class="text-primary">
+                            {{ ib.time }}: {{ ib.message }}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <!-- /.panel-body -->
