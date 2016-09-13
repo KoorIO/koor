@@ -44,6 +44,29 @@ angular.module('siteSeedApp')
         };
     });
 })
+.controller('MqttProjectCtrl', function($scope, Projects, $stateParams, $state, $log, kmqtt) {
+    Projects.get($stateParams.projectId).then(function(res) {
+        $scope.project = res;
+        $scope.channelSubscribe = 'mqtt/demo';
+        $scope.channelPublish = 'mqtt/demo';
+        var client = kmqtt.connect('ws://192.168.1.191:8080/mqtt');
+
+        $scope.inbox = [];
+        client.on("message", function(topic, payload) {
+            var data = {
+                time: new Date(new Date().getTime()).toLocaleString(),
+                message: payload.toString()
+            };
+            $scope.inbox.push(data);
+            $scope.$apply();
+        });
+
+        $scope.publish = function() {
+            client.subscribe($scope.channelSubscribe);
+            client.publish($scope.channelPublish, $scope.mqttMessage);
+        };
+    });
+})
 .controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket, kmqtt) {
     var page = 1,
         limit = 10;
@@ -89,9 +112,9 @@ angular.module('siteSeedApp')
         });
     };
 
-    $scope.channelSubscribe = 'demo';
-    $scope.channelPublish = 'demo';
+    $scope.channelSubscribe = 'mqtt/demo';
     var client = kmqtt.connect('ws://192.168.1.191:8080/mqtt');
+    client.subscribe($scope.channelSubscribe);
 
     $scope.inbox = [];
     client.on("message", function(topic, payload) {
@@ -102,12 +125,6 @@ angular.module('siteSeedApp')
         $scope.inbox.push(data);
         $scope.$apply();
     });
-
-    $scope.publish = function() {
-        client.subscribe($scope.channelSubscribe);
-        client.publish($scope.channelPublish, $scope.mqttMessage);
-    };
-
 
     $scope.delete = function(id) {
         var modalYesNo = $uibModal.open({

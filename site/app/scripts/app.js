@@ -167,6 +167,11 @@ angular
             controller: "WebsocketProjectCtrl",
             templateUrl: 'views/projects/websocket.html'
         })
+        .state('app.projects.mqtt', {
+            url: '/mqtt/:projectId',
+            controller: "MqttProjectCtrl",
+            templateUrl: 'views/projects/mqtt.html'
+        })
         .state('app.projects.create', {
             url: '/create',
             controllerAs: 'pf',
