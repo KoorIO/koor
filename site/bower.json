@@ -20,7 +20,8 @@
     "angular-ui-ace": "bower",
     "bootstrap-social": "^5.0.0",
     "angular-xeditable": "^0.2.0",
-    "socket.io-client": "^1.4.8"
+    "socket.io-client": "^1.4.8",
+    "angularjs-mqtt": "*"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

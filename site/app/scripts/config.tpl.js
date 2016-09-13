@@ -10,7 +10,8 @@ angular
     'ngAnimate',
     'ui.ace',
     'angular-loading-bar',
-    'xeditable'
+    'xeditable',
+    'kmqtt'
 ])  
 /* jshint ignore:start */
 .constant('APP_CONFIG', /* @echo APP_CONFIG */)

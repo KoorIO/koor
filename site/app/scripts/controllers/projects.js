@@ -44,7 +44,7 @@ angular.module('siteSeedApp')
         };
     });
 })
-.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket) {
+.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket, kmqtt) {
     var page = 1,
         limit = 10;
 
@@ -91,7 +91,7 @@ angular.module('siteSeedApp')
 
     $scope.channelSubscribe = 'demo';
     $scope.channelPublish = 'demo';
-    var client = mqtt.connect('ws://192.168.1.191:8080/mqtt');
+    var client = kmqtt.connect('ws://192.168.1.191:8080/mqtt');
 
     $scope.inbox = [];
     client.on("message", function(topic, payload) {
