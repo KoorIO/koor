@@ -44,18 +44,14 @@ server {
 
 server {
     listen 80;
-    server_name *-api.koor.io;
+    server_name *.koor.io;
+    location /socket/ {
+        rewrite ^/socket/(.*)$ /$host/$1 break;
+        proxy_pass http://be_socket/;
+    }
     location / {
         rewrite ^/(.*)$ /run/$host/$1 break;
         proxy_pass http://be_apps/;
     }
 }
 
-server {
-    listen 80;
-    server_name *-socket.koor.io;
-    location / {
-        rewrite ^/(.*)$ /$host/$1 break;
-        proxy_pass http://be_socket/;
-    }
-}

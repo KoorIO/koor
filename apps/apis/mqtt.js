@@ -19,8 +19,6 @@ router.post('/auth_on_subscribe', function(req, res){
     req.setEncoding('utf8');
     logger.debug('Auth On Subscribe');
     req.on('data', function(chunk) {
-
-
         req.rawBody += chunk;
         res.send(JSON.stringify({result: 'ok'}));
     });

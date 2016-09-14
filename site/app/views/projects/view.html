@@ -22,7 +22,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>Domain</label>
-                        <p class="form-control-static" ng-bind="project.api"></p>
+                        <p class="form-control-static" ng-bind="project.domain"></p>
                     </div>
                     <p ng-hide="apis.length">There are no APIs.</p>
                     <div class="table-responsive" ng-show="apis.length">
@@ -83,7 +83,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>Domain</label>
-                        <p class="form-control-static" ng-bind="project.socket"></p>
+                        <p class="form-control-static" ng-bind="project.domain"></p>
                     </div>
                     <p ng-hide="sockets.length">There are no websocket clients.</p>
                     <div class="table-responsive" ng-show="sockets.length">
@@ -132,7 +132,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>Domain</label>
-                        <p class="form-control-static" ng-bind="project.iot"></p>
+                        <p class="form-control-static" ng-bind="project.domain"></p>
                     </div>
                     <div class="form-group">
                         <label>Subscribe on Channel</label>
