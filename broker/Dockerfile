@@ -14,9 +14,17 @@ ADD https://bintray.com/artifact/download/erlio/vernemq/deb/jessie/vernemq_$VERN
 RUN dpkg -i /tmp/vernemq.deb
 RUN rm /tmp/vernemq.deb
 
-ADD files/vm.args /etc/vernemq/vm.args
-ADD bin/vernemq.sh /usr/sbin/start_vernemq
-ADD bin/rand_cluster_node.escript /var/lib/vernemq/rand_cluster_node.escript
+COPY files/vm.args /etc/vernemq/vm.args
+COPY bin/vernemq.sh /usr/sbin/start_vernemq
+COPY bin/rand_cluster_node.escript /var/lib/vernemq/rand_cluster_node.escript
+COPY plugins/ /build
+
+RUN vmq-admin plugin enable --name=vmq_webhooks --path=/build/plugins/vmq_webhooks/_build/default/
+RUN vmq-admin plugin disable -n vmq_passwd
+RUN vmq-admin plugin disable -n vmq_acl
+RUN vmq-admin webhooks register hook=auth_on_register endpoint="http://apps/api/v1/mqtt/auth_on_register"
+RUN vmq-admin webhooks register hook=auth_on_subscribe endpoint="http://apps/api/v1/mqtt/auth_on_subscribe"
+RUN vmq-admin webhooks register hook=auth_on_publish endpoint="http://apps/api/v1/mqtt/auth_on_publish"
 
 EXPOSE \ 
     # MQTT
@@ -35,4 +43,3 @@ EXPOSE \
 VOLUME ["/var/log/vernemq", "/var/lib/vernemq", "/etc/vernemq"]
 
 CMD ["start_vernemq"] 
-
