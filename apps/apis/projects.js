@@ -17,9 +17,30 @@ router.post('/create', function(req, res){
             return res.status(406).send(JSON.stringify({error}));
         }
         new_project.domain = new_project._id + '.' + config.get('server.domain');
-        new_project.socket = new_project._id + '-socket.' + config.get('server.domain');
-        new_project.iot = new_project._id + '-iot.' + config.get('server.domain');
-        new_project.api = new_project._id + '-api.' + config.get('server.domain');
+        new_project.save();
+        // remove security attributes
+        new_project = project.toObject();
+        // send message create a domain to queue
+        q.create(os.hostname() + 'create_domain', {
+            projectId: new_project._id
+        }).priority('high').save();
+
+        // start websocket
+        cache.publish('start_project', new_project.socket);
+
+        res.send(JSON.stringify(new_project));
+    });
+});
+
+// create a new project
+router.post('/create', function(req, res){
+    var project = new db.Project(req.body);
+    logger.debug('Create a New Project', project.name);
+    project.save(function(error, new_project){
+        if (error) {
+            return res.status(406).send(JSON.stringify({error}));
+        }
+        new_project.domain = new_project._id + '.' + config.get('server.domain');
         new_project.save();
         // remove security attributes
         new_project = project.toObject();

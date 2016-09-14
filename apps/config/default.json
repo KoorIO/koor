@@ -31,6 +31,9 @@
     "unauthorization": [
         "/api/v1/users/login", 
         "/api/v1/users/create",
+        "/api/v1/mqtt/auth_on_register",
+        "/api/v1/mqtt/auth_on_subscribe",
+        "/api/v1/mqtt/auth_on_publish",
         "/api/v1/config/get"
     ],
     "token_expire": 864000,

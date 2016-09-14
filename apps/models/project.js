@@ -13,24 +13,6 @@ var Project = new Schema({
         require: true,
         unique: true
     },
-    api: {
-        type: String,
-        index: true,
-        require: true,
-        unique: true
-    },
-    socket: {
-        type: String,
-        index: true,
-        require: true,
-        unique: true
-    },
-    iot: {
-        type: String,
-        index: true,
-        require: true,
-        unique: true
-    },
     userId: {
         type: Schema.Types.ObjectId,
         index: true,
