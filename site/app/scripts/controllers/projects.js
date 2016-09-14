@@ -49,7 +49,7 @@ angular.module('siteSeedApp')
         $scope.project = res;
         $scope.channelSubscribe = 'mqtt/demo';
         $scope.channelPublish = 'mqtt/demo';
-        var client = kmqtt.connect('ws://192.168.1.191:8080/mqtt');
+        var client = kmqtt.connect('ws://' + res.domain + '/mqtt');
 
         $scope.inbox = [];
         client.on("message", function(topic, payload) {
@@ -62,8 +62,8 @@ angular.module('siteSeedApp')
         });
 
         $scope.publish = function() {
-            client.subscribe($scope.channelSubscribe);
-            client.publish($scope.channelPublish, $scope.mqttMessage);
+            client.subscribe(res.domain + '/' + $scope.channelSubscribe);
+            client.publish(res.domain + '/' + $scope.channelPublish, $scope.mqttMessage);
         };
     });
 })
@@ -74,6 +74,20 @@ angular.module('siteSeedApp')
     $scope.limit = limit;
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
+        $scope.channelSubscribe = res.domain + '/mqtt/demo';
+        var client = kmqtt.connect('ws://' + res.domain + '/mqtt');
+        client.subscribe($scope.channelSubscribe);
+
+        $scope.inbox = [];
+        client.on("message", function(topic, payload) {
+            var data = {
+                time: new Date(new Date().getTime()).toLocaleString(),
+                message: payload.toString()
+            };
+            $scope.inbox.push(data);
+            $scope.$apply();
+        });
+
         var socket = Socket.connect(res.domain);
         socket.on('clients', function(data) {
             $scope.sockets = data.filter(function(item) {
@@ -111,20 +125,6 @@ angular.module('siteSeedApp')
             $scope.count = response.count;
         });
     };
-
-    $scope.channelSubscribe = 'mqtt/demo';
-    var client = kmqtt.connect('ws://192.168.1.191:8080/mqtt');
-    client.subscribe($scope.channelSubscribe);
-
-    $scope.inbox = [];
-    client.on("message", function(topic, payload) {
-        var data = {
-            time: new Date(new Date().getTime()).toLocaleString(),
-            message: payload.toString()
-        };
-        $scope.inbox.push(data);
-        $scope.$apply();
-    });
 
     $scope.delete = function(id) {
         var modalYesNo = $uibModal.open({

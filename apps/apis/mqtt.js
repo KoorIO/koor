@@ -32,6 +32,7 @@ router.post('/auth_on_subscribe', function(req, res){
             if (count < domains.length) {
                 res.send(JSON.stringify({result: {error: 'You listen on unallowed channel'}}));
             } else {
+                logger.debug('OK!');
                 res.send(JSON.stringify({result: 'ok'}));
             }
         });
@@ -53,6 +54,7 @@ router.post('/auth_on_publish', function(req, res){
             if (count === 0) {
                 res.send(JSON.stringify({result: {error: 'You publish on unallowed channel'}}));
             } else {
+                logger.debug('OK!');
                 res.send(JSON.stringify({result: 'ok'}));
             }
         });
