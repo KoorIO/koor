@@ -49,6 +49,12 @@ server {
         rewrite ^/socket/(.*)$ /$host/$1 break;
         proxy_pass http://be_socket/;
     }
+
+    location /docs/ {
+        rewrite ^/(.*)$ /docs/$host/$1 break;
+        proxy_pass http://be_apps/;
+    }
+
     location / {
         rewrite ^/(.*)$ /run/$host/$1 break;
         proxy_pass http://be_apps/;
