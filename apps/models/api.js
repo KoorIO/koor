@@ -16,6 +16,12 @@ var Api = new Schema({
         index: true,
         require: true
     },
+    tags: {
+        type: Array
+    },
+    description: {
+        type: String
+    },
     projectId: {
         type: Schema.Types.ObjectId,
         index: true,

@@ -10,7 +10,7 @@ var express = require('express'),
 router.all('/:projectUrl/:apiPath', function(req, res){
     logger.debug('Run a Api %s %s', req.params.projectUrl, req.params.apiPath);
     db.Project.findOne({
-        api: req.params.projectUrl
+        domain: req.params.projectUrl
     }, function(error, p){
         if (error) {
             return res.status(406).json({});

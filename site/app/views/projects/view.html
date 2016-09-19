@@ -15,6 +15,8 @@
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li><a ui-sref="app.apis.create({projectId: project._id})" class="btn"><i class="fa fa-plus"></i> Create API</a>
                                 </li>
+                                <li><a target="_blank" href="http://petstore.swagger.io?url={{'http://' + project.domain + '/docs'}}" class="btn"><i class="fa fa-play"></i> Run APIs</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

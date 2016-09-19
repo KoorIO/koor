@@ -39,6 +39,8 @@ angular.module('siteSeedApp')
             projectId: projectId,
             name: af.method + ' ' + af.path,
             method: af.method,
+            description: af.description,
+            tags: af.tags,
             response: {
                 headers: headers,
                 status: af.responseStatus,
@@ -71,6 +73,8 @@ angular.module('siteSeedApp')
         Apis.get(apiId).then(function(res) {
             af.method = res.method;
             af.path = res.path;
+            af.description = res.description;
+            af.tags = res.tags;
             af.responseStatus = res.response.status;
             af.contentType = res.response.headers['Content-Type'];
             af.contentEncoding = res.response.headers['Content-Encoding'];
@@ -99,6 +103,8 @@ angular.module('siteSeedApp')
             path: af.path,
             projectId: projectId,
             name: af.method + ' ' + af.path,
+            description: af.description,
+            tags: af.tags,
             method: af.method,
             response: {
                 headers: headers,
