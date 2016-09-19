@@ -53,7 +53,7 @@ h6 {
   background-color: #eeeeee;
 }
 .bg-darkest-gray {
-  background-color: #222222;
+  background-color: #0BB286;
 }
 .btn-primary {
   color: white;
@@ -147,7 +147,7 @@ fieldset[disabled] .btn-xl.active {
   background-color: white;
 }
 .navbar-custom {
-  background-color: #222222;
+  background-color: #0BB286;
   border-color: transparent;
 }
 .navbar-custom .navbar-brand {
@@ -217,7 +217,7 @@ fieldset[disabled] .btn-xl.active {
 }
 @media (min-width: 768px) {
   .navbar-custom.affix {
-    background-color: #222222;
+    background-color: #0BB286;
     padding: 10px 0;
   }
   .navbar-custom.affix .navbar-brand {
@@ -225,7 +225,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
-  background-image: url('../img/header-bg.jpg');
+  background-color: #0BB286;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -283,6 +283,7 @@ section h2.section-heading {
   font-size: 40px;
   margin-top: 0;
   margin-bottom: 15px;
+  color: #0bad82;
 }
 section h3.section-subheading {
   font-size: 16px;
@@ -298,6 +299,7 @@ section h3.section-subheading {
   }
 }
 .service-heading {
+  color: #0bad82;
   margin: 15px 0;
   text-transform: none;
 }
@@ -376,6 +378,8 @@ section h3.section-subheading {
   line-height: 50px;
 }
 #pricing .pricing-item .pricing-block .list-group-item {
+  background-color: #0BB286;
+  color: #fff;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
   border: none;
   line-height: 35px;
@@ -540,6 +544,7 @@ fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-p
   margin-bottom: 0;
 }
 .timeline .timeline-heading h4 {
+  color: #0bad82 !important;
   margin-top: 0;
   color: inherit;
 }
@@ -641,7 +646,7 @@ aside.clients img {
   margin: 50px auto;
 }
 section#contact {
-  background-color: #222222;
+  background-color: #0BB286;
   background-image: url('../img/map-image.png');
   background-position: center;
   background-repeat: no-repeat;
@@ -717,7 +722,7 @@ ul.social-buttons {
 }
 ul.social-buttons li a {
   display: block;
-  background-color: #222222;
+  background-color: #0BB286;
   height: 40px;
   width: 40px;
   border-radius: 100%;
@@ -791,7 +796,7 @@ ul.social-buttons li a:active {
   height: 75px;
   width: 1px;
   margin-left: 35px;
-  background-color: #222222;
+  background-color: #0BB286;
   transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   /* IE 9 */
@@ -802,7 +807,7 @@ ul.social-buttons li a:active {
 .portfolio-modal .close-modal .lr .rl {
   height: 75px;
   width: 1px;
-  background-color: #222222;
+  background-color: #0BB286;
   transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   /* IE 9 */

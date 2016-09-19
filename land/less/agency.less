@@ -166,7 +166,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 header {
-    background-image: url('../img/header-bg.jpg');
+    //background-image: url('../img/header-bg.jpg');
+    background-color: @gray-darker;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: center center;
@@ -224,6 +225,7 @@ section {
         font-size: 40px;
         margin-top: 0;
         margin-bottom: 15px;
+        color: @font-darker;
     }
     h3.section-subheading {
         font-size: 16px;
@@ -244,6 +246,7 @@ section {
 // Services Section
 
 .service-heading {
+    color: @font-darker;
     margin: 15px 0;
     text-transform: none;
 }
@@ -332,6 +335,8 @@ section {
                 line-height: 50px;
             }
             .list-group-item {
+                background-color: @gray-darker;
+                color: #fff;
                 .body-font;
                 border: none;
                 line-height: 35px;
@@ -464,6 +469,7 @@ section {
     }
     .timeline-heading {
         h4 {
+            color: @font-darker !important;
             margin-top: 0;
             color: inherit;
             &.subheading {
