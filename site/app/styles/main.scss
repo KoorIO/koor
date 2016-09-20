@@ -410,3 +410,20 @@ body {
 .modal-undo .modal {
     top: auto;
 }
+
+body#koor .navbar-default {
+    background-color: #0BB286;
+}
+body#koor .navbar-default .navbar-brand {
+    color: white;
+}
+body#koor .navbar-default .navbar-brand:hover {
+    color: #fed136;
+}
+body#koor .navbar-default .navbar-top-links > li > a {
+    color: white;
+}
+body#koor .navbar-default .navbar-top-links > li > a:hover,
+body#koor .navbar-default .navbar-top-links > li.open > a {
+    background-color: #fed136;
+}

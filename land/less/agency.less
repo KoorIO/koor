@@ -167,6 +167,7 @@ h1, h2, h3, h4, h5, h6 {
 
 header {
     //background-image: url('../img/header-bg.jpg');
+    background-image: url('../img/map-image.png');
     background-color: @gray-darker;
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -320,6 +321,11 @@ section {
 
 #pricing {
     .pricing-item {
+        .pricing-block.active {
+            .list-group-item {
+                background-color: @gray-darker;
+            }
+        }
         .pricing-block {
             .list-group-item.pricing-caption {
                 font-size: 24px;  
@@ -335,7 +341,7 @@ section {
                 line-height: 50px;
             }
             .list-group-item {
-                background-color: @gray-darker;
+                background-color: #ccc;//@gray-darker;
                 color: #fff;
                 .body-font;
                 border: none;
@@ -595,13 +601,6 @@ aside.clients {
 // Contact Section
 
 section#contact {
-    background-color: @gray-darker;
-    background-image: url('../img/map-image.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    .section-heading {
-        color: white;
-    }
     .form-group {
         margin-bottom: 25px;
         input,

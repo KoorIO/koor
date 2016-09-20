@@ -225,6 +225,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
+  background-image: url('../img/map-image.png');
   background-color: #0BB286;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -363,6 +364,9 @@ section h3.section-subheading {
 #portfolio * {
   z-index: 2;
 }
+#pricing .pricing-item .pricing-block.active .list-group-item {
+  background-color: #0BB286;
+}
 #pricing .pricing-item .pricing-block .list-group-item.pricing-caption {
   font-size: 24px;
   line-height: 50px;
@@ -378,7 +382,7 @@ section h3.section-subheading {
   line-height: 50px;
 }
 #pricing .pricing-item .pricing-block .list-group-item {
-  background-color: #0BB286;
+  background-color: #ccc;
   color: #fff;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
   border: none;
@@ -644,15 +648,6 @@ fieldset[disabled] #pricing .pricing-item .pricing-block .list-group-item .btn-p
 }
 aside.clients img {
   margin: 50px auto;
-}
-section#contact {
-  background-color: #0BB286;
-  background-image: url('../img/map-image.png');
-  background-position: center;
-  background-repeat: no-repeat;
-}
-section#contact .section-heading {
-  color: white;
 }
 section#contact .form-group {
   margin-bottom: 25px;
