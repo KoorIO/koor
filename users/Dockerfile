@@ -8,6 +8,5 @@ COPY ./ /build
 
 EXPOSE 3000
 
-RUN chmod +x /build/entrypoint.sh
 RUN cp /build/config/default.json /build/config/local.json
-ENTRYPOINT ["/build/entrypoint.sh"]
+CMD ["pm2", "start", "-x", "--no-daemon", "index.js"]

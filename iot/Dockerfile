@@ -10,6 +10,4 @@ COPY . /build
 
 EXPOSE 80:80
 
-RUN chmod +x /build/entrypoint.sh
-
-ENTRYPOINT ["/build/entrypoint.sh"]
+CMD ["pm2", "start", "-x", "--no-daemon", "index.js"]

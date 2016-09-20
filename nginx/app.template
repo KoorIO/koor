@@ -18,6 +18,10 @@ upstream be_socket {
     server socket;
 }
 
+upstream be_mqtt {
+    server broker:8080;
+}
+
 server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
@@ -39,6 +43,8 @@ server {
 
     location / {
         proxy_pass http://fe_land/;
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/.htpasswd;
     }
 }
 
@@ -48,6 +54,10 @@ server {
     location /socket/ {
         rewrite ^/socket/(.*)$ /$host/$1 break;
         proxy_pass http://be_socket/;
+    }
+
+    location /mqtt/ {
+        proxy_pass http://be_mqtt/;
     }
 
     location /docs/ {
