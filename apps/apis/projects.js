@@ -26,7 +26,7 @@ router.post('/create', function(req, res){
         }).priority('high').save();
 
         // start websocket
-        cache.publish('start_project', new_project.socket);
+        cache.publish('start_project', new_project.domain);
 
         res.send(JSON.stringify(new_project));
     });
@@ -50,7 +50,7 @@ router.post('/create', function(req, res){
         }).priority('high').save();
 
         // start websocket
-        cache.publish('start_project', new_project.socket);
+        cache.publish('start_project', new_project.domain);
 
         res.send(JSON.stringify(new_project));
     });
@@ -65,7 +65,7 @@ router.post('/start/:id', function(req, res){
     }).then(function(project){
         project = project.toObject();
         // start websocket
-        cache.publish('start_project', project.socket);
+        cache.publish('start_project', project.domain);
         res.send(JSON.stringify(project));
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
