@@ -15,7 +15,7 @@ upstream fe_land {
 }
 
 upstream be_socket {
-    server socket;
+    server socket:5000;
 }
 
 upstream be_mqtt {
@@ -61,8 +61,8 @@ server {
 server {
     listen 80;
     server_name *.koor.io;
-    location /socket/ {
-        rewrite ^/socket/(.*)$ /$host/$1 break;
+    location = /socket.io/ {
+        rewrite ^/socket.io/(.*)$ /$host break;
         proxy_pass http://be_socket/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -76,8 +76,8 @@ server {
         proxy_set_header Connection $connection_upgrade;
     }
 
-    location /docs/ {
-        rewrite ^/(.*)$ /docs/$host/$1 break;
+    location = /docs {
+        rewrite ^/docs$ /docs/$host break;
         proxy_pass http://be_apps/;
     }
 

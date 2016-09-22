@@ -2,7 +2,7 @@
     "services": {
         "users": {
             "create": "/u//api/v1/users/create",
-            "create": "/u/api/v1/users/activate",
+            "activate": "/u/api/v1/users/activate",
             "login": "/u/api/v1/users/login",
             "github": "/u/api/v1/users/github",
             "list": "/u/api/v1/users/list/:page/:limit",
