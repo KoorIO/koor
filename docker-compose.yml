@@ -24,6 +24,7 @@ services:
     environment:
       MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
       MAILER_AUTH_USER: ${MAILER_AUTH_USER}
+      CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
     networks:
       - front-net
       - back-net

@@ -28,6 +28,13 @@
             "pass": "userpass"
         }
     },
+    "cloudflare": {
+        "ip": "1.1.1.1",
+        "zone_id": "4f7c548abe798091c1565dabfe183245",
+        "email": "thanhson1085@gmail.com",
+        "api_key": "xxx",
+        "enable": false
+    },
     "unauthorization": [
         "/api/v1/users/login", 
         "/api/v1/users/create",

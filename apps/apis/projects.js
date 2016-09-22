@@ -18,11 +18,11 @@ router.post('/create', function(req, res){
         }
         new_project.domain = new_project._id + '.' + config.get('server.domain');
         new_project.save();
-        // remove security attributes
-        new_project = project.toObject();
+
         // send message create a domain to queue
         q.create(os.hostname() + 'create_domain', {
-            projectId: new_project._id
+            projectId: new_project._id,
+            domain: new_project.domain
         }).priority('high').save();
 
         // start websocket
