@@ -8,6 +8,9 @@ module.exports = function(req, res, next) {
     if (req.method === 'OPTIONS') {
         return next();
     }
+    if (req.originalUrl.match(/^\/docs\/(.*)|^\/run\/(.*)/g)) {
+        return next();
+    }
     var t = req.get('Authorization');
     var unauthorization = config.get('unauthorization');
     if (_.indexOf(unauthorization, req.url) < 0) {
