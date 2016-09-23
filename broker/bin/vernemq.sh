@@ -48,7 +48,7 @@ siguser1_handler() {
 sigterm_handler() {
     if [ $pid -ne 0 ]; then
         # this will stop the VerneMQ process
-        vmq-admin cluster leave node=VerneMQ@$IP_ADDRESS -k > /dev/null
+        vmq-admin cluster leave node=VerneMQ@${IP_ADDRESS} -k > /dev/null
         wait "$pid"
     fi
     exit 143; # 128 + 15 -- SIGTERM
@@ -60,12 +60,15 @@ sigterm_handler() {
 trap 'kill ${!}; siguser1_handler' SIGUSR1
 trap 'kill ${!}; sigterm_handler' SIGTERM
 
-/usr/sbin/vernemq start && vmq-admin plugin enable --name=vmq_webhooks --path=/build/vmq_webhooks/_build/default/ && \ 
-        vmq-admin plugin disable -n vmq_passwd && \
-        vmq-admin plugin disable -n vmq_acl && \
-        vmq-admin webhooks register hook=auth_on_register endpoint="http://apps/api/v1/mqtt/auth_on_register" && \
-        vmq-admin webhooks register hook=auth_on_subscribe endpoint="http://apps/api/v1/mqtt/auth_on_subscribe" && \
-        vmq-admin webhooks register hook=auth_on_publish endpoint="http://apps/api/v1/mqtt/auth_on_publish"
+/usr/sbin/vernemq start 
+wait
+vmq-admin plugin enable --name=vmq_webhooks --path=/build/vmq_webhooks/_build/default/
+wait
+vmq-admin plugin disable -n vmq_passwd && \
+    vmq-admin plugin disable -n vmq_acl && \
+    vmq-admin webhooks register hook=auth_on_register endpoint="http://apps/api/v1/mqtt/auth_on_register" && \
+    vmq-admin webhooks register hook=auth_on_subscribe endpoint="http://apps/api/v1/mqtt/auth_on_subscribe" && \
+    vmq-admin webhooks register hook=auth_on_publish endpoint="http://apps/api/v1/mqtt/auth_on_publish"
 
 pid=$(ps aux | grep '[b]eam.smp' | awk '{print $2}')
 

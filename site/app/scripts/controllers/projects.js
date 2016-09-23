@@ -141,8 +141,6 @@ angular.module('siteSeedApp')
         });
     };
 
-    Projects.start($stateParams.projectId);
-
     $scope.deleteApi = function(index, apiId) {
         var modalUndo = $uibModal.open({
             animation: $scope.animationsEnabled,

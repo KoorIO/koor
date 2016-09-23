@@ -25,52 +25,8 @@ router.post('/create', function(req, res){
             domain: new_project.domain
         }).priority('high').save();
 
-        // start websocket
-        cache.publish('start_project', new_project.domain);
-
         res.send(JSON.stringify(new_project));
     });
-});
-
-// create a new project
-router.post('/create', function(req, res){
-    var project = new db.Project(req.body);
-    logger.debug('Create a New Project', project.name);
-    project.save(function(error, new_project){
-        if (error) {
-            return res.status(406).send(JSON.stringify({error}));
-        }
-        new_project.domain = new_project._id + '.' + config.get('server.domain');
-        new_project.save();
-        // remove security attributes
-        new_project = project.toObject();
-        // send message create a domain to queue
-        q.create(os.hostname() + 'create_domain', {
-            projectId: new_project._id
-        }).priority('high').save();
-
-        // start websocket
-        cache.publish('start_project', new_project.domain);
-
-        res.send(JSON.stringify(new_project));
-    });
-});
-
-// start websocket
-router.post('/start/:id', function(req, res){
-    logger.debug('Start Websocket Project By Id', req.params.id);
-    db.Project.findOne({
-        _id: req.params.id,
-        userId: req.body.userId
-    }).then(function(project){
-        project = project.toObject();
-        // start websocket
-        cache.publish('start_project', project.domain);
-        res.send(JSON.stringify(project));
-    }).catch(function(e){
-        res.status(500).send(JSON.stringify(e));
-    });
-
 });
 
 // get a project by id
@@ -94,9 +50,6 @@ router.delete('/delete/:id', function(req, res){
         _id: req.params.id,
         userId: req.body.userId
     }).then(function(){
-        // stop websocket
-        var domain = req.params.id + '-socket.' + config.get('server.domain');
-        cache.publish('stop_project', domain);
         res.json({});
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
