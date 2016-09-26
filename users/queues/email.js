@@ -17,7 +17,7 @@ consumer.task = function(job, done){
     var letter = new EmailTemplate(templateDir);
     letter.render(data.emailContent, function (err, results) {
         try{
-            logger.debug('Send email', data.title);
+            logger.debug('Send email', data.title, data.to);
             transporter.sendMail({
                 from: config.get('mailer.from'),
                 to: data.to,

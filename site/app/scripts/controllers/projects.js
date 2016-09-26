@@ -44,12 +44,12 @@ angular.module('siteSeedApp')
         };
     });
 })
-.controller('MqttProjectCtrl', function($scope, Projects, $stateParams, $state, $log, kmqtt) {
+.controller('MqttProjectCtrl', function($scope, Projects, $stateParams, $state, $log, kmqtt, APP_CONFIG) {
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
         $scope.channelSubscribe = 'mqtt/demo';
         $scope.channelPublish = 'mqtt/demo';
-        var client = kmqtt.connect('ws://' + res.domain + '/mqtt');
+        var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
 
         $scope.inbox = [];
         client.on("message", function(topic, payload) {
@@ -67,7 +67,7 @@ angular.module('siteSeedApp')
         };
     });
 })
-.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket, kmqtt) {
+.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket, kmqtt, APP_CONFIG) {
     var page = 1,
         limit = 10;
 
@@ -75,7 +75,7 @@ angular.module('siteSeedApp')
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
         $scope.channelSubscribe = res.domain + '/mqtt/demo';
-        var client = kmqtt.connect('ws://' + res.domain + '/mqtt');
+        var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
         client.subscribe($scope.channelSubscribe);
 
         $scope.inbox = [];
