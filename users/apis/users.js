@@ -60,7 +60,7 @@ router.post('/activate', function(req, res){
             // send email thankyou to user
             q.create(os.hostname() + 'email', {
                 title: '[Koor.IO] Thank You',
-                to: token.email,
+                to: user.email,
                 emailContent: {
                     username: user.firstname
                 },

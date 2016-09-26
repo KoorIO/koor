@@ -9,4 +9,4 @@ COPY ./ /build
 EXPOSE 3000
 
 RUN cp /build/config/default.json /build/config/local.json
-CMD ["pm2", "start", "-x", "--no-daemon", "--no-autorestart", "index.js"]
+CMD ["pm2", "start", "-x", "--no-daemon", "index.js"]

@@ -11,4 +11,4 @@ COPY . /build
 
 EXPOSE 80:80
 
-CMD ["pm2", "start", "-x", "--no-daemon", "--no-autorestart", "index.js"]
+CMD ["pm2", "start", "-x", "--no-daemon", "index.js"]
