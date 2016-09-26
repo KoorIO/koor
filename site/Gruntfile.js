@@ -451,6 +451,13 @@ module.exports = function (grunt) {
               'bower_components/font-awesome/fonts/*'
           ],
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: '.',
+          src: [
+              'bower_components/ace-builds/src-min-noconflict/*',
+          ],
+          dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
