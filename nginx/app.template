@@ -15,7 +15,7 @@ upstream fe_land {
 }
 
 upstream be_socket {
-    server socket:5000;
+    server socket;
 }
 
 upstream be_mqtt {
