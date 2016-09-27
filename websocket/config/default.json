@@ -14,5 +14,8 @@
     },
     "services": {
         "auth": "http://some-service/"
+    },
+    "protocols": {
+        "http": "https://"
     }
 }

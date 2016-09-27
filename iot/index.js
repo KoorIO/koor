@@ -5,8 +5,8 @@ var client = mqtt.connect(config.get('broker.url'));
 
 client.on('connect', function (packet) {
     console.log('Connected!!!');
-    //client.subscribe('presence');
-    //client.publish('presence', 'Hello mqtt');
+    client.subscribe('presence');
+    client.publish('presence', 'Hello mqtt');
 });
 
 /*

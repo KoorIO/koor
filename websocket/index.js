@@ -37,7 +37,7 @@ var sub = redis({
 });
 
 app.get('/', function (req, res) {
-    var url = 'http://' + req.query.u;
+    var url = config.get('protocols.http') + req.query.u;
     res.render('index', {url: url});
 });
 
