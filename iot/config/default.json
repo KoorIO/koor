@@ -13,7 +13,7 @@
         "prefix": "socket.io"
     },
     "broker": {
-        "url": "ws://192.168.1.191:8080/mqtt"
+        "url": "mqtt://broker"
     },
     "services": {
         "auth": "http://some-service/"
