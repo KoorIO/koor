@@ -3,7 +3,7 @@ version: "2"
 services:
   users:
     build: ./users
-    image: registry.gitlab.com/thanhson1085/koor-users
+    image: registry.gitlab.com/thanhson1085/koor:users
     restart: "on-failure:3"
     environment:
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
@@ -18,7 +18,7 @@ services:
 
   apps:
     build: ./apps
-    image: registry.gitlab.com/thanhson1085/koor-apps
+    image: registry.gitlab.com/thanhson1085/koor:apps
     restart: "on-failure:3"
     depends_on:
       - db
@@ -33,7 +33,7 @@ services:
 
   socket:
     build: ./websocket
-    image: registry.gitlab.com/thanhson1085/koor-socket
+    image: registry.gitlab.com/thanhson1085/koor:socket
     restart: "on-failure:3"
     depends_on:
       - redis
@@ -43,7 +43,7 @@ services:
 
   iot:
     build: ./iot
-    image: registry.gitlab.com/thanhson1085/koor-iot
+    image: registry.gitlab.com/thanhson1085/koor:iot
     restart: "on-failure:3"
     depends_on:
       - db
@@ -54,13 +54,13 @@ services:
 
   site:
     build: ./site
-    image: registry.gitlab.com/thanhson1085/koor-site
+    image: registry.gitlab.com/thanhson1085/koor:site
     networks:
       - front-net
 
   land:
     build: ./land
-    image: registry.gitlab.com/thanhson1085/koor-land
+    image: registry.gitlab.com/thanhson1085/koor:land
     networks:
       - front-net
 
@@ -96,7 +96,7 @@ services:
 
   broker:
     build: ./broker
-    image: registry.gitlab.com/thanhson1085/koor-broker
+    image: registry.gitlab.com/thanhson1085/koor:broker
     container_name: broker
     depends_on:
       - iot
