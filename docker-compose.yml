@@ -89,6 +89,7 @@ services:
       - apps
       - users
       - broker
+      - socket
     networks:
       - front-net
       - proxy-net
