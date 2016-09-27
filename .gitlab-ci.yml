@@ -17,5 +17,6 @@ before_script:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
 deploy:
+    when: manual
     script:
-        - ssh core@188.166.198.221 echo 123
+        - ssh core@188.166.198.221 'cd /build && sudo GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET MAILER_AUTH_USER=$MAILER_AUTH_USER MAILER_AUTH_PASS=$MAILER_AUTH_PASS CLOUDFLARE_API_KEY=$CLOUDFLARE_API_KEY /opt/bin/docker-compose up -d'
