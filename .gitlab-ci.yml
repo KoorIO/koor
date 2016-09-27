@@ -16,5 +16,6 @@ before_script:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
-script:
-    - ssh core@188.166.198.221 echo 123
+deploy:
+    script:
+        - ssh core@188.166.198.221 echo 123
