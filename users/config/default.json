@@ -35,6 +35,8 @@
     },
     "unauthorization": [
         "/api/v1/users/login", 
+        "/api/v1/users/forgotpassword", 
+        "/api/v1/users/resetpassword", 
         "/api/v1/users/create",
         "/api/v1/users/activate",
         "/api/v1/users/github",

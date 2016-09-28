@@ -43,6 +43,58 @@ router.post('/create', function(req, res){
     });
 });
 
+// forgot password
+router.post('/forgotpassword', function(req, res){
+    logger.debug('Forgot Password Email', req.body.email);
+    db.User.findOne({
+        email: req.body.email
+    }).then(function(user){
+        if (!user) {
+            throw(false)
+        }
+        db.Token.saveActiveToken(user).then(function(to){
+            // send email forgot password to user
+            logger.debug('Send to email %s a token %s', user.email, to.token)
+            q.create(os.hostname() + 'email', {
+                title: '[Koor.IO] Forgot Password Email',
+                to: user.email,
+                emailContent: {
+                    username: user.firstname || user.email,
+                    url: config.get('client.url') + '#/resetpassword/' + to.token
+                },
+                template: 'forgotpassword'
+            }).priority('high').save();
+            res.json({});
+        });
+    }).catch(function(e){
+        res.status(406).send(JSON.stringify(e));
+    });
+});
+
+// Reset Password
+router.post('/resetpassword', function(req, res){
+    var t = req.body.token;
+    var today = moment.utc();
+    logger.debug('Verify to Reset Password', t);
+    db.Token.findOne({ 
+        token: t,
+        expired_at: {'$gte': today.format(config.get('time_format')).toString()}
+    }).then(function(token) {
+        db.User.findOne({
+            username: token.username
+        }).then(function(user) {
+            user.password = req.body.password;
+            user.save()
+            user = user.toObject();
+            delete user['hashed_password'];
+            delete user['salt'];
+            res.send(JSON.stringify(user));
+        });
+    }).catch(function(e){
+        return res.status(401).send(JSON.stringify({}));
+    });
+});
+
 // activate user
 router.post('/activate', function(req, res){
     var t = req.body.token;

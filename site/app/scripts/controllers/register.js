@@ -20,6 +20,35 @@ angular.module('siteSeedApp')
         });
     };
 })
+.controller('ForgotPasswordCtrl', function(Users, $state) {
+    var fp = this;
+    fp.forgotpassword = function login(){
+        var data = {
+            email: fp.email
+        };
+        Users.forgotpassword(data).then(function(){
+            fp.error = null;
+            $state.go('postforgotpassword');
+        }).catch(function(){
+            fp.error = 'Your Email is exists!';
+        });
+    };
+})
+.controller('ResetPasswordCtrl', function(Users, $state, $stateParams) {
+    var fp = this;
+    fp.resetpassword = function login(){
+        var data = {
+            password: fp.password,
+            token: $stateParams.token
+        };
+        Users.resetpassword(data).then(function(){
+            fp.error = null;
+            $state.go('postresetpassword');
+        }).catch(function(){
+            vs.error = 'Your Token is incorrect!';
+        });
+    };
+})
 .controller('ActivateCtrl', function(Users, $stateParams, $state, $timeout, $scope) {
     $scope.error = false;
     Users.activate({'token': $stateParams.token}).then(function(){

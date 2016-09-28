@@ -82,6 +82,42 @@ angular
                 }
             }
         })
+        .state('resetpassword',{
+            templateUrl:'views/pages/resetpassword.html',
+            controller: 'ResetPasswordCtrl',
+            controllerAs: 'fp',
+            url:'/resetpassword/:token',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'sbAdminApp',
+                            files:[
+                                'scripts/controllers/register.js',
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('forgotpassword',{
+            templateUrl:'views/pages/forgotpassword.html',
+            controller: 'ForgotPasswordCtrl',
+            controllerAs: 'fp',
+            url:'/forgotpassword',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'sbAdminApp',
+                            files:[
+                                'scripts/controllers/register.js',
+                                'scripts/services/users.js'
+                            ]
+                        });
+                }
+            }
+        })
         .state('register',{
             templateUrl:'views/pages/register.html',
             controller: 'RegisterCtrl',
@@ -103,6 +139,14 @@ angular
         .state('thankyou',{
             templateUrl:'views/pages/thankyou.html',
             url:'/thankyou'
+        })
+        .state('postforgotpassword',{
+            templateUrl:'views/pages/postforgotpassword.html',
+            url:'/postforgotpassword'
+        })
+        .state('postresetpassword',{
+            templateUrl:'views/pages/postresetpassword.html',
+            url:'/postresetpassword'
         })
         .state('activate',{
             templateUrl:'views/pages/activate.html',

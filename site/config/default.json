@@ -3,6 +3,8 @@
         "users": {
             "create": "/u//api/v1/users/create",
             "activate": "/u/api/v1/users/activate",
+            "forgotpassword": "/u/api/v1/users/forgotpassword",
+            "resetpassword": "/u/api/v1/users/resetpassword",
             "login": "/u/api/v1/users/login",
             "github": "/u/api/v1/users/github",
             "list": "/u/api/v1/users/list/:page/:limit",

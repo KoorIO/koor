@@ -19,6 +19,30 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
             });
             return deferred.promise;
         },
+        forgotpassword: function(data){
+            var deferred = $q.defer();
+            var url = APP_CONFIG.services.users.forgotpassword;
+            var Register = $resource(url);
+            
+            Register.save(data, function(res) {
+                deferred.resolve(res);
+            }, function(res) {
+                deferred.reject(res);
+            });
+            return deferred.promise;
+        },
+        resetpassword: function(data){
+            var deferred = $q.defer();
+            var url = APP_CONFIG.services.users.resetpassword;
+            var Register = $resource(url);
+            
+            Register.save(data, function(res) {
+                deferred.resolve(res);
+            }, function(res) {
+                deferred.reject(res);
+            });
+            return deferred.promise;
+        },
         register: function(data){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.users.create;
