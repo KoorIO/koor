@@ -92,6 +92,10 @@ router.post('/github', function(req, res){
                 json: true,
                 headers: { 'User-Agent': '' }
             }, function(err, httpResponse, getEmailBody){ 
+                if (err) {
+                    logger.error('Failed - Get Emails from Github', httpResponse);
+                    res.status(401).send(JSON.stringify(err));
+                }
                 var emails = [];
                 getEmailBody.forEach(function(value) {
                     emails.push(value.email);
@@ -112,8 +116,6 @@ router.post('/github', function(req, res){
                             if (error) {
                                 return res.status(406).send(JSON.stringify({error}));
                             } else {
-                                console.log('aaaa', error);
-                                console.log('b', newUser);
                                 db.Token.saveToken(newUser).then(function(to) {
                                     return res.send(JSON.stringify(to));
                                 });
