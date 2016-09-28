@@ -13,6 +13,9 @@ var Project = new Schema({
         require: true,
         unique: true
     },
+    dnsId: {
+        type: String
+    },
     userId: {
         type: Schema.Types.ObjectId,
         index: true,
