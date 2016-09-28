@@ -83,8 +83,10 @@ router.post('/github', function(req, res){
     logger.info('Login via Github ...');
     request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){ 
         if (err) {
-            res.status(401).send(JSON.stringify(err));
+            logger.error('Failed - Get Github Access Token', httpResponse);
+            return res.status(401).send(JSON.stringify(err));
         } else {
+            logger.info('Get Github Access Token', body.access_token);
             request_url = 'https://api.github.com/user/emails';
             request.get({
                 url: request_url,
@@ -94,7 +96,7 @@ router.post('/github', function(req, res){
             }, function(err, httpResponse, getEmailBody){ 
                 if (err) {
                     logger.error('Failed - Get Emails from Github', httpResponse);
-                    res.status(401).send(JSON.stringify(err));
+                    return res.status(401).send(JSON.stringify(err));
                 }
                 var emails = [];
                 getEmailBody.forEach(function(value) {

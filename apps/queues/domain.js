@@ -4,7 +4,7 @@ var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
 var request = require('request');
-var db = require('../models'),
+var db = require('../models');
 consumer.name = os.hostname() + 'create_domain';
 
 consumer.task = function(job, done){
