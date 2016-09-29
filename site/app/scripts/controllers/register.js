@@ -45,7 +45,7 @@ angular.module('siteSeedApp')
             fp.error = null;
             $state.go('postresetpassword');
         }).catch(function(){
-            vs.error = 'Your Token is incorrect!';
+            fp.error = 'Your Token is incorrect!';
         });
     };
 })

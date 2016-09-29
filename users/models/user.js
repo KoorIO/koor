@@ -53,9 +53,12 @@ User.path('username').validate(function (username) {
 }, 'Username cannot be blank');
 
 User.path('hashed_password').validate(function (hashed_password) {
-    return (this._password.length >=4) && (this._password.length <=20);
+    if (this._password) {
+        return (this._password.length >=4) && (this._password.length <=20);
+    } else {
+        return true
+    }
 }, 'Password Length is invalid');
-
 
 User.path('username').validate(function (username, fn) {
     var User = mongoose.model('User')

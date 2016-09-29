@@ -23,7 +23,7 @@ angular.module('siteSeedApp')
         $scope.user = res;
     });
 })
-.controller('UserProfileCtrl', function($scope, Users, $cookies) {
+.controller('UserProfileCtrl', function($scope, Users, $cookies, $log) {
     var userInfo = $cookies.get('userInfo') || '{}';
 
     Users.get(JSON.parse(userInfo).userId).then(function(res) {
@@ -36,8 +36,8 @@ angular.module('siteSeedApp')
             lastname: $scope.user.lastname,
             username: $scope.user.username
         };
-        Users.update($scope.user._id, userData).then(function(data){
-            console.log(data);
+        Users.update($scope.user._id, userData).then(function(){
+            $log.info('Update successfully!');
         });
     };
 });

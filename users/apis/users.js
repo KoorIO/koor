@@ -176,6 +176,7 @@ router.post('/github', function(req, res){
                                 return res.status(406).send(JSON.stringify({error}));
                             } else {
                                 db.Token.saveToken(newUser).then(function(to) {
+                                    to.email = newUser.email;
                                     return res.send(JSON.stringify(to));
                                 });
                                 // send email thankyou to user
@@ -191,6 +192,7 @@ router.post('/github', function(req, res){
                         });
                     } else {
                         db.Token.saveToken(user).then(function(to) {
+                            to.email = user.email;
                             return res.send(JSON.stringify(to));
                         });
                     }
@@ -280,6 +282,7 @@ router.post('/login', function(req, res){
             throw false;
         } else {
             db.Token.saveToken(user).then(function(to) {
+                to.email = user.email;
                 return res.send(JSON.stringify(to));
             });
         }

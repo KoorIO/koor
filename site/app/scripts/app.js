@@ -42,7 +42,7 @@ angular
             events: true,
         });
 
-        $urlRouterProvider.otherwise('/app/projects/list');
+        $urlRouterProvider.otherwise('/loading');
 
         $stateProvider
         .state('login',{
@@ -65,7 +65,7 @@ angular
             }
         })
         .state('github',{
-            templateUrl: 'views/pages/login.html',
+            templateUrl: 'views/pages/loading.html',
             controller: 'SignInGithubCtrl',
             url: '/github',
             resolve: {
@@ -139,6 +139,22 @@ angular
         .state('thankyou',{
             templateUrl:'views/pages/thankyou.html',
             url:'/thankyou'
+        })
+        .state('loading',{
+            templateUrl:'views/pages/loading.html',
+            url:'/loading',
+            controller: 'LoadingCtrl',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'sbAdminApp',
+                            files:[
+                                'scripts/controllers/loading.js'
+                            ]
+                        });
+                }
+            }
         })
         .state('postforgotpassword',{
             templateUrl:'views/pages/postforgotpassword.html',

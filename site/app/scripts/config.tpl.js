@@ -11,7 +11,8 @@ angular
     'ui.ace',
     'angular-loading-bar',
     'xeditable',
-    'kmqtt'
+    'kmqtt',
+    'ui.gravatar'
 ])  
 /* jshint ignore:start */
 .constant('APP_CONFIG', /* @echo APP_CONFIG */)

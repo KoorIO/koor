@@ -27,6 +27,11 @@
                             <td><a href="#" editable-text="user.username" onaftersave="updateProfile()">{{user.username || 'empty'}}</a></td>
                         </tr>
                         <tr>
+                            <td>GAvatar</td>
+                            <td><img gravatar-src="user.email" gravatar-size="200"></td>
+                        </tr>
+
+                        <tr>
                             <td translate="views.users.view.Firstname"></td>
                             <td><a href="#" editable-text="user.firstname" onaftersave="updateProfile()">{{user.firstname || 'empty'}}</a></td>
                         </tr>
