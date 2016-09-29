@@ -84,11 +84,16 @@ router.post('/resetpassword', function(req, res){
             username: token.username
         }).then(function(user) {
             user.password = req.body.password;
-            user.save()
-            user = user.toObject();
-            delete user['hashed_password'];
-            delete user['salt'];
-            res.send(JSON.stringify(user));
+            user.save(function (e) {
+                if (e) {
+                    return res.status(406).json(e);
+                } else {
+                    user = user.toObject();
+                    delete user['hashed_password'];
+                    delete user['salt'];
+                    res.send(JSON.stringify(user));
+                }
+            });
         });
     }).catch(function(e){
         return res.status(401).send(JSON.stringify({}));
@@ -225,11 +230,15 @@ router.put('/update/:id', function(req, res){
         user.username = req.body.username;
         user.firstname = req.body.firstname;
         user.lastname = req.body.lastname;
-        user.save(function(u) {
-            res.send(JSON.stringify(u));
+        user.save(function(e) {
+            if (e) {
+                res.status(406).json(e);
+            } else {
+                res.send(JSON.stringify({}));
+            }
         });
     }).catch(function(e){
-        res.status(500).send(JSON.stringify(e));
+        res.status(406).send(JSON.stringify(e));
     });
 });
 

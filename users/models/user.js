@@ -52,6 +52,11 @@ User.path('username').validate(function (username) {
     return username.length;
 }, 'Username cannot be blank');
 
+User.path('hashed_password').validate(function (hashed_password) {
+    return (this._password.length >=4) && (this._password.length <=20);
+}, 'Password Length is invalid');
+
+
 User.path('username').validate(function (username, fn) {
     var User = mongoose.model('User')
     // Check only when it is a new user or when email field is modified
