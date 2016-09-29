@@ -1,9 +1,9 @@
 upstream docs {
-    server docs:3000;
+    server docs;
 }
 
 upstream be_users {
-    server users:3000;
+    server users;
 }
 
 upstream be_apps {
@@ -69,7 +69,6 @@ server {
         proxy_pass http://docs/;
     }
 }
-
 server {
     listen 80;
     server_name *.koor.io;
