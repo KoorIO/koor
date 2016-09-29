@@ -1,6 +1,14 @@
 version: "2"
 
 services:
+  docs:
+    build: ./docs
+    image: registry.gitlab.com/thanhson1085/koor:docs
+    restart: "on-failure:3"
+    networks:
+      - front-net
+      - back-net
+
   users:
     build: ./users
     image: registry.gitlab.com/thanhson1085/koor:users
@@ -15,6 +23,7 @@ services:
     networks:
       - front-net
       - back-net
+
 
   apps:
     build: ./apps

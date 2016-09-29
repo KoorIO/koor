@@ -1,3 +1,7 @@
+upstream docs {
+    server docs:3000;
+}
+
 upstream be_users {
     server users:3000;
 }
@@ -55,6 +59,14 @@ server {
         proxy_pass http://fe_land/;
         auth_basic "Restricted Content";
         auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+}
+
+server {
+    listen 80;
+    server_name docs.koor.io;
+    location / {
+        proxy_pass http://docs/;
     }
 }
 
