@@ -434,3 +434,11 @@ body#koor .navbar-default .navbar-top-links > li.open > a {
     left: 50%;
     margin: -50px 0px 0px -50px;
 }
+
+#loading-bar .bar {
+    background-color: #fed136;
+}
+#loading-bar-spinner .spinner-icon {
+    border-top-color: #fed136;
+    border-left-color: #fed136;
+}

@@ -35,9 +35,9 @@ angular.module('siteSeedApp')
         });
 
         var data  = {
-            path: af.path,
+            path: af.path || '',
             projectId: projectId,
-            name: af.method + ' ' + af.path,
+            name: af.method + ' ' + (af.path || ''),
             method: af.method,
             description: af.description,
             tags: af.tags,
@@ -100,9 +100,9 @@ angular.module('siteSeedApp')
             headers[item.key] = item.value;
         });
         var data  = {
-            path: af.path,
+            path: af.path || '',
             projectId: projectId,
-            name: af.method + ' ' + af.path,
+            name: af.method + ' ' + (af.path || ''),
             description: af.description,
             tags: af.tags,
             method: af.method,

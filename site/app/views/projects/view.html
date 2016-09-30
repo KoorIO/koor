@@ -2,6 +2,14 @@
 <div class="panel-body">
     <div class="row">
         <div class="col-lg-12">
+            <div class="form-group">
+                <label>Domain</label>
+                <p class="form-control-static" ng-bind="project.domain"></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
             <div class="panel panel-info">
                 <!-- /.panel-heading -->
                 <div class="panel-heading">
@@ -22,11 +30,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
-                        <label>Domain</label>
-                        <p class="form-control-static" ng-bind="project.domain"></p>
-                    </div>
-                    <p ng-hide="apis.length">There are no APIs.</p>
+                    <p ng-hide="apis.length">There are no APIs. Please <a ui-sref="app.apis.create({projectId: project._id})"><strong>create API</strong></a> to start working with Koor IO</p>
                     <div class="table-responsive" ng-show="apis.length">
                         <table class="table">
                             <thead>
@@ -83,11 +87,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="form-group">
-                        <label>Domain</label>
-                        <p class="form-control-static" ng-bind="project.domain"></p>
-                    </div>
-                    <p ng-hide="sockets.length">There are no websocket clients.</p>
+                    <p ng-hide="sockets.length">There are no websocket clients. You can try it by starting a websocket client <a ng-href="http://koor.io/websocket/?u={{project.domain}}"><strong>here</strong></a>.</p>
                     <div class="table-responsive" ng-show="sockets.length">
                         <table class="table">
                             <thead>
@@ -133,14 +133,12 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label>Domain</label>
-                        <p class="form-control-static" ng-bind="project.domain"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Subscribe on Channel</label>
+                        <label>Subscribing on Channel</label>
                         <p class="form-control-static" ng-bind="channelSubscribe"></p>
                     </div>
                     <div class="form-group">
+                        <label>Messages</label>
+                        <div ng-hide="inbox.length">There is no message received from broker. You can try to publish a message <a ui-sref="app.projects.mqtt({projectId: project._id})"><strong>here</strong></a></div>
                         <div class="alert alert-info fade in" data-alert="alert" ng-repeat="ib in inbox | orderBy: '-time'">
                             <p class="text-primary">
                             {{ ib.time }}: {{ ib.message }}

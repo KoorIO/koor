@@ -16,6 +16,9 @@ var Project = new Schema({
     dnsId: {
         type: String
     },
+    dnsStatus: {
+        type: Boolean
+    },
     userId: {
         type: Schema.Types.ObjectId,
         index: true,

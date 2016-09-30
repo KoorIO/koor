@@ -3,6 +3,11 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-lg-12">
+                <p>You have to wait until DNS Status change from <i class="fa fa-circle-o text-danger"></i> to <i class="fa fa-circle-o text-success"></i>. It should be take from 5 minutes to 12 hours.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -12,14 +17,17 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Domain</th>
-                                        <th></th>
+                                        <th>DNS Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="project in projects track by $index">
-                                    <td><a ui-sref="app.projects.view({projectId: project._id})" ng-bind="project.name"></td>
+                                    <td>
+                                        <a ng-if="project.dnsStatus" ui-sref="app.projects.view({projectId: project._id})" ng-bind="project.name"></a>
+                                        <span ng-if="!project.dnsStatus" ng-bind="project.name"></span>
+                                    </td>
                                     <td ng-bind="project.domain"></td>
-                                    <td><a ui-sref="app.apis.create({projectId: project._id})"><i class="fa fa-plus"></i> Create API</a></td>
+                                    <td><i class="fa fa-circle-o" ng-class="project.dnsStatus?'text-success':'text-danger'"></i></td>
                                 </tr>
                                 </tbody>
                             </table>

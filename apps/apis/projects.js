@@ -92,6 +92,15 @@ router.get('/list/:page/:limit', function(req, res){
                 count: c,
                 rows: projects
             };
+            for (var k in projects) {
+                if (!projects[k].dnsStatus) {
+                    // send message check dns status to queue
+                    q.create(os.hostname() + 'dnsresolve', {
+                        projectId: projects[k]._id,
+                        domain: projects[k].domain
+                    }).priority('high').save();
+                }
+            }
             res.send(JSON.stringify(ret));
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
