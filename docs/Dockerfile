@@ -1,10 +1,8 @@
-FROM python:alpine
+FROM nginx:1.11-alpine
 MAINTAINER Nguyen Sy Thanh Son
 
-WORKDIR /build
+COPY ./site/ /usr/share/nginx/html/
 
-ADD ./requirements.txt /build/requirements.txt
-RUN pip install -r requirements.txt
-ADD . /build
+EXPOSE 80 443
 
-CMD ["mkdocs", "serve", "--dev-addr=0.0.0.0:80"]
+CMD ["nginx", "-g", "daemon off;"]
