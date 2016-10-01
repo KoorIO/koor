@@ -12,20 +12,28 @@ var express = require('express'),
 router.post('/create', function(req, res){
     var project = new db.Project(req.body);
     logger.debug('Create a New Project', project.name);
-    project.save(function(error, new_project){
-        if (error) {
-            return res.status(406).send(JSON.stringify({error}));
+    db.Project.count({
+        userId: req.body.userId
+    }, function(err, c) {
+        if (parseInt(c) >= parseInt(req.user.projectLimit)) {
+            project.save(function(error, new_project){
+                if (error) {
+                    return res.status(406).send(JSON.stringify({error}));
+                }
+                new_project.domain = new_project._id + '.' + config.get('server.domain');
+                new_project.save();
+
+                // send message create a domain to queue
+                q.create(os.hostname() + 'create_domain', {
+                    projectId: new_project._id,
+                    domain: new_project.domain
+                }).priority('high').save();
+
+                res.send(JSON.stringify(new_project));
+            });
+        } else {
+            res.status(406).json({message: 'Project Limit'});
         }
-        new_project.domain = new_project._id + '.' + config.get('server.domain');
-        new_project.save();
-
-        // send message create a domain to queue
-        q.create(os.hostname() + 'create_domain', {
-            projectId: new_project._id,
-            domain: new_project.domain
-        }).priority('high').save();
-
-        res.send(JSON.stringify(new_project));
     });
 });
 
@@ -49,7 +57,15 @@ router.delete('/delete/:id', function(req, res){
     db.Project.findOneAndRemove({
         _id: req.params.id,
         userId: req.body.userId
-    }).then(function(){
+    }).then(function(error, project){
+        if (error) {
+            throw true;
+        }
+        // send message create a domain to queue
+        q.create(os.hostname() + 'delete_domain', {
+            domain: project.domain,
+            dnsId: project.dnsId
+        }).priority('high').save();
         res.json({});
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
@@ -76,7 +92,9 @@ router.put('/update/:id', function(req, res){
 router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
-    db.Project.count({}, function(err, c) {
+    db.Project.count({
+        userId: req.body.userId
+    }, function(err, c) {
         db.Project
         .find({
             userId: req.body.userId

@@ -6,6 +6,8 @@ You just need to create an account at [https://koor.io](https://koor.io).
 
 After that, you should create a project firstly. With per project, we will create a subdomain. So you can use that domain for our services (RestfulAPI, Websocket).
 
+Our policy is unlimit project for user. However, to avoid spamer, we limit 10 projects in the beginning. If you want to increase the limit, please contact us.
+
 ## Restful API
 You can create unlimited API each project. We support to run APIs on Swagger.
 
@@ -32,6 +34,5 @@ You can connect our MQTT broker and publish/subscrible any channel with format `
 
 - MQTT: `mqtt://mqtt.koor.io`
 - MQTT over Websocket: `ws://[project_domain]/mqtt`
-
 
 *Note: Please remember to replace `[project_domain]` with the domain of your project*

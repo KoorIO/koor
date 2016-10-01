@@ -28,6 +28,10 @@ var User = new Schema({
         index: true,
         default: false
     },
+    projectLimit: {
+        type: String,
+        default: 10
+    },
     salt: {
         type: String
     }

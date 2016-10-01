@@ -2,7 +2,6 @@
 var express = require('express'), 
     db = require('../models'),
     q = require('../queues'),
-    cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
     moment = require('moment'),
     request = require('request'),

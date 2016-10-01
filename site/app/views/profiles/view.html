@@ -23,6 +23,10 @@
                             <td>{{user.email || 'empty'}}</td>
                         </tr>
                         <tr>
+                            <td>Project Limit</td>
+                            <td>{{ user.projectLimit }}</td>
+                        </tr>
+                        <tr>
                             <td translate="views.users.view.Username"></td>
                             <td><a href="#" editable-text="user.username" onaftersave="updateProfile()">{{user.username || 'empty'}}</a></td>
                         </tr>

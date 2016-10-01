@@ -21,7 +21,8 @@ module.exports = function(req, res, next) {
         t = t.replace('Bearer ', '');
         cache.get(t, function(error, user) {
             if (!error && user) {
-                req.body.userId = JSON.parse(user)._id;
+                req.user = JSON.parse(user);
+                req.body.userId = req.user._id;
                 logger.debug('Nice authorization %s !!!', JSON.parse(user)._id);
                 return next();
             } else {
