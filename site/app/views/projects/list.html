@@ -3,7 +3,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-lg-12">
-                <p>You have to wait until DNS Status change from <i class="fa fa-circle-o text-danger"></i> to <i class="fa fa-circle-o text-success"></i>. It should be take from 5 minutes to 12 hours.</p>
+                <p>You have to wait until DNS Status change from <i class="fa fa-circle text-danger"></i> to <i class="fa fa-circle text-success"></i>. It should be take from 5 minutes to 12 hours.</p>
             </div>
         </div>
         <div class="row">
@@ -27,7 +27,7 @@
                                         <span ng-if="!project.dnsStatus" ng-bind="project.name"></span>
                                     </td>
                                     <td ng-bind="project.domain"></td>
-                                    <td><i class="fa fa-circle-o" ng-class="project.dnsStatus?'text-success':'text-danger'"></i></td>
+                                    <td><i class="fa fa-circle" ng-class="project.dnsStatus?'text-success':'text-danger'"></i></td>
                                 </tr>
                                 </tbody>
                             </table>
