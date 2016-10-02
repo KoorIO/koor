@@ -1,7 +1,7 @@
 {
     "services": {
         "users": {
-            "create": "/u//api/v1/users/create",
+            "create": "/u/api/v1/users/create",
             "activate": "/u/api/v1/users/activate",
             "forgotpassword": "/u/api/v1/users/forgotpassword",
             "resetpassword": "/u/api/v1/users/resetpassword",
