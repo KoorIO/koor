@@ -6,7 +6,7 @@ You just need to create an account at [https://koor.io](https://koor.io).
 
 After that, you should create a project firstly. With per project, we will create a subdomain. So you can use that domain for our services (RestfulAPI, Websocket).
 
-Our policy is unlimit project for user. However, to avoid spamer, we limit 10 projects in the beginning. If you want to increase the limit, please contact us.
+Our policy is unlimit project for user. However, to avoid spamer, we limit **10 projects** at the beginning. If you want to increase the limit, please contact us.
 
 ## Restful API
 You can create unlimited API each project. We support to run APIs on Swagger.
@@ -20,7 +20,7 @@ You can user SocketIO as an websocket client.
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io('http://[project_domain]');
-socket.on('news', function (data) {
+socket.on('test_message', function (data) {
     console.log(data);
     socket.emit('test_message', { my: 'data' });
 });
