@@ -219,6 +219,8 @@ angular.module('siteSeedApp')
         };
         Projects.create(data).then(function() {
             $state.go('app.projects.list');
+        }).catch(function(e) {
+            pf.error = 'You created Project exceed Project Limit';
         });
     };
 });

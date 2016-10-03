@@ -438,6 +438,7 @@ angular
         }
     };
     ret.responseError = function(response){
+        response.data.errorCode = response.status;
         if (response.status === 401) {
             $rootScope.$broadcast('unauthorized');
         }

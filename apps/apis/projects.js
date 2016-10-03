@@ -14,7 +14,7 @@ router.post('/create', function(req, res){
     db.Project.count({
         userId: req.body.userId
     }).then(function(c) {
-        if (parseInt(c) <= parseInt(req.user.projectLimit)) {
+        if (parseInt(c) < parseInt(req.user.projectLimit)) {
             var project = new db.Project({
                 name: req.body.name,
                 userId: req.body.userId

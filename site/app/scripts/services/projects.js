@@ -6,10 +6,14 @@ angular.module('siteSeedApp').factory('Projects', function($resource, $q, APP_CO
             var url = APP_CONFIG.services.projects.create;
             var Project = $resource(url);
             
-            Project.save(data, function(res) {
-                deferred.resolve(res);
-            }, function(res) {
-                deferred.reject(res);
+            Project.save(data).$promise.then(function(res) {
+                if (res.errorCode) {
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
+            }).catch(function(e) {
+                deferred.reject(e);
             });
             return deferred.promise;
         },

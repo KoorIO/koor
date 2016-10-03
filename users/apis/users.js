@@ -49,7 +49,7 @@ router.post('/forgotpassword', function(req, res){
         email: req.body.email
     }).then(function(user){
         if (!user) {
-            throw(false)
+            throw {};
         }
         db.Token.saveActiveToken(user).then(function(to){
             // send email forgot password to user
@@ -66,7 +66,7 @@ router.post('/forgotpassword', function(req, res){
             res.json({});
         });
     }).catch(function(e){
-        res.status(406).send(JSON.stringify(e));
+        res.status(406).json(e);
     });
 });
 
@@ -95,7 +95,7 @@ router.post('/resetpassword', function(req, res){
             });
         });
     }).catch(function(e){
-        return res.status(401).send(JSON.stringify({}));
+        return res.status(406).json(e);
     });
 });
 
@@ -255,7 +255,7 @@ router.get('/list/:page/:limit', function(req, res){
         .sort({'_id': 'desc'})
         .then(function(users) {
             if (err) {
-                throw true;
+                throw {};
             }
             var ret = {
                 count: c,
@@ -278,7 +278,7 @@ router.post('/login', function(req, res){
         isActive: true
     }).then(function(user){
         if (!user.authenticate(password)) {
-            throw false;
+            throw {};
         } else {
             db.Token.saveToken(user).then(function(to) {
                 to.email = user.email;

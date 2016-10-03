@@ -30,7 +30,7 @@ angular.module('siteSeedApp')
             fp.error = null;
             $state.go('postforgotpassword');
         }).catch(function(){
-            fp.error = 'Your Email is exists!';
+            fp.error = 'Your Email is not exists!';
         });
     };
 })

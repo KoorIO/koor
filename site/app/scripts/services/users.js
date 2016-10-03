@@ -12,7 +12,11 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
             
             Login.save(data, function(res) {
                 // login success
-                deferred.resolve(res);
+                if (res.errorCode) {
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
             }, function(res) {
                 // login fails
                 deferred.reject(res);
@@ -22,10 +26,14 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
         forgotpassword: function(data){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.users.forgotpassword;
-            var Register = $resource(url);
+            var Forgot = $resource(url);
             
-            Register.save(data, function(res) {
-                deferred.resolve(res);
+            Forgot.save(data, function(res) {
+                if (res.errorCode) {
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
             }, function(res) {
                 deferred.reject(res);
             });
@@ -34,10 +42,14 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
         resetpassword: function(data){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.users.resetpassword;
-            var Register = $resource(url);
+            var Reset = $resource(url);
             
-            Register.save(data, function(res) {
-                deferred.resolve(res);
+            Reset.save(data, function(res) {
+                if (res.erroCode) {
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
             }, function(res) {
                 deferred.reject(res);
             });
@@ -49,7 +61,11 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
             var Register = $resource(url);
             
             Register.save(data, function(res) {
-                deferred.resolve(res);
+                if (res.errorCode) {
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
             }, function(res) {
                 deferred.reject(res);
             });
