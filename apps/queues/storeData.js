@@ -11,16 +11,17 @@ consumer.task = function(job, done){
         projectId: data.projectId
     }).then(function(fields) {
         fields.forEach(function(f) {
-            if (f.code in data.query || f.conde in data.body) {
+            if (f.code in data.query || f.code in data.body || f.code in data.payload) {
+                var value = data.query[f.code] || data.body[f.code] || data.payload[f.code];
                 var storage = db.Storage({
                     fieldId: f._id,
-                    data: data.query[f.code] || data.body[f.code]
+                    data: value
                 });
                 storage.save(function(error, s) {
                     if (error) {
                         throw true;
                     } else {
-                        logger.debug('Saved data %s successfully', f._id, f.code);
+                        logger.debug('Saved data %s id %s code %s successfully', value, f._id, f.code);
                     }
                 });
             }

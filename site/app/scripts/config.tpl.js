@@ -12,7 +12,8 @@ angular
     'angular-loading-bar',
     'xeditable',
     'kmqtt',
-    'ui.gravatar'
+    'ui.gravatar',
+    'chart.js'
 ])  
 /* jshint ignore:start */
 .constant('APP_CONFIG', /* @echo APP_CONFIG */)

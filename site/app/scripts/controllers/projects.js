@@ -67,7 +67,8 @@ angular.module('siteSeedApp')
         };
     });
 })
-.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket, kmqtt, APP_CONFIG) {
+.controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal,
+                                          $state, $log, Socket, kmqtt, APP_CONFIG, Storages, Fields) {
     var page = 1,
         limit = 10;
     $scope.service = $stateParams.service || 'dashboard';
@@ -118,6 +119,22 @@ angular.module('siteSeedApp')
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+        Fields.list($scope.project._id, 1, 10).then(function(fields) {
+            $scope.fields = fields.rows;
+            for (var k in fields.rows) {
+                Storages.get(fields.rows[k]._id).then(function(storages) {
+                    $scope.fields[k].labels = [];
+                    $scope.fields[k].data = [];
+                    storages.forEach(function(s) {
+                        if (parseInt(s.data)) {
+                            $scope.fields[k].data.push(parseInt(s.data));
+                            $scope.fields[k].labels.push('');
+                        }
+                    });
+                });
+            };
+        });
+
     });
 
     $scope.pageChanged = function() {

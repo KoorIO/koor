@@ -13,7 +13,8 @@ angular
 .config(['$resourceProvider', function($resourceProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }])
-.config(function ($translateProvider, APP_CONFIG) {
+.config(function ($translateProvider, APP_CONFIG, ChartJsProvider) {
+    ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
     if (APP_CONFIG.debug_mode) {
         $translateProvider.useMissingTranslationHandlerLog();
     }
@@ -209,6 +210,8 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/services/projects.js',
+                                'scripts/services/storages.js',
+                                'scripts/services/fields.js',
                                 'scripts/services/socket.js',
                                 'scripts/controllers/projects.js',
                                 'scripts/services/apis.js'
@@ -246,6 +249,33 @@ angular
         .state('app.projects.update', {
             url: '/update',
             templateUrl: 'views/projects/udpate.html'
+        })
+        .state('app.fields', {
+            url: '/:projectId/apis',
+            templateUrl: 'views/apis/index.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/fields.js',
+                                'scripts/services/projects.js',
+                                'scripts/controllers/fields.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.fields.view', {
+            url: '/view/:fieldId',
+            controller: 'ViewFieldCtrl',
+            templateUrl: 'views/fields/view.html'
+        })
+        .state('app.fields.create', {
+            url: '/create',
+            templateUrl: 'views/fields/create.html',
+            controller: 'CreateFieldCtrl'
         })
         .state('app.apis', {
             url: '/:projectId/apis',

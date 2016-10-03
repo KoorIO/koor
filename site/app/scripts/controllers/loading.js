@@ -7,4 +7,4 @@ angular.module('siteSeedApp')
         $state.go('login');
     }
     $scope.forUnitTest = true;
-})
+});

@@ -2,6 +2,8 @@
 var express = require('express'), 
     logger = require('../helpers/logger'),
     db = require('../models'),
+    q = require('../queues'),
+    os = require('os'),
     router = express.Router();
 
 // auth on register
@@ -47,13 +49,25 @@ router.post('/auth_on_publish', function(req, res){
 
     req.on('data', function(data) {
         data = JSON.parse(data);
-        var domain = data.topic.split('/')[0];
-        db.Project.count({
+        var topics = data.topic.split('/');
+        var domain = topics[0];
+        db.Project.findOne({
             domain: domain
-        }, function(error, count) {
-            if (count === 0) {
+        }, function(error, p) {
+            if (error || !p) {
                 res.send(JSON.stringify({result: {error: 'You publish on unallowed channel'}}));
             } else {
+                if (topics.length > 1) {
+                    // send message store data to queue
+                    var payload = {};
+                    payload[topics[1]] = data.payload;
+                    q.create(os.hostname() + 'store_data', {
+                        projectId: p._id,
+                        query: {},
+                        body: {},
+                        payload: payload
+                    }).priority('high').save();
+                }
                 logger.debug('OK!');
                 res.send(JSON.stringify({result: 'ok'}));
             }

@@ -5,28 +5,81 @@
         <li ng-class="(service == 'api')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'api'})"><i class="fa fa-server"></i> Resful API</a></li>
         <li ng-class="(service == 'websocket')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'websocket'})"><i class="fa fa-flash"></i> WebSocket</a></li>
         <li ng-class="(service == 'mqtt')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'mqtt'})"><i class="fa fa-usb"></i> MQTT</a></li>
+        <li ng-class="(service == 'field')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'field'})"><i class="fa fa-database"></i> Fields</a></li>
         <li ng-class="(service == 'settings')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'settings'})"><i class="fa fa-cogs"></i> Settings</a></li>
     </ul>
 </div>
 <div class="col-lg-9">
     <div class="row" ng-show="service == 'dashboard'">
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="form-group">
                 <label>Name</label>
                 <p class="form-control-static" ng-bind="project.name"></p>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="form-group">
                 <label>Domain</label>
                 <p class="form-control-static" ng-bind="project.domain"></p>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-2">
             <div class="form-group">
                 <label>DNS Status</label>
                 <p class="form-control-static"><i class="fa fa-circle" ng-class="(project.dnsStatus)?'text-success':'text-danger'"></i></p>
             </div>
+        </div>
+        <div class="col-lg-12" ng-repeat="f in fields">
+            <div class="form-group">
+                <label>{{ f.name }}</label>
+                <canvas id="line" class="chart chart-line" chart-data="f.data" chart-labels="f.labels">
+                </canvas> 
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="service == 'field'">
+        <div class="panel-body">
+            <div class="panel panel-info">
+                <!-- /.panel-heading -->
+                <div class="panel-heading">
+                    Fields
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Actions
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a ui-sref="app.fields.create({projectId: project._id, fieldId: field._id})" class="btn"><i class="fa fa-plus"></i> Create Field</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p ng-hide="apis.length">There are no Fields. Please <a href="#"><strong>create Field</strong></a> to start working with Koor IO</p>
+                    <div class="table-responsive" ng-show="fields.length">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="field in fields track by $index">
+                                <td><a ui-sref="app.fields.view({projectId: project._id, fieldId: field._id})" ng-bind="field.name"></a></td>
+                                <td ng-bind="field.code"></td>
+                                <td><a ui-sref="app.fields.view({projectId: project._id, fieldId: field._id})" class="btn btn-xs" ng-click="deleteApi($index, api._id)"><i class="fa fa-area-chart"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
         </div>
     </div>
     <div class="row" ng-show="service == 'api'">

@@ -4,7 +4,8 @@ var config = require('config');
 var client = mqtt.connect(config.get('broker.url'));
 
 client.on('connect', function (packet) {
-    client.subscribe('#');
+    console.log('Connected');
+   // client.subscribe('#');
 });
 
 client.on('message', function (topic, message) {

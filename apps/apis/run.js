@@ -32,7 +32,8 @@ router.all('/:projectUrl/:apiPath', function(req, res){
                             q.create(os.hostname() + 'store_data', {
                                 projectId: a.projectId,
                                 query: req.query,
-                                body: req.body
+                                body: req.body,
+                                payload: {}
                             }).priority('high').save();
 
                             res.status(a.response.status).send(JSON.stringify(a.response.body));
