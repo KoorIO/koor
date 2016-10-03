@@ -239,7 +239,7 @@ angular
             templateUrl: 'views/projects/create.html'
         })
         .state('app.projects.view', {
-            url: '/view/:projectId',
+            url: '/view/:projectId/:service',
             controller: 'ProjectDetailCtrl',
             templateUrl: 'views/projects/view.html'
         })

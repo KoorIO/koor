@@ -442,3 +442,12 @@ body#koor .navbar-default .navbar-top-links > li.open > a {
     border-top-color: #fed136;
     border-left-color: #fed136;
 }
+
+.prj-nav.nav > li.active > a {
+    color: #0BB286;
+}
+
+.prj-nav.nav > li > a:hover, .nav > li > a:focus {
+    border-right: solid 1px #0BB286;
+}
+

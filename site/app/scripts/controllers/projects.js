@@ -70,6 +70,7 @@ angular.module('siteSeedApp')
 .controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal, $state, $log, Socket, kmqtt, APP_CONFIG) {
     var page = 1,
         limit = 10;
+    $scope.service = $stateParams.service || 'dashboard';
 
     $scope.limit = limit;
     Projects.get($stateParams.projectId).then(function(res) {

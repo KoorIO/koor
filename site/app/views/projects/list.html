@@ -23,8 +23,7 @@
                                 <tbody>
                                 <tr ng-repeat="project in projects track by $index">
                                     <td>
-                                        <a ng-if="project.dnsStatus" ui-sref="app.projects.view({projectId: project._id})" ng-bind="project.name"></a>
-                                        <span ng-if="!project.dnsStatus" ng-bind="project.name"></span>
+                                        <a ui-sref="app.projects.view({projectId: project._id})" ng-bind="project.name"></a>
                                     </td>
                                     <td ng-bind="project.domain"></td>
                                     <td><i class="fa fa-circle" ng-class="project.dnsStatus?'text-success':'text-danger'"></i></td>
