@@ -27,6 +27,14 @@ router.all('/:projectUrl/:apiPath', function(req, res){
                         } else {
                             logger.debug('Perfect Request %s %s %s', req.params.projectUrl, req.params.apiPath, a.response.status);
                             res.set(a.response.headers);
+
+                            // send message store data to queue
+                            q.create(os.hostname() + 'store_data', {
+                                projectId: a.projectId,
+                                query: req.query,
+                                body: req.body
+                            }).priority('high').save();
+
                             res.status(a.response.status).send(JSON.stringify(a.response.body));
                         }
                     }
