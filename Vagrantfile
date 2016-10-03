@@ -25,10 +25,6 @@ Vagrant.configure(2) do |config|
     n1.vm.network "forwarded_port", guest: 3003, host: 3003
     # port site
     n1.vm.network "forwarded_port", guest: 9000, host: 9000
-    # port redis
-    n1.vm.network "forwarded_port", guest: 6379, host: 6379
-    # port mongodb
-    n1.vm.network "forwarded_port", guest: 27017, host: 27017
     # port mqtt 
     n1.vm.network "forwarded_port", guest: 1883, host: 1883
     # port mqtt over websocket
