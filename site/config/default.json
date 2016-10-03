@@ -1,11 +1,11 @@
 {
     "services": {
         "storages": {
-            "get": "/a/api/v1/storages/get/:fieldId"
+            "get": "/a/api/v1/storages/:fieldId"
         },
         "fields": {
             "get": "/a/api/v1/fields/get/:fieldId",
-            "list": "/a/api/v1/fields/list/:projectId/page/limit",
+            "list": "/a/api/v1/fields/list/:projectId/:page/:limit",
             "create": "/a/api/v1/fields/create",
             "update": "/a/api/v1/fields/update/:fieldId",
             "delete": "/a/api/v1/fields/delete/:fieldId"
