@@ -1,5 +1,6 @@
 #!/bin/bash
 workdir=${PWD} 
+WEBSOCKET_PORT=5000
 PROJECTS_PORT=3001
 USERS_PORT=3000
 
@@ -26,7 +27,7 @@ echo "Installing Websocket ..."
 cd $workdir/websocket && npm install && \
     sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
-    sed -i "s/\"port\": 80/\"port\": ${PROJECTS_PORT}/g" config/local.json
+    sed -i "s/\"port\": 80/\"port\": ${WEBSOCKET_PORT}/g" config/local.json
 wait
 echo "Installing Land ..."
 cd $workdir/land && npm install

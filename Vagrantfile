@@ -20,6 +20,8 @@ Vagrant.configure(2) do |config|
     n1.vm.network "forwarded_port", guest: 3000, host: 3000
     # port apps service
     n1.vm.network "forwarded_port", guest: 3001, host: 3001
+    # port websocket service
+    n1.vm.network "forwarded_port", guest: 5000, host: 5000
     # port land page
     n1.vm.network "forwarded_port", guest: 3002, host: 3002
     n1.vm.network "forwarded_port", guest: 3003, host: 3003
