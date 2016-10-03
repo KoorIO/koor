@@ -28,8 +28,8 @@ consumer.task = function(job, done){
             }
         };
         request(options, function(error, httpResponse, body) {
-            if (error) {
-                logger.error('Failed - A record for domain httpResponse', httpResponse);
+            if (error || httpResponse.statusCode !== 200) {
+                logger.error('Failed - A record for domain httpResponse', httpResponse.statusCode);
             } else {
                 logger.info('Created new A record for domain', body.result.name);
                 db.Project.findOne({

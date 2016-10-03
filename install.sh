@@ -18,8 +18,8 @@ cd $workdir/apps && npm install && \
 wait
 echo "Installing Site ..."
 cd $workdir/site && npm install && bower install && \
-    sed "s/\/a\//http:\/\/localhost:${PROJECTS_PORT}/g" config/default.json > config/local.json && \
-    sed -i "s/\/a\//http:\/\/localhost:${USERS_PORT}/g" config/local.json && \
+    sed "s/\/a\//http:\/\/localhost:${PROJECTS_PORT}\//g" config/default.json > config/local.json && \
+    sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
     sed -i "s/wss:\/\//ws:\/\//g" config/local.json
 wait

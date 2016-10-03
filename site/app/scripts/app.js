@@ -251,7 +251,7 @@ angular
             templateUrl: 'views/projects/udpate.html'
         })
         .state('app.fields', {
-            url: '/:projectId/apis',
+            url: '/:projectId/fields',
             templateUrl: 'views/apis/index.html',
             resolve: {
                 loadMyDirectives:function($ocLazyLoad){

@@ -21,8 +21,8 @@ consumer.task = function(job, done){
             body: {}
         };
         request(options, function(error, httpResponse, body) {
-            if (error) {
-                logger.error('Failed - Delete domain httpResponse %s DNS ID %s', httpResponse, data.dnsId);
+            if (error || httpResponse.statusCode !== 200) {
+                logger.error('Failed - Delete domain httpResponse %s DNS ID %s', httpResponse.statusCode, data.dnsId);
             } else {
                 logger.info('Deleted DNS ID %s domain %s', data.domain, body.result.id);
             }

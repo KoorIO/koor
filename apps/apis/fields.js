@@ -54,12 +54,12 @@ router.put('/update/:id', function(req, res){
     logger.debug('Update Field By Id', req.params.id);
     db.Field.findOne({
         _id: req.params.id
-    }).then(function(field){
+    }).then(function(field) {
         field.name = req.body.name;
-        code: slug(req.body.name, {lower: true, replacement: '_'}),
+        field.code = slug(req.body.name, {lower: true, replacement: '_'});
         field.description = req.body.description;
-        field.save(function(){
-            res.json({});
+        field.save().then(function(error){
+            res.json(field);
         });
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));

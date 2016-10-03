@@ -9,9 +9,7 @@ var Project = new Schema({
     },
     domain: {
         type: String,
-        index: true,
-        require: true,
-        unique: true
+        index: true
     },
     dnsId: {
         type: String

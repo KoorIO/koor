@@ -10,30 +10,38 @@ var express = require('express'),
 
 // create a new project
 router.post('/create', function(req, res){
-    var project = new db.Project(req.body);
-    logger.debug('Create a New Project', project.name);
+    logger.debug('Create a New Project', req.body.name);
     db.Project.count({
         userId: req.body.userId
-    }, function(err, c) {
-        if (parseInt(c) >= parseInt(req.user.projectLimit)) {
-            project.save(function(error, new_project){
+    }).then(function(c) {
+        if (parseInt(c) <= parseInt(req.user.projectLimit)) {
+            var project = new db.Project({
+                name: req.body.name,
+                userId: req.body.userId
+            });
+            project.save(function(error){
                 if (error) {
+                    logger.debug('Failed - Save Project', error);
                     return res.status(406).send(JSON.stringify({error}));
                 }
-                new_project.domain = new_project._id + '.' + config.get('server.domain');
-                new_project.save();
+                project.domain = project._id + '.' + config.get('server.domain');
+                project.save(function(error) {
+                    // send message create a domain to queue
+                    q.create(os.hostname() + 'create_domain', {
+                        projectId: project._id,
+                        domain: project.domain
+                    }).priority('high').save();
 
-                // send message create a domain to queue
-                q.create(os.hostname() + 'create_domain', {
-                    projectId: new_project._id,
-                    domain: new_project.domain
-                }).priority('high').save();
-
-                res.send(JSON.stringify(new_project));
+                    res.send(JSON.stringify(project));
+                });
             });
         } else {
+            logger.debug('Failed - Over Project Limit %s >= %s', c, req.user.projectLimit);
             res.status(406).json({message: 'Project Limit'});
         }
+    }).catch(function(e) {
+        logger.debug('Failed - Count Project Number', e);
+        res.status(406).json({message: 'Bad Request'});
     });
 });
 
