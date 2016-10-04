@@ -65,10 +65,7 @@ router.delete('/delete/:id', function(req, res){
     db.Project.findOneAndRemove({
         _id: req.params.id,
         userId: req.body.userId
-    }).then(function(error, project){
-        if (error) {
-            throw true;
-        }
+    }).then(function(project){
         // send message create a domain to queue
         q.create(os.hostname() + 'delete_domain', {
             domain: project.domain,
