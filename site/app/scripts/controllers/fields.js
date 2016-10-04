@@ -13,10 +13,28 @@ angular.module('siteSeedApp')
         });
     };
 })
-.controller('ViewFieldCtrl', function($scope, Fields, $stateParams, $log) {
+.controller('ViewFieldCtrl', function($scope, Fields, $stateParams, Storages, Socket, Projects) {
     var fieldId = $stateParams.fieldId;
-    Fields.get(fieldId).then(function(res) {
-        $scope.field = res;
+    Projects.get($stateParams.projectId).then(function(p) {
+        Fields.get(fieldId).then(function(res) {
+            $scope.field = res;
+            Storages.get(fieldId).then(function(storages) {
+                $scope.field.labels = [];
+                $scope.field.data = [];
+                storages.forEach(function(s) {
+                    if (parseInt(s.data)) {
+                        $scope.field.data.push(parseInt(s.data));
+                        $scope.field.labels.push('');
+                    }
+                });
+            });
+            var socket = Socket.connect(p.domain);
+            socket.on('field_data', function(data) {
+                $scope.field.data.push(parseInt(data.value));
+                $scope.field.labels.push('');
+                $scope.$apply();
+            });
+        });
     });
     $scope.updateField = function() {
         Fields.update(fieldId, $scope.field).then(function(r) {

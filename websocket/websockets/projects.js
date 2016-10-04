@@ -3,7 +3,24 @@ var config = require('config');
 
 var logger = require('../helpers/logger.js');
 
+var sub = require('redis').createClient({
+    host: config.get('redis.host'),
+    port: config.get('redis.port'),
+    prefix: config.get('redis.prefix'),
+    auth_pass: config.get('redis.password')
+});
+
+
 exports = module.exports = function(io){
+    sub.subscribe('field_data');
+    sub.on('message', function(channel, message) {
+        var data = JSON.parse(message);
+        var adminRoom = data.domain + '-admins';
+        if (channel === 'field_data') {
+            io.sockets.in(adminRoom).emit('field_data', data);
+        }
+    });
+
     io.on('connection', function (socket) {
         var host = socket.handshake.headers.host.toString();
         logger.debug('New Client %s connected - host %s', socket.id, host);
@@ -33,5 +50,6 @@ exports = module.exports = function(io){
             });
         }
         io.sockets.in(adminRoom).emit('clients', ids);
+
     });
 };

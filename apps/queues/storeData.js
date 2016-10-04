@@ -3,6 +3,7 @@ var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
 var db = require('../models');
+var cache = require('../helpers/cache');
 consumer.name = os.hostname() + 'store_data';
 
 consumer.task = function(job, done){
@@ -21,6 +22,11 @@ consumer.task = function(job, done){
                     if (error) {
                         throw true;
                     } else {
+                        cache.publish('field_data', JSON.stringify({
+                            value: value,
+                            domain: data.domain,
+                            fieldId: f._id
+                        }));
                         logger.debug('Saved data %s id %s code %s successfully', value, f._id, f.code);
                     }
                 });

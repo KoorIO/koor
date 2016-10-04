@@ -63,6 +63,7 @@ router.post('/auth_on_publish', function(req, res){
                     payload[topics[1]] = data.payload;
                     q.create(os.hostname() + 'store_data', {
                         projectId: p._id,
+                        domain: domain,
                         query: {},
                         body: {},
                         payload: payload

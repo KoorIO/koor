@@ -97,6 +97,7 @@ angular.module('siteSeedApp')
             });
             $scope.$apply();
         });
+
         Apis.list($scope.project._id, page, limit).then(function(res) {
             $scope.apis = res.rows;
             $scope.count = res.count;
@@ -121,18 +122,18 @@ angular.module('siteSeedApp')
         };
         Fields.list($scope.project._id, 1, 10).then(function(fields) {
             $scope.fields = fields.rows;
-            for (var k in fields.rows) {
-                Storages.get(fields.rows[k]._id).then(function(storages) {
-                    $scope.fields[k].labels = [];
-                    $scope.fields[k].data = [];
+            $scope.fields.forEach(function(field) {
+                Storages.get(field._id).then(function(storages) {
+                    field.labels = [];
+                    field.data = [];
                     storages.forEach(function(s) {
                         if (parseInt(s.data)) {
-                            $scope.fields[k].data.push(parseInt(s.data));
-                            $scope.fields[k].labels.push('');
+                            field.data.push(parseInt(s.data));
+                            field.labels.push('');
                         }
                     });
                 });
-            };
+            });
         });
 
     });
@@ -219,7 +220,7 @@ angular.module('siteSeedApp')
         };
         Projects.create(data).then(function() {
             $state.go('app.projects.list');
-        }).catch(function(e) {
+        }).catch(function() {
             pf.error = 'You created Project exceed Project Limit';
         });
     };

@@ -29,11 +29,10 @@
                 <p class="form-control-static"><i class="fa fa-circle" ng-class="(project.dnsStatus)?'text-success':'text-danger'"></i></p>
             </div>
         </div>
-        <div class="col-xs-12" ng-repeat="f in fields">
+        <div class="col-xs-6" ng-repeat="f in fields" ng-show="f.data.length">
             <div class="form-group">
-                <label>{{ f.name }}</label>
-                <canvas id="line" class="chart chart-line" chart-data="f.data" chart-labels="f.labels">
-                </canvas> 
+                <label>{{ f.name }} <a ui-sref="app.fields.view({projectId: project._id, fieldId: f._id})"><i class="fa fa-area-chart"></i></a></label>
+                <canvas class="chart chart-line" chart-data="f.data" chart-labels="f.labels"></canvas> 
             </div>
         </div>
     </div>
@@ -71,7 +70,7 @@
                             <tr ng-repeat="field in fields track by $index">
                                 <td><a ui-sref="app.fields.view({projectId: project._id, fieldId: field._id})" ng-bind="field.name"></a></td>
                                 <td ng-bind="field.code"></td>
-                                <td><a ui-sref="app.fields.view({projectId: project._id, fieldId: field._id})" class="btn btn-xs" ng-click="deleteApi($index, api._id)"><i class="fa fa-area-chart"></i></a></td>
+                                <td><a class="btn btn-xs btn-danger" ng-click="deleteField($index, field._id)"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             </tbody>
                         </table>

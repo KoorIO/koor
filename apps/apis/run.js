@@ -31,6 +31,7 @@ router.all('/:projectUrl/:apiPath', function(req, res){
                             // send message store data to queue
                             q.create(os.hostname() + 'store_data', {
                                 projectId: a.projectId,
+                                domain: req.params.projectUrl,
                                 query: req.query,
                                 body: req.body,
                                 payload: {}

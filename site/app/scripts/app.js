@@ -13,8 +13,7 @@ angular
 .config(['$resourceProvider', function($resourceProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }])
-.config(function ($translateProvider, APP_CONFIG, ChartJsProvider) {
-    ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+.config(function ($translateProvider, APP_CONFIG) {
     if (APP_CONFIG.debug_mode) {
         $translateProvider.useMissingTranslationHandlerLog();
     }
@@ -261,6 +260,8 @@ angular
                             files:[
                                 'scripts/services/fields.js',
                                 'scripts/services/projects.js',
+                                'scripts/services/storages.js',
+                                'scripts/services/socket.js',
                                 'scripts/controllers/fields.js'
                             ]
                         });
@@ -438,7 +439,9 @@ angular
         }
     };
     ret.responseError = function(response){
-        response.data.errorCode = response.status;
+        if ('data' in response && response.data) {
+            response.data.errorCode = response.status;
+        }
         if (response.status === 401) {
             $rootScope.$broadcast('unauthorized');
         }

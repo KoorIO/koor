@@ -36,3 +36,9 @@ You can connect our MQTT broker and publish/subscrible any channel with format `
 - MQTT over Websocket: `ws://[project_domain]/mqtt`
 
 *Note: Please remember to replace `[project_domain]` with the domain of your project*
+
+## Fields
+We supports you create custom fields. With Free Plan, You can create/update/delete maximum 10 custom fields for per project. Base on the custom fields, you will store the data pushed by the clients
+
+## Dashboard & Chart
+With Free Plan, we will show the chart of the data for one hours.
