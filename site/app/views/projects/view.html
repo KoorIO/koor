@@ -1,5 +1,5 @@
 <h1 class="page-header"><i class="fa fa-tags"></i> <span ng-bind="project.name"></span></h1>
-<div class="col-lg-3">
+<div class="col-md-3">
     <ul class="prj-nav nav">
         <li ng-class="(service == 'dashboard')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'dashboard'})"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li ng-class="(service == 'api')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'api'})"><i class="fa fa-server"></i> Resful API</a></li>
@@ -9,7 +9,7 @@
         <li ng-class="(service == 'settings')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'settings'})"><i class="fa fa-cogs"></i> Settings</a></li>
     </ul>
 </div>
-<div class="col-lg-9">
+<div class="col-md-9">
     <div class="row" ng-show="service == 'dashboard'">
         <div class="col-xs-5">
             <div class="form-group">
