@@ -52,7 +52,7 @@ angular.module('siteSeedApp')
         var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
         $scope.$on("$destroy", function() {
             client.end();
-        })
+        });
 
         $scope.inbox = [];
         client.on("message", function(topic, payload) {
@@ -83,7 +83,7 @@ angular.module('siteSeedApp')
         var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
         $scope.$on("$destroy", function() {
             client.end();
-        })
+        });
         client.subscribe($scope.channelSubscribe);
 
         $scope.inbox = [];
@@ -99,7 +99,7 @@ angular.module('siteSeedApp')
         var socket = Socket.connect(res.domain);
         $scope.$on("$destroy", function() {
             socket.disconnect();
-        })
+        });
         socket.on('clients', function(data) {
             $scope.sockets = data.filter(function(item) {
                 return item.id !== socket.id;
