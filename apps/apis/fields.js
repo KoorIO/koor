@@ -9,20 +9,26 @@ var express = require('express'),
 
 // create a new field
 router.post('/create', function(req, res){
-    var field = new db.Field({
-        name: req.body.name,
-        code: slug(req.body.name, {lower: true, replacement: '_'}),
-        description: req.body.description,
-        projectId: req.body.projectId
-    });
-    logger.debug('Create a New Field', req.body);
-    field.save(function(error, new_field){
-        if (error) {
-            return res.status(406).send(JSON.stringify({error}));
+    logger.debug('Create a New Field', req.body.name);
+    db.Field.count({ projectId: req.body.projectId }, function(err, c) {
+        if (err || ((req.user.plan == 'free' || !req.user.plan) && (c > 10))) {
+            logger.debug('Failed - Field Limit', req.body.name);
+            return res.status(400).json({});
         }
-        // remove security attributes
-        new_field = field.toObject();
-        res.send(JSON.stringify(new_field));
+        var field = new db.Field({
+            name: req.body.name,
+            code: slug(req.body.name, {lower: true, replacement: '_'}),
+            description: req.body.description,
+            projectId: req.body.projectId
+        });
+        field.save(function(error, new_field){
+            if (error) {
+                return res.status(406).send(JSON.stringify({error}));
+            }
+            // remove security attributes
+            new_field = field.toObject();
+            res.send(JSON.stringify(new_field));
+        });
     });
 });
 

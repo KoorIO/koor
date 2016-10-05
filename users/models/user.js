@@ -32,6 +32,10 @@ var User = new Schema({
         type: String,
         default: 10
     },
+    plan: {
+        type: String,
+        default: 'free'
+    },
     salt: {
         type: String
     }

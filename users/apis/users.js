@@ -13,7 +13,12 @@ var express = require('express'),
 // create a new user
 router.post('/create', function(req, res){
     req.body.isActive = false;
-    var user = new db.User(req.body);
+    var user = new db.User({
+        username: req.body.username,
+        email: req.body.email,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
+    });
     logger.debug('Register new user %s', req.body.email);
     user.save(function(error, newUser){
         if (error) {

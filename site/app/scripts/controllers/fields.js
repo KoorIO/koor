@@ -10,6 +10,8 @@ angular.module('siteSeedApp')
         };
         Fields.create(data).then(function() {
             $state.go('app.projects.view', { projectId: projectId , service: 'field'});
+        }).catch(function() {
+            $scope.message = 'Your Field Limit is 10.';
         });
     };
 })

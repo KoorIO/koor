@@ -2,6 +2,7 @@
 <div class="panel-body">
     <div class="row">
         <div class="col-lg-12">
+            <div ng-show="message" class="alert alert-danger">{{message}}</div>
             <form name="form" ng-submit="create()" role="form">
                 <fieldset>
                     <div class="form-group">

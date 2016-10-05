@@ -19,7 +19,11 @@ angular.module('siteSeedApp').factory('Fields', function($resource, $q, APP_CONF
             var Field = $resource(url);
             
             Field.save(data, function(res) {
-                deferred.resolve(res);
+                if (res.errorCode) {
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
             }, function(res) {
                 deferred.reject(res);
             });

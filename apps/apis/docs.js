@@ -28,6 +28,7 @@ router.all('/:projectUrl', function(req, res){
                         swagger['definitions'] = {};
                         swagger['info'] = {};
                         swagger['info']['title'] = p.name;
+                        swagger['info']['version'] = '1.0';
                         var paths = {};
                         for (var k in apis){
                             var a = apis[k];
