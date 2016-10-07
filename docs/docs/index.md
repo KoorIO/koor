@@ -9,7 +9,7 @@ After that, you should create a project firstly. With per project, we will creat
 Our policy is unlimit project for user. However, to avoid spamer, we limit **10 projects** at the beginning. If you want to increase the limit, please contact us.
 
 ### Restful API
-You can create unlimited API each project. We support to run APIs on Swagger.
+You can create unlimited API each project. We support to run APIs on Swagger. This service will be very usefull for IoT Developer and Mobile Developer. You are not only able to create any [mockup restful API](https://koor.io), but also you can store the payload of Restful API requests.
 
 ### WebSocket
 You will easily to open a websocket connection and emit messages via 'test_message', 'broad_message' channel. 
