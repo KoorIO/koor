@@ -451,3 +451,20 @@ body#koor .navbar-default .navbar-top-links > li.open > a {
     border-right: solid 1px #0BB286;
 }
 
+
+.prj-animation.ng-hide {
+  opacity: 0;
+}
+
+.prj-animation.ng-hide-remove,
+.fade.ng-hide-add {
+  display: block !important;
+}
+
+.prj-animation.ng-hide-remove {
+  transition: all linear 200ms;
+}
+
+.prj-animation.ng-hide-add {
+  transition: all linear 100ms;
+}

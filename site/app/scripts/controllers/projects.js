@@ -3,11 +3,13 @@ angular.module('siteSeedApp')
 .controller('ListProjectCtrl', function($scope, $stateParams, Projects) {
     var page = $stateParams.page ? parseInt($stateParams.page) : 1,
         limit = $stateParams.limit ? parseInt($stateParams.limit) : 10;
+    $scope.loaded = false;
 
     $scope.limit = limit;
     Projects.list(page, limit).then(function(data){
         $scope.projects = data.rows;
         $scope.count = data.count;
+        $scope.loaded = true;
     });
 
     $scope.pageChanged = function() {
@@ -42,6 +44,7 @@ angular.module('siteSeedApp')
             });
             $scope.messages.push(message);
         };
+        $scope.loaded = true;
     });
 })
 .controller('MqttProjectCtrl', function($scope, Projects, $stateParams, $state, $log, kmqtt, APP_CONFIG) {
@@ -68,6 +71,7 @@ angular.module('siteSeedApp')
             client.subscribe(res.domain + '/' + $scope.channelSubscribe);
             client.publish(res.domain + '/' + $scope.channelPublish, $scope.mqttMessage);
         };
+        $scope.loaded = true;
     });
 })
 .controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal,
@@ -75,6 +79,7 @@ angular.module('siteSeedApp')
     var page = 1,
         limit = 10;
     $scope.service = $stateParams.service || 'dashboard';
+    $scope.loaded = false;
 
     $scope.limit = limit;
     Projects.get($stateParams.projectId).then(function(res) {
@@ -131,10 +136,15 @@ angular.module('siteSeedApp')
         };
         Fields.list($scope.project._id, 1, 10).then(function(fields) {
             $scope.fields = fields.rows;
+            var itemsProcessed = 0;
             $scope.fields.forEach(function(field) {
                 Storages.get(field._id).then(function(storages) {
                     field.labels = [];
                     field.data = [];
+                    itemsProcessed++;
+                    if(itemsProcessed === $scope.fields.length) {
+                        $scope.loaded = true;
+                    }
                     storages.forEach(function(s) {
                         if (parseInt(s.data)) {
                             field.data.push(parseInt(s.data));
