@@ -137,6 +137,9 @@ angular.module('siteSeedApp')
         Fields.list($scope.project._id, 1, 10).then(function(fields) {
             $scope.fields = fields.rows;
             var itemsProcessed = 0;
+            if(itemsProcessed === $scope.fields.length) {
+                $scope.loaded = true;
+            }
             $scope.fields.forEach(function(field) {
                 Storages.get(field._id).then(function(storages) {
                     field.labels = [];

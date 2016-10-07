@@ -36,7 +36,7 @@
                     <p class="form-control-static"><i class="fa fa-circle" ng-class="(project.dnsStatus)?'text-success':'text-danger'"></i></p>
                 </div>
             </div>
-            <div class="col-xs-6" ng-repeat="f in fields" ng-show="false && f.data.length">
+            <div class="col-xs-6" ng-repeat="f in fields" ng-show="f.data.length">
                 <div class="form-group">
                     <label>{{ f.name }} <a ui-sref="app.fields.view({projectId: project._id, fieldId: f._id})"><i class="fa fa-area-chart"></i></a></label>
                     <canvas class="chart chart-line" chart-data="f.data" chart-labels="f.labels"></canvas> 

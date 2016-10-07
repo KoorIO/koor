@@ -10,9 +10,10 @@ var express = require('express'),
 router.get('/:fieldId', function(req, res){
     logger.info('Get Data for Field around 1 hours', req.params.fieldId);
     db.Storage.find({ 
-        fieldId: req.params.fieldId,
-        createdAt: { $gt: moment().add(-24*60*60, 'seconds') }
-    }).then(function(data) {
+        fieldId: req.params.fieldId
+    })
+    .limit(500) // limit for first version 
+    .then(function(data) {
         res.json(data);
     }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
