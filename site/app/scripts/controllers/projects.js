@@ -145,6 +145,22 @@ angular.module('siteSeedApp')
             });
         });
 
+        $scope.deleteField = function(idx, id) {
+            var modalFieldYesNo = $uibModal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'modalFieldYesNo.html',
+                controller: 'ModalFieldYesNoCtrl'
+            });
+            modalFieldYesNo.result.then(function() {
+                Fields.remove(id).then(function() {
+                    $scope.fields.splice(idx, 1);
+                    $state.go('app.projects.view', {projectId: $stateParams.projectId, action: 'field'});
+                });
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
     });
 
     $scope.pageChanged = function() {
@@ -204,6 +220,16 @@ angular.module('siteSeedApp')
     };
 })
 .controller('ModalYesNoCtrl', function ($scope, $uibModalInstance) {
+
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+})
+.controller('ModalFieldYesNoCtrl', function ($scope, $uibModalInstance) {
 
     $scope.ok = function () {
         $uibModalInstance.close();
