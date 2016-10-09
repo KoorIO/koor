@@ -24,6 +24,16 @@ angular.module('siteSeedApp')
         af.headers.splice(k,1);
     };
 
+    af.params = [];
+    af.addParam = function() {
+        af.params.push({
+            name: '',
+        });
+    };
+    af.removeParam = function(k) {
+        af.params.splice(k,1);
+    };
+
     af.create = function() {
 
         var headers = {
@@ -34,6 +44,11 @@ angular.module('siteSeedApp')
             headers[item.key] = item.value;
         });
 
+        var request = [];
+        af.params.forEach(function(item) {
+            request.push(item.name);
+        });
+
         var data  = {
             path: af.path || '',
             projectId: projectId,
@@ -41,6 +56,7 @@ angular.module('siteSeedApp')
             method: af.method,
             description: af.description,
             tags: af.tags,
+            request: request,
             response: {
                 headers: headers,
                 status: af.responseStatus,
@@ -68,6 +84,16 @@ angular.module('siteSeedApp')
         af.headers.splice(k,1);
     };
 
+    af.params = [];
+    af.addParam = function() {
+        af.params.push({
+            name: '',
+        });
+    };
+    af.removeParam = function(k) {
+        af.params.splice(k,1);
+    };
+
     Projects.get($stateParams.projectId).then(function(response) {
         $scope.project = response;
         Apis.get(apiId).then(function(res) {
@@ -80,6 +106,11 @@ angular.module('siteSeedApp')
             af.contentEncoding = res.response.headers['Content-Encoding'];
             var responseBody = res.response.body || {};
             af.responseBody = JSON.stringify(responseBody, null, '\t');
+            res.request.forEach(function(v) {
+                af.params.push({
+                    name: v
+                });
+            });
             Object.keys(res.response.headers).forEach(function(key) {
                 if (key !== 'Content-Type' && key !== 'Content-Encoding') {
                     af.headers.push({
@@ -99,6 +130,10 @@ angular.module('siteSeedApp')
         af.headers.forEach(function(item) {
             headers[item.key] = item.value;
         });
+        var request = [];
+        af.params.forEach(function(item) {
+            request.push(item.name);
+        });
         var data  = {
             path: af.path || '',
             projectId: projectId,
@@ -106,6 +141,7 @@ angular.module('siteSeedApp')
             description: af.description,
             tags: af.tags,
             method: af.method,
+            request: request,
             response: {
                 headers: headers,
                 status: af.responseStatus,
@@ -113,7 +149,7 @@ angular.module('siteSeedApp')
             }
         };
         Apis.update(apiId, data).then(function() {
-            $state.go('app.projects.view', { projectId: projectId });
+            $state.go('app.projects.view', { projectId: projectId, service: 'api' });
         });
     };
 });

@@ -54,6 +54,7 @@ router.put('/update/:id', function(req, res){
         api.path = req.body.path;
         api.description = req.body.description;
         api.tags = req.body.tags;
+        api.request = req.body.request;
         api.response = req.body.response;
         api.save(function(){
             res.json({});

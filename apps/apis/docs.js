@@ -38,6 +38,21 @@ router.all('/:projectUrl', function(req, res){
                             paths[path][a.method.toLowerCase()]['description'] = a.description;
                             paths[path][a.method.toLowerCase()]['summary'] = a.name;
                             paths[path][a.method.toLowerCase()]['tags'] = a.tags;
+                            paths[path][a.method.toLowerCase()]['parameters'] = [];
+                            var pin = 'query';
+                            for (var j in a.request) {
+                                if (a.method.toLowerCase() !== 'get') {
+                                    pin = 'formData';
+                                } else {
+                                    pin = 'query';
+                                }
+                                paths[path][a.method.toLowerCase()]['parameters'].push({
+                                    'in': pin,
+                                    name: a.request[j],
+                                    required: false,
+                                    type: 'string'
+                                });
+                            }
                             paths[path][a.method.toLowerCase()]['responses'] = a.response.body;
                         }
                         swagger['paths'] = paths;
