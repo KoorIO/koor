@@ -7,7 +7,7 @@ var express = require('express'),
     router = express.Router();
 
 // run a new api
-router.all('/:projectUrl/*', function(req, res){
+router.all('/:projectUrl/*', function(req, res, next){
     if (req.method === 'OPTIONS') {
         return next();
     }
