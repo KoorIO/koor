@@ -12,7 +12,7 @@ router.all('/:projectUrl', function(req, res){
     db.Project.findOne({
         domain: req.params.projectUrl
     }, function(error, p){
-        if (error) {
+        if (error || !p) {
             return res.status(406).json({});
         } else {
             db.Api.find({

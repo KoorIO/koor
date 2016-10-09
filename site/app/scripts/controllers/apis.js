@@ -64,7 +64,7 @@ angular.module('siteSeedApp')
             }
         };
         Apis.create(data).then(function() {
-            $state.go('app.projects.view', { projectId: projectId });
+            $state.go('app.projects.view', { projectId: projectId, service: 'api' });
         });
     };
 })

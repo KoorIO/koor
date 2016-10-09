@@ -7,25 +7,28 @@ var express = require('express'),
     router = express.Router();
 
 // run a new api
-router.all('/:projectUrl/:apiPath', function(req, res){
-    logger.debug('Run a Api %s %s', req.params.projectUrl, req.params.apiPath);
+router.all('/:projectUrl/*', function(req, res){
+    logger.debug('Run a Api %s %s', req.params.projectUrl, req.params[0]);
     db.Project.findOne({
         domain: req.params.projectUrl
     }, function(error, p){
         if (error) {
+            logger.debug('Failed - Query Project', error);
             return res.status(406).json({});
         } else {
             db.Api.findOne({
-                path: req.params.apiPath
+                path: req.params[0]
             }, function(error, a) {
                 try {
                     if (error) {
+                        logger.debug('Failed - Query API', error);
                         throw true;
                     } else {
-                        if (req.method !== a.method) {
+                        if (req.method.toLowerCase() !== a.method.toLowerCase()) {
+                            logger.debug('Failed - Method does not match', req.method);
                             throw true;
                         } else {
-                            logger.debug('Perfect Request %s %s %s', req.params.projectUrl, req.params.apiPath, a.response.status);
+                            logger.debug('Perfect Request %s %s %s', req.params.projectUrl, req.params[0], a.response.status);
                             res.set(a.response.headers);
 
                             // send message store data to queue
@@ -41,6 +44,7 @@ router.all('/:projectUrl/:apiPath', function(req, res){
                         }
                     }
                 } catch(e) {
+                    logger.debug('Failed - Somethings went wrong', e);
                     return res.status(406).json({});
                 }
             });
