@@ -13,6 +13,9 @@ angular
 .config(['$resourceProvider', function($resourceProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }])
+.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = false;
+}])
 .config(function ($translateProvider, APP_CONFIG) {
     if (APP_CONFIG.debug_mode) {
         $translateProvider.useMissingTranslationHandlerLog();

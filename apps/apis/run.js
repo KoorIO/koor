@@ -8,6 +8,9 @@ var express = require('express'),
 
 // run a new api
 router.all('/:projectUrl/*', function(req, res){
+    if (req.method === 'OPTIONS') {
+        return next();
+    }
     logger.debug('Run a Api %s %s', req.params.projectUrl, req.params[0]);
     db.Project.findOne({
         domain: req.params.projectUrl
