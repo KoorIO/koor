@@ -3,22 +3,26 @@ angular.module('siteSeedApp')
 .controller('ListProjectCtrl', function($scope, $stateParams, Projects) {
     var page = $stateParams.page ? parseInt($stateParams.page) : 1,
         limit = $stateParams.limit ? parseInt($stateParams.limit) : 10;
-    $scope.loaded = false;
 
-    $scope.limit = limit;
-    Projects.list(page, limit).then(function(data){
-        $scope.projects = data.rows;
-        $scope.count = data.count;
-        $scope.loaded = true;
-    });
+    $scope.getProjects = function() {
+        $scope.loaded = false;
 
-    $scope.pageChanged = function() {
-        Projects.list($scope.currentPage, limit).then(function(response){
-            $scope.projects = response.rows;
-            $scope.count = response.count;
+        $scope.limit = limit;
+        Projects.list(page, limit).then(function(data){
+            $scope.projects = data.rows;
+            $scope.count = data.count;
+            $scope.loaded = true;
         });
+
+        $scope.pageChanged = function() {
+            Projects.list($scope.currentPage, limit).then(function(response){
+                $scope.projects = response.rows;
+                $scope.count = response.count;
+            });
+        };
     };
 
+    $scope.getProjects();
     $scope.forUnitTest = true;
 })
 .controller('WebsocketProjectCtrl', function($scope, Projects, $stateParams, $state, $log, Socket) {

@@ -10,7 +10,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <p>You have to wait until DNS Status change from <i class="fa fa-circle text-danger"></i> to <i class="fa fa-circle text-success"></i>. It should be take from 5 minutes to 12 hours.</p>
+                    <p>You have to wait until DNS Status change from <i class="fa fa-circle text-danger"></i> to <i class="fa fa-circle text-success"></i>. It should be take from 5 minutes to 12 hours. <a ng-click="getProjects()" class="btn btn-link"><i class="fa fa-refresh"> Refresh</i></a></p>
                 </div>
             </div>
             <div class="row">
@@ -39,11 +39,11 @@
                                 </table>
                             </div>
                             <!-- /.table-responsive -->
-                            <div class="row">
+                            <!-- div class="row">
                                 <div class="pull-right">
                                     <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="currentPage" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
                                 </div>
-                            </div>
+                            </div-->
                         </div>
                         <!-- /.panel-body -->
                     </div>
