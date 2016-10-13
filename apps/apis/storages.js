@@ -8,11 +8,12 @@ var express = require('express'),
 
 // get list of fields
 router.get('/:fieldId', function(req, res){
-    logger.info('Get Data for Field around 1 hours', req.params.fieldId);
+    logger.info('Get Data for Field last 500 record', req.params.fieldId);
     db.Storage.find({ 
         fieldId: req.params.fieldId
     })
     .limit(500) // limit for first version 
+    .sort({'_id': 'desc'})
     .then(function(data) {
         res.json(data);
     }).catch(function(e) {
