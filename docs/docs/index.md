@@ -59,7 +59,7 @@ client.on('message', function (topic, message) {
 
 
 ### Fields
-We supports you create custom fields. With Free Plan, You can create/update/delete maximum 10 custom fields for per project. Base on the custom fields, you will store the data pushed by the clients
+We supports you create custom fields. With Free Plan, You can create/update/delete maximum 10 custom fields for per project, and 500 records per custom field. Base on the custom fields, you will store the data pushed by the clients
 
 ### Dashboard & Chart
-With Free Plan, we will show the chart of the data for one hours.
+With Free Plan, we will show the chart of the data for maximum 500 records.
