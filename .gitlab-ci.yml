@@ -14,7 +14,7 @@ stages:
 build:
     stage: build
     script:
-        - docker-compose build
+        - /usr/local/bin/docker-compose build
 
 test:
     stage: test
