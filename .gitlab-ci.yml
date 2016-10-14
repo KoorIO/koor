@@ -19,7 +19,8 @@ stages:
 build:
     stage: build
     script:
-        - docker-compose build
+        - pwd
+        - cd /builds/thanhson1085/koor && docker-compose build
 
 test:
     stage: test
