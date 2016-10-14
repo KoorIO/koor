@@ -1,40 +1,5 @@
-image: docker:latest
-services:
-    - docker:dind
-
-before_script:
-    - apk update
-    - apk upgrade
-    - apk add python python-dev py-pip build-base
-    - curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-    - chmod +x /usr/local/bin/docker-compose
-    - pip install docker-compose
-
-stages:
-    - build
-    - test
-    - release
-    - deploy
-
-build:
-    stage: build
-    script:
-        - docker-compose version
-
-test:
-    stage: test
-    script:
-        - docker-compose config
-
-release:
-    stage: release
-    script:
-        - docker info
-
 deploy:
-    stage: deploy
     when: manual
-    image: ubuntu:16.04
     before_script:
         # Install ssh-agent if not already installed, it is required by Docker.
         # (change apt-get to yum if you use a CentOS-based image)
