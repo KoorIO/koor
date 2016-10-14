@@ -4,12 +4,14 @@ var os = require('os');
 var logger = require('../helpers/logger');
 var db = require('../models');
 var cache = require('../helpers/cache');
+var ObjectId = require('mongoose').Types.ObjectId; 
 consumer.name = os.hostname() + 'store_data';
 
 consumer.task = function(job, done){
     var data = job.data;
+    logger.debug('Store data for %s domain %s', data.projectId, data.domain)
     db.Field.find({
-        projectId: data.projectId
+        projectId: new ObjectId(data.projectId)
     }).then(function(fields) {
         fields.forEach(function(f) {
             if (f.code in data.query || f.code in data.body || f.code in data.payload) {

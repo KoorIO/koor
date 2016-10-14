@@ -13,7 +13,7 @@ router.get('/:fieldId', function(req, res){
         fieldId: req.params.fieldId
     })
     .limit(500) // limit for first version 
-    .sort({'_id': 'desc'})
+    .sort({'_id': 'asc'})
     .then(function(data) {
         res.json(data);
     }).catch(function(e) {
