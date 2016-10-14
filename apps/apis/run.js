@@ -17,6 +17,7 @@ router.all('/:projectUrl/*', function(req, res, next){
             return res.status(406).json({});
         } else {
             db.Api.findOne({
+                projectId: p._id,
                 path: req.params[0]
             }, function(error, a) {
                 try {
