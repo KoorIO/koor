@@ -2,7 +2,7 @@ image: docker:latest
 services:
     - docker:dind
 
-states:
+stages:
     - build
     - test
     - release
