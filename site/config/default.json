@@ -51,5 +51,5 @@
         },
         "preferredLocale": "en_US"
     },
-    "debugMode": true
+    "debugMode": false
 }

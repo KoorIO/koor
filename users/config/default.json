@@ -23,7 +23,7 @@
         "client_secret": "xxxxxxxxx"
     },
     "mailer": {
-        "from": "no-reply@koor.io",
+        "from": "\"Koor.IO\" <no-reply@koor.io>",
         "host": "smtp.mailgun.org",
         "secureConnection": true,
         "port": 465,

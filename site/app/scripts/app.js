@@ -41,7 +41,7 @@ angular
     function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider, $httpProvider) {
 
         $ocLazyLoadProvider.config({
-            debug: true,
+            debug: false,
             events: true,
         });
 
