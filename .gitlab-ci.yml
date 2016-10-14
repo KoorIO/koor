@@ -19,14 +19,12 @@ stages:
 build:
     stage: build
     script:
-        - pwd
-        - ls
-        - cd /builds/thanhson1085/koor && docker-compose build
+        - docker-compose version
 
 test:
     stage: test
     script:
-        - docker info
+        - docker-compose config
 
 release:
     stage: release
