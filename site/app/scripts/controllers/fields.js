@@ -31,10 +31,15 @@ angular.module('siteSeedApp')
                 });
             });
             var socket = Socket.connect(p.domain);
+            $scope.$on("$destroy", function() {
+                socket.disconnect();
+            });
             socket.on('field_data', function(data) {
-                $scope.field.data.push(parseInt(data.value));
-                $scope.field.labels.push('');
-                $scope.$apply();
+                if (data.fieldId === fieldId) {
+                    $scope.field.data.push(parseInt(data.value));
+                    $scope.field.labels.push('');
+                    $scope.$apply();
+                }
             });
         });
     });
