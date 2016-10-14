@@ -1,3 +1,13 @@
+image: docker:latest
+services:
+    - docker:dind
+
+states:
+    - build
+    - test
+    - release
+    - deploy
+
 before_script:
     # Install ssh-agent if not already installed, it is required by Docker.
     # (change apt-get to yum if you use a CentOS-based image)
@@ -16,7 +26,23 @@ before_script:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
-all:
+build:
+    stage: build
+    script:
+        - docker-compose build
+
+test:
+    stage: test
+    script:
+        - docker info
+
+release:
+    stage: release
+    script:
+        - docker info
+
+deploy:
+    stage: deploy
     when: manual
     script:
         - ssh root@188.166.198.221 "cd /build && sudo git pull origin master"
