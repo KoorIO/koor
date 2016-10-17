@@ -1,5 +1,5 @@
 site_name: Koor.IO
-google_analytics: ['UA-53196177-5', 'docs.koor.io']
+google_analytics: ['UA-53196177-5', 'koor.io']
 pages:
     - Home: index.md
 theme_dir: koor
