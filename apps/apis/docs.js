@@ -53,6 +53,11 @@ router.all('/:projectUrl', function(req, res){
                                     type: 'string'
                                 });
                             }
+                            paths[path][a.method.toLowerCase()]['responses'] = {
+                                "200": {
+                                    "description": "OK"
+                                }
+                            };
                         }
                         swagger['paths'] = paths;
                         return res.json(swagger);
