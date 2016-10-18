@@ -18,25 +18,25 @@
     </div>
     <div class="col-md-9">
         <div class="row" ng-show="service == 'dashboard'">
-            <div class="col-xs-5">
+            <div class="col-sm-5">
                 <div class="form-group">
                     <label>Name</label>
                     <p class="form-control-static" ng-bind="project.name"></p>
                 </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-sm-5">
                 <div class="form-group">
                     <label>Domain</label>
                     <p class="form-control-static project-domain" ng-bind="project.domain"></p>
                 </div>
             </div>
-            <div class="col-xs-2">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>DNS Status</label>
                     <p class="form-control-static"><i class="fa fa-circle" ng-class="(project.dnsStatus)?'text-success':'text-danger'"></i></p>
                 </div>
             </div>
-            <div class="col-xs-6" ng-repeat="f in fields" ng-show="f.data.length">
+            <div class="col-sm-6" ng-repeat="f in fields" ng-show="f.data.length">
                 <div class="form-group">
                     <label>{{ f.name }} <a ui-sref="app.fields.view({projectId: project._id, fieldId: f._id})"><i class="fa fa-area-chart"></i></a></label>
                     <canvas class="chart chart-line" chart-data="f.data" chart-labels="f.labels"></canvas> 
