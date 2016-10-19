@@ -15,24 +15,27 @@ router.post('/create', function(req, res){
         userId: req.body.userId
     }).then(function(c) {
         if (parseInt(c) < parseInt(req.user.projectLimit)) {
-            var project = new db.Project({
-                name: req.body.name,
-                userId: req.body.userId
-            });
-            project.save(function(error){
-                if (error) {
-                    logger.debug('Failed - Save Project', error);
-                    return res.status(406).send(JSON.stringify({error}));
-                }
-                project.domain = project._id + '.' + config.get('server.domain');
-                project.save(function(error) {
-                    // send message create a domain to queue
-                    q.create(os.hostname() + 'create_domain', {
-                        projectId: project._id,
-                        domain: project.domain
-                    }).priority('high').save();
+            db.Project.generateSecretKey().then(function(key) {
+                var project = new db.Project({
+                    name: req.body.name,
+                    userId: req.body.userId,
+                    secretKey: key
+                });
+                project.save(function(error){
+                    if (error) {
+                        logger.debug('Failed - Save Project', error);
+                        return res.status(406).send(JSON.stringify({error}));
+                    }
+                    project.domain = project._id + '.' + config.get('server.domain');
+                    project.save(function(error) {
+                        // send message create a domain to queue
+                        q.create(os.hostname() + 'create_domain', {
+                            projectId: project._id,
+                            domain: project.domain
+                        }).priority('high').save();
 
-                    res.send(JSON.stringify(project));
+                        res.send(JSON.stringify(project));
+                    });
                 });
             });
         } else {
@@ -85,9 +88,20 @@ router.put('/update/:id', function(req, res){
         userId: req.body.userId
     }).then(function(project) {
         project.name = req.body.name;
+        project.secretKey = req.body.secretKey;
         project.save(function() {
             res.json({});
         })
+    }).catch(function(e){
+        res.status(400).send(JSON.stringify(e));
+    });
+});
+
+// generate secret key
+router.get('/generate/secretKey', function(req, res){
+    logger.debug('Generate Secret Key');
+    db.Project.generateSecretKey().then(function(key) {
+        res.json({'secret_key': key});
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
     });

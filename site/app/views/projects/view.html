@@ -232,11 +232,22 @@
             </div>
         </div>
         <div class="row" ng-show="service == 'settings'">
-            <div class="col-lg-12">
             <div class="form-group">
+                <label>Name</label>
+                <p class="form-control-static"><a editable-text="project.name" onaftersave="updateProject()">{{ project.name }}</a></p>
+            </div>
+            <div class="form-group">
+                <label>Domain</label>
+                <p class="form-control-static project-domain" ng-bind="project.domain"></p>
+            </div>
+            <div class="form-group">
+                <label>Secret Key</label>
+                <p class="form-control-static project-domain" ng-bind="project.secretKey"></p>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" ng-click="updateSecretKey()"><i class="fa fa-edit"></i> Update Secret Key</button>
                 <button class="btn btn-danger" ng-click="delete(project._id)"><i class="fa fa-trash"></i> Delete Project</button>
             </div>
-        </div>
         </div>
     </div>
 </div> <!-- PRJ Animation -->

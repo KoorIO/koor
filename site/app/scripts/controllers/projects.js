@@ -187,6 +187,25 @@ angular.module('siteSeedApp')
         });
     };
 
+    $scope.updateProject = function() {
+        var data = {
+            userId: $scope.project.userId,
+            secretKey:  $scope.project.secretKey,
+            name:  $scope.project.name
+
+        };
+        Projects.update($scope.project._id, data).then(function(res) {
+            $log.info(res);
+        });
+    };
+
+    $scope.updateSecretKey = function() {
+        Projects.generateSecretKey().then(function(res) {
+            $scope.project.secretKey = res.secret_key;
+            $scope.updateProject();
+        });
+    };
+
     $scope.delete = function(id) {
         var modalYesNo = $uibModal.open({
             animation: $scope.animationsEnabled,

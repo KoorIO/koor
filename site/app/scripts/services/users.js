@@ -110,7 +110,6 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
         update: function(userId, data){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.users.update;
-            console.log(url);
             var Users = $resource(url, {userId: userId}, {
                 'update': { method: 'PUT' }
             });

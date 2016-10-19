@@ -10,7 +10,8 @@ var Field = new Schema({
         type: String
     },
     code: {
-        type: String
+        type: String,
+        index: true
     },
     projectId: {
         type: Schema.Types.ObjectId,

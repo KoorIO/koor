@@ -26,7 +26,8 @@
             "list": "/a/api/v1/projects/list/:page/:limit",
             "delete": "/a/api/v1/projects/delete/:projectId",
             "update": "/a/api/v1/projects/update/:projectId",
-            "get": "/a/api/v1/projects/get/:projectId"
+            "get": "/a/api/v1/projects/get/:projectId",
+            "generateSecretKey": "/a/api/v1/projects/generate/secretkey"
         },
         "apis": {
             "create": "/a/api/v1/apis/create",

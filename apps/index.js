@@ -19,7 +19,7 @@ app.use(function(req, res, next){
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
     if (req.method === 'OPTIONS') {
-        res.send(200);
+        res.sendStatus(200);
     } else {
         next();
     }
@@ -27,6 +27,7 @@ app.use(function(req, res, next){
 
 // import middlewares
 app.use(require('./middlewares/auth'));
+app.use(require('./middlewares/checkin'));
 
 // import routers
 app.use(require('./apis'));

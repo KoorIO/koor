@@ -41,6 +41,18 @@ angular.module('siteSeedApp').factory('Projects', function($resource, $q, APP_CO
             });
             return deferred.promise;
         },
+        generateSecretKey: function(){
+            var deferred = $q.defer();
+            var url = APP_CONFIG.services.projects.generateSecretKey;
+            var Projects = $resource(url);
+            
+            Projects.get(function(res) {
+                deferred.resolve(res);
+            }, function(res) {
+                deferred.reject(res);
+            });
+            return deferred.promise;
+        },
         remove: function(projectId){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.projects.delete;
@@ -55,10 +67,12 @@ angular.module('siteSeedApp').factory('Projects', function($resource, $q, APP_CO
         },
         update: function(projectId, data){
             var deferred = $q.defer();
-            var url = APP_CONFIG.services.projects.delete;
-            var Projects = $resource(url, {projectId: projectId});
-            
-            Projects.save(data, function(res) {
+            var url = APP_CONFIG.services.projects.update;
+            var Projects = $resource(url, {projectId: projectId}, {
+                'update': { method: 'PUT' }
+            });
+
+            Projects.update(data, function(res) {
                 deferred.resolve(res);
             }, function(res) {
                 deferred.reject(res);

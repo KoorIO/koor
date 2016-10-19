@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
+var q = require('q');
+var crypto = require('crypto');
 
 var Project = new Schema({
     name: {
@@ -17,6 +19,12 @@ var Project = new Schema({
     dnsStatus: {
         type: Boolean
     },
+    secretKey: {
+        type: String,
+        index: true,
+        require: true,
+        default: 'GNhDNu6vhDNKB9LDFTkBTMk3SGg2eevg'
+    },
     userId: {
         type: Schema.Types.ObjectId,
         index: true,
@@ -25,5 +33,19 @@ var Project = new Schema({
 });
 
 Project.plugin(CreateUpdatedAt);
+Project.statics = {
+    generateSecretKey: function (user) {
+        var deferred = q.defer();
+        crypto.randomBytes(32, function(ex, buf) {
+            var t = buf.toString('hex');
+            if (ex) {
+                deferred.reject(ex);
+            } else {
+                deferred.resolve(t);
+            }
+        });
+        return deferred.promise;
+    }
+};
 
 module.exports = mongoose.model('Project', Project);
