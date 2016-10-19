@@ -18,6 +18,7 @@ angular.module('siteSeedApp')
 .controller('ViewFieldCtrl', function($scope, Fields, $stateParams, Storages, Socket, Projects) {
     var fieldId = $stateParams.fieldId;
     Projects.get($stateParams.projectId).then(function(p) {
+        $scope.project = p;
         Fields.get(fieldId).then(function(res) {
             $scope.field = res;
             Storages.get(fieldId).then(function(storages) {

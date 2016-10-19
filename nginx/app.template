@@ -99,6 +99,11 @@ server {
         proxy_pass http://be_apps/;
     }
 
+    location /get/ {
+        rewrite ^/get/(.*)$ /get/$host/$1 break;
+        proxy_pass http://be_apps/;
+    }
+
     location / {
         rewrite ^/(.*)$ /run/$host/$1 break;
         proxy_pass http://be_apps/;

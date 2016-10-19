@@ -29,6 +29,12 @@
                         <td>Description</td>
                         <td><a href="#" editable-text="field.description" onaftersave="updateField()">{{field.description || 'empty'}}</a></td>
                     </tr>
+                    <tr>
+                        <td>Get Data</td>
+                        <td><code>{{ 'curl -XGET --header "Content-Type: application/json"
+                                --header "Authorization:' + project.secretKey + '"
+                                ' + 'https://' + project.domain + '/field/' + field.code + '/1' }}</code></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

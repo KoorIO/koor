@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
         return next();
     }
     if (req.originalUrl.match(/^\/docs\/(.*)|^\/run\/(.*)/g) 
-        || req.originalUrl.match(/^\/api\/v1\/storages\/field\/(.*)\/(.*)$/g)) {
+        || req.originalUrl.match(/^\/get\/(.*)/g)) {
         return next();
     }
     var t = req.get('Authorization');

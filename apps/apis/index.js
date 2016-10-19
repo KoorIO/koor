@@ -8,6 +8,7 @@ router.use('/api/v1/apis', require('./apis'));
 router.use('/api/v1/fields', require('./fields'));
 router.use('/api/v1/storages', require('./storages'));
 router.use('/run', require('./run')); 
+router.use('/get', require('./get')); 
 router.use('/docs', require('./docs')); 
 
 module.exports = router;

@@ -5,7 +5,7 @@ var logger = require('../helpers/logger');
 var db = require('../models');
 
 module.exports = function(req, res, next) {
-    if (!req.originalUrl.match(/^\/api\/v1\/storages\/field\/(.*)\/(.*)$/g)) {
+    if (!req.originalUrl.match(/^\/get\/(.*)/g)) {
         return next();
     }
     var t = req.get('Authorization');
