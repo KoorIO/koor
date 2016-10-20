@@ -62,7 +62,7 @@ client.on('message', function (topic, message) {
 We supports you create custom fields. With Free Plan, You can create/update/delete maximum 10 custom fields for per project, and 500 records per custom field. Base on the custom fields, you will store the data pushed by the clients
 And you are also able to download your data by using API as below
 ```
-curl -XGET --header "Content-Type: application/json" --header "Authorization:[project_secret_key]" https://[project_domain].koor.io/field/[field_code]/[page]
+curl -XGET --header "Content-Type: application/json" --header "Authorization:[project_secret_key]" https://[project_domain].koor.io/get/field/[field_code]/[page]
 ```
 
 ### Dashboard & Chart
