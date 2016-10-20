@@ -20,8 +20,6 @@ module.exports = function(req, res, next) {
             if (!project) {
                 throw true;
             }
-            req.project = project;
-            req.body.projectId = req.project._id;
             logger.info('Nice project secret key %s !!!', t);
             return next();
         }).catch(function(e) {
