@@ -8,7 +8,7 @@ var express = require('express'),
 
 // auth on register
 router.post('/auth_on_register', function(req, res){
-    logger.debug('Auth On Register');
+    logger.debug('MQTT Auth On Register');
     req.setEncoding('utf8');
 
     req.on('data', function(chunk) {
@@ -20,7 +20,7 @@ router.post('/auth_on_register', function(req, res){
 // auth on subscribe
 router.post('/auth_on_subscribe', function(req, res){
     req.setEncoding('utf8');
-    logger.debug('Auth On Subscribe');
+    logger.debug('MQTT Auth On Subscribe');
     req.on('data', function(data) {
         var topics = JSON.parse(data);
         var domains = [];
@@ -44,7 +44,7 @@ router.post('/auth_on_subscribe', function(req, res){
 
 // auth on publish
 router.post('/auth_on_publish', function(req, res){
-    logger.debug('Auth On Publish');
+    logger.debug('MQTT Auth On Publish');
     req.setEncoding('utf8');
 
     req.on('data', function(data) {
@@ -75,5 +75,54 @@ router.post('/auth_on_publish', function(req, res){
         });
     });
 });
+
+// on subscribe
+router.post('/on_subscribe', function(req, res){
+    logger.debug('MQTT On Subscribe');
+    req.setEncoding('utf8');
+
+    req.on('data', function(chunk) {
+        data = JSON.parse(data);
+        data.topics.forEach(function(topic) {
+            if (topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
+                var deviceId = data.topic.split('/')[2];
+                db.Device.findOne({
+                    _id: deviceId
+                }).then(function(device) {
+                    device.status = true;
+                    device.save(function() {
+                        logger.debug('Device %s is ON', deviceId);
+                    })
+                }).catch(function(){});
+            }
+        });
+        res.send(JSON.stringify({result: 'ok'}));
+    });
+});
+
+// on unsubscribe
+router.post('/on_unsubscribe', function(req, res){
+    logger.debug('MQTT On UnSubscribe');
+    req.setEncoding('utf8');
+
+    req.on('data', function(chunk) {
+        data = JSON.parse(data);
+        data.topics.forEach(function(topic) {
+            if (topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
+                var deviceId = data.topic.split('/')[2];
+                db.Device.findOne({
+                    _id: deviceId
+                }).then(function(device) {
+                    device.status = false;
+                    device.save(function() {
+                        logger.debug('Device %s is OFF', deviceId);
+                    })
+                }).catch(function(){});
+            }
+        });
+        res.send(JSON.stringify({result: 'ok'}));
+    });
+});
+
 
 module.exports = router;

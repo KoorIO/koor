@@ -10,6 +10,13 @@
             "update": "/a/api/v1/fields/update/:fieldId",
             "delete": "/a/api/v1/fields/delete/:fieldId"
         },
+        "devices": {
+            "get": "/a/api/v1/devices/get/:deviceId",
+            "list": "/a/api/v1/devices/list/:projectId/:page/:limit",
+            "create": "/a/api/v1/devices/create",
+            "update": "/a/api/v1/devices/update/:deviceId",
+            "delete": "/a/api/v1/devices/delete/:deviceId"
+        },
         "users": {
             "create": "/u/api/v1/users/create",
             "activate": "/u/api/v1/users/activate",

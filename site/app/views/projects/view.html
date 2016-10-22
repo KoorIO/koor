@@ -9,6 +9,7 @@
     <div class="col-md-3">
         <ul class="prj-nav nav">
             <li ng-class="(service == 'dashboard')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'dashboard'})"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li ng-class="(service == 'device')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'device'})"><i class="fa fa-automobile"></i> Devices</a></li>
             <li ng-class="(service == 'api')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'api'})"><i class="fa fa-server"></i> Resful API</a></li>
             <li ng-class="(service == 'websocket')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'websocket'})"><i class="fa fa-flash"></i> WebSocket</a></li>
             <li ng-class="(service == 'mqtt')?'active':''"><a ui-sref="app.projects.view({projectId:project._id, service: 'mqtt'})"><i class="fa fa-usb"></i> MQTT</a></li>
@@ -41,6 +42,51 @@
                     <label>{{ f.name }} <a ui-sref="app.fields.view({projectId: project._id, fieldId: f._id})"><i class="fa fa-area-chart"></i></a></label>
                     <canvas class="chart chart-line" chart-data="f.data" chart-labels="f.labels"></canvas> 
                 </div>
+            </div>
+        </div>
+        <div class="row" ng-show="service == 'device'">
+            <div class="panel-body">
+                <div class="panel panel-info">
+                    <!-- /.panel-heading -->
+                    <div class="panel-heading">
+                        Devices
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a ui-sref="app.devices.create({projectId: project._id, deviceId: device._id})" class="btn"><i class="fa fa-plus"></i> Create Device</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <p ng-hide="devices.length">There are no Devices. Please <a ui-sref="app.devices.create({projectId: project._id, deviceId: device._id})"><strong>create Device</strong></a> to start working with Koor IO</p>
+                        <div class="table-responsive" ng-show="devices.length">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="device in devices track by $index">
+                                    <td><a ui-sref="app.devices.view({projectId: project._id, deviceId: device._id})" ng-bind="device.name"></a></td>
+                                    <td><i class="fa fa-circle" ng-class="device.status?'text-success':'text-danger'"></i></td>
+                                    <td><a class="btn btn-xs btn-danger" ng-click="deleteDevice($index, field._id)"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
             </div>
         </div>
         <div class="row" ng-show="service == 'field'">
