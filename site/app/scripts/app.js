@@ -263,6 +263,7 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/services/devices.js',
+                                'scripts/services/projects.js',
                                 'scripts/services/socket.js',
                                 'scripts/controllers/devices.js'
                             ]

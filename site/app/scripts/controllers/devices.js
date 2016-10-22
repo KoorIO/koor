@@ -15,7 +15,7 @@ angular.module('siteSeedApp')
         });
     };
 })
-.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Storages, Socket, Projects) {
+.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects) {
     var deviceId = $stateParams.deviceId;
     Projects.get($stateParams.projectId).then(function(p) {
         $scope.project = p;
@@ -27,8 +27,7 @@ angular.module('siteSeedApp')
             });
             socket.on('device_data', function(data) {
                 if (data.deviceId === deviceId) {
-                    $scope.device.data.push(parseInt(data.value));
-                    $scope.device.labels.push('');
+                    $scope.device.status = data.status;
                     $scope.$apply();
                 }
             });

@@ -3,6 +3,7 @@ var express = require('express'),
     logger = require('../helpers/logger'),
     db = require('../models'),
     q = require('../queues'),
+    cache = require('../helpers/cache'),
     os = require('os'),
     router = express.Router();
 
@@ -85,12 +86,19 @@ router.post('/on_subscribe', function(req, res){
         data = JSON.parse(data);
         data.topics.forEach(function(topic) {
             if (topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
-                var deviceId = data.topic.split('/')[2];
+                var arrTopic = data.topic.split('/');
+                var deviceId = arrTopic.split('/')[2];
+                var domain = arrTopic.split('/')[0];
                 db.Device.findOne({
                     _id: deviceId
                 }).then(function(device) {
                     device.status = true;
                     device.save(function() {
+                        cache.publish('device_data', JSON.stringify({
+                            status: device.status,
+                            domain: domain,
+                            deviceId: device._id
+                        }));
                         logger.debug('Device %s is ON', deviceId);
                     })
                 }).catch(function(){});
@@ -109,14 +117,22 @@ router.post('/on_unsubscribe', function(req, res){
         data = JSON.parse(data);
         data.topics.forEach(function(topic) {
             if (topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
-                var deviceId = data.topic.split('/')[2];
+                var arrTopic = data.topic.split('/');
+                var deviceId = arrTopic.split('/')[2];
+                var domain = arrTopic.split('/')[0];
                 db.Device.findOne({
                     _id: deviceId
                 }).then(function(device) {
                     device.status = false;
                     device.save(function() {
+                        cache.publish('device_data', JSON.stringify({
+                            status: device.status,
+                            domain: domain,
+                            deviceId: device._id
+                        }));
                         logger.debug('Device %s is OFF', deviceId);
-                    })
+                    });
+
                 }).catch(function(){});
             }
         });

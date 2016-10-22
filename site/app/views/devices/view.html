@@ -1,38 +1,26 @@
 <div class="col-lg-12">
-    <h1 class="page-header"><i class="fa fa-database"></i> <span>Device {{device.name}}</span></h1>
+    <h1 class="page-header"><i class="fa fa-automobile"></i> <span>Device {{device.name}}</span></h1>
 </div>
 <!-- /.col-lg-12 -->
 <div class="col-lg-12">
-    <div class="panel panel-default">
-        <div class="panel-heading"> Device Details
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-            <div class="table-responsive">
-                <div ng-show="update_message" class="alert alert-success">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    {{update_message}}
-                </div>
-                <table class="table table-hover">
-                    <tbody>
-                    <tr>
-                        <td>Name</td>
-                        <td><a href="#" editable-text="device.name" onaftersave="updateDevice()">{{device.name || 'empty'}}</a></td>
-                    </tr>
-                    <tr>
-                        <td>Description</td>
-                        <td><a href="#" editable-text="device.description" onaftersave="updateDevice()">{{device.description || 'empty'}}</a></td>
-                    </tr>
-                    <tr>
-                        <td>Status</td>
-                        <td><i class="fa fa-circle" ng-class="device.status?'text-success':'text-danger'"></i></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.table-responsive -->
-        </div>
-        <!-- /.panel-body -->
+    <div ng-show="update_message" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{update_message}}
     </div>
-    <!-- /.panel -->
+    <table class="table table-hover">
+        <tbody>
+        <tr>
+            <td>Name</td>
+            <td><a href="#" editable-text="device.name" onaftersave="updateDevice()">{{device.name || 'empty'}}</a></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><a href="#" editable-text="device.description" onaftersave="updateDevice()">{{device.description || 'empty'}}</a></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td><i class="fa fa-circle" ng-class="device.status?'text-success':'text-danger'"></i></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
