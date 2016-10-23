@@ -225,6 +225,7 @@ angular.module('siteSeedApp')
         if ($scope.service === 'device') {
             Devices.list($scope.project._id, 1, 10).then(function(devices) {
                 $scope.devices = devices.rows;
+                $scope.count = devices.count;
                 var itemsProcessed = 0;
                 if(itemsProcessed === $scope.devices.length) {
                     $scope.loaded = true;
@@ -246,6 +247,12 @@ angular.module('siteSeedApp')
                     });
                 });
             });
+            $scope.pageChanged = function() {
+                Devices.list($scope.project._id, $scope.currentPage, limit).then(function(response){
+                    $scope.devices = response.rows;
+                    $scope.count = response.count;
+                });
+            };
 
             $scope.deleteDevice = function(idx, id) {
                 var modalDeviceYesNo = $uibModal.open({

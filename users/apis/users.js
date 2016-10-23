@@ -15,6 +15,7 @@ router.post('/create', function(req, res){
     req.body.isActive = false;
     var user = new db.User({
         username: req.body.username,
+        password: req.body.password,
         email: req.body.email,
         firstname: req.body.firstname,
         lastname: req.body.lastname
@@ -252,6 +253,7 @@ router.put('/update/:id', function(req, res){
 router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
+    logger.debug('User List', limit, skip);
     db.User.count({}, function(err, c) {
         db.User
         .find()
@@ -277,6 +279,7 @@ router.get('/list/:page/:limit', function(req, res){
 router.post('/login', function(req, res){
     var username = req.body.username;
     var password = req.body.password;
+    logger.debug('User %s loggin', req.body.username);
 
     db.User.findOne({
         username: username,

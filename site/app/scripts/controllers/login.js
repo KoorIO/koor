@@ -14,7 +14,7 @@ angular.module('siteSeedApp')
             vm.error = null;
             $state.go('app.projects.list');
         }).catch(function(){
-            vm.error = 'Access Denied!';
+            vm.error = 'Your Username or Password is incorrect, Please try again!';
         });
     };
 

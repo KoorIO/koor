@@ -83,6 +83,11 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="row" ng-show="devices.length">
+                            <div class="pull-right">
+                                <uib-pagination style="margin-right: 20px" total-items="count" items-per-page="limit" ng-model="currentPage" ng-change="pageChanged()" max-size="5" boundary-links="true" rotate="false"></uib-pagination>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.panel-body -->
                 </div>

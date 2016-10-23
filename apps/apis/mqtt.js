@@ -12,8 +12,9 @@ router.post('/auth_on_register', function(req, res){
     logger.debug('MQTT Auth On Register');
     req.setEncoding('utf8');
 
-    req.on('data', function(chunk) {
-        req.rawBody += chunk;
+    req.on('data', function(data) {
+        var data = JSON.parse(data);
+        logger.debug('Username', data.username);
         res.send(JSON.stringify({result: 'ok'}));
     });
 });
@@ -49,7 +50,7 @@ router.post('/auth_on_publish', function(req, res){
     req.setEncoding('utf8');
 
     req.on('data', function(data) {
-        data = JSON.parse(data);
+        var data = JSON.parse(data);
         var topics = data.topic.split('/');
         var domain = topics[0];
         db.Project.findOne({
@@ -82,17 +83,20 @@ router.post('/on_subscribe', function(req, res){
     logger.debug('MQTT On Subscribe');
     req.setEncoding('utf8');
 
-    req.on('data', function(chunk) {
-        data = JSON.parse(data);
+    req.on('data', function(data) {
+        var data = JSON.parse(data);
+        logger.debug('Subscriber Id', data.subscriber_id);
         data.topics.forEach(function(topic) {
-            if (topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
-                var arrTopic = data.topic.split('/');
-                var deviceId = arrTopic.split('/')[2];
-                var domain = arrTopic.split('/')[0];
+            logger.debug('Topic', topic.topic);
+            if (topic.topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
+                var arrTopic = topic.topic.split('/');
+                var deviceId = arrTopic[2];
+                var domain = arrTopic[0];
                 db.Device.findOne({
                     _id: deviceId
                 }).then(function(device) {
                     device.status = true;
+                    device.subscriberId = data.subscriber_id;
                     device.save(function() {
                         cache.publish('device_data', JSON.stringify({
                             status: device.status,
@@ -108,37 +112,65 @@ router.post('/on_subscribe', function(req, res){
     });
 });
 
-// on unsubscribe
-router.post('/on_unsubscribe', function(req, res){
-    logger.debug('MQTT On UnSubscribe');
+// on client gone
+router.post('/on_client_gone', function(req, res){
+    logger.debug('MQTT On Client Gone');
     req.setEncoding('utf8');
 
-    req.on('data', function(chunk) {
-        data = JSON.parse(data);
-        data.topics.forEach(function(topic) {
-            if (topic.match(/^(.*)\.koor.io\/devices\/(.*)/g)) {
-                var arrTopic = data.topic.split('/');
-                var deviceId = arrTopic.split('/')[2];
-                var domain = arrTopic.split('/')[0];
-                db.Device.findOne({
-                    _id: deviceId
-                }).then(function(device) {
-                    device.status = false;
-                    device.save(function() {
-                        cache.publish('device_data', JSON.stringify({
-                            status: device.status,
-                            domain: domain,
-                            deviceId: device._id
-                        }));
-                        logger.debug('Device %s is OFF', deviceId);
-                    });
+    req.on('data', function(data) {
+        var data = JSON.parse(data);
+        logger.debug('Subscriber Id', data.subscriber_id);
+        db.Device.findOne({
+            subscriberId: data.subscriber_id
+        }).then(function(device) {
+            device.status = false;
+            device.save(function() {
+                db.Project.findOne({
+                    _id: device.projectId
+                }).then(function(p) {
+                    cache.publish('device_data', JSON.stringify({
+                        status: device.status,
+                        domain: p.domain,
+                        deviceId: device._id
+                    }));
+                    logger.debug('Device %s is OFF', device._id);
+                });
+            });
 
-                }).catch(function(){});
-            }
         });
         res.send(JSON.stringify({result: 'ok'}));
     });
 });
+
+// on client offline
+router.post('/on_client_offline', function(req, res){
+    logger.debug('MQTT On Client Offline');
+    req.setEncoding('utf8');
+
+    req.on('data', function(data) {
+        var data = JSON.parse(data);
+        logger.debug('Subscriber Id', data.subscriber_id);
+        db.Device.findOne({
+            subscriberId: data.subscriber_id
+        }).then(function(device) {
+            device.status = false;
+            device.save(function() {
+                db.Project.findOne({
+                    _id: device.projectId
+                }).then(function(p) {
+                    cache.publish('device_data', JSON.stringify({
+                        status: device.status,
+                        domain: p.domain,
+                        deviceId: device._id
+                    }));
+                    logger.debug('Device %s is OFF', deviceId);
+                });
+            });
+        });
+        res.send(JSON.stringify({result: 'ok'}));
+    });
+});
+
 
 
 module.exports = router;

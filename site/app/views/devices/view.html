@@ -10,6 +10,10 @@
     <table class="table table-hover">
         <tbody>
         <tr>
+            <td>MQTT Channel</td>
+            <td><code>{{ project.domain + "/devices/" + device._id }}</code></td>
+        </tr>
+        <tr>
             <td>Name</td>
             <td><a href="#" editable-text="device.name" onaftersave="updateDevice()">{{device.name || 'empty'}}</a></td>
         </tr>

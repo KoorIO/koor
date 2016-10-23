@@ -21,6 +21,10 @@ var Device = new Schema({
         type: Schema.Types.ObjectId,
         index: true,
         require: true
+    },
+    subscriberId: {
+        type: String,
+        index: true
     }
 });
 
