@@ -214,6 +214,7 @@ angular
                                 'scripts/services/projects.js',
                                 'scripts/services/storages.js',
                                 'scripts/services/fields.js',
+                                'scripts/services/devices.js',
                                 'scripts/services/socket.js',
                                 'scripts/controllers/projects.js',
                                 'scripts/services/apis.js'
@@ -251,6 +252,34 @@ angular
         .state('app.projects.update', {
             url: '/update',
             templateUrl: 'views/projects/udpate.html'
+        })
+        .state('app.devices', {
+            url: '/:projectId/devices',
+            templateUrl: 'views/apis/index.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/services/devices.js',
+                                'scripts/services/projects.js',
+                                'scripts/services/socket.js',
+                                'scripts/controllers/devices.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('app.devices.view', {
+            url: '/view/:deviceId',
+            controller: 'ViewDeviceCtrl',
+            templateUrl: 'views/devices/view.html'
+        })
+        .state('app.devices.create', {
+            url: '/create',
+            templateUrl: 'views/devices/create.html',
+            controller: 'CreateDeviceCtrl'
         })
         .state('app.fields', {
             url: '/:projectId/fields',

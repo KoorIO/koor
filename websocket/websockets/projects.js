@@ -13,10 +13,15 @@ var sub = require('redis').createClient({
 
 exports = module.exports = function(io){
     sub.subscribe('field_data');
+    sub.subscribe('device_data');
     sub.on('message', function(channel, message) {
         var data = JSON.parse(message);
         var adminRoom = data.domain + '-admins';
         if (channel === 'field_data') {
+            io.sockets.in(adminRoom).emit('field_data', data);
+        }
+        if (channel === 'device_data') {
+            logger.debug('Device %s change Status %s', data.deviceId, data.status);
             io.sockets.in(adminRoom).emit('field_data', data);
         }
     });

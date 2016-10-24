@@ -79,7 +79,7 @@ angular.module('siteSeedApp')
     });
 })
 .controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal,
-                                          $state, $log, Socket, kmqtt, APP_CONFIG, Storages, Fields) {
+                                          $state, $log, Socket, kmqtt, APP_CONFIG, Storages, Fields, Devices) {
     var page = 1,
         limit = 10;
     $scope.service = $stateParams.service || 'dashboard';
@@ -88,104 +88,190 @@ angular.module('siteSeedApp')
     $scope.limit = limit;
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
-        $scope.channelSubscribe = res.domain + '/mqtt/demo';
-        var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
-        $scope.$on("$destroy", function() {
-            client.end();
-        });
-        client.subscribe($scope.channelSubscribe);
-
-        $scope.inbox = [];
-        client.on("message", function(topic, payload) {
-            var data = {
-                time: new Date(new Date().getTime()).toLocaleString(),
-                message: payload.toString()
-            };
-            $scope.inbox.push(data);
-            $scope.$apply();
-        });
-
-        var socket = Socket.connect(res.domain);
-        $scope.$on("$destroy", function() {
-            socket.disconnect();
-        });
-        socket.on('clients', function(data) {
-            $scope.sockets = data.filter(function(item) {
-                return item.id !== socket.id;
+        if ($scope.service === 'dashboard' || $scope.service === 'settings') {
+            $scope.loaded = true;
+        }
+        if ($scope.service === 'mqtt') {
+            $scope.channelSubscribe = res.domain + '/mqtt/demo';
+            $scope.loaded = true;
+            var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
+            $scope.$on("$destroy", function() {
+                client.end();
             });
-            $scope.$apply();
-        });
+            client.subscribe($scope.channelSubscribe);
 
-        Apis.list($scope.project._id, page, limit).then(function(res) {
-            $scope.apis = res.rows;
-            $scope.count = res.count;
-        });
+            $scope.inbox = [];
+            client.on("message", function(topic, payload) {
+                var data = {
+                    time: new Date(new Date().getTime()).toLocaleString(),
+                    message: payload.toString()
+                };
+                $scope.inbox.push(data);
+                $scope.$apply();
+            });
+        }
 
-        $scope.sendBroadcastMessage = function() {
-            var modalSocket = $uibModal.open({
-                animation: $scope.animationsEnabled,
-                templateUrl: 'modalSocket.html',
-                controller: 'ModalSocketCtrl',
-                resolve: {
-                    socket: function () {
-                        return socket;
-                    }
-                }
-            });
-            modalSocket.result.then(function() {
-                $log.info('Sent Broadcast ' + new Date());
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        };
-        Fields.list($scope.project._id, 1, 10).then(function(fields) {
-            $scope.fields = fields.rows;
-            var itemsProcessed = 0;
-            if(itemsProcessed === $scope.fields.length) {
+        if ($scope.service === 'api') {
+            Apis.list($scope.project._id, page, limit).then(function(res) {
+                $scope.apis = res.rows;
+                $scope.count = res.count;
                 $scope.loaded = true;
-            }
-            $scope.fields.forEach(function(field) {
-                Storages.get(field._id).then(function(storages) {
-                    field.labels = [];
-                    field.data = [];
-                    itemsProcessed++;
-                    if(itemsProcessed === $scope.fields.length) {
-                        $scope.loaded = true;
-                    }
-                    storages.forEach(function(s) {
-                        if (parseInt(s.data)) {
-                            field.data.push(parseInt(s.data));
-                            field.labels.push('');
+            });
+
+            $scope.pageChanged = function() {
+                Apis.list($stateParams.projectId, $scope.currentPage, limit).then(function(response){
+                    $scope.apis = response.rows;
+                    $scope.count = response.count;
+                });
+            };
+
+            $scope.deleteApi = function(index, apiId) {
+                var modalUndo = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    backdrop: false,
+                    keyboard: false,
+                    openedClass: 'modal-undo',
+                    templateUrl: 'modalUndo.html',
+                    controller: 'ModalUndoCtrl'
+                });
+                var tmp = $scope.apis[index];
+                $scope.apis.splice(index, 1);
+                $scope.count = $scope.count - 1;
+                modalUndo.result.then(function() {
+                    $scope.apis.splice(index, 0, tmp);
+                    $scope.count = $scope.count + 1;
+                }, function () {
+                    Apis.remove(apiId).then(function() {
+                        $log.info('Api was deleted');
+                    });
+                });
+            };
+        }
+
+        if ($scope.service === 'websocket') {
+            var socket = Socket.connect(res.domain);
+            $scope.loaded = true;
+            $scope.$on("$destroy", function() {
+                socket.disconnect();
+            });
+            socket.on('clients', function(data) {
+                $scope.sockets = data.filter(function(item) {
+                    return item.id !== socket.id;
+                });
+                $scope.$apply();
+            });
+
+            $scope.sendBroadcastMessage = function() {
+                var modalSocket = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'modalSocket.html',
+                    controller: 'ModalSocketCtrl',
+                    resolve: {
+                        socket: function () {
+                            return socket;
                         }
+                    }
+                });
+                modalSocket.result.then(function() {
+                    $log.info('Sent Broadcast ' + new Date());
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
+        }
+
+        if ($scope.service === 'field') {
+            Fields.list($scope.project._id, 1, 10).then(function(fields) {
+                $scope.fields = fields.rows;
+                var itemsProcessed = 0;
+                if(itemsProcessed === $scope.fields.length) {
+                    $scope.loaded = true;
+                }
+                $scope.fields.forEach(function(field) {
+                    Storages.get(field._id).then(function(storages) {
+                        field.labels = [];
+                        field.data = [];
+                        itemsProcessed++;
+                        if(itemsProcessed === $scope.fields.length) {
+                            $scope.loaded = true;
+                        }
+                        storages.forEach(function(s) {
+                            if (parseInt(s.data)) {
+                                field.data.push(parseInt(s.data));
+                                field.labels.push('');
+                            }
+                        });
                     });
                 });
             });
-        });
 
-        $scope.deleteField = function(idx, id) {
-            var modalFieldYesNo = $uibModal.open({
-                animation: $scope.animationsEnabled,
-                templateUrl: 'modalFieldYesNo.html',
-                controller: 'ModalFieldYesNoCtrl'
-            });
-            modalFieldYesNo.result.then(function() {
-                Fields.remove(id).then(function() {
-                    $scope.fields.splice(idx, 1);
-                    $state.go('app.projects.view', {projectId: $stateParams.projectId, action: 'field'});
+            $scope.deleteField = function(idx, id) {
+                var modalFieldYesNo = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'modalFieldYesNo.html',
+                    controller: 'ModalFieldYesNoCtrl'
                 });
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+                modalFieldYesNo.result.then(function() {
+                    Fields.remove(id).then(function() {
+                        $scope.fields.splice(idx, 1);
+                        $state.go('app.projects.view', {projectId: $stateParams.projectId, action: 'field'});
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
+        }
+
+        if ($scope.service === 'device') {
+            Devices.list($scope.project._id, 1, 10).then(function(devices) {
+                $scope.devices = devices.rows;
+                $scope.count = devices.count;
+                var itemsProcessed = 0;
+                if(itemsProcessed === $scope.devices.length) {
+                    $scope.loaded = true;
+                }
+                $scope.devices.forEach(function(field) {
+                    Storages.get(field._id).then(function(storages) {
+                        field.labels = [];
+                        field.data = [];
+                        itemsProcessed++;
+                        if(itemsProcessed === $scope.devices.length) {
+                            $scope.loaded = true;
+                        }
+                        storages.forEach(function(s) {
+                            if (parseInt(s.data)) {
+                                field.data.push(parseInt(s.data));
+                                field.labels.push('');
+                            }
+                        });
+                    });
+                });
             });
-        };
+            $scope.pageChanged = function() {
+                Devices.list($scope.project._id, $scope.currentPage, limit).then(function(response){
+                    $scope.devices = response.rows;
+                    $scope.count = response.count;
+                });
+            };
+
+            $scope.deleteDevice = function(idx, id) {
+                var modalDeviceYesNo = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'modalDeviceYesNo.html',
+                    controller: 'ModalDeviceYesNoCtrl'
+                });
+                modalDeviceYesNo.result.then(function() {
+                    Devices.remove(id).then(function() {
+                        $scope.devices.splice(idx, 1);
+                        $state.go('app.projects.view', {projectId: $stateParams.projectId, action: 'device'});
+                    });
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+            };
+        }
 
     });
-
-    $scope.pageChanged = function() {
-        Apis.list($stateParams.projectId, $scope.currentPage, limit).then(function(response){
-            $scope.apis = response.rows;
-            $scope.count = response.count;
-        });
-    };
 
     $scope.updateProject = function() {
         var data = {
@@ -221,28 +307,6 @@ angular.module('siteSeedApp')
         });
     };
 
-    $scope.deleteApi = function(index, apiId) {
-        var modalUndo = $uibModal.open({
-            animation: $scope.animationsEnabled,
-            backdrop: false,
-            keyboard: false,
-            openedClass: 'modal-undo',
-            templateUrl: 'modalUndo.html',
-            controller: 'ModalUndoCtrl'
-        });
-        var tmp = $scope.apis[index];
-        $scope.apis.splice(index, 1);
-        $scope.count = $scope.count - 1;
-        modalUndo.result.then(function() {
-            $scope.apis.splice(index, 0, tmp);
-            $scope.count = $scope.count + 1;
-        }, function () {
-            Apis.remove(apiId).then(function() {
-                $log.info('Api was deleted');
-            });
-        });
-    };
-
     $scope.forUnitTest = true;
 })
 .controller('ModalSocketCtrl', function ($scope, $uibModalInstance, socket) {
@@ -266,6 +330,16 @@ angular.module('siteSeedApp')
     };
 })
 .controller('ModalFieldYesNoCtrl', function ($scope, $uibModalInstance) {
+
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+})
+.controller('ModalDeviceYesNoCtrl', function ($scope, $uibModalInstance) {
 
     $scope.ok = function () {
         $uibModalInstance.close();

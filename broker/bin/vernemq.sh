@@ -68,6 +68,9 @@ vmq-admin plugin disable -n vmq_passwd && \
     vmq-admin plugin disable -n vmq_acl && \
     vmq-admin webhooks register hook=auth_on_register endpoint="http://apps/api/v1/mqtt/auth_on_register" && \
     vmq-admin webhooks register hook=auth_on_subscribe endpoint="http://apps/api/v1/mqtt/auth_on_subscribe" && \
+    vmq-admin webhooks register hook=on_subscribe endpoint="http://apps/api/v1/mqtt/on_subscribe" && \
+    vmq-admin webhooks register hook=on_client_gone endpoint="http://apps/api/v1/mqtt/on_client_gone" && \
+    vmq-admin webhooks register hook=on_client_offline endpoint="http://apps/api/v1/mqtt/on_client_offline" && \
     vmq-admin webhooks register hook=auth_on_publish endpoint="http://apps/api/v1/mqtt/auth_on_publish"
 
 pid=$(ps aux | grep '[b]eam.smp' | awk '{print $2}')

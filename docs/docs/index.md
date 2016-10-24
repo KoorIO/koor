@@ -65,5 +65,11 @@ And you are also able to download your data by using API as below
 curl -XGET --header "Content-Type: application/json" --header "Authorization:[project_secret_key]" https://[project_domain].koor.io/get/field/[field_code]/[page]
 ```
 
+### Devices
+With Koor.IO, you are able to manage all devices in your Internet of Things.
+- Update Device Status realtime
+- Send/Receive data from devices on MQTT channel and Websocket
+- Receive data from devices on HTTP
+
 ### Dashboard & Chart
 With Free Plan, we will show the chart of the data for maximum 500 records.
