@@ -19,5 +19,6 @@ cd $workdir/site && npm start &
 child_proc="$child_proc $!"
 cd $workdir/land && gulp dev &
 child_proc="$child_proc $!"
-cd $workdir/docs && PATH=./env/bin/ && mkdocs serve --dev-addr=0.0.0.0:8000
+cd $workdir/docs && PATH=./env/bin/ && mkdocs serve --dev-addr=0.0.0.0:8000 &
 child_proc="$child_proc $!"
+tail -f docker-compose.yml

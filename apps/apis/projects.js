@@ -34,6 +34,19 @@ router.post('/create', function(req, res){
                             domain: project.domain
                         }).priority('high').save();
 
+                        // save activity
+                        q.create(os.hostname() + 'activities', {
+                            projectId: project._id,
+                            userId: project.userId,
+                            type: 'CREATE_PROJECT',
+                            data: {
+                                _id: project._id,
+                                name: project.name,
+                                domain: project.domain,
+                                userId: project.userId
+                            }
+                        }).priority('low').save();
+
                         res.send(JSON.stringify(project));
                     });
                 });

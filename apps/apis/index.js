@@ -8,6 +8,7 @@ router.use('/api/v1/mqtt', require('./mqtt'));
 router.use('/api/v1/apis', require('./apis'));
 router.use('/api/v1/fields', require('./fields'));
 router.use('/api/v1/storages', require('./storages'));
+router.use('/api/v1/activities', require('./activities'));
 router.use('/run', require('./run')); 
 router.use('/get', require('./get')); 
 router.use('/docs', require('./docs')); 
