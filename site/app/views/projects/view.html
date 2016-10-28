@@ -1,3 +1,6 @@
+<script type="text/ng-template" id="activity.html">
+    <span ng-show="activity.type=='CREATE_PROJECT'">{{ 'You created this project' }}</span>
+</script>
 <div class="container-loading prj-animation" ng-show="!loaded">
     <div class="loading">
         <i class="fa fa-cog fa-spin fa-4x fa-fw"></i>
@@ -19,22 +22,24 @@
     </div>
     <div class="col-md-9">
         <div class="row" ng-show="service == 'dashboard'">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label>Name</label>
                     <p class="form-control-static" ng-bind="project.name"></p>
                 </div>
-            </div>
-            <div class="col-sm-5">
                 <div class="form-group">
                     <label>Domain</label>
                     <p class="form-control-static project-domain" ng-bind="project.domain"></p>
                 </div>
-            </div>
-            <div class="col-sm-2">
                 <div class="form-group">
                     <label>DNS Status</label>
                     <p class="form-control-static"><i class="fa fa-circle" ng-class="(project.dnsStatus)?'text-success':'text-danger'"></i></p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Activities</label>
+                    <p class="form-control-static" ng-repeat="activity in activities.rows" ng-include="'activity.html'"></p>
                 </div>
             </div>
             <div class="col-sm-6" ng-repeat="f in fields" ng-show="f.data.length">

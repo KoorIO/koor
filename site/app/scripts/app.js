@@ -212,6 +212,8 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/services/projects.js',
+                                'scripts/services/activities.js',
+                                'scripts/services/notifications',
                                 'scripts/services/storages.js',
                                 'scripts/services/fields.js',
                                 'scripts/services/devices.js',

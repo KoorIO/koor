@@ -79,7 +79,7 @@ angular.module('siteSeedApp')
     });
 })
 .controller('ProjectDetailCtrl', function($scope, Projects, $stateParams, Apis, $uibModal,
-                                          $state, $log, Socket, kmqtt, APP_CONFIG, Storages, Fields, Devices) {
+                                          $state, $log, Socket, kmqtt, APP_CONFIG, Storages, Fields, Devices, Activities) {
     var page = 1,
         limit = 10;
     $scope.service = $stateParams.service || 'dashboard';
@@ -89,6 +89,9 @@ angular.module('siteSeedApp')
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
         if ($scope.service === 'dashboard' || $scope.service === 'settings') {
+            Activities.list($stateParams.projectId, 1, 20).then(function(activities) {
+                $scope.activities = activities;
+            });
             $scope.loaded = true;
         }
         if ($scope.service === 'mqtt') {

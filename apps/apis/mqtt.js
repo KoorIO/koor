@@ -103,6 +103,22 @@ router.post('/on_subscribe', function(req, res){
                             domain: domain,
                             deviceId: device._id
                         }));
+                        // save activity
+                        db.Project.findOne({
+                            domain: topic
+                        }).then(function(project) {
+                            if (project) {
+                                q.create(os.hostname() + 'activities', {
+                                    projectId: project._id,
+                                    userId: project.userId,
+                                    type: 'DEVICE_ON',
+                                    data: {
+                                        _id: device._id,
+                                        name: device.name
+                                    }
+                                }).priority('low').save();
+                            }
+                        });
                         logger.debug('Device %s is ON', deviceId);
                     })
                 }).catch(function(){});
@@ -133,6 +149,16 @@ router.post('/on_client_gone', function(req, res){
                         domain: p.domain,
                         deviceId: device._id
                     }));
+                    // save activiry
+                    q.create(os.hostname() + 'activities', {
+                        projectId: p._id,
+                        userId: p.userId,
+                        type: 'DEVICE_ON',
+                        data: {
+                            _id: device._id,
+                            name: device.name
+                        }
+                    }).priority('low').save();
                     logger.debug('Device %s is OFF', device._id);
                 });
             });
@@ -163,6 +189,15 @@ router.post('/on_client_offline', function(req, res){
                         domain: p.domain,
                         deviceId: device._id
                     }));
+                    q.create(os.hostname() + 'activities', {
+                        projectId: p._id,
+                        userId: p.userId,
+                        type: 'DEVICE_ON',
+                        data: {
+                            _id: device._id,
+                            name: device.name
+                        }
+                    }).priority('low').save();
                     logger.debug('Device %s is OFF', deviceId);
                 });
             });
