@@ -27,6 +27,13 @@ consumer.task = function(job, done){
                     data: project
                 };
                 q.create(os.hostname() + 'notifications', notification).priority('high').save();
+                var activity = {
+                    type: 'DNS_RESOLVED',
+                    userId: project.userId,
+                    projectId: project._id,
+                    data: project
+                };
+                q.create(os.hostname() + 'activities', notification).priority('low').save();
                 logger.debug('Domain %s works', project.domain);
             });
         }).catch(function(e){

@@ -13,7 +13,8 @@ angular
     'xeditable',
     'kmqtt',
     'ui.gravatar',
-    'chart.js'
+    'chart.js',
+    'yaru22.angular-timeago'
 ])  
 /* jshint ignore:start */
 .constant('APP_CONFIG', /* @echo APP_CONFIG */)

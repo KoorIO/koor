@@ -22,7 +22,7 @@ exports = module.exports = function(io){
         }
         if (channel === 'device_data') {
             logger.debug('Device %s change Status %s', data.deviceId, data.status);
-            io.sockets.in(adminRoom).emit('field_data', data);
+            io.sockets.in(adminRoom).emit('device_data', data);
         }
     });
 

@@ -8,13 +8,16 @@ var Notification = new Schema({
         type: String,
         require: true
     },
+    status: {
+        type: String,
+        default: 'unread'
+    },
     data: {
         type: Schema.Types.Mixed,
         require: true
     },
     userId: {
         type: Schema.Types.ObjectId,
-        index: true,
         index: true
     }
 });

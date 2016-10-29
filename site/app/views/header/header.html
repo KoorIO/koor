@@ -1,3 +1,23 @@
+<script type="text/ng-template" id="notification.html">
+    <a ui-sref="app.projects.view({projectId: n.data._id})" ng-show="n.type='DNS_RESOLVED'">
+        <div>
+            <i class="fa fa-circle fa-fw text-success small"></i> Project <strong>{{ n.data.name }}</strong> was ready to use
+            <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
+        </div>
+    </a>
+    <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type='DEVICE_ON'">
+        <div>
+            <i class="fa fa-circle fa-fw text-success small"></i> Device <strong>{{ n.data.name }}</strong> was connected
+            <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
+        </div>
+    </a>
+    <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type='DEVICE_OFF'">
+        <div>
+            <i class="fa fa-circle fa-fw text-danger small"></i> Device <strong>{{ n.data.name }}</strong> was disconnected
+            <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
+        </div>
+    </a>
+</script>
 <!-- Navigation -->
 <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -15,6 +35,27 @@
         <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="app.projects.create">
             <i class="fa fa-plus fa-fw"></i>  Create Project
         </a>
+    </li>
+    <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-alerts">
+        <li ng-show="!notifications.length">
+        <a href="#">
+            <div><i class="text-muted small"> There is no notification.</i></div>
+        </a>
+        </li>
+        <li ng-repeat="n in notifications" ng-include="'notification.html'"> 
+        <a href="#">
+            <div>
+                <i class="fa fa-comment fa-fw"></i> {{ n.createdAt }}
+                <span class="pull-right text-muted small">4 minutes ago</span>
+            </div>
+        </a>
+        </li>
+    </ul>
+    <!-- /.dropdown-alerts -->
     </li>
     <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown">

@@ -1,5 +1,8 @@
 <script type="text/ng-template" id="activity.html">
-    <span ng-show="activity.type=='CREATE_PROJECT'">{{ 'You created this project' }}</span>
+    <span ng-show="activity.type=='DEVICE_OFF'">Device <strong>{{ activity.data.name }}</strong> was OFF <time-ago from-time='{{ activity.createdAt }}'></time-ago></span>
+    <span ng-show="activity.type=='DEVICE_ON'">Device <strong>{{ activity.data.name }}</strong> was ON <time-ago from-time='{{ activity.createdAt }}'></time-ago></span>
+    <span ng-show="activity.type=='DNS_RESOLVED'">{{ 'Your project domain was activated ' }}<time-ago from-time='{{ activity.createdAt }}'></time-ago></span>
+    <span ng-show="activity.type=='CREATE_PROJECT'">{{ 'You created this project ' }}<time-ago from-time='{{ activity.createdAt }}'></time-ago></span>
 </script>
 <div class="container-loading prj-animation" ng-show="!loaded">
     <div class="loading">

@@ -108,6 +108,11 @@ router.post('/on_subscribe', function(req, res){
                             domain: topic
                         }).then(function(project) {
                             if (project) {
+                                q.create(os.hostname() + 'notifications', {
+                                    userId: project.userId,
+                                    type: 'DEVICE_ON',
+                                    data: device
+                                }).priority('high').save();
                                 q.create(os.hostname() + 'activities', {
                                     projectId: project._id,
                                     userId: project.userId,
@@ -150,10 +155,15 @@ router.post('/on_client_gone', function(req, res){
                         deviceId: device._id
                     }));
                     // save activiry
+                    q.create(os.hostname() + 'notifications', {
+                        userId: p.userId,
+                        type: 'DEVICE_OFF',
+                        data: device
+                    }).priority('high').save();
                     q.create(os.hostname() + 'activities', {
                         projectId: p._id,
                         userId: p.userId,
-                        type: 'DEVICE_ON',
+                        type: 'DEVICE_OFF',
                         data: {
                             _id: device._id,
                             name: device.name
@@ -189,10 +199,15 @@ router.post('/on_client_offline', function(req, res){
                         domain: p.domain,
                         deviceId: device._id
                     }));
+                    q.create(os.hostname() + 'notifications', {
+                        userId: p.userId,
+                        type: 'DEVICE_OFF',
+                        data: device
+                    }).priority('high').save();
                     q.create(os.hostname() + 'activities', {
                         projectId: p._id,
                         userId: p.userId,
-                        type: 'DEVICE_ON',
+                        type: 'DEVICE_OFF',
                         data: {
                             _id: device._id,
                             name: device.name

@@ -4,10 +4,10 @@
             "get": "/a/api/v1/storages/:fieldId"
         },
         "activities": {
-            "get": "/a/api/v1/activities/list/:projectId/:page/:limit"
+            "list": "/a/api/v1/activities/list/:projectId/:page/:limit"
         },
         "notifications": {
-            "get": "/a/api/v1/notifications/list/:page/:limit"
+            "list": "/a/api/v1/notifications/list/:page/:limit"
         },
         "fields": {
             "get": "/a/api/v1/fields/get/:fieldId",
