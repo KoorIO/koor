@@ -8,14 +8,16 @@ consumer.name = os.hostname() + 'notifications';
 
 consumer.task = function(job, done){
     var data = job.data;
-    var activity = new db.Notification({
+    var notification = new db.Notification({
         type: data.type,
         data: data.data,
         userId: data.userId
     });
 
     logger.debug('New Notification', data.userId);
-    activity.save(function(error) {
+    cache.publish('notifications', JSON.stringify(notification));
+
+    notification.save(function(error) {
         if (error) {
             logger.debug('Failed - Save Notification', data.userId);
         }

@@ -42,6 +42,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Activities</label>
+                    <p class="form-control-static" ng-show="!activities.rows.length">There is no activities.</p>
                     <p class="form-control-static" ng-repeat="activity in activities.rows" ng-include="'activity.html'"></p>
                 </div>
             </div>

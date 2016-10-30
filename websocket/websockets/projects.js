@@ -14,6 +14,7 @@ var sub = require('redis').createClient({
 exports = module.exports = function(io){
     sub.subscribe('field_data');
     sub.subscribe('device_data');
+    sub.subscribe('notifications');
     sub.on('message', function(channel, message) {
         var data = JSON.parse(message);
         var adminRoom = data.domain + '-admins';
@@ -23,6 +24,11 @@ exports = module.exports = function(io){
         if (channel === 'device_data') {
             logger.debug('Device %s change Status %s', data.deviceId, data.status);
             io.sockets.in(adminRoom).emit('device_data', data);
+        }
+        if (channel === 'notifications') {
+            logger.debug('Notification for user', data.userId);
+            userRoom = data.userId + '-users';
+            io.sockets.in(userRoom).emit('notifications', data);
         }
     });
 
