@@ -1,3 +1,7 @@
+<script type="text/ng-template" id="log.html">
+    <span ng-show="log.type=='DEVICE_OFF'">Device was OFF <time-ago from-time='{{ log.createdAt }}'></time-ago></span>
+    <span ng-show="log.type=='DEVICE_ON'">Device was ON <time-ago from-time='{{ log.createdAt }}'></time-ago></span>
+</script>
 <div class="col-lg-12">
     <h1 class="page-header"><i class="fa fa-automobile"></i> <span>Device {{device.name}}</span></h1>
 </div>
@@ -27,4 +31,6 @@
         </tr>
         </tbody>
     </table>
+    <p ng-show="deviceLogs.length"><strong>Logs</strong></p>
+    <p class="small" ng-repeat="log in deviceLogs" ng-include="'log.html'"></p>
 </div>

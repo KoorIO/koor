@@ -105,7 +105,7 @@ router.post('/on_subscribe', function(req, res){
                         }));
                         // save activity
                         db.Project.findOne({
-                            domain: topic
+                            domain: domain
                         }).then(function(project) {
                             if (project) {
                                 q.create(os.hostname() + 'notifications', {

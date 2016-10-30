@@ -4,7 +4,6 @@ var os = require('os');
 var logger = require('../helpers/logger');
 var db = require('../models');
 var dns = require('dns');
-var q = require('../queues');
 consumer.name = os.hostname() + 'dnsresolve';
 
 consumer.task = function(job, done){
@@ -26,6 +25,7 @@ consumer.task = function(job, done){
                     userId: project.userId,
                     data: project
                 };
+                var q = require('../queues');
                 q.create(os.hostname() + 'notifications', notification).priority('high').save();
                 var activity = {
                     type: 'DNS_RESOLVED',

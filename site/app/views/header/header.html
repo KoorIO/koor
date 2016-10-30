@@ -1,18 +1,18 @@
 <script type="text/ng-template" id="notification.html">
-    <a ui-sref="app.projects.view({projectId: n.data._id})" ng-show="n.type='DNS_RESOLVED'">
-        <div>
+    <a ui-sref="app.projects.view({projectId: n.data._id})" ng-show="n.type=='DNS_RESOLVED'">
+        <div class="small">
             <i class="fa fa-circle fa-fw text-success small"></i> Project <strong>{{ n.data.name }}</strong> was ready to use
             <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
         </div>
     </a>
-    <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type='DEVICE_ON'">
-        <div>
+    <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type=='DEVICE_ON'">
+        <div class="small">
             <i class="fa fa-circle fa-fw text-success small"></i> Device <strong>{{ n.data.name }}</strong> was connected
             <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
         </div>
     </a>
-    <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type='DEVICE_OFF'">
-        <div>
+    <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type=='DEVICE_OFF'">
+        <div class="small">
             <i class="fa fa-circle fa-fw text-danger small"></i> Device <strong>{{ n.data.name }}</strong> was disconnected
             <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
         </div>

@@ -15,14 +15,20 @@ angular.module('siteSeedApp')
         });
     };
 })
-.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects) {
+.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects, DeviceLogs) {
     var deviceId = $stateParams.deviceId;
     Projects.get($stateParams.projectId).then(function(p) {
         $scope.project = p;
         Devices.get(deviceId).then(function(res) {
             $scope.device = res;
+            DeviceLogs.list(deviceId, 1, 20).then(function(logs) {
+                $scope.deviceLogs = logs.rows;
+            });
             var socket = Socket.connect(p.domain);
-            $scope.$on("$destroy", function() {
+            socket.emit('users', {
+                userId: project.userId
+            });
+            $scope.$on('$destroy', function() {
                 socket.disconnect();
             });
             socket.on('device_data', function(data) {

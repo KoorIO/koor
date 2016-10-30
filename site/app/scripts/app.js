@@ -195,6 +195,7 @@ angular
                             files:[
                                 'scripts/directives/header/header.js',
                                 'scripts/services/notifications.js',
+                                'scripts/services/socket.js',
                                 'scripts/services/locale.js',
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/users.js'
@@ -266,6 +267,7 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/services/devices.js',
+                                'scripts/services/deviceLogs.js',
                                 'scripts/services/projects.js',
                                 'scripts/services/socket.js',
                                 'scripts/controllers/devices.js'
@@ -368,6 +370,7 @@ angular
                             files:[
                                 'scripts/directives/header/header.js',
                                 'scripts/services/notifications.js',
+                                'scripts/services/socket.js',
                                 'scripts/services/locale.js',
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/users.js',

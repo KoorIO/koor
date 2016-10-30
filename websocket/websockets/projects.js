@@ -41,6 +41,11 @@ exports = module.exports = function(io){
             logger.debug('New Client %s join Room %s', socket.id, adminRoom);
             socket.join(adminRoom);
         });
+        socket.on('users', function (data) {
+            var userRoom = data.userId + '-users';
+            logger.debug('New Client %s join Room %s', socket.id, userRoom);
+            socket.join(userRoom);
+        });
         socket.on('test_message', function (message) {
             if ('socketId' in message) {
                 socket.to('/#' + message.socketId).emit('test_message', message);

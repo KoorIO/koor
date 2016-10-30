@@ -16,6 +16,9 @@
             "update": "/a/api/v1/fields/update/:fieldId",
             "delete": "/a/api/v1/fields/delete/:fieldId"
         },
+        "deviceLogs": {
+            "list": "/a/api/v1/deviceLogs/list/:deviceId/:page/:limit",
+        },
         "devices": {
             "get": "/a/api/v1/devices/get/:deviceId",
             "list": "/a/api/v1/devices/list/:projectId/:page/:limit",
@@ -54,6 +57,7 @@
         "clientId": "c6c1288d447c31c3e74c",
         "redirectUrl": "#/github"
     },
+    "websocket": "koor.io/websocket",
     "protocols": {
         "http": "https://",
         "ws": "wss://"
