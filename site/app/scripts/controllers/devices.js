@@ -26,7 +26,7 @@ angular.module('siteSeedApp')
             });
             var socket = Socket.connect(p.domain);
             socket.emit('users', {
-                userId: project.userId
+                userId: p.userId
             });
             $scope.$on('$destroy', function() {
                 socket.disconnect();
