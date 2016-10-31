@@ -50,6 +50,11 @@ server {
         proxy_pass http://fe_site/;
     }
 
+    location /websocket/ {
+        rewrite ^/websocket/(.*)$ /$1 break;
+        proxy_pass http://be_socket/;
+    }
+
     location /socket.io/ {
         rewrite ^/(.*)$ /$1 break;
         proxy_pass http://be_socket/;

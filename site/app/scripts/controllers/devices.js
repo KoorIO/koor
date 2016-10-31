@@ -25,9 +25,6 @@ angular.module('siteSeedApp')
                 $scope.deviceLogs = logs.rows;
             });
             var socket = Socket.connect(p.domain);
-            socket.emit('users', {
-                userId: p.userId
-            });
             $scope.$on('$destroy', function() {
                 socket.disconnect();
             });

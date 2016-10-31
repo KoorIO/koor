@@ -17,7 +17,7 @@
             "delete": "/a/api/v1/fields/delete/:fieldId"
         },
         "deviceLogs": {
-            "list": "/a/api/v1/deviceLogs/list/:deviceId/:page/:limit",
+            "list": "/a/api/v1/deviceLogs/list/:deviceId/:page/:limit"
         },
         "devices": {
             "get": "/a/api/v1/devices/get/:deviceId",
