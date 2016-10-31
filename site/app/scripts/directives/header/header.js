@@ -12,9 +12,11 @@ angular.module('siteSeedApp')
                 $scope.notifications = res.rows;
             });
             var socket = Socket.connect(APP_CONFIG.websocket);
-            var userInfo = JSON.parse($cookies.get('userInfo') || '{}');
-            socket.emit('users', {
-                userId: userInfo._id
+            socket.on('connect', function() {
+                var userInfo = JSON.parse($cookies.get('userInfo') || '{}');
+                socket.emit('users', {
+                    userId: userInfo._id
+                });
             });
             $scope.$on("$destroy", function() {
                 socket.disconnect();
