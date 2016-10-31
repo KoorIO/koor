@@ -27,7 +27,7 @@ exports = module.exports = function(io){
         }
         if (channel === 'notifications') {
             logger.debug('Notification for user', data.userId);
-            userRoom = data.userId + '-users';
+            var userRoom = data.userId + '-users';
             io.sockets.in(userRoom).emit('notifications', data);
         }
     });
