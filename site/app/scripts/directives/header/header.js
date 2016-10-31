@@ -15,7 +15,7 @@ angular.module('siteSeedApp')
             socket.on('connect', function() {
                 var userInfo = JSON.parse($cookies.get('userInfo') || '{}');
                 socket.emit('users', {
-                    userId: userInfo._id
+                    userId: userInfo.userId
                 });
             });
             $scope.$on("$destroy", function() {
