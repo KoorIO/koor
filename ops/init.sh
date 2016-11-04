@@ -20,6 +20,11 @@ apt-get install -y nodejs
 npm install -g npm@latest
 npm install -g nodemon grunt-cli gulp bower
 
+echo Installing GEM Compass
+apt-get install -y ruby-dev
+gem install sass
+gem install compass
+
 echo Installing MongoDb ...
 apt-get install -y mongodb
 
