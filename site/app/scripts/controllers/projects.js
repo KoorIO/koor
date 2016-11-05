@@ -25,10 +25,11 @@ angular.module('siteSeedApp')
     $scope.getProjects();
     $scope.forUnitTest = true;
 })
-.controller('WebsocketProjectCtrl', function($scope, Projects, $stateParams, $state, $log, Socket) {
+.controller('WebsocketProjectCtrl', function($scope, Projects, $stateParams, $state, $log, Socket, APP_CONFIG) {
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
-        var socket = Socket.connect(res.domain);
+        var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:res.domain;
+        var socket = Socket.connect(socketDomain);
         $scope.messages = [];
         socket.on('test_message', function(data) {
             data.time = new Date(new Date().getTime()).toLocaleString();
@@ -152,7 +153,8 @@ angular.module('siteSeedApp')
         }
 
         if ($scope.service === 'websocket') {
-            var socket = Socket.connect(res.domain);
+            var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:res.domain;
+            var socket = Socket.connect(socketDomain);
             $scope.loaded = true;
             $scope.$on("$destroy", function() {
                 socket.disconnect();
