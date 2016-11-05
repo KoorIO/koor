@@ -29,6 +29,9 @@ angular.module('siteSeedApp')
 
             $scope.updateNotifications = function() {
                 $scope.badge = 0;
+                Notifications.list(1, 10).then(function(res) {
+                    $scope.notifications = res.rows;
+                });
             };
         }
     }

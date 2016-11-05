@@ -13,7 +13,7 @@ cd $workdir/websocket && nodemon index.js &
 child_proc=$! 
 cd $workdir/users && nodemon index.js &
 child_proc=$! 
-cd $workdir/apps && nodemon index.js &
+cd $workdir/apps && CLOUDFLARE_ENABLE=false nodemon index.js &
 child_proc="$child_proc $!"
 cd $workdir/site && npm start &
 child_proc="$child_proc $!"

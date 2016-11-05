@@ -22,7 +22,8 @@ cd $workdir/site && npm install && bower install && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
     sed -i "s/wss:\/\//ws:\/\//g" config/local.json && \
-    sed -i "s/\"websocket\": \"koor.io\"/\"websocket\": \"localhost:5000\"/g" config/local.json
+    sed -i "s/\"websocket\": \"koor.io\"/\"websocket\": \"localhost:5000\"/g" config/local.json && \
+    sed -i "s/\"localEnv\": false/\"localEnv\": true/g" config/local.json
 wait
 echo "Installing Websocket ..."
 cd $workdir/websocket && npm install && \

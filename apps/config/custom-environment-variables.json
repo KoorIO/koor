@@ -6,6 +6,7 @@
         }
     },
     "cloudflare": {
-        "api_key": "CLOUDFLARE_API_KEY"
+        "api_key": "CLOUDFLARE_API_KEY",
+        "enable": "CLOUDFLARE_ENABLE"
     }
 }
