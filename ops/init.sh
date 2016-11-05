@@ -5,7 +5,7 @@ sudo su -
 COMPOSE_VERSION=1.8.0
 
 echo Installing Docker ...
-wget -qO- https://get.docker.com/ | sh
+wget -qO- https://get.docker.com/ | sh && usermod -aG docker dev
 
 echo Installing Docker Compose
 curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
