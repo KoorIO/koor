@@ -9,7 +9,9 @@ trap _interupt INT TERM
 
 workdir=${PWD} 
 
-docker run -p 9200:9200 -p 9300:9300 elasticsearch &
+docker run -p 9200:9200 -p 9300:9300 elasticsearch:2.4 &
+child_proc=$! 
+docker run -p 7474:7474 neo4j
 child_proc=$! 
 
 cd $workdir/websocket && nodemon index.js &
