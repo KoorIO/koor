@@ -41,7 +41,7 @@ apt-get -y install erlang
 echo Install DEV Enviroment ...
 git clone https://github.com/VundleVim/Vundle.vim.git /home/dev/.vim/bundle/Vundle.vim && \
     cd /tmp && git clone https://github.com/thanhson1085/sonnix.git && cd sonnix && \
-    cat bashrc >> /home/dev/.bashrc && cat vimrc > /hom/dev/.vimrc && \
+    cat bashrc >> /home/dev/.bashrc && cat vimrc > /home/dev/.vimrc && \
     vim +PluginInstall +qall
 
 echo Git User Information
