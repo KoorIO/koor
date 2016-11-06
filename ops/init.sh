@@ -14,6 +14,9 @@ chmod +x /usr/local/bin/docker-compose
 echo Installing VirtualEnv ...
 apt-get install -y python-virtualenv
 
+echo Installing ImageMagick ...
+apt-get install -y imagemagick
+
 echo Installing NodeJS 4x ...
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 apt-get install -y nodejs

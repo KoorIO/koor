@@ -1,8 +1,9 @@
 #!/bin/bash
 workdir=${PWD} 
 WEBSOCKET_PORT=5000
-PROJECTS_PORT=3001
+APPS_PORT=3001
 USERS_PORT=3000
+SOCIALS_PORT=3004
 
 echo "Installing Users ..."
 cd $workdir/users && npm install && \
@@ -14,11 +15,17 @@ echo "Installing Apps ..."
 cd $workdir/apps && npm install && \
     sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
-    sed -i "s/\"port\": 80/\"port\": ${PROJECTS_PORT}/g" config/local.json
+    sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
+wait
+echo "Installing Socials ..."
+cd $workdir/apps && npm install && \
+    sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
+    sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
+    sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
 wait
 echo "Installing Site ..."
 cd $workdir/site && npm install && bower install && \
-    sed "s/\/a\//http:\/\/localhost:${PROJECTS_PORT}\//g" config/default.json > config/local.json && \
+    sed "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/default.json > config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
     sed -i "s/wss:\/\//ws:\/\//g" config/local.json && \
