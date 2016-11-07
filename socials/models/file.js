@@ -6,7 +6,7 @@ var File = new Schema({
     description: {
         type: String
     },
-    filePath: {
+    fileName: {
         type: String,
         require: true
     },

@@ -4,8 +4,10 @@ var logger = require('../helpers/logger');
 var fileHelper = require('../helpers/file');
 var path = require('path');
 var easyimg = require('easyimage');
+var os = require('os');
+var config = require('config');
 
-consumer.name = 'generateThumbnails';
+consumer.name = os.hostname() + 'generateThumbnails';
 
 consumer.task = function(job, done) {
     var data = job.data;
@@ -13,7 +15,8 @@ consumer.task = function(job, done) {
     var file = path.basename(data.path, extension);
     var resize = function(x,y) {
         easyimg.resize({
-            src: path.join(data.path), dst: path.join(__dirname ,'/../uploads/', fileHelper.fileNameToThumbnail(file, extension, x, y)),
+            src: path.join(data.path),
+            dst: path.join(path.dirname(data.path), fileHelper.fileNameToThumbnail(file, extension, x, y)),
             width: x,
             height: y
         }).then(function(image) {

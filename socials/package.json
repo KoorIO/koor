@@ -42,8 +42,10 @@
     "redis": "^2.6.0-2",
     "request": "^2.75.0",
     "sanitize-filename": "^1.6.1",
+    "shelljs": "^0.7.5",
     "slug": "^0.9.1",
     "supertest": "^1.2.0",
+    "url-join": "^1.1.0",
     "winston": "^2.2.0"
   }
 }

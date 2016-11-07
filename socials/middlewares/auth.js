@@ -8,8 +8,7 @@ module.exports = function(req, res, next) {
     if (req.method === 'OPTIONS') {
         return next();
     }
-    if (req.originalUrl.match(/^\/docs\/(.*)|^\/run\/(.*)/g) 
-        || req.originalUrl.match(/^\/get\/(.*)/g)) {
+    if (req.originalUrl.match(/^\/files\/(.*)\/(.*)\/(.*)\.(png|jpg|jpeg|gif)/gi)) {
         return next();
     }
     var t = req.get('Authorization');

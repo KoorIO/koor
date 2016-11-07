@@ -18,10 +18,10 @@ cd $workdir/apps && npm install && \
     sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
 wait
 echo "Installing Socials ..."
-cd $workdir/apps && npm install && \
+cd $workdir/socials && npm install && \
     sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
-    sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
+    sed -i "s/\"port\": 80/\"port\": ${SOCIALS_PORT}/g" config/local.json
 wait
 echo "Installing Site ..."
 cd $workdir/site && npm install && bower install && \
