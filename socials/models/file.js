@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
 
 var File = new Schema({
-    name: {
-        type: String,
-        require: true
+    description: {
+        type: String
     },
     filePath: {
-        type: String
+        type: String,
+        require: true
     },
     userId: {
         type: Schema.Types.ObjectId,

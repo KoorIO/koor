@@ -1,19 +1,19 @@
 'use strict';
 var consumer = {};
 var logger = require('../helpers/logger');
+var fileHelper = require('../helpers/file');
 var path = require('path');
 var easyimg = require('easyimage');
 
 consumer.name = 'generateThumbnails';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var extension = path.extname(data.path);
-    var file = path.basename(data.path,extension);
+    var file = path.basename(data.path, extension);
     var resize = function(x,y) {
         easyimg.resize({
-            src: path.join(data.path), dst: path.join(__dirname ,'/../uploads/', 
-                                           file + '-thumbnail-' + x + 'x' + y + extension),
+            src: path.join(data.path), dst: path.join(__dirname ,'/../uploads/', fileHelper.fileNameToThumbnail(file, extension, x, y)),
             width: x,
             height: y
         }).then(function(image) {
@@ -24,19 +24,10 @@ consumer.task = function(job, done){
         );
     };
 
-    // 100
-    resize(100, 100);
-    // 200
-    resize(200, 200);
-    // 300
-    resize(300, 300);
-    // 400
-    resize(400, 400);
-    // 500
-    resize(500, 500);
-    // 600
-    resize(600, 600);
-
+    var thumbnails = config.get('thumbnails');
+    for (var k in thumbnails) {
+        resize(thumbnails[k][0], thumbnails[k][1]);
+    }
     done();
 };
 

@@ -24,6 +24,7 @@
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
     "config": "^1.19.0",
+    "connect-busboy": "0.0.2",
     "crypto": "0.0.3",
     "easyimage": "^2.1.0",
     "ejs": "^2.4.1",
@@ -40,6 +41,7 @@
     "q": "^1.4.1",
     "redis": "^2.6.0-2",
     "request": "^2.75.0",
+    "sanitize-filename": "^1.6.1",
     "slug": "^0.9.1",
     "supertest": "^1.2.0",
     "winston": "^2.2.0"
