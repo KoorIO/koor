@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
-var logger = require('../helpers/logger');
+var logger = require('../../helpers/logger');
 var crypto = require('crypto');
 var moment = require('moment');
 var config = require('config');
-var cache = require('../helpers/cache');
+var cache = require('../../helpers/cache');
 var q = require('q');
 
 

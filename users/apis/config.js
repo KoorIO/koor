@@ -1,6 +1,6 @@
 'use strict';
 var express = require('express'), 
-    db = require('../models'),
+    db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     cache = require('../helpers/cache'),
     router = express.Router();

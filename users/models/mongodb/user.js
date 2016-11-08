@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
-var logger = require('../helpers/logger');
+var logger = require('../../helpers/logger');
 var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
 

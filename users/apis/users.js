@@ -1,6 +1,6 @@
 'use strict';
 var express = require('express'), 
-    db = require('../models'),
+    db = require('../models/mongodb'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
     moment = require('moment'),
@@ -42,6 +42,10 @@ router.post('/create', function(req, res){
                     url: config.get('client.url') + '#/activate/' + to.token
                 },
                 template: 'activate'
+            }).priority('high').save();
+            q.create(os.hostname() + 'esUsers', {
+                userId: newUser._id,
+                accessToken: to.token
             }).priority('high').save();
             res.send(JSON.stringify(newUser));
         });
@@ -131,6 +135,10 @@ router.post('/activate', function(req, res){
             user = user.toObject();
             delete user['hashed_password'];
             delete user['salt'];
+            q.create(os.hostname() + 'esUsers', {
+                userId: newUser._id,
+                accessToken: t
+            }).priority('high').save();
             res.send(JSON.stringify(user));
         });
     }).catch(function(e){
@@ -183,23 +191,31 @@ router.post('/github', function(req, res){
                                 db.Token.saveToken(newUser).then(function(to) {
                                     to.email = newUser.email;
                                     to.userId = newUser._id;
+                                    q.create(os.hostname() + 'esUsers', {
+                                        userId: newUser._id,
+                                        accessToken: to.token
+                                    }).priority('high').save();
+                                    // send email thankyou to user
+                                    q.create(os.hostname() + 'email', {
+                                        title: '[Koor.IO] Thank You',
+                                        to: newUser.email,
+                                        emailContent: {
+                                            username: newUser.email
+                                        },
+                                        template: 'welcome'
+                                    }).priority('high').save();
                                     return res.send(JSON.stringify(to));
                                 });
-                                // send email thankyou to user
-                                q.create(os.hostname() + 'email', {
-                                    title: '[Koor.IO] Thank You',
-                                    to: newUser.email,
-                                    emailContent: {
-                                        username: newUser.email
-                                    },
-                                    template: 'welcome'
-                                }).priority('high').save();
                             }
                         });
                     } else {
                         db.Token.saveToken(user).then(function(to) {
                             to.email = user.email;
                             to.userId = user._id;
+                            q.create(os.hostname() + 'esUsers', {
+                                userId: user._id,
+                                accessToken: to.token
+                            }).priority('high').save();
                             return res.send(JSON.stringify(to));
                         });
                     }
@@ -230,12 +246,15 @@ router.get('/get/:id', function(req, res){
 });
 
 // update a user by id
-router.put('/update/:id', function(req, res){
-    logger.debug('Update User By Id', req.params.id);
+router.put(['/update/:id', '/update'], function(req, res){
+    var userId = req.params.id || req.body.userId;
+    if (userId !== req.body.userId) {
+        res.status(406).json();
+    }
+    logger.debug('Update User By Id', userId);
     db.User.findOne({
-        _id: req.params.id
+        _id: userId
     }).then(function(user){
-        // remove security attributes
         user.username = req.body.username;
         user.firstname = req.body.firstname;
         user.lastname = req.body.lastname;
@@ -243,6 +262,10 @@ router.put('/update/:id', function(req, res){
             if (e) {
                 res.status(406).json(e);
             } else {
+                q.create(os.hostname() + 'esUsers', {
+                    userId: user._id,
+                    accessToken: req.body.accessToken
+                }).priority('high').save();
                 res.send(JSON.stringify({}));
             }
         });

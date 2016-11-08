@@ -6,6 +6,15 @@
     "client": {
         "url": "https://koor.io/app"
     },
+    "es": {
+        "host": "es:9200",
+        "index": "koor.io"
+    },
+    "services": {
+        "users": {
+            "get": "http://users/api/v1/users/get/:userId"
+        }
+    },
     "db": {
         "uri": "mongodb://db:27017/users"
     },
