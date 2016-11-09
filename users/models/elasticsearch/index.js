@@ -1,7 +1,6 @@
 'use strict';
 var fs = require('fs'),
     path = require('path'),
-    elasticsearch = require('elasticsearch'),
     config = require('config'),
     es = {};
 
@@ -15,7 +14,4 @@ fs.readdirSync(__dirname)
     es[search.searchName] = search;
 });
 
-es.client = new elasticsearch.Client({
-    host: config.get('es.host')
-});
 module.exports = es;

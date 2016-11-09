@@ -13,6 +13,9 @@
     "services": {
         "users": {
             "get": "http://users/api/v1/users/get/:userId"
+        },
+        "files": {
+            "get": "http://files/api/v1/files/get/:fileId"
         }
     },
     "db": {

@@ -9,6 +9,7 @@ var express = require('express'),
     config = require('config'),
     crypto = require('crypto'),
     os = require('os'),
+    es = require('../models/elasticsearch'),
     router = express.Router();
 
 // create a new user
@@ -306,9 +307,9 @@ router.get('/list/:page/:limit', function(req, res){
                 count: c,
                 rows: users
             };
-            res.send(JSON.stringify(ret));
+            return res.send(JSON.stringify(ret));
         }).catch(function(e) {
-            res.status(500).send(JSON.stringify(e));
+            return res.status(500).send(JSON.stringify(e));
         });
     });
 });
@@ -336,5 +337,22 @@ router.post('/login', function(req, res){
         res.status(401).send(JSON.stringify(e));
     });
 });
+
+// Search a user
+router.get('/search/:s/:page/:limit', function(req, res){
+    logger.debug('Search User s =', req.params.s);
+    var size = (req.params.limit)? parseInt(req.params.limit): 10;
+    var from = (req.params.page)? size * (req.params.page - 1): 0;
+    es.User.search({
+        query: req.params.s,
+        from: from,
+        size: size
+    }).then(function(response) {
+        return res.json(response);
+    }).catch(function(e) {
+        return res.json({});
+    });
+});
+
 
 module.exports = router;

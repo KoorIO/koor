@@ -1,0 +1,51 @@
+'use strict';
+var fs = require('fs'),
+    path = require('path'),
+    q = require('q'),
+    config = require('config'),
+    es = require('../../helpers/es');
+
+var search = function(data) {
+    var deferred = q.defer();
+    es.search({
+        index: config.get('es.index'),
+        type: 'users',
+        body:{
+            from: data.form,
+            size: data.size,
+            query: {
+                bool:{
+                    should: [
+                        {
+                            multi_match: {
+                                query: data.query ,
+                                type: "cross_fields", 
+                                operator: "or",
+                                fields: [ "firstname", "lastname" ]
+                            }
+                        },
+                        {
+                            match: {
+                                email: {
+                                    query: data.query,
+                                    type: "phrase_prefix"
+                                }
+                            }
+                        }
+                    ]
+                }
+            } 
+        }
+    }, function (error, response) {
+        if (error) {
+            deferred.reject(error);
+        }
+        deferred.resolve(response.hits.hits);
+    });
+    return deferred.promise;
+};
+
+module.exports = {
+    searchName: 'User',
+    search: search
+}

@@ -6,7 +6,7 @@ var db = require('../models/mongodb');
 var utils = require('../helpers/utils');
 var request = require('request');
 var logger = require('../helpers/logger');
-var es = require('../models/elasticsearch');
+var es = require('../helpers/es');
 var services = require('../services');
 consumer.name = os.hostname() + 'esUsers';
 
@@ -17,7 +17,7 @@ consumer.task = function(job, done){
     logger.debug('Create Search User', data.userId);
     services.User.getUserById(data).then(function(body) {
         if (!body._id) {
-            es.client.delete({
+            es.delete({
                 index: config.get('es.index'),
                 type: type,
                 id: data.userId
@@ -26,7 +26,7 @@ consumer.task = function(job, done){
             });
         }
         delete body['_id'];
-        es.client.index({
+        es.index({
             index: config.get('es.index'),
             type: type,
             id: data.userId,

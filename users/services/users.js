@@ -15,7 +15,7 @@ var getUserById = function(data) {
         }
     }, function(err, res, body) {
         if (err) {
-            deferred.reject(e);
+            deferred.reject(err);
         }
         deferred.resolve(JSON.parse(body));
     });
