@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
-    title: User API
-    description: Happy to code User API
+    title: App API
+    description: Happy to code App API
     version: '1.0.0'
 schemes:
     - http
-basePath: /api/v1
+basePath: /
 produces:
     - application/json
 securityDefinitions:
@@ -14,119 +14,33 @@ securityDefinitions:
     name: Authorization
     in: header
 paths:
-    /config/get:
-        get:
-            summary: Get App Configuration
-            description: |
-                Get Application Configuration
-            responses:
-                200:
-                    description: OK
-                401:
-                    description: Unauthorized
-                400:
-                    description: Bad Request
-                406:
-                    description: Not Acceptable
-                500:
-                    description: Server Internal error
-            tags:
-                - Config
-
-    /config/create:
+    /api/v1/projects/create:
         post:
-            summary: Create App Configuration
+            summary: Create a new project account
             description: |
-                Create Application Configuration
-            security:
-                - Bearer: []
+                Create a new project account
             parameters:
                 - name: data
                   in: body
-                  description: json body data to create app config
-                  required: true
-                  schema:
-                      type: object
-                      description: Aplication Configuration
-                      properties:
-                          config_key:
-                              type: string
-                              description: Config Value
-            responses:
-                200:
-                    description: Returns a access token
-                401:
-                    description: Unauthorized
-                400:
-                    description: Bad Request
-                406:
-                    description: Not Acceptable
-                500:
-                    description: Server Internal error
-            tags:
-                - Config
-
-    /users/login:
-        post:
-            summary: Login API
-            description: |
-                API for User Login
-            parameters:
-                - name: data
-                  in: body
-                  description: json body data for user login
+                  description: json body data to create new project
                   required: true
                   schema:
                       required:
-                          - username
-                          - password
-                      properties:
-                          username:
-                              type: string
-                              description: User Name
-                          password:
-                              type: string
-                              description: Password of User
-            responses:
-                200:
-                    description: OK
-                401:
-                    description: Unauthorized
-                400:
-                    description: Bad Request
-                406:
-                    description: Not Acceptable
-                500:
-                    description: Server Internal error
-            tags:
-                - Users
-    /users/create:
-        post:
-            summary: Create a new user account
-            description: |
-                Create a new user account
-            parameters:
-                - name: data
-                  in: body
-                  description: json body data to create new user
-                  required: true
-                  schema:
-                      required:
-                          - username
+                          - projectname
                           - email
                           - password
                           - firstname
                           - lastname
                       properties:
-                          username:
+                          projectname:
                               type: string
-                              description: User Name
+                              description: Project Name
                           password:
                               type: string
-                              description: Password of User
+                              description: Password of Project
                           email:
                               type: string
-                              description: Email of User
+                              description: Email of Project
                           firstname:
                               type: string
                               description: First Name
@@ -145,19 +59,19 @@ paths:
                 500:
                     description: Server Internal error
             tags:
-                - Users
+                - Projects
 
-    /users/get/{id}:
+    /api/v1/projects/get/{id}:
         get:
-            summary: Get a user
+            summary: Get a project
             description: |
-                Get a user by Id
+                Get a project by Id
             security:
                 - Bearer: []
             parameters:
                 - name: id
                   in: path
-                  description: User Id
+                  description: Project Id
                   required: true
                   type: string
                   format: string
@@ -173,13 +87,13 @@ paths:
                 500:
                     description: Server Internal error
             tags:
-                - Users
+                - Projects
 
-    /users/list/{page}/{limit}:
+    /api/v1/projects/list/{page}/{limit}:
         get:
-            summary: Get list of user
+            summary: Get list of project
             description: |
-                Get list of user with page and limit
+                Get list of project with page and limit
             security:
                 - Bearer: []
             parameters:
@@ -207,4 +121,4 @@ paths:
                 500:
                     description: Server Internal error
             tags:
-                - Users
+                - Projects

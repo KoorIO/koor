@@ -15,8 +15,8 @@ consumer.task = function(job, done){
     var type = 'users';
 
     logger.debug('Create Search User', data.userId);
-    services.User.getUserById(data).then(function(err, body) {
-        if (err || !body._id) {
+    services.User.getUserById(data).then(function(body) {
+        if (!body._id) {
             es.client.delete({
                 index: config.get('es.index'),
                 type: type,

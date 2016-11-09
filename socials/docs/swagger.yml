@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
-    title: User API
-    description: Happy to code User API
+    title: File API
+    description: Happy to code File API
     version: '1.0.0'
 schemes:
     - http
-basePath: /api/v1
+basePath:
 produces:
     - application/json
 securityDefinitions:
@@ -14,44 +14,17 @@ securityDefinitions:
     name: Authorization
     in: header
 paths:
-    /config/get:
-        get:
-            summary: Get App Configuration
-            description: |
-                Get Application Configuration
-            responses:
-                200:
-                    description: OK
-                401:
-                    description: Unauthorized
-                400:
-                    description: Bad Request
-                406:
-                    description: Not Acceptable
-                500:
-                    description: Server Internal error
-            tags:
-                - Config
-
-    /config/create:
+    /api/v1/upload/images:
         post:
-            summary: Create App Configuration
+            summary: Upload Images
             description: |
-                Create Application Configuration
-            security:
-                - Bearer: []
+                Upload Images
             parameters:
-                - name: data
-                  in: body
-                  description: json body data to create app config
+                - name: file
+                  in: formData
+                  description: Files
                   required: true
-                  schema:
-                      type: object
-                      description: Aplication Configuration
-                      properties:
-                          config_key:
-                              type: string
-                              description: Config Value
+                  type: file
             responses:
                 200:
                     description: Returns a access token
@@ -64,100 +37,19 @@ paths:
                 500:
                     description: Server Internal error
             tags:
-                - Config
+                - Files
 
-    /users/login:
-        post:
-            summary: Login API
-            description: |
-                API for User Login
-            parameters:
-                - name: data
-                  in: body
-                  description: json body data for user login
-                  required: true
-                  schema:
-                      required:
-                          - username
-                          - password
-                      properties:
-                          username:
-                              type: string
-                              description: User Name
-                          password:
-                              type: string
-                              description: Password of User
-            responses:
-                200:
-                    description: OK
-                401:
-                    description: Unauthorized
-                400:
-                    description: Bad Request
-                406:
-                    description: Not Acceptable
-                500:
-                    description: Server Internal error
-            tags:
-                - Users
-    /users/create:
-        post:
-            summary: Create a new user account
-            description: |
-                Create a new user account
-            parameters:
-                - name: data
-                  in: body
-                  description: json body data to create new user
-                  required: true
-                  schema:
-                      required:
-                          - username
-                          - email
-                          - password
-                          - firstname
-                          - lastname
-                      properties:
-                          username:
-                              type: string
-                              description: User Name
-                          password:
-                              type: string
-                              description: Password of User
-                          email:
-                              type: string
-                              description: Email of User
-                          firstname:
-                              type: string
-                              description: First Name
-                          lastname:
-                              type: string
-                              description: Last Name
-            responses:
-                200:
-                    description: Returns a access token
-                401:
-                    description: Unauthorized
-                400:
-                    description: Bad Request
-                406:
-                    description: Not Acceptable
-                500:
-                    description: Server Internal error
-            tags:
-                - Users
-
-    /users/get/{id}:
+    /api/v1/files/get/{id}:
         get:
-            summary: Get a user
+            summary: Get a file
             description: |
-                Get a user by Id
+                Get a file by Id
             security:
                 - Bearer: []
             parameters:
                 - name: id
                   in: path
-                  description: User Id
+                  description: File Id
                   required: true
                   type: string
                   format: string
@@ -173,25 +65,19 @@ paths:
                 500:
                     description: Server Internal error
             tags:
-                - Users
+                - Files
 
-    /users/list/{page}/{limit}:
+    /api/v1/files/getAlbum/{id}:
         get:
-            summary: Get list of user
+            summary: Get a Album Details
             description: |
-                Get list of user with page and limit
+                Get a Album Details
             security:
                 - Bearer: []
             parameters:
-                - name: page
+                - name: id
                   in: path
-                  description: Page Number
-                  required: true
-                  type: string
-                  format: string
-                - name: limit
-                  in: path
-                  description: Limit Number
+                  description: Album Id
                   required: true
                   type: string
                   format: string
@@ -207,4 +93,4 @@ paths:
                 500:
                     description: Server Internal error
             tags:
-                - Users
+                - Files

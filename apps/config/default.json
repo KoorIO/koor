@@ -36,6 +36,7 @@
         "enable": true
     },
     "unauthorization": [
+        "/docs",
         "/api/v1/users/login", 
         "/api/v1/users/create",
         "/api/v1/mqtt/auth_on_register",

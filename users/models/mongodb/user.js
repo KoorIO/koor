@@ -18,6 +18,9 @@ var User = new Schema({
         required: true,
         lowercase: true
     },
+    fileId: {
+        type: Schema.Types.ObjectId
+    },
     firstname: String,
     lastname: String,
     hashed_password: {

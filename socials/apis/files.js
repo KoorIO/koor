@@ -14,11 +14,9 @@ router.get('/get/:fileId', function(req, res){
         _id: req.params.fileId
     })
     .then(function(file) {
-        if (err) {
-            throw true;
-        }
-        file.urls = fileHelper.fileToUrls(file);
-        res.json(file);
+        var ret = file.toObject();
+        ret.urls = fileHelper.fileToUrls(file);
+        res.json(ret);
     }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
@@ -32,19 +30,22 @@ router.get('/getAlbum/:albumId', function(req, res){
         _id: req.params.albumId
     })
     .then(function(album) {
+        var ret = album.toObject();
         db.File
         .find({
             albumId: req.params.albumId
         })
-        .then(function(err, files) {
-            if (err) {
-                throw true;
-            }
+        .then(function(files) {
+            ret.files = [];
+            var file = {};
             for (var k in files) {
-                files[k].urls = fileHelper.fileToUrls(files[k]);
+                file = files[k].toObject();
+                file.urls = fileHelper.fileToUrls(files[k]);
+                ret.files.push(file);
             }
-            album.files = files;
-            res.json(album);
+            res.json(ret);
+        }).catch(function(e) {
+            res.status(400).send(JSON.stringify(e));
         });
     }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));

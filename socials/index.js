@@ -7,6 +7,7 @@ var config = require('config');
 var app = express();
 var bodyParser = require('body-parser');
 var logger = require('./helpers/logger');
+var yaml = require('js-yaml');
 
 // body parse
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,6 +24,12 @@ app.use(function(req, res, next){
     } else {
         next();
     }
+});
+
+// Swagger Docs
+app.get('/docs', function(req, res){
+    var docs = yaml.safeLoad(fs.readFileSync('./docs/swagger.yml', 'utf8'));
+    res.send(JSON.stringify(docs));
 });
 
 // import middlewares

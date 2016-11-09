@@ -4,6 +4,7 @@ var express = require('express'),
 
 router.use('/api/v1/notifications', require('./notifications'));
 router.use('/api/v1/upload', require('./upload'));
+router.use('/api/v1/files', require('./files'));
 router.use('/files/', require('./sendFiles'));
 
 module.exports = router;

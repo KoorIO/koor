@@ -29,6 +29,7 @@
         }
     },
     "unauthorization": [
+        "/docs"
     ],
     "token_expire": 864000,
     "time_format": "YYYY-DD-MM H:mm:ss:SSS",

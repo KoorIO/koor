@@ -2,6 +2,7 @@
 var express = require('express'), 
     db = require('../models/mongodb'),
     q = require('../queues'),
+    services = require('../services'),
     logger = require('../helpers/logger'),
     moment = require('moment'),
     request = require('request'),
@@ -228,10 +229,11 @@ router.post('/github', function(req, res){
 });
 
 // get a user by id
-router.get('/get/:id', function(req, res){
-    logger.debug('Get User By Id', req.params.id);
+router.get(['/get', '/get/:id'], function(req, res){
+    var userId = req.params.id || req.body.userId;
+    logger.debug('Get User By Id', userId);
     db.User.findOne({
-        _id: req.params.id
+        _id: userId
     }).then(function(user){
         // remove security attributes
         user = user.toObject();
@@ -239,7 +241,17 @@ router.get('/get/:id', function(req, res){
             delete user.hashed_password;
             delete user.salt;
         }
-        res.send(JSON.stringify(user));
+        if (user.fileId) {
+            services.File.getFileById({
+                fileId: user.fileId,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                user.file = body;
+                res.json(user);
+            });
+        } else {
+            res.json(user);
+        }
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
     });
@@ -255,9 +267,10 @@ router.put(['/update/:id', '/update'], function(req, res){
     db.User.findOne({
         _id: userId
     }).then(function(user){
-        user.username = req.body.username;
-        user.firstname = req.body.firstname;
-        user.lastname = req.body.lastname;
+        user.username = req.body.username || user.username;
+        user.firstname = req.body.firstname || user.firstname;
+        user.lastname = req.body.lastname || user.lastname;
+        user.fileId = req.body.fileId || user.fileId;
         user.save(function(e) {
             if (e) {
                 res.status(406).json(e);

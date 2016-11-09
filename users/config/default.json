@@ -43,6 +43,7 @@
         }
     },
     "unauthorization": [
+        "/docs",
         "/api/v1/users/login", 
         "/api/v1/users/forgotpassword", 
         "/api/v1/users/resetpassword", 
