@@ -13,10 +13,10 @@ var express = require('express'),
 // follow a user
 router.post('/create', function(req, res){
     var follower = new db.Follower({
-        followerId: req.body.followerId,
-        userId: req.body.userId
+        userId: req.body.followingId,
+        followerId: req.body.userId
     });
-    logger.debug('User %s follows %s', req.body.userId, req.body.followerId);
+    logger.debug('User %s follows %s', req.body.userId, req.body.followingId);
     follower.save(function(error){
         if (error) {
             return res.status(406).send(JSON.stringify({error}));

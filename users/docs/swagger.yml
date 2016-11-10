@@ -284,3 +284,35 @@ paths:
                     description: Server Internal error
             tags:
                 - Users
+
+    /api/v1/followers/create:
+        post:
+            summary: Follow as user
+            description: |
+                Follow a User
+            parameters:
+                - name: data
+                  in: body
+                  description: json body data to create new user
+                  required: true
+                  schema:
+                      required:
+                          - followingId
+                      properties:
+                          followingId:
+                              type: string
+                              description: User Name
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Users
+
