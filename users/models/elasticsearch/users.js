@@ -39,8 +39,9 @@ var search = function(data) {
     }, function (error, response) {
         if (error) {
             deferred.reject(error);
+        } else {
+            deferred.resolve(response.hits);
         }
-        deferred.resolve(response.hits.hits);
     });
     return deferred.promise;
 };

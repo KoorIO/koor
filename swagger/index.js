@@ -92,6 +92,9 @@ var doForward = function(req, res, baseUrl, p) {
                 headers: {
                     host: url.parse(baseUrl).hostname
                 }
+            }, function(e) {
+                console.log(e);
+                res.status(500).json({});
             });
         } else {
             p.web(req, res, { 
@@ -100,6 +103,9 @@ var doForward = function(req, res, baseUrl, p) {
                 headers: {
                     host: url.parse(baseUrl).hostname
                 }
+            }, function(e) {
+                console.log(e);
+                res.status(500).json({});
             });
         }
     } catch (e) {
