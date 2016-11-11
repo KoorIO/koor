@@ -23,6 +23,9 @@ var User = new Schema({
     },
     firstname: String,
     lastname: String,
+    bio: {
+        type: String
+    },
     hashed_password: {
         type: String
     },

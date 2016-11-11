@@ -26,6 +26,10 @@ router.post('/create', function(req, res){
             userId: follower.userId,
             data: follower
         }).priority('high').save();
+        q.create(os.hostname() + 'njFollows', {
+            userId: req.body.followingId,
+            followerId: req.body.userId
+        }).priority('high').save();
         res.json(follower);
     });
 });

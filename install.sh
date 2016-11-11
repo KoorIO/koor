@@ -12,6 +12,7 @@ cd $workdir/users && npm install && \
     sed -i "s/http:\/\/users/http:\/\/localhost:${USERS_PORT}/g" config/local.json && \
     sed -i "s/http:\/\/files/http:\/\/localhost:${SOCIALS_PORT}/g" config/local.json && \
     sed -i "s/es:9200/localhost:9200/g" config/local.json && \
+    sed -i "s/bolt:\/\/neo4j/bolt:\/\/localhost/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${USERS_PORT}/g" config/local.json
 wait
 echo "Installing Apps ..."

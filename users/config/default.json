@@ -10,6 +10,11 @@
         "host": "es:9200",
         "index": "koor.io"
     },
+    "neo4j": {
+        "host": "bolt://neo4j",
+        "username": "neo4j",
+        "password": "neo4j"
+    },
     "services": {
         "users": {
             "get": "http://users/api/v1/users/get/:userId"

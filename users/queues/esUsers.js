@@ -24,19 +24,22 @@ consumer.task = function(job, done){
             }, function (error, response) {
                 logger.debug('Delete a User in Search', data.userId);
             });
+        } else {
+            delete body['_id'];
+            es.index({
+                index: config.get('es.index'),
+                type: type,
+                id: data.userId,
+                body: body
+            }, function (error, response) {
+                if (error) {
+                    logger.error('Failed - Save User Search', error);
+                }
+                logger.debug('Create/Update a User in Search', data.userId);
+            });
         }
-        delete body['_id'];
-        es.index({
-            index: config.get('es.index'),
-            type: type,
-            id: data.userId,
-            body: body
-        }, function (error, response) {
-            if (error) {
-                logger.error('Failed - Save User Search', error);
-            }
-            logger.debug('Create/Update a User in Search', data.userId);
-        });
+    }).catch(function(e) {
+        logger.error(e);
     });
     done();
 };

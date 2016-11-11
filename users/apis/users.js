@@ -45,7 +45,7 @@ router.post('/create', function(req, res){
                 },
                 template: 'activate'
             }).priority('high').save();
-            q.create(os.hostname() + 'esUsers', {
+            q.create(os.hostname() + 'users', {
                 userId: newUser._id,
                 accessToken: to.token
             }).priority('high').save();
@@ -137,7 +137,7 @@ router.post('/activate', function(req, res){
             user = user.toObject();
             delete user['hashed_password'];
             delete user['salt'];
-            q.create(os.hostname() + 'esUsers', {
+            q.create(os.hostname() + 'users', {
                 userId: newUser._id,
                 accessToken: t
             }).priority('high').save();
@@ -193,7 +193,11 @@ router.post('/github', function(req, res){
                                 db.Token.saveToken(newUser).then(function(to) {
                                     to.email = newUser.email;
                                     to.userId = newUser._id;
-                                    q.create(os.hostname() + 'esUsers', {
+                                    q.create(os.hostname() + 'users', {
+                                        userId: newUser._id,
+                                        accessToken: to.token
+                                    }).priority('high').save();
+                                    q.create(os.hostname() + 'njUsers', {
                                         userId: newUser._id,
                                         accessToken: to.token
                                     }).priority('high').save();
@@ -214,7 +218,7 @@ router.post('/github', function(req, res){
                         db.Token.saveToken(user).then(function(to) {
                             to.email = user.email;
                             to.userId = user._id;
-                            q.create(os.hostname() + 'esUsers', {
+                            q.create(os.hostname() + 'users', {
                                 userId: user._id,
                                 accessToken: to.token
                             }).priority('high').save();
@@ -272,11 +276,12 @@ router.put(['/update/:id', '/update'], function(req, res){
         user.firstname = req.body.firstname || user.firstname;
         user.lastname = req.body.lastname || user.lastname;
         user.fileId = req.body.fileId || user.fileId;
+        user.bio = req.body.bio || user.bio;
         user.save(function(e) {
             if (e) {
                 res.status(406).json(e);
             } else {
-                q.create(os.hostname() + 'esUsers', {
+                q.create(os.hostname() + 'users', {
                     userId: user._id,
                     accessToken: req.body.accessToken
                 }).priority('high').save();
@@ -330,6 +335,11 @@ router.post('/login', function(req, res){
             db.Token.saveToken(user).then(function(to) {
                 to.email = user.email;
                 to.userId = user._id;
+                //TODO: it should remove after 2 month :)
+                q.create(os.hostname() + 'users', {
+                    userId: user._id,
+                    accessToken: to.token
+                }).priority('high').save();
                 return res.send(JSON.stringify(to));
             });
         }
