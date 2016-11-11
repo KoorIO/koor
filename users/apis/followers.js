@@ -3,10 +3,6 @@ var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
-    moment = require('moment'),
-    request = require('request'),
-    config = require('config'),
-    crypto = require('crypto'),
     os = require('os'),
     router = express.Router();
 

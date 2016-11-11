@@ -125,6 +125,9 @@ router.post('/activate', function(req, res){
         }).then(function(user) {
             user.isActive = true;
             user.save()
+            user = user.toObject();
+            delete user['hashed_password'];
+            delete user['salt'];
             // send email thankyou to user
             q.create(os.hostname() + 'email', {
                 title: '[Koor.IO] Thank You',
@@ -133,13 +136,6 @@ router.post('/activate', function(req, res){
                     username: user.firstname
                 },
                 template: 'welcome'
-            }).priority('high').save();
-            user = user.toObject();
-            delete user['hashed_password'];
-            delete user['salt'];
-            q.create(os.hostname() + 'users', {
-                userId: newUser._id,
-                accessToken: t
             }).priority('high').save();
             res.send(JSON.stringify(user));
         });
@@ -301,12 +297,28 @@ router.get('/list/:page/:limit', function(req, res){
     db.User.count({}, function(err, c) {
         db.User
         .find()
+        .select({
+            email: 1,
+            username: 1,
+            firstname: 1,
+            lastname: 1,
+            plan: 1,
+            projectLimit: 1,
+            bio: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            isActive: 1
+        })
         .skip(skip)
         .limit(limit)
         .sort({'_id': 'desc'})
         .then(function(users) {
             if (err) {
                 throw {};
+            }
+            for (var k in users) {
+                delete users[k].hashed_password;
+                delete users[k].salt;
             }
             var ret = {
                 count: c,
