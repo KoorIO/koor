@@ -45,10 +45,6 @@ router.post('/create', function(req, res){
                 },
                 template: 'activate'
             }).priority('high').save();
-            q.create(os.hostname() + 'users', {
-                userId: newUser._id,
-                accessToken: to.token
-            }).priority('high').save();
             res.send(JSON.stringify(newUser));
         });
     });

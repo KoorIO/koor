@@ -14,12 +14,12 @@ consumer.task = function(job, done){
 
     var session = driver.session();
     session
-    .run('MATCH (u:Users {userId: "' + data.userId + '"}) \
-         MATCH (f:Users {userId: "' + data.followerId + '"})\
-         CREATE (f)-[:FOLLOW]->(u)')
+    .run('MATCH (u:Users {userId: {userId}}) \
+         MATCH (f:Users {userId: {followerId}}) \
+         CREATE (f)-[:FOLLOW]->(u)', {userId: data.userId, followerId: data.followerId})
     .subscribe({
         onCompleted: function() {
-            logger.debug('Create FOLLOW Relationship User', data.userId, data.followerId);
+            logger.debug('Create FOLLOW Relationship User %s Follower %s', data.userId, data.followerId);
             session.close();
         },
         onError: function(error) {

@@ -46,7 +46,39 @@ var search = function(data) {
     return deferred.promise;
 };
 
+var searchByUserIds = function(data) {
+    var deferred = q.defer();
+    es.search({
+        index: config.get('es.index'),
+        type: 'users',
+        body:{
+            from: data.form,
+            size: data.size,
+            query: {
+                constant_score: {
+                    filter: [
+                        {
+                            terms: {
+                                _id: data.userIds
+                            }
+                        }
+                    ]
+                }
+            } 
+        }
+    }, function (error, response) {
+        if (error) {
+            deferred.reject(error);
+        } else {
+            deferred.resolve(response.hits);
+        }
+    });
+    return deferred.promise;
+};
+
+
 module.exports = {
     searchName: 'User',
-    search: search
+    search: search,
+    searchByUserIds: searchByUserIds
 }
