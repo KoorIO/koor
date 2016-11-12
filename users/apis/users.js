@@ -357,17 +357,18 @@ router.post('/login', function(req, res){
 });
 
 // Search a user
-router.get('/search/:s/:page/:limit', function(req, res){
-    logger.debug('Search User s =', req.params.s);
-    var size = (req.params.limit)? parseInt(req.params.limit): 10;
-    var from = (req.params.page)? size * (req.params.page - 1): 0;
+router.get('/search', function(req, res){
+    logger.debug('Search User s =', req.query.s);
+    var size = (req.query.limit)? parseInt(req.query.limit): 10;
+    var from = (req.query.page)? size * (req.query.page - 1): 0;
     es.User.search({
-        query: req.params.s,
+        query: req.query.s,
         from: from,
         size: size
     }).then(function(response) {
         return res.json(response);
     }).catch(function(e) {
+        console.log(e);
         return res.json({});
     });
 });

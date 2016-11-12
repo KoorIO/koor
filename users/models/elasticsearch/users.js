@@ -7,36 +7,38 @@ var fs = require('fs'),
 
 var search = function(data) {
     var deferred = q.defer();
-    es.search({
+    var query = {
         index: config.get('es.index'),
         type: 'users',
         body:{
             from: data.form,
             size: data.size,
-            query: {
-                bool:{
-                    should: [
-                        {
-                            multi_match: {
-                                query: data.query ,
-                                type: "cross_fields", 
-                                operator: "or",
-                                fields: [ "firstname", "lastname" ]
-                            }
-                        },
-                        {
-                            match: {
-                                email: {
-                                    query: data.query,
-                                    type: "phrase_prefix"
-                                }
-                            }
-                        }
-                    ]
-                }
-            } 
+            query: { bool: {}}
         }
-    }, function (error, response) {
+    };
+    if (data.query) {
+        query.body.query.bool = {
+            should: [
+                {
+                    multi_match: {
+                        query: data.query ,
+                        type: "cross_fields", 
+                        operator: "or",
+                        fields: [ "firstname", "lastname" ]
+                    }
+                },
+                {
+                    match: {
+                        email: {
+                            query: data.query,
+                            type: "phrase_prefix"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+    es.search(query, function (error, response) {
         if (error) {
             deferred.reject(error);
         } else {

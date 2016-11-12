@@ -262,13 +262,13 @@ paths:
                   description: Page Number
                   required: true
                   type: string
-                  format: string
+                  default: 1
                 - name: limit
                   in: path
                   description: Limit Number
                   required: true
                   type: string
-                  format: string
+                  default: 10
             responses:
                 200:
                     description: OK
@@ -283,7 +283,7 @@ paths:
             tags:
                 - Users
 
-    /api/v1/users/search/{s}/{page}/{limit}:
+    /api/v1/users/search:
         get:
             summary: Search Users
             description: |
@@ -292,25 +292,22 @@ paths:
                 - Bearer: []
             parameters:
                 - name: page
-                  in: path
+                  in: query
                   description: Page Number
                   required: true
                   type: string
-                  format: string
                   default: 1
                 - name: limit
-                  in: path
+                  in: query
                   description: Limit Number
                   required: true
                   type: string
-                  format: string
                   default: 10
                 - name: s
-                  in: path
+                  in: query
                   description: Query String
-                  required: true
+                  required: false
                   type: string
-                  format: string
             responses:
                 200:
                     description: OK
