@@ -3,7 +3,9 @@
         {
             "docs": "http://localhost:3000/docs",
             "base_path": "http://localhost:3000",
-            "route_match": ["/api/v1/user*", "/api/v1/follower*"]
+            "route_match": ["/api/v1/user*", "/api/v1/follower*",
+                "/api/v1/recommendation*"
+            ]
         },
         {
             "docs": "http://localhost:3001/docs",
