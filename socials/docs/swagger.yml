@@ -67,6 +67,34 @@ paths:
             tags:
                 - Files
 
+    /api/v1/files/getByIds/{ids}:
+        get:
+            summary: Get files by ids
+            description: |
+                Get a files by ids
+            security:
+                - Bearer: []
+            parameters:
+                - name: ids
+                  in: path
+                  description: File Ids
+                  required: true
+                  type: string
+                  format: string
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Files
+
     /api/v1/files/getAlbum/{id}:
         get:
             summary: Get a Album Details

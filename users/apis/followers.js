@@ -3,6 +3,7 @@ var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
+    services = require('../services'),
     os = require('os'),
     router = express.Router();
 
@@ -49,11 +50,46 @@ router.get('/list/:page/:limit', function(req, res){
             if (err) {
                 throw {};
             }
-            var ret = {
-                count: c,
-                rows: followers
-            };
-            res.send(JSON.stringify(ret));
+            var userIds = [];
+            for (var j in followers) {
+                userIds.push(followers[j].followerId);
+            }
+            db.User.find({
+                _id: { $in: userIds }
+            }).then(function(users){
+                var fileIds = [];
+                var rows = [];
+                for (var k in users) {
+                    // remove security attributes
+                    var user = users[k].toObject();
+                    delete user.hashed_password;
+                    delete user.salt;
+                    rows.push(user);
+                    if (user.fileId) {
+                        fileIds.push(user.fileId);
+                    }
+                }
+                services.File.getFileByIds({
+                    fileIds: fileIds,
+                    accessToken: req.body.accessToken
+                }).then(function(body) {
+                    body.files.forEach(function(item) {
+                        for (var i in rows) {
+                            if (item.userId == rows[i]._id) {
+                                rows[i].file = item;
+                            }
+                        }
+
+                    });
+                    var ret = {
+                        count: c,
+                        rows: rows
+                    };
+                    res.send(JSON.stringify(ret));
+                });
+            }).catch(function(e){
+                res.status(500).send(JSON.stringify(e));
+            });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
         });
@@ -79,11 +115,47 @@ router.get('/following/list/:page/:limit', function(req, res){
             if (err) {
                 throw {};
             }
-            var ret = {
-                count: c,
-                rows: followers
-            };
-            res.send(JSON.stringify(ret));
+            var userIds = [];
+            for (var j in followers) {
+                userIds.push(followers[j].userId);
+            }
+            db.User.find({
+                _id: { $in: userIds }
+            }).then(function(users){
+                var fileIds = [];
+                var rows = [];
+                for (var k in users) {
+                    // remove security attributes
+                    var user = users[k].toObject();
+                    delete user.hashed_password;
+                    delete user.salt;
+                    rows.push(user);
+                    if (user.fileId) {
+                        fileIds.push(user.fileId);
+                    }
+                }
+                services.File.getFileByIds({
+                    fileIds: fileIds,
+                    accessToken: req.body.accessToken
+                }).then(function(body) {
+                    body.files.forEach(function(item) {
+                        for (var i in rows) {
+                            console.log(item.userId, rows[i]._id);
+                            if (item.userId == rows[i]._id) {
+                                rows[i].file = item;
+                            }
+                        }
+
+                    });
+                    var ret = {
+                        count: c,
+                        rows: rows
+                    };
+                    res.send(JSON.stringify(ret));
+                });
+            }).catch(function(e){
+                res.status(500).send(JSON.stringify(e));
+            });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
         });

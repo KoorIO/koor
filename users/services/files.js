@@ -25,7 +25,28 @@ var getFileById = function(data) {
     return deferred.promise;
 };
 
+var getFileByIds = function(data) {
+    var deferred = q.defer();
+    var url = utils.makeUrl(config.get('services.files.getByIds'), {fileIds: data.fileIds});
+    logger.info('Call service', url);
+    request({
+        url: url,
+        method: 'GET',
+        qs: {},
+        headers: {
+            'Authorization': data.accessToken
+        }
+    }, function(err, res, body) {
+        if (err) {
+            deferred.reject(e);
+        }
+        deferred.resolve(JSON.parse(body));
+    });
+    return deferred.promise;
+};
+
 module.exports = {
     serviceName: 'File',
-	getFileById: getFileById
+	getFileById: getFileById,
+	getFileByIds: getFileByIds
 };

@@ -22,6 +22,28 @@ router.get('/get/:fileId', function(req, res){
     });
 });
 
+// get File by Ids
+router.get('/getByIds/:fileIds', function(req, res){
+    logger.info('Get File Details By Ids', req.params.fileIds);
+    var fileIds = req.params.fileIds.split(',');
+    db.File
+    .find({
+        _id: { $in: fileIds }
+    })
+    .then(function(files) {
+        var ret = [];
+        for (var k in files) {
+            var file = files[k].toObject();
+            file.urls = fileHelper.fileToUrls(files[k]);
+            ret.push(file);
+        }
+        res.json({files: ret});
+    }).catch(function(e) {
+        res.status(400).send(JSON.stringify(e));
+    });
+});
+
+
 // get album details
 router.get('/getAlbum/:albumId', function(req, res){
     logger.info('Get Album Details', req.params.albumId);

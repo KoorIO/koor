@@ -16,5 +16,7 @@ var Follower = new Schema({
     }
 });
 
+Follower.index({userId: 1, followerId: 1}, {unique: true});
+
 Follower.plugin(CreateUpdatedAt);
 module.exports = mongoose.model('Follower', Follower);
