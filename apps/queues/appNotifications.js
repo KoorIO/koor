@@ -2,7 +2,6 @@
 var config = require('config');
 var consumer = {};
 var os = require('os');
-var db = require('../models');
 var logger = require('../helpers/logger');
 var cache = require('../helpers/cache');
 consumer.name = os.hostname() + 'appNotifications';

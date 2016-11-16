@@ -1,7 +1,7 @@
 'use strict';
 var express = require('express'), 
     logger = require('../helpers/logger'),
-    db = require('../models'),
+    db = require('../models/mongodb'),
     q = require('../queues'),
     cache = require('../helpers/cache'),
     os = require('os'),

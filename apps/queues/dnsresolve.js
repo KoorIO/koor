@@ -2,8 +2,9 @@
 var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
-var db = require('../models');
+var db = require('../models/mongodb');
 var dns = require('dns');
+var utils = require('../helpers/utils');
 var config = require('config');
 consumer.name = os.hostname() + 'dnsresolve';
 
@@ -23,7 +24,7 @@ consumer.task = function(job, done){
                     data: project
                 };
                 var q = require('../queues');
-                q.create(os.hostname() + 'notifications', notification).priority('high').save();
+                q.create(utils.getHostnameSocials() + 'notifications', notification).priority('high').save();
                 var activity = {
                     type: 'DNS_RESOLVED',
                     userId: project.userId,
@@ -54,7 +55,7 @@ consumer.task = function(job, done){
                         data: project
                     };
                     var q = require('../queues');
-                    q.create(os.hostname() + 'notifications', notification).priority('high').save();
+                    q.create(utils.getHostnameSocials() + 'notifications', notification).priority('high').save();
                     var activity = {
                         type: 'DNS_RESOLVED',
                         userId: project.userId,

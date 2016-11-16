@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express'), 
-    db = require('../models'),
+    db = require('../models/mongodb'),
+    utils = require('../helpers/utils'),
     logger = require('../helpers/logger'),
     router = express.Router();
 
@@ -87,5 +88,36 @@ router.put('/update/:id', function(req, res){
         res.status(400).send(JSON.stringify(e));
     });
 });
+
+// follow a device
+router.post('/follow/:id', function(req, res){
+    logger.debug('Follow a Device', req.params.id);
+    db.Device.findOne({
+        _id: req.params.id
+    }).then(function(device) {
+        followDevice = db.FollowDevice({
+            userId: req.body.userId,
+            deviceId: req.params.id
+        });
+        followDevice.save(function(e) {
+            if (e) {
+                throw true;
+            }
+            q.create(utils.getHostnameSocials() + 'notifications', {
+                type: 'FOLLOW_DEVICE',
+                userId: device.userId,
+                data: followDevice
+            }).priority('high').save();
+            q.create(os.hostname() + 'followDevices', {
+                userId: req.body.userId,
+                deviceId: req.params.id
+            }).priority('high').save();
+            res.json(device);
+        });
+    }).catch(function(e){
+        res.status(500).send(JSON.stringify(e));
+    });
+});
+
 
 module.exports = router;

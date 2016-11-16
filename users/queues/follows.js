@@ -12,7 +12,12 @@ consumer.name = os.hostname() + 'njFollows';
 consumer.task = function(job, done){
     var data = job.data;
     var q = require('../queues');
-    q.create(os.hostname() + 'feeds', data).priority('high').save();
+    var feedData = {
+        type: data.type,
+        data: data,
+        userId: data.userId
+    };
+    q.create(os.hostname() + 'feeds', feedData).priority('high').save();
     q.create(os.hostname() + 'njFollows', data).priority('high').save();
 
     done();

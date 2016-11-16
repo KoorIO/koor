@@ -10,7 +10,7 @@
         {
             "docs": "http://localhost:3001/docs",
             "base_path": "http://localhost:3001",
-            "route_match": ["/api/v1/project*"]
+            "route_match": ["/api/v1/project*", "/api/v1/device*"]
         },
         {
             "docs": "http://localhost:3004/docs",

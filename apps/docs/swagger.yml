@@ -102,13 +102,13 @@ paths:
                   description: Page Number
                   required: true
                   type: string
-                  format: string
+                  default: 1
                 - name: limit
                   in: path
                   description: Limit Number
                   required: true
                   type: string
-                  format: string
+                  default: 10
             responses:
                 200:
                     description: OK
@@ -122,3 +122,42 @@ paths:
                     description: Server Internal error
             tags:
                 - Projects
+
+    /api/v1/devices/list/{projectId}/{page}/{limit}:
+        get:
+            summary: Get list of project
+            description: |
+                Get list of project with page and limit
+            security:
+                - Bearer: []
+            parameters:
+                - name: projectId
+                  in: path
+                  description: Project id
+                  required: true
+                  type: string
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Devices

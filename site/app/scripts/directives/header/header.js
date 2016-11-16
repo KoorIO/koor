@@ -23,7 +23,7 @@ angular.module('siteSeedApp')
             });
             socket.on('notifications', function(data) {
                 $scope.badge += 1;
-                $scope.notifications.append(data)
+                $scope.notifications.push(data)
                 $scope.$apply();
             });
 

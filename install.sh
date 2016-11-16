@@ -31,6 +31,7 @@ echo "Installing Site ..."
 cd $workdir/site && npm install && bower install && \
     sed "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/default.json > config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
+    sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
     sed -i "s/wss:\/\//ws:\/\//g" config/local.json && \
     sed -i "s/\"websocket\": \"koor.io\"/\"websocket\": \"localhost:5000\"/g" config/local.json && \

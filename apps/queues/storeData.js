@@ -2,7 +2,7 @@
 var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
-var db = require('../models');
+var db = require('../models/mongodb');
 var cache = require('../helpers/cache');
 var ObjectId = require('mongoose').Types.ObjectId; 
 consumer.name = os.hostname() + 'store_data';

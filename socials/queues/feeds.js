@@ -16,13 +16,13 @@ consumer.task = function(job, done){
     });
 
     logger.debug('New Feed', data.userId);
-    cache.publish('notifications', JSON.stringify(notification));
+    cache.publish('feeds', JSON.stringify(feed));
 
-    notification.save(function(error) {
+    feed.save(function(error) {
         if (error) {
             logger.debug('Failed - Save Feed', data.userId);
         } else {
-            logger.debug('Saved Feed', notification._id);
+            logger.debug('Saved Feed', feed._id);
         }
     });
 

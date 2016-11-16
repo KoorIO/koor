@@ -2,7 +2,7 @@
 var _ = require('lodash');
 var config = require('config');
 var logger = require('../helpers/logger');
-var db = require('../models');
+var db = require('../models/mongodb');
 
 module.exports = function(req, res, next) {
     if (!req.originalUrl.match(/^\/get\/(.*)/g)) {
