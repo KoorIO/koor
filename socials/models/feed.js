@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
 var q = require('q');
 
-var FeedDevice = new Schema({
+var Feed = new Schema({
     type: {
         type: String,
         require: true
@@ -12,12 +12,12 @@ var FeedDevice = new Schema({
         type: Schema.Types.Mixed,
         require: true
     },
-    deviceId: {
+    userId: {
         type: Schema.Types.ObjectId,
         index: true
     }
 });
 
-FeedDevice.plugin(CreateUpdatedAt);
+Feed.plugin(CreateUpdatedAt);
 
-module.exports = mongoose.model('FeedDevice', FeedDevice);
+module.exports = mongoose.model('Feed', Feed);

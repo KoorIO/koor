@@ -15,7 +15,8 @@
         {
             "docs": "http://localhost:3004/docs",
             "base_path": "http://localhost:3004",
-            "route_match": ["/api/v1/file*", "/api/v1/upload*", "/api/v1/notification*"]
+            "route_match": ["/api/v1/file*", "/api/v1/upload*",
+                "/api/v1/notification*", "/api/v1/feed*"]
         }
     ],
     "info": { "title": "Koor.IO API", "version": "1.0" },

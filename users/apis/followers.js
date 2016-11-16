@@ -23,7 +23,7 @@ router.post('/create', function(req, res){
             userId: follower.userId,
             data: follower
         }).priority('high').save();
-        q.create(os.hostname() + 'njFollows', {
+        q.create(os.hostname() + 'follows', {
             userId: req.body.followingId,
             followerId: req.body.userId
         }).priority('high').save();
@@ -32,16 +32,17 @@ router.post('/create', function(req, res){
 });
 
 // get list of followers
-router.get('/list/:page/:limit', function(req, res){
+router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
+    var userId = req.params.userId || req.body.userId;
     logger.debug('Follower List', limit, skip);
     db.Follower.count({
-        userId: req.body.userId
+        userId: userId
     }, function(err, c) {
         db.Follower
         .find({
-            userId: req.body.userId
+            userId: userId
         })
         .skip(skip)
         .limit(limit)
@@ -100,16 +101,17 @@ router.get('/list/:page/:limit', function(req, res){
 });
 
 // get list of following
-router.get('/following/list/:page/:limit', function(req, res){
+router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limit'], function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
+    var userId = req.params.userId || req.body.userId;
     logger.debug('Following List', limit, skip);
     db.Follower.count({
-        followerId: req.body.userId
+        followerId: userId
     }, function(err, c) {
         db.Follower
         .find({
-            followerId: req.body.userId
+            followerId: userId
         })
         .skip(skip)
         .limit(limit)

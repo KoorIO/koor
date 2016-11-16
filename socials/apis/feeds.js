@@ -6,12 +6,12 @@ var express = require('express'),
     router = express.Router();
 
 // get list of notifications
-router.get('/feedUser/list/:page/:limit', function(req, res){
+router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get Feed User', req.body.userId);
-    db.FeeUser.count({ userId: req.body.userId }, function(err, c) {
-        db.FeedUser
+    db.Feed.count({ userId: req.body.userId }, function(err, c) {
+        db.Feed
         .find({
             userId: req.body.userId
         })

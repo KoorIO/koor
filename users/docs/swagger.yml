@@ -384,6 +384,45 @@ paths:
             tags:
                 - Users
 
+    /api/v1/followers/list/{userId}/{page}/{limit}:
+        get:
+            summary: Get list of followers
+            description: |
+                Get list of followers
+            security:
+                - Bearer: []
+            parameters:
+                - name: userId
+                  in: path
+                  description: User Id
+                  required: true
+                  type: string
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Users
+
     /api/v1/followers/list/{page}/{limit}:
         get:
             summary: Get list of followers
@@ -426,6 +465,45 @@ paths:
             security:
                 - Bearer: []
             parameters:
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Users
+
+    /api/v1/followers/following/list/{userId}/{page}/{limit}:
+        get:
+            summary: Get list of followings
+            description: |
+                Get list of followings
+            security:
+                - Bearer: []
+            parameters:
+                - name: userId
+                  in: path
+                  description: User Id
+                  required: true
+                  type: string
                 - name: page
                   in: path
                   description: Page Number
