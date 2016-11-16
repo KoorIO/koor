@@ -108,7 +108,7 @@ router.post('/on_subscribe', function(req, res){
                             domain: domain
                         }).then(function(project) {
                             if (project) {
-                                q.create(os.hostname() + 'notifications', {
+                                q.create(os.hostname() + 'appNotifications', {
                                     userId: project.userId,
                                     type: 'DEVICE_ON',
                                     data: device
@@ -155,7 +155,7 @@ router.post('/on_client_gone', function(req, res){
                         deviceId: device._id
                     }));
                     // save activiry
-                    q.create(os.hostname() + 'notifications', {
+                    q.create(os.hostname() + 'appNotifications', {
                         userId: p.userId,
                         type: 'DEVICE_OFF',
                         data: device
@@ -199,7 +199,7 @@ router.post('/on_client_offline', function(req, res){
                         domain: p.domain,
                         deviceId: device._id
                     }));
-                    q.create(os.hostname() + 'notifications', {
+                    q.create(os.hostname() + 'appNotifications', {
                         userId: p.userId,
                         type: 'DEVICE_OFF',
                         data: device

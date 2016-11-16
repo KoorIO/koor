@@ -17,10 +17,11 @@ var getFileById = function(data) {
             'Authorization': data.accessToken
         }
     }, function(err, res, body) {
-        if (err) {
-            deferred.reject(e);
+        if (err || res.statusCode !== 200) {
+            deferred.reject(true);
+        } else {
+            deferred.resolve(JSON.parse(body));
         }
-        deferred.resolve(JSON.parse(body));
     });
     return deferred.promise;
 };
@@ -37,10 +38,11 @@ var getFileByIds = function(data) {
             'Authorization': data.accessToken
         }
     }, function(err, res, body) {
-        if (err) {
-            deferred.reject(e);
+        if (err || res.statusCode !== 200) {
+            deferred.reject(true);
+        } else {
+            deferred.resolve(JSON.parse(body));
         }
-        deferred.resolve(JSON.parse(body));
     });
     return deferred.promise;
 };

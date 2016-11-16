@@ -69,6 +69,10 @@ router.get('/list/:page/:limit', function(req, res){
                         fileIds.push(user.fileId);
                     }
                 }
+                var ret = {
+                    count: c,
+                    rows: rows
+                };
                 services.File.getFileByIds({
                     fileIds: fileIds,
                     accessToken: req.body.accessToken
@@ -81,10 +85,9 @@ router.get('/list/:page/:limit', function(req, res){
                         }
 
                     });
-                    var ret = {
-                        count: c,
-                        rows: rows
-                    };
+                    ret.rows = rows;
+                    res.send(JSON.stringify(ret));
+                }).catch(function() {
                     res.send(JSON.stringify(ret));
                 });
             }).catch(function(e){
@@ -134,23 +137,25 @@ router.get('/following/list/:page/:limit', function(req, res){
                         fileIds.push(user.fileId);
                     }
                 }
+                var ret = {
+                    count: c,
+                    rows: rows
+                };
                 services.File.getFileByIds({
                     fileIds: fileIds,
                     accessToken: req.body.accessToken
                 }).then(function(body) {
                     body.files.forEach(function(item) {
                         for (var i in rows) {
-                            console.log(item.userId, rows[i]._id);
                             if (item.userId == rows[i]._id) {
                                 rows[i].file = item;
                             }
                         }
 
                     });
-                    var ret = {
-                        count: c,
-                        rows: rows
-                    };
+                    ret.rows = rows
+                    res.send(JSON.stringify(ret));
+                }).catch(function() {
                     res.send(JSON.stringify(ret));
                 });
             }).catch(function(e){

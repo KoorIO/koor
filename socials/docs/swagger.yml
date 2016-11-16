@@ -122,3 +122,37 @@ paths:
                     description: Server Internal error
             tags:
                 - Files
+
+    /api/v1/notifications/list/{page}/{limit}:
+        get:
+            summary: Get list of notifications
+            description: |
+                Get list of notifications with page and limit
+            security:
+                - Bearer: []
+            parameters:
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Notifications
