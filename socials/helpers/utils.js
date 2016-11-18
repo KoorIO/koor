@@ -1,4 +1,5 @@
 'use strict';
+var config = require('config');
 var makeUrl = function(url, params) {
     for (var param in params) {
         var myRegExp = new RegExp('\/\:' + param, 'g');
@@ -8,11 +9,13 @@ var makeUrl = function(url, params) {
 }
 
 var getHostnameSocials = function() {
-    return 'socials';
+    var items = config.get('hostnames.socials');
+    return items[Math.floor(Math.random()*items.length)];
 }
 
 var getHostnameWebsocket = function() {
-    return 'websocket';
+    var items = config.get('hostnames.websocket');
+    return items[Math.floor(Math.random()*items.length)];
 }
 
 module.exports = {

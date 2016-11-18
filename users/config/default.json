@@ -51,6 +51,14 @@
             "pass": "userpass"
         }
     },
+    "hostnames": {
+        "socials": [
+            "build_socials_1"
+        ],
+        "websocket": [
+            "build_websocket_1"
+        ]
+    },
     "unauthorization": [
         "/docs",
         "/api/v1/users/login", 

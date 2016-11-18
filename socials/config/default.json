@@ -28,6 +28,19 @@
             "pass": "userpass"
         }
     },
+    "hostnames": {
+        "socials": [
+            "build_socials_1"
+        ],
+        "websocket": [
+            "build_websocket_1"
+        ]
+    },
+    "services": {
+        "users": {
+            "getFollowingsByUserId": "/u/api/v1/followers/following/list/:userId/:page/:limit"
+        }
+    },
     "unauthorization": [
         "/docs"
     ],

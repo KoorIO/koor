@@ -4,6 +4,7 @@ var express = require('express'),
     q = require('../queues'),
     cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
+    utils = require('../helpers/utils'),
     os = require('os'),
     config = require('config'),
     router = express.Router();
@@ -46,6 +47,19 @@ router.post('/create', function(req, res){
                                 userId: project.userId
                             }
                         }).priority('low').save();
+
+                        // save feed
+                        q.create(utils.getHostnameSocials() + 'feeds', {
+                            userId: project.userId,
+                            type: 'CREATE_PROJECT',
+                            data: {
+                                _id: project._id,
+                                name: project.name,
+                                domain: project.domain,
+                                userId: project.userId
+                            }
+                        }).priority('low').save();
+
 
                         res.send(JSON.stringify(project));
                     });

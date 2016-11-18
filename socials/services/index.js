@@ -10,7 +10,7 @@ fs.readdirSync(__dirname)
 })
 .forEach(function(file){
     var service = require(path.join(__dirname, file));
-    db[service.serviceName] = service;
+    services[service.serviceName] = service;
 });
 
 module.exports = services;

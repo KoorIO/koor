@@ -18,11 +18,26 @@ router.post('/create', function(req, res){
         if (error) {
             return res.status(406).send(JSON.stringify({error}));
         }
-        q.create(os.hostname() + 'notifications', {
-            type: 'FOLLOW_USER',
-            userId: follower.userId,
-            data: follower
+        q.create(os.hostname() + 'follows', {
+            userId: req.body.followingId,
+            followerId: req.body.userId
         }).priority('high').save();
+        res.json(follower);
+    });
+});
+
+// unfollow a user
+// TODO: fix it tonight
+router.delete('/delete', function(req, res){
+    var follower = new db.Follower({
+        userId: req.body.followingId,
+        followerId: req.body.userId
+    });
+    logger.debug('User %s follows %s', req.body.userId, req.body.followingId);
+    follower.save(function(error){
+        if (error) {
+            return res.status(406).send(JSON.stringify({error}));
+        }
         q.create(os.hostname() + 'follows', {
             userId: req.body.followingId,
             followerId: req.body.userId

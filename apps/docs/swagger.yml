@@ -26,27 +26,11 @@ paths:
                   required: true
                   schema:
                       required:
-                          - projectname
-                          - email
-                          - password
-                          - firstname
-                          - lastname
+                          - name
                       properties:
-                          projectname:
+                          name:
                               type: string
                               description: Project Name
-                          password:
-                              type: string
-                              description: Password of Project
-                          email:
-                              type: string
-                              description: Email of Project
-                          firstname:
-                              type: string
-                              description: First Name
-                          lastname:
-                              type: string
-                              description: Last Name
             responses:
                 200:
                     description: Returns a access token
