@@ -11,11 +11,12 @@ consumer.task = function(job, done){
     var data = job.data;
     var notification = new db.Notification({
         type: data.type,
+        id: data.id,
         data: data.data,
         userId: data.userId
     });
 
-    logger.debug('New Notification', data.userId);
+    logger.debug('New Notification', data.userId, data.type, data.id);
     cache.publish('notifications', JSON.stringify(notification));
 
     notification.save(function(error) {

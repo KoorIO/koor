@@ -10,12 +10,13 @@ consumer.name = os.hostname() + 'feeds';
 consumer.task = function(job, done){
     var data = job.data;
     var feed = new db.Feed({
+        id: data.id,
         type: data.type,
         data: data.data,
         userId: data.userId
     });
 
-    logger.debug('New Feed', data.userId);
+    logger.debug('New Feed', data.userId, data.type, data.id);
     cache.publish('feeds', JSON.stringify(feed));
 
     feed.save(function(error) {

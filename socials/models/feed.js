@@ -6,7 +6,12 @@ var q = require('q');
 var Feed = new Schema({
     type: {
         type: String,
-        require: true
+        require: true,
+        index: true
+    },
+    id: {
+        type: String,
+        index: true
     },
     data: {
         type: Schema.Types.Mixed,
@@ -17,6 +22,8 @@ var Feed = new Schema({
         index: true
     }
 });
+
+Feed.index({type: 1, id: 1}, {unique: true});
 
 Feed.plugin(CreateUpdatedAt);
 

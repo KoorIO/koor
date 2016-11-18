@@ -20,6 +20,7 @@ consumer.task = function(job, done){
             project.save(function() {
                 var notification = {
                     type: 'DNS_RESOLVED',
+                    id: project._id,
                     userId: project.userId,
                     data: project
                 };
@@ -31,7 +32,7 @@ consumer.task = function(job, done){
                     projectId: project._id,
                     data: project
                 };
-                q.create(os.hostname() + 'activities', notification).priority('low').save();
+                q.create(os.hostname() + 'activities', activity).priority('low').save();
                 logger.debug('Domain %s works', project.domain);
             });
         }).catch(function(e){
@@ -51,6 +52,7 @@ consumer.task = function(job, done){
                 project.save(function() {
                     var notification = {
                         type: 'DNS_RESOLVED',
+                        id: project._id,
                         userId: project.userId,
                         data: project
                     };
@@ -62,7 +64,7 @@ consumer.task = function(job, done){
                         projectId: project._id,
                         data: project
                     };
-                    q.create(os.hostname() + 'activities', notification).priority('low').save();
+                    q.create(os.hostname() + 'activities', activity).priority('low').save();
                     logger.debug('Domain %s works', project.domain);
                 });
             }).catch(function(e){

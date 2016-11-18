@@ -6,7 +6,12 @@ var q = require('q');
 var Notification = new Schema({
     type: {
         type: String,
-        require: true
+        require: true,
+        index: true
+    },
+    id: {
+        type: String,
+        index: true
     },
     status: {
         type: String,
@@ -21,6 +26,8 @@ var Notification = new Schema({
         index: true
     }
 });
+
+Notification.index({type: 1, id: 1}, {unique: true});
 
 Notification.plugin(CreateUpdatedAt);
 

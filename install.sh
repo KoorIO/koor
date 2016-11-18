@@ -9,6 +9,9 @@ echo "Installing Users ..."
 cd $workdir/users && npm install && \
     sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
+    sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
+    sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
+    sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
     sed -i "s/http:\/\/users/http:\/\/localhost:${USERS_PORT}/g" config/local.json && \
     sed -i "s/http:\/\/files/http:\/\/localhost:${SOCIALS_PORT}/g" config/local.json && \
     sed -i "s/es:9200/localhost:9200/g" config/local.json && \
@@ -18,12 +21,18 @@ wait
 echo "Installing Apps ..."
 cd $workdir/apps && npm install && \
     sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
+    sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
+    sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
+    sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
 wait
 echo "Installing Socials ..."
 cd $workdir/socials && npm install && \
     sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
+    sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
+    sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
+    sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${SOCIALS_PORT}/g" config/local.json
 wait

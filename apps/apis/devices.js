@@ -105,6 +105,7 @@ router.post('/follow/:id', function(req, res){
             }
             q.create(utils.getHostnameSocials() + 'notifications', {
                 type: 'FOLLOW_DEVICE',
+                id: device._id,
                 userId: device.userId,
                 data: followDevice
             }).priority('high').save();

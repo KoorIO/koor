@@ -19,6 +19,7 @@ router.post('/create', function(req, res){
             return res.status(406).send(JSON.stringify({error}));
         }
         q.create(os.hostname() + 'follows', {
+            id: follower._id,
             userId: req.body.followingId,
             followerId: req.body.userId
         }).priority('high').save();
@@ -28,21 +29,18 @@ router.post('/create', function(req, res){
 
 // unfollow a user
 // TODO: fix it tonight
-router.delete('/delete', function(req, res){
-    var follower = new db.Follower({
-        userId: req.body.followingId,
+router.delete('/delete/:userId', function(req, res){
+    logger.debug('User %s Unfollows %s', req.body.userId, req.params.userId);
+    db.Follower.findOneAndRemove({
+        userId: req.params.userId,
         followerId: req.body.userId
-    });
-    logger.debug('User %s follows %s', req.body.userId, req.body.followingId);
-    follower.save(function(error){
-        if (error) {
-            return res.status(406).send(JSON.stringify({error}));
+    }).then(function(follower) {
+        if (follower) {
+            q.create(os.hostname() + 'unfollows', follower).priority('high').save();
+            res.json(follower);
         }
-        q.create(os.hostname() + 'follows', {
-            userId: req.body.followingId,
-            followerId: req.body.userId
-        }).priority('high').save();
-        res.json(follower);
+    }).catch(function(e) {
+        res.status(500).json(e);
     });
 });
 

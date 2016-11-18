@@ -8,24 +8,20 @@ var utils = require('../helpers/utils');
 var services = require('../services');
 var driver = require('../helpers/neo4j');
 
-consumer.name = os.hostname() + 'follows';
+consumer.name = os.hostname() + 'unfollows';
 
 consumer.task = function(job, done){
     var data = job.data;
     var q = require('../queues');
     var feedData = {
         type: 'FOLLOW_USER',
-        id: data.id,
-        data: data,
-        userId: data.followerId
+        id: data._id
     };
-    q.create(utils.getHostnameSocials() + 'feeds', feedData).priority('high').save();
-    q.create(os.hostname() + 'njFollows', data).priority('high').save();
-	q.create(utils.getHostnameSocials() + 'notifications', {
-		type: 'FOLLOW_USER',
-        id: data.id,
-		userId: data.userId,
-		data: data
+    q.create(utils.getHostnameSocials() + 'deleteFeeds', feedData).priority('high').save();
+    q.create(os.hostname() + 'njUnFollows', data).priority('high').save();
+	q.create(utils.getHostnameSocials() + 'deleteNotifications', {
+        type: 'FOLLOW_USER',
+        id: data._id
 	}).priority('high').save();
 
     done();
