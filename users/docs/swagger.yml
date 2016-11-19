@@ -531,7 +531,7 @@ paths:
                 - Users
 
 
-    /api/v1/recommendations/peopleMayYouKnow/{page}/{limit}:
+    /api/v1/recommendations/peopleYouMayKnow/{page}/{limit}:
         get:
             summary: People May You Know
             description: |
