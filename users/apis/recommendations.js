@@ -25,10 +25,12 @@ router.get('/peopleYouMayKnow/:page/:limit', function(req, res){
                     aId: req.body.userId,
                     bId: response['hits'][i]._id
                 }).then(function(result) {
-                    console.log(result.records);
+                    if (result.records.length > 0) {
+                        response['hits'][i]._source.mutualFriends = parseInt(result.records[0]._fields);
+                    }
+                    return res.json(response);
                 });
             }
-            return res.json(response);
         }).catch(function(e) {
             return res.json({});
         });

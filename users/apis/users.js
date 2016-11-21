@@ -233,22 +233,28 @@ router.get(['/get', '/get/:id'], function(req, res){
         _id: userId
     }).then(function(user){
         // remove security attributes
-        user = user.toObject();
-        if (user) {
-            delete user.hashed_password;
-            delete user.salt;
-        }
-        if (user.fileId) {
-            services.File.getFileById({
-                fileId: user.fileId,
-                accessToken: req.body.accessToken
-            }).then(function(body) {
-                user.file = body;
+        db.Follower.findOne({
+            userId: userId,
+            followerId: req.body.userId
+        }).then(function(isFollow) {
+            user = user.toObject();
+            if (user) {
+                delete user.hashed_password;
+                delete user.salt;
+            }
+            user.isFollowed = Boolean(isFollow);
+            if (user.fileId) {
+                services.File.getFileById({
+                    fileId: user.fileId,
+                    accessToken: req.body.accessToken
+                }).then(function(body) {
+                    user.file = body;
+                    res.json(user);
+                });
+            } else {
                 res.json(user);
-            });
-        } else {
-            res.json(user);
-        }
+            }
+        });
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
     });

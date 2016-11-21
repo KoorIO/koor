@@ -68,44 +68,56 @@ router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, r
             for (var j in followers) {
                 userIds.push(followers[j].followerId);
             }
-            db.User.find({
-                _id: { $in: userIds }
-            }).then(function(users){
-                var fileIds = [];
-                var rows = [];
-                for (var k in users) {
-                    // remove security attributes
-                    var user = users[k].toObject();
-                    delete user.hashed_password;
-                    delete user.salt;
-                    rows.push(user);
-                    if (user.fileId) {
-                        fileIds.push(user.fileId);
-                    }
-                }
-                var ret = {
-                    count: c,
-                    rows: rows
-                };
-                services.File.getFileByIds({
-                    fileIds: fileIds,
-                    accessToken: req.body.accessToken
-                }).then(function(body) {
-                    body.files.forEach(function(item) {
-                        for (var i in rows) {
-                            if (item.userId == rows[i]._id) {
-                                rows[i].file = item;
+            db.Follower.find({
+                followerId: req.body.userId,
+                userId: {$in: userIds}
+            }).then(function(isFollows) {
+                db.User.find({
+                    _id: { $in: userIds }
+                }).then(function(users){
+                    var fileIds = [];
+                    var rows = [];
+                    for (var k in users) {
+                        // remove security attributes
+                        var user = users[k].toObject();
+                        delete user.hashed_password;
+                        delete user.salt;
+                        for (var ij in isFollows) {
+                            user.isFollowed = false;
+                            if (String(isFollows[ij].userId) === String(user._id)) {
+                                user.isFollowed = true;
+                                break;
                             }
                         }
+                        rows.push(user);
+                        if (user.fileId) {
+                            fileIds.push(user.fileId);
+                        }
+                    }
+                    var ret = {
+                        count: c,
+                        rows: rows
+                    };
+                    services.File.getFileByIds({
+                        fileIds: fileIds,
+                        accessToken: req.body.accessToken
+                    }).then(function(body) {
+                        body.files.forEach(function(item) {
+                            for (var i in rows) {
+                                if (item.userId == rows[i]._id) {
+                                    rows[i].file = item;
+                                }
+                            }
 
+                        });
+                        ret.rows = rows;
+                        res.send(JSON.stringify(ret));
+                    }).catch(function() {
+                        res.send(JSON.stringify(ret));
                     });
-                    ret.rows = rows;
-                    res.send(JSON.stringify(ret));
-                }).catch(function() {
-                    res.send(JSON.stringify(ret));
+                }).catch(function(e){
+                    res.status(500).send(JSON.stringify(e));
                 });
-            }).catch(function(e){
-                res.status(500).send(JSON.stringify(e));
             });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
@@ -137,44 +149,56 @@ router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limi
             for (var j in followers) {
                 userIds.push(followers[j].userId);
             }
-            db.User.find({
-                _id: { $in: userIds }
-            }).then(function(users){
-                var fileIds = [];
-                var rows = [];
-                for (var k in users) {
-                    // remove security attributes
-                    var user = users[k].toObject();
-                    delete user.hashed_password;
-                    delete user.salt;
-                    rows.push(user);
-                    if (user.fileId) {
-                        fileIds.push(user.fileId);
-                    }
-                }
-                var ret = {
-                    count: c,
-                    rows: rows
-                };
-                services.File.getFileByIds({
-                    fileIds: fileIds,
-                    accessToken: req.body.accessToken
-                }).then(function(body) {
-                    body.files.forEach(function(item) {
-                        for (var i in rows) {
-                            if (item.userId == rows[i]._id) {
-                                rows[i].file = item;
+            db.Follower.find({
+                followerId: req.body.userId,
+                userId: {$in: userIds}
+            }).then(function(isFollows) {
+                db.User.find({
+                    _id: { $in: userIds }
+                }).then(function(users){
+                    var fileIds = [];
+                    var rows = [];
+                    for (var k in users) {
+                        // remove security attributes
+                        var user = users[k].toObject();
+                        delete user.hashed_password;
+                        delete user.salt;
+                        for (var ij in isFollows){
+                            user.isFollowed = false;
+                            if (String(isFollows[ij].userId) === String(user._id)) {
+                                user.isFollowed = true;
+                                break;
                             }
                         }
+                        rows.push(user);
+                        if (user.fileId) {
+                            fileIds.push(user.fileId);
+                        }
+                    }
+                    var ret = {
+                        count: c,
+                        rows: rows
+                    };
+                    services.File.getFileByIds({
+                        fileIds: fileIds,
+                        accessToken: req.body.accessToken
+                    }).then(function(body) {
+                        body.files.forEach(function(item) {
+                            for (var i in rows) {
+                                if (item.userId == rows[i]._id) {
+                                    rows[i].file = item;
+                                }
+                            }
 
+                        });
+                        ret.rows = rows
+                        res.send(JSON.stringify(ret));
+                    }).catch(function() {
+                        res.send(JSON.stringify(ret));
                     });
-                    ret.rows = rows
-                    res.send(JSON.stringify(ret));
-                }).catch(function() {
-                    res.send(JSON.stringify(ret));
+                }).catch(function(e){
+                    res.status(500).send(JSON.stringify(e));
                 });
-            }).catch(function(e){
-                res.status(500).send(JSON.stringify(e));
             });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
