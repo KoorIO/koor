@@ -24,6 +24,7 @@ module.exports = function(req, res, next) {
             if (!error && user) {
                 req.user = JSON.parse(user);
                 req.body.userId = req.user._id;
+                req.body.accessToken = t;
                 logger.debug('Nice authorization %s !!!', JSON.parse(user)._id);
                 return next();
             } else {

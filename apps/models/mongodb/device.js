@@ -17,6 +17,12 @@ var Device = new Schema({
         require: true,
         default: false
     },
+    fileId: {
+        type: Schema.Types.ObjectId
+    },
+    albumId: {
+        type: Schema.Types.ObjectId
+    },
     projectId: {
         type: Schema.Types.ObjectId,
         index: true,

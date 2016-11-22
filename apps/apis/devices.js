@@ -1,7 +1,10 @@
 'use strict';
 var express = require('express'), 
     db = require('../models/mongodb'),
+    q = require('../queues'),
+    os = require('os'),
     utils = require('../helpers/utils'),
+    services = require('../services'),
     logger = require('../helpers/logger'),
     router = express.Router();
 
@@ -11,13 +14,20 @@ router.post('/create', function(req, res) {
     var device = new db.Device({
         name: req.body.name,
         projectId: req.body.projectId,
-        description: req.body.description
+        description: req.body.description,
+        fileId: req.body.fileId,
+        albumId: req.body.albumId
     });
     device.save(function(error) {
         if (error) {
             logger.debug('Failed - Save Device', error);
             return res.status(406).send(JSON.stringify({error}));
         }
+        q.create(os.hostname() + 'devices', {
+            type: 'CREATE_DEVICE',
+            device: device,
+            userId: req.body.userId
+        }).priority('high').save();
         res.send(JSON.stringify(device));
     });
 });
@@ -38,11 +48,36 @@ router.get('/list/:projectId/:page/:limit', function(req, res){
             if (err) {
                 throw true;
             }
+            var fileIds = [];
+            var rows = [];
+            for (var k in devices) {
+                var device = devices[k].toObject();
+                rows.push(device);
+                if (device.fileId) {
+                    fileIds.push(device.fileId);
+                }
+            }
             var ret = {
                 count: c,
-                rows: devices
+                rows: rows
             };
-            res.send(JSON.stringify(ret));
+            services.File.getFileByIds({
+                fileIds: fileIds,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                body.files.forEach(function(item) {
+                    for (var i in rows) {
+                        if (item._id == rows[i].fileId) {
+                            rows[i].file = item;
+                        }
+                    }
+
+                });
+                ret.rows = rows;
+                res.json(ret);
+            }).catch(function() {
+                res.json(ret);
+            });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
         });
@@ -55,7 +90,18 @@ router.get('/get/:id', function(req, res){
     db.Device.findOne({
         _id: req.params.id
     }).then(function(device) {
-        res.json(device);
+        device = device.toObject();
+        if (device.fileId) {
+            services.File.getFileById({
+                fileId: device.fileId,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                device.file = body;
+                res.json(device);
+            });
+        } else {
+            res.json(device);
+        }
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
     });

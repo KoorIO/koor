@@ -145,3 +145,76 @@ paths:
                     description: Server Internal error
             tags:
                 - Devices
+
+    /api/v1/devices/create:
+        post:
+            summary: Create a new project account
+            description: |
+                Create a new project account
+            parameters:
+                - name: data
+                  in: body
+                  description: json body data to create new device
+                  required: true
+                  schema:
+                      required:
+                          - name
+                          - projectId
+                      properties:
+                          name:
+                              type: string
+                              description: Project Name
+                          projectId:
+                              type: string
+                              description: Project ID
+                          description:
+                              type: string
+                              description: Project Description
+                          fileId:
+                              type: string
+                              description: File ID
+                          albumId:
+                              type: string
+                              description: Album ID
+            responses:
+                200:
+                    description: Returns a access token
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Devices
+
+    /api/v1/devices/get/{id}:
+        get:
+            summary: Get a device
+            description: |
+                Get a device by Id
+            security:
+                - Bearer: []
+            parameters:
+                - name: id
+                  in: path
+                  description: Device Id
+                  required: true
+                  type: string
+                  format: string
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Devices
+

@@ -21,6 +21,9 @@ var User = new Schema({
     fileId: {
         type: Schema.Types.ObjectId
     },
+    albumId: {
+        type: Schema.Types.ObjectId
+    },
     firstname: String,
     lastname: String,
     bio: {

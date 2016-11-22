@@ -24,6 +24,8 @@ cd $workdir/apps && npm install && \
     sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
+    sed -i "s/http:\/\/users/http:\/\/localhost:${USERS_PORT}/g" config/local.json && \
+    sed -i "s/http:\/\/files/http:\/\/localhost:${SOCIALS_PORT}/g" config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
 wait

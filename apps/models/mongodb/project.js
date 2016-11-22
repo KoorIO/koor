@@ -29,6 +29,12 @@ var Project = new Schema({
         type: Schema.Types.ObjectId,
         index: true,
         require: true
+    },
+    fileId: {
+        type: Schema.Types.ObjectId
+    },
+    albumId: {
+        type: Schema.Types.ObjectId
     }
 });
 

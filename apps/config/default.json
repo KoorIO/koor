@@ -28,6 +28,15 @@
             "pass": "userpass"
         }
     },
+    "services": {
+        "users": {
+            "get": "http://users/api/v1/users/get/:userId"
+        },
+        "files": {
+            "get": "http://files/api/v1/files/get/:fileId",
+            "getByIds": "http://files/api/v1/files/getByIds/:fileIds"
+        }
+    },
     "cloudflare": {
         "ip": "188.166.198.221",
         "zone_id": "4f7c548abe798091c1565dabfe183245",
