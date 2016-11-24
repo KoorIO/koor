@@ -9,6 +9,9 @@ var Project = new Schema({
         type: String,
         require: true
     },
+    description: {
+        type: String
+    },
     domain: {
         type: String,
         index: true

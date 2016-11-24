@@ -31,6 +31,15 @@ paths:
                           name:
                               type: string
                               description: Project Name
+                          fileId:
+                              type: string
+                              description: File Id
+                          albumId:
+                              type: string
+                              description: Album Id
+                          description:
+                              type: string
+                              description: Description
             responses:
                 200:
                     description: Returns a access token
@@ -163,13 +172,13 @@ paths:
                       properties:
                           name:
                               type: string
-                              description: Project Name
+                              description: Device Name
                           projectId:
                               type: string
-                              description: Project ID
+                              description: Device ID
                           description:
                               type: string
-                              description: Project Description
+                              description: Device Description
                           fileId:
                               type: string
                               description: File ID

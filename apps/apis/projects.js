@@ -5,6 +5,7 @@ var express = require('express'),
     cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
     utils = require('../helpers/utils'),
+    services = require('../services'),
     os = require('os'),
     config = require('config'),
     router = express.Router();
@@ -19,6 +20,9 @@ router.post('/create', function(req, res){
             db.Project.generateSecretKey().then(function(key) {
                 var project = new db.Project({
                     name: req.body.name,
+                    description: req.body.description,
+                    fileId: req.body.fileId,
+                    albumId: req.body.albumId,
                     userId: req.body.userId,
                     secretKey: key
                 });
@@ -29,38 +33,18 @@ router.post('/create', function(req, res){
                     }
                     project.domain = project._id + '.' + config.get('server.domain');
                     project.save(function(error) {
-                        // send message create a domain to queue
-                        q.create(os.hostname() + 'create_domain', {
+                        q.create(os.hostname() + 'projects', {
                             projectId: project._id,
-                            domain: project.domain
+                            userId: project.userId,
+                            accessToken: req.body.accessToken,
+                            type: 'CREATE_PROJECT',
+                            data: {
+                                _id: project._id,
+                                name: project.name,
+                                domain: project.domain,
+                                userId: project.userId
+                            }
                         }).priority('high').save();
-
-                        // save activity
-                        q.create(os.hostname() + 'activities', {
-                            projectId: project._id,
-                            userId: project.userId,
-                            type: 'CREATE_PROJECT',
-                            data: {
-                                _id: project._id,
-                                name: project.name,
-                                domain: project.domain,
-                                userId: project.userId
-                            }
-                        }).priority('low').save();
-
-                        // save feed
-                        q.create(utils.getHostnameSocials() + 'feeds', {
-                            userId: project.userId,
-                            type: 'CREATE_PROJECT',
-                            data: {
-                                _id: project._id,
-                                name: project.name,
-                                domain: project.domain,
-                                userId: project.userId
-                            }
-                        }).priority('low').save();
-
-
                         res.send(JSON.stringify(project));
                     });
                 });
@@ -79,12 +63,25 @@ router.post('/create', function(req, res){
 router.get('/get/:id', function(req, res){
     logger.debug('Get Project By Id', req.params.id);
     db.Project.findOne({
-        _id: req.params.id,
-        userId: req.body.userId
-    }).then(function(project){
+        _id: req.params.id
+    }).then(function(project) {
         project = project.toObject();
-        res.send(JSON.stringify(project));
+        if (String(req.body.userId) !== String(project.userId)) {
+            delete project.secretKey;
+        }
+        if (project.fileId) {
+            services.File.getFileById({
+                fileId: project.fileId,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                project.file = body;
+                res.json(project);
+            });
+        } else {
+            res.json(project);
+        }
     }).catch(function(e){
+        console.log(e);
         res.status(500).send(JSON.stringify(e));
     });
 });
@@ -152,11 +149,17 @@ router.get('/list/:page/:limit', function(req, res){
             if (err) {
                 throw true;
             }
-            var ret = {
-                count: c,
-                rows: projects
-            };
+            var fileIds = [];
+            var rows = [];
             for (var k in projects) {
+                var project = projects[k].toObject();
+                if (String(project.userId) !== String(req.body.userId)) {
+                    delete project.secretKey;
+                }
+                rows.push(project);
+                if (project.fileId) {
+                    fileIds.push(project.fileId);
+                }
                 if (!projects[k].dnsStatus) {
                     // send message check dns status to queue
                     q.create(os.hostname() + 'dnsresolve', {
@@ -165,7 +168,27 @@ router.get('/list/:page/:limit', function(req, res){
                     }).priority('high').save();
                 }
             }
-            res.send(JSON.stringify(ret));
+            var ret = {
+                count: c,
+                rows: rows
+            };
+            services.File.getFileByIds({
+                fileIds: fileIds,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                body.files.forEach(function(item) {
+                    for (var i in rows) {
+                        if (item._id == rows[i].fileId) {
+                            rows[i].file = item;
+                        }
+                    }
+
+                });
+                ret.rows = rows;
+                res.json(ret);
+            }).catch(function() {
+                res.json(ret);
+            });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
         });

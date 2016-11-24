@@ -15,8 +15,12 @@ consumer.task = function(job, done){
         type: data.type,
         userId: data.userId,
         data: data.device
+    };
+    if (data.type === 'CREATE_DEVICE' || data.type === 'DELETE_DEVICE') {
+        q.create(utils.getHostnameSocials() + 'feeds', data).priority('low').save();
+        q.create(os.hostname() + 'njDevices', data).priority('high').save();
     }
-    q.create(utils.getHostnameSocials() + 'feeds', data).priority('low').save();
+    q.create(os.hostname() + 'esDevices', data).priority('high').save();
     done();
 };
 

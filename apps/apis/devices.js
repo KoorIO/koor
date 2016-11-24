@@ -26,6 +26,7 @@ router.post('/create', function(req, res) {
         q.create(os.hostname() + 'devices', {
             type: 'CREATE_DEVICE',
             device: device,
+            accessToken: req.body.accessToken,
             userId: req.body.userId
         }).priority('high').save();
         res.send(JSON.stringify(device));

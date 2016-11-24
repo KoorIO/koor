@@ -17,6 +17,15 @@
         "password": null,
         "prefix": "koor.io"
     },
+    "es": {
+        "host": "es:9200",
+        "index": "koor.io"
+    },
+    "neo4j": {
+        "host": "bolt://neo4j",
+        "username": "neo4j",
+        "password": "koor.10"
+    },
     "mailer": {
         "from": "no-reply@koor.io",
         "host": "smtp.mailgun.org",
@@ -31,6 +40,12 @@
     "services": {
         "users": {
             "get": "http://users/api/v1/users/get/:userId"
+        },
+        "devices": {
+            "get": "http://apps/api/v1/devices/get/:deviceId"
+        },
+        "projects": {
+            "get": "http://apps/api/v1/projects/get/:projectId"
         },
         "files": {
             "get": "http://files/api/v1/files/get/:fileId",
