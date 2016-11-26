@@ -32,7 +32,7 @@ consumer.task = function(job, done){
 			});
         } else {
 			session
-            .run('CREATE (u:Devices {deviceId: {deviceId}})', { deviceId: body._id })
+            .run('MERGE (u:Devices {deviceId: {deviceId}})', { deviceId: body._id })
 			.subscribe({
 				onCompleted: function() {
                     logger.debug('Create Recommendation Device', data.deviceId);

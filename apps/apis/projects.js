@@ -98,6 +98,18 @@ router.delete('/delete/:id', function(req, res){
             domain: project.domain,
             dnsId: project.dnsId
         }).priority('high').save();
+        q.create(os.hostname() + 'projects', {
+            projectId: project._id,
+            userId: project.userId,
+            accessToken: req.body.accessToken,
+            type: 'DELETE_PROJECT',
+            data: {
+                _id: project._id,
+                name: project.name,
+                domain: project.domain,
+                userId: project.userId
+            }
+        }).priority('high').save();
         res.json({});
     }).catch(function(e){
         res.status(500).send(JSON.stringify(e));
@@ -114,6 +126,18 @@ router.put('/update/:id', function(req, res){
         project.name = req.body.name;
         project.secretKey = req.body.secretKey;
         project.save(function() {
+            q.create(os.hostname() + 'projects', {
+                projectId: project._id,
+                userId: project.userId,
+                accessToken: req.body.accessToken,
+                type: 'UPDATE_PROJECT',
+                data: {
+                    _id: project._id,
+                    name: project.name,
+                    domain: project.domain,
+                    userId: project.userId
+                }
+            }).priority('high').save();
             res.json({});
         })
     }).catch(function(e){

@@ -54,6 +54,83 @@ paths:
             tags:
                 - Projects
 
+    /api/v1/projects/update/{id}:
+        put:
+            summary: Update project
+            description: |
+                Update a projec
+            parameters:
+                - name: id
+                  in: path
+                  description: Project Id
+                  required: true
+                  type: string
+                  format: string
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - name
+                          - fileId
+                          - description
+                          - albumId
+                      properties:
+                          name:
+                              type: string
+                              description: Project Name
+                          fileId:
+                              type: string
+                              description: File Id
+                          albumId:
+                              type: string
+                              description: Album Id
+                          description:
+                              type: string
+                              description: Description
+            responses:
+                200:
+                    description: Returns a access token
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Projects
+
+    /api/v1/projects/delete/{id}:
+        delete:
+            summary: Delete a project
+            description: |
+                Delete a project by Id
+            security:
+                - Bearer: []
+            parameters:
+                - name: id
+                  in: path
+                  description: Project Id
+                  required: true
+                  type: string
+                  format: string
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Projects
+
     /api/v1/projects/get/{id}:
         get:
             summary: Get a project
@@ -157,9 +234,9 @@ paths:
 
     /api/v1/devices/create:
         post:
-            summary: Create a new project account
+            summary: Create a new device
             description: |
-                Create a new project account
+                Create a new device
             parameters:
                 - name: data
                   in: body
@@ -175,7 +252,7 @@ paths:
                               description: Device Name
                           projectId:
                               type: string
-                              description: Device ID
+                              description: Project ID
                           description:
                               type: string
                               description: Device Description
@@ -188,6 +265,33 @@ paths:
             responses:
                 200:
                     description: Returns a access token
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Devices
+
+    /api/v1/devices/delete/{id}:
+        delete:
+            summary: Delete a device
+            description: |
+                Delete a device by Id
+            security:
+                - Bearer: []
+            parameters:
+                - name: id
+                  in: path
+                  description: Device Id
+                  required: true
+                  type: string
+            responses:
+                200:
+                    description: OK
                 401:
                     description: Unauthorized
                 400:
@@ -212,7 +316,6 @@ paths:
                   description: Device Id
                   required: true
                   type: string
-                  format: string
             responses:
                 200:
                     description: OK
@@ -227,3 +330,50 @@ paths:
             tags:
                 - Devices
 
+    /api/v1/devices/update/{id}:
+        put:
+            summary: Update a Device
+            description: |
+                Update a device
+            parameters:
+                - name: id
+                  in: path
+                  description: Device Id
+                  required: true
+                  type: string
+                - name: data
+                  in: body
+                  description: json body data to create new device
+                  required: true
+                  schema:
+                      required:
+                          - name
+                          - description
+                          - fileId
+                          - albumId
+                      properties:
+                          name:
+                              type: string
+                              description: Device Name
+                          description:
+                              type: string
+                              description: Device Description
+                          fileId:
+                              type: string
+                              description: File ID
+                          albumId:
+                              type: string
+                              description: Album ID
+            responses:
+                200:
+                    description: Returns a access token
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Devices

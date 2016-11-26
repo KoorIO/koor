@@ -113,8 +113,14 @@ router.delete('/delete/:id', function(req, res){
     logger.debug('Delete Device By Id', req.params.id);
     db.Device.findOneAndRemove({
         _id: req.params.id
-    }).then(function(){
-        res.json({});
+    }).then(function(device){
+        q.create(os.hostname() + 'devices', {
+            type: 'DELETE_DEVICE',
+            device: device,
+            accessToken: req.body.accessToken,
+            userId: req.body.userId
+        }).priority('high').save();
+        res.json(device);
     }).catch(function(e){
         res.status(400).send(JSON.stringify(e));
     });
@@ -128,9 +134,17 @@ router.put('/update/:id', function(req, res){
     }).then(function(device) {
         device.name = req.body.name;
         device.description = req.body.description;
+        device.fileId = req.body.fileId;
+        device.albumId = req.body.albumId;
         device.save(function() {
+            q.create(os.hostname() + 'devices', {
+                type: 'UPDATE_DEVICE',
+                device: device,
+                accessToken: req.body.accessToken,
+                userId: req.body.userId
+            }).priority('high').save();
             res.json({});
-        })
+        });
     }).catch(function(e){
         res.status(400).send(JSON.stringify(e));
     });

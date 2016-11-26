@@ -29,7 +29,7 @@ consumer.task = function(job, done){
 			});
         } else {
 			session
-            .run('CREATE (u:Users {userId: {userId}})', { userId: body._id })
+            .run('MERGE (u:Users {userId: {userId}})', { userId: body._id })
 			.subscribe({
 				onCompleted: function() {
                     logger.debug('Create Recommendation User', data.userId);

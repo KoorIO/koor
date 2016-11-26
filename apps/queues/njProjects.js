@@ -32,7 +32,7 @@ consumer.task = function(job, done){
 			});
         } else {
 			session
-            .run('CREATE (u:Projects {projectId: {projectId}})', { projectId: body._id })
+            .run('MERGE (u:Projects {projectId: {projectId}})', { projectId: body._id })
 			.subscribe({
 				onCompleted: function() {
                     logger.debug('Create Recommendation Project', data.projectId);
