@@ -4,12 +4,12 @@ var CreateUpdatedAt = require('mongoose-timestamp');
 var q = require('q');
 
 var Notification = new Schema({
-    type: {
+    objectType: {
         type: String,
         require: true,
         index: true
     },
-    id: {
+    objectId: {
         type: String,
         index: true
     },

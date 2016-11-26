@@ -190,3 +190,36 @@ paths:
                     description: Server Internal error
             tags:
                 - Feeds
+
+    /api/v1/feeds/newer/{feedId}/{limit}:
+        get:
+            summary: Get User newer Feed
+            description: |
+                Get User newer Feed
+            security:
+                - Bearer: []
+            parameters:
+                - name: feedId
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Feeds

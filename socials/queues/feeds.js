@@ -10,8 +10,8 @@ consumer.name = os.hostname() + 'feeds';
 consumer.task = function(job, done){
     var data = job.data;
     var feed = new db.Feed({
-        id: data.id,
-        type: data.type,
+        objectId: data.id,
+        objectType: data.type,
         data: data.data,
         userId: data.userId
     });

@@ -9,8 +9,8 @@ consumer.task = function(job, done){
     var data = job.data;
     logger.debug('Delete Feed', data.id);
     db.Feed.findOneAndRemove({
-        type: data.type,
-        id: data.id
+        objectType: data.type,
+        objectId: data.id
     }).then(function(feed) {
         if (feed) {
             logger.debug('Removed', feed._id);

@@ -9,8 +9,8 @@ consumer.task = function(job, done){
     var data = job.data;
     logger.debug('Delete Notification', data.id);
     db.Notification.findOneAndRemove({
-        type: data.type,
-        id: data.id
+        objectType: data.type,
+        objectId: data.id
     }).then(function(notification) {
         if (notification) {
             logger.debug('Removed', notification._id);
