@@ -14,7 +14,6 @@ router.get('/get/:id', function(req, res){
     })
     .then(function(post) {
         var ret = post.toObject();
-        ret.urls = postHelper.postToUrls(post);
         res.json(ret);
     }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));

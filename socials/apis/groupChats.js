@@ -5,44 +5,42 @@ var express = require('express'),
     os = require('os'),
     router = express.Router();
 
-// get comment
+// get groupChat
 router.get('/get/:id', function(req, res){
-    logger.info('Get Comment Details', req.params.id);
-    db.Comment
+    logger.info('Get GroupChat Details', req.params.id);
+    db.GroupChat
     .findOne({
         _id: req.params.id
     })
-    .then(function(comment) {
-        var ret = comment.toObject();
+    .then(function(groupChat) {
+        var ret = groupChat.toObject();
         res.json(ret);
     }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });
 
-// get list comments
-router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
+// get list groupChats
+router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
-    db.Comment.count({
-        objectId: req.params.objectId,
-        objectType: req.params.objectType
+    db.GroupChat.count({
+        userId: req.body.userId
     }, function(err, c) {
-        db.Comment
+        db.GroupChat
         .find({
-            objectId: req.params.objectId,
-            objectType: req.params.objectType
+            userIds: { $elementMatch: req.body.userId }
         })
         .skip(skip)
         .limit(limit)
         .sort({'_id': 'desc'})
-        .then(function(comments) {
+        .then(function(groupChats) {
             if (err) {
                 throw true;
             }
             var ret = {
                 count: c,
-                rows: comments
+                rows: groupChats
             };
             res.json(ret);
         }).catch(function(e) {
@@ -51,49 +49,50 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
     });
 });
 
-// Create new comment
+// Create new groupChat
 router.post('/create', function(req, res){
-    logger.info('Create New Comment', req.body.objectId, req.body.objectType);
-    var comment = new db.Comment({
-        objectType: req.body.objectType,
-        objectId: req.body.objectId,
-        userId: req.body.userId,
-        message: req.body.message
+    logger.info('Create New GroupChat', req.body.userId, req.body.name);
+    var userIds = (!req.body.friendId)?[req.body.userId]:[req.body.userId, req.body.friendId];
+    var groupChat = new db.GroupChat({
+        userIds: [req.body.userId],
+        name: req.body.name,
+        description: req.body.description
     });
-    comment.save(function(error) {
+    groupChat.save(function(error) {
         if (error) {
-            logger.debug('Failed - Save Comment', error);
+            logger.debug('Failed - Save GroupChat', error);
             return res.status(500).json(error);
         } else {
-            return res.json(comment);
+            return res.json(groupChat);
         }
     });
 });
 
-// Update comment
+// Update groupChat
 router.put('/update/:id', function(req, res) {
-    logger.debug('Update Comment By Id', req.params.id);
-    db.Comment.findOne({
+    logger.debug('Update GroupChat By Id', req.params.id);
+    db.GroupChat.findOne({
         _id: req.params.id,
         userId: req.body.userId
-    }).then(function(comment) {
-        comment.message = req.body.message;
-        comment.save(function() {
-            res.json(comment);
+    }).then(function(groupChat) {
+        groupChat.name = req.body.name;
+        groupChat.description = req.body.description;
+        groupChat.save(function() {
+            res.json(groupChat);
         })
     }).catch(function(e){
         res.status(400).send(JSON.stringify(e));
     });
 });
 
-// delete a comment by id
+// delete a groupChat by id
 router.delete('/delete/:id', function(req, res) {
-    logger.debug('Delete Comment By Id', req.params.id);
-    db.Comment.findOneAndRemove({
+    logger.debug('Delete GroupChat By Id', req.params.id);
+    db.GroupChat.findOneAndRemove({
         _id: req.params.id,
         userId: req.body.userId
-    }).then(function(comment) {
-        res.json(comment);
+    }).then(function(groupChat) {
+        res.json(groupChat);
     }).catch(function(e) {
         res.status(500).json(e);
     });

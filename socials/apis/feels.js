@@ -14,7 +14,6 @@ router.get('/get/:id', function(req, res){
     })
     .then(function(feel) {
         var ret = feel.toObject();
-        ret.urls = feelHelper.feelToUrls(feel);
         res.json(ret);
     }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
