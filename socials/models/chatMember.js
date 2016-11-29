@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
 
-var Chat = new Schema({
+var ChatMember = new Schema({
     message: {
         type: String
     },
@@ -20,6 +20,6 @@ var Chat = new Schema({
     }
 });
 
-Chat.plugin(CreateUpdatedAt);
+ChatMember.plugin(CreateUpdatedAt);
 
-module.exports = mongoose.model('Chat', Chat);
+module.exports = mongoose.model('ChatMember', ChatMember);

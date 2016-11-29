@@ -223,3 +223,125 @@ paths:
                     description: Server Internal error
             tags:
                 - Feeds
+
+    /api/v1/feels/create:
+        post:
+            summary: Create a new feel
+            description: |
+                Create a new feel
+            parameters:
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - objectId
+                          - objectType
+                          - feelType
+                      properties:
+                          objectId:
+                              type: string
+                              description: Object Id
+                          objectType:
+                              type: string
+                              description: Object Type
+                          feelType:
+                              type: string
+                              description: Feel Type
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Feels
+
+    /api/v1/feels/delete:
+        delete:
+            summary: Create a new feel
+            description: |
+                Create a new feel
+            parameters:
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - objectId
+                          - objectType
+                          - feelType
+                      properties:
+                          objectId:
+                              type: string
+                              description: Object Id
+                          objectType:
+                              type: string
+                              description: Object Type
+                          feelType:
+                              type: string
+                              description: Feel Type
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Feels
+
+    /api/v1/feels/list/{objectType}/{objectId}/{page}/{limit}:
+        get:
+            summary: Get list user in feel
+            description: |
+                Get list of user in feel
+            security:
+                - Bearer: []
+            parameters:
+                - name: objectId
+                  in: path
+                  description: Object Id
+                  required: true
+                  type: string
+                - name: objectType
+                  in: path
+                  description: Object Type
+                  required: true
+                  type: string
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Feels

@@ -57,8 +57,7 @@ cd $workdir/websocket && npm install && \
     sed -i "s/\"port\": 80/\"port\": ${WEBSOCKET_PORT}/g" config/local.json
 wait
 echo "Installing Swagger ..."
-cd $workdir/swagger && npm install && \
-    cp config/default.json config/local.json
+cd $workdir/swagger && npm install
 wait
 echo "Installing Land ..."
 cd $workdir/land && npm install

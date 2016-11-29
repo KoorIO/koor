@@ -5,21 +5,6 @@ var express = require('express'),
     os = require('os'),
     router = express.Router();
 
-// get feel
-router.get('/get/:id', function(req, res){
-    logger.info('Get Feel Details', req.params.id);
-    db.Feel
-    .findOne({
-        _id: req.params.id
-    })
-    .then(function(feel) {
-        var ret = feel.toObject();
-        res.json(ret);
-    }).catch(function(e) {
-        res.status(400).send(JSON.stringify(e));
-    });
-});
-
 // get list feels
 router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
@@ -71,11 +56,12 @@ router.post('/create', function(req, res){
 });
 
 // delete a feel by id
-router.delete('/delete/:id', function(req, res) {
-    logger.debug('Delete Feel By Id', req.params.id);
+router.delete('/delete', function(req, res) {
+    logger.info('Delete Feel', req.body.objectId, req.body.objectType);
     db.Feel.findOneAndRemove({
-        _id: req.params.id,
-        userId: req.body.userId
+        userId: req.body.userId,
+        objectId: req.body.objectId,
+        objectType: req.body.objectType
     }).then(function(feel) {
         res.json(feel);
     }).catch(function(e) {

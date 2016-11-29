@@ -10,10 +10,12 @@ var GroupChat = new Schema({
     description: {
         type: String
     },
-    userIds: [{
-        type: Schema.Types.ObjectId,
-        index: true
-    }]
+    fileId: {
+        type: Schema.Types.ObjectId
+    },
+    albumId: {
+        type: Schema.Types.ObjectId
+    }
 });
 
 GroupChat.plugin(CreateUpdatedAt);

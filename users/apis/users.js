@@ -260,6 +260,64 @@ router.get(['/get', '/get/:id'], function(req, res){
     });
 });
 
+//get Users by Ids
+router.get('/getUsersByIds/:userIds', function(req, res){
+    var userIds = req.params.userIds.replace(' ', '').split(',');
+    logger.debug('Get Users By Ids', userIds);
+    db.User.find({
+        _id: {$in: userIds}
+    }).then(function(users){
+        // remove security attributes
+        db.Follower.find({
+            userId: {$in: userIds},
+            followerId: req.body.userId
+        }).then(function(isFollows) {
+            var fileIds = [];
+            var rows = [];
+            for (var k in users) {
+                var user = users[k].toObject();
+                delete user.hashed_password;
+                delete user.salt;
+                user.isFollowed = false
+                for (var j in isFollows) {
+                    if (String(user._id) === String(isFollows[j].userId)) {
+                        user.isFollowed = true;
+                        break;
+                    }
+                }
+                rows.push(user);
+                if (user.fileId) {
+                    fileIds.push(user.fileId);
+                }
+            }
+            var ret = {
+                rows: rows
+            };
+            services.File.getFileByIds({
+                fileIds: fileIds,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                body.files.forEach(function(item) {
+                    for (var i in rows) {
+                        if (item._id == rows[i].fileId) {
+                            rows[i].file = item;
+                        }
+                    }
+
+                });
+                ret.rows = rows;
+                res.json(ret);
+            }).catch(function() {
+                res.json(ret);
+            });
+        }).catch(function(e){
+            res.status(500).send(JSON.stringify(e));
+        });
+    }).catch(function(e){
+        res.status(500).send(JSON.stringify(e));
+    });
+});
+
 // update a user by id
 router.put(['/update/:id', '/update'], function(req, res){
     var userId = req.params.id || req.body.userId;

@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Feel = new Schema({
-    id: {
+    objectId: {
         type: Schema.Types.ObjectId,
         index: true,
         require: true
     },
-    type: {
+    objectType: {
         type: String,
         index: true,
         require: true
