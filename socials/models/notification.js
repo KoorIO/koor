@@ -27,7 +27,7 @@ var Notification = new Schema({
     }
 });
 
-Notification.index({type: 1, id: 1}, {unique: true});
+Notification.index({objectType: 1, objectId: 1}, {unique: true});
 
 Notification.plugin(CreateUpdatedAt);
 

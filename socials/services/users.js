@@ -26,9 +26,9 @@ var getFollowingsByUserId = function(data) {
     return deferred.promise;
 };
 
-var getUsersByUserIds = function(data) {
+var getUsersByIds = function(data) {
     var deferred = q.defer();
-    var url = utils.makeUrl(config.get('services.users.getUsersByUserIds'), { userIds: data.userIds });
+    var url = utils.makeUrl(config.get('services.users.getUsersByIds'), { userIds: data.userIds.join() });
     logger.debug('Get', url);
     request({
         url: url,
@@ -49,5 +49,6 @@ var getUsersByUserIds = function(data) {
 
 module.exports = {
     serviceName: 'User',
-	getFollowingsByUserId: getFollowingsByUserId
+	getFollowingsByUserId: getFollowingsByUserId,
+    getUsersByIds: getUsersByIds
 };

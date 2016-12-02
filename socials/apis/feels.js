@@ -2,6 +2,8 @@
 var express = require('express'), 
     db = require('../models'),
     logger = require('../helpers/logger'),
+    utils = require('../helpers/utils'),
+    services = require('../services'),
     os = require('os'),
     router = express.Router();
 
@@ -23,14 +25,33 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
         .sort({'_id': 'desc'})
         .then(function(feels) {
             if (err) {
+                console.log('nnnn', err);
                 throw true;
+            }
+            var userIds = [];
+            var rows = [];
+            for (var i in feels) {
+                var feel = feels[i].toObject();
+                rows.push(feel);
+                userIds.push(feels[i].userId);
             }
             var ret = {
                 count: c,
-                rows: feels
+                rows: rows
             };
-            res.json(ret);
+            if (userIds.length > 0) {
+                services.User.getUsersByIds({ userIds: userIds, accessToken: req.body.accessToken })
+                    .then(function(users) {
+                    rows = utils.mapUsersToObjects(users, rows);
+                    res.json(ret);
+                }).catch(function(e) {
+                    res.status(500).json(e);
+                });
+            } else {
+                res.json(ret);
+            }
         }).catch(function(e) {
+            console.log('bb',e);
             res.status(500).json(e);
         });
     });
@@ -38,7 +59,7 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
 
 // Create new feel
 router.post('/create', function(req, res){
-    logger.info('Create New Feel', req.body.objectId, req.body.objectType);
+    logger.info('Create New Feel', req.body.objectId, req.body.objectType, req.body.feelType);
     var feel = new db.Feel({
         objectType: req.body.objectType,
         objectId: req.body.objectId,

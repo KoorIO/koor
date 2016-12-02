@@ -18,13 +18,13 @@ router.get('/list/:page/:limit', function(req, res){
         .skip(skip)
         .limit(limit)
         .sort({'_id': 'desc'})
-        .then(function(apis) {
+        .then(function(notifications) {
             if (err) {
                 throw true;
             }
             var ret = {
                 count: c,
-                rows: apis
+                rows: notifications
             };
             res.json(ret);
         }).catch(function(e) {
