@@ -2,6 +2,8 @@
 var express = require('express'), 
     db = require('../models'),
     logger = require('../helpers/logger'),
+    services = require('../services'),
+    utils = require('../helpers/utils'),
     os = require('os'),
     router = express.Router();
 
@@ -40,12 +42,30 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
             if (err) {
                 throw true;
             }
+            var userIds = [];
+            var rows = [];
+            for (var i in comments) {
+                var comment = comments[i].toObject();
+                rows.push(comment);
+                userIds.push(comments[i].userId);
+            }
             var ret = {
                 count: c,
-                rows: comments
+                rows: rows
             };
-            res.json(ret);
+            if (userIds.length > 0) {
+                services.User.getUsersByIds({ userIds: userIds, accessToken: req.body.accessToken })
+                    .then(function(users) {
+                    rows = utils.mapUsersToObjects(users, rows);
+                    res.json(ret);
+                }).catch(function(e) {
+                    res.status(500).json(e);
+                });
+            } else {
+                res.json(ret);
+            }
         }).catch(function(e) {
+            console.log(e);
             res.status(500).json(e);
         });
     });
@@ -95,7 +115,7 @@ router.delete('/delete/:id', function(req, res) {
     }).then(function(comment) {
         res.json(comment);
     }).catch(function(e) {
-        res.status(500).json(e);
+        res.status(400).json(e);
     });
 });
 

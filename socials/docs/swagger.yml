@@ -265,9 +265,9 @@ paths:
 
     /api/v1/feels/delete:
         delete:
-            summary: Create a new feel
+            summary: Delete feel
             description: |
-                Create a new feel
+                Delete feel
             parameters:
                 - name: data
                   in: body
@@ -345,3 +345,323 @@ paths:
                     description: Server Internal error
             tags:
                 - Feels
+
+    /api/v1/comments/create:
+        post:
+            summary: Create a new comment
+            description: |
+                Create a new comment
+            parameters:
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - objectId
+                          - objectType
+                          - message
+                      properties:
+                          objectId:
+                              type: string
+                              description: Object Id
+                          objectType:
+                              type: string
+                              description: Object Type
+                          message:
+                              type: string
+                              description: Message
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Comments
+
+    /api/v1/comments/delete/{id}:
+        delete:
+            summary: Delete comment
+            description: |
+                Delete comment
+            parameters:
+                - name: id
+                  in: path
+                  description: Comment Id
+                  required: true
+                  type: string 
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Comments
+
+    /api/v1/comments/update/{id}:
+        put:
+            summary: Update comment
+            description: |
+                Update comment
+            parameters:
+                - name: id
+                  in: path
+                  description: Comment Id
+                  required: true
+                  type: string 
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - message
+                      properties:
+                          message:
+                              type: string
+                              description: Message
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Comments
+
+    /api/v1/comments/list/{objectType}/{objectId}/{page}/{limit}:
+        get:
+            summary: Get list comment
+            description: |
+                Get list comment
+            security:
+                - Bearer: []
+            parameters:
+                - name: objectId
+                  in: path
+                  description: Object Id
+                  required: true
+                  type: string
+                - name: objectType
+                  in: path
+                  description: Object Type
+                  required: true
+                  type: string
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Comments
+
+    /api/v1/posts/create:
+        post:
+            summary: Create a new post
+            description: |
+                Create a new post
+            parameters:
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - postType
+                          - content
+                      properties:
+                          postType:
+                              type: string
+                              description: Post Type
+                          content:
+                              type: string
+                              description: Message
+                          fileId:
+                              type: string
+                              description: File Id
+                          albumId:
+                              type: string
+                              description: Ilbum Id
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Posts
+
+    /api/v1/posts/delete/{id}:
+        delete:
+            summary: Delete post
+            description: |
+                Delete post
+            parameters:
+                - name: id
+                  in: path
+                  description: Postt Id
+                  required: true
+                  type: string 
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Posts
+
+    /api/v1/posts/update/{id}:
+        put:
+            summary: Update post
+            description: |
+                Update post
+            parameters:
+                - name: id
+                  in: path
+                  description: Comment Id
+                  required: true
+                  type: string 
+                - name: data
+                  in: body
+                  description: json body data
+                  required: true
+                  schema:
+                      required:
+                          - message
+                      properties:
+                          message:
+                              type: string
+                              description: Message
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Posts
+
+    /api/v1/posts/list/{page}/{limit}:
+        get:
+            summary: Get list post
+            description: |
+                Get list of post
+            security:
+                - Bearer: []
+            parameters:
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Posts
+
+    /api/v1/posts/list/{userId}/{page}/{limit}:
+        get:
+            summary: Get list post
+            description: |
+                Get list of post
+            security:
+                - Bearer: []
+            parameters:
+                - name: userId
+                  in: path
+                  description: User Id
+                  required: true
+                  type: string
+                  default: 1
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Posts
