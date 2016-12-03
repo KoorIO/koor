@@ -3,6 +3,7 @@ workdir=${PWD}
 WEBSOCKET_PORT=5000
 APPS_PORT=3001
 USERS_PORT=3000
+CHATS_PORT=3006
 SOCIALS_PORT=3004
 
 echo "Installing Users ..."
@@ -12,6 +13,7 @@ cd $workdir/users && npm install && \
     sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
+    sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
     sed -i "s/http:\/\/users/http:\/\/localhost:${USERS_PORT}/g" config/local.json && \
     sed -i "s/http:\/\/files/http:\/\/localhost:${SOCIALS_PORT}/g" config/local.json && \
     sed -i "s/es:9200/localhost:9200/g" config/local.json && \
@@ -24,6 +26,7 @@ cd $workdir/apps && npm install && \
     sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
+    sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
     sed -i "s/http:\/\/users/http:\/\/localhost:${USERS_PORT}/g" config/local.json && \
     sed -i "s/http:\/\/files/http:\/\/localhost:${SOCIALS_PORT}/g" config/local.json && \
     sed -i "s/es:9200/localhost:9200/g" config/local.json && \
@@ -37,6 +40,17 @@ cd $workdir/socials && npm install && \
     sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
+    sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
+    sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
+    sed -i "s/\"port\": 80/\"port\": ${SOCIALS_PORT}/g" config/local.json
+wait
+echo "Installing Chats ..."
+cd $workdir/chats && npm install && \
+    sed "s/\"host\": \"redis\"/\"host\": \"localhost\"/g" config/default.json > config/local.json && \
+    sed -i "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/local.json && \
+    sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
+    sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
+    sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${SOCIALS_PORT}/g" config/local.json
 wait
@@ -45,6 +59,7 @@ cd $workdir/site && npm install && bower install && \
     sed "s/\/a\//http:\/\/localhost:${APPS_PORT}\//g" config/default.json > config/local.json && \
     sed -i "s/\/u\//http:\/\/localhost:${USERS_PORT}\//g" config/local.json && \
     sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
+    sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
     sed -i "s/wss:\/\//ws:\/\//g" config/local.json && \
     sed -i "s/\"websocket\": \"koor.io\"/\"websocket\": \"localhost:5000\"/g" config/local.json && \

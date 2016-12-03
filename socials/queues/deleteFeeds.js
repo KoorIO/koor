@@ -1,7 +1,7 @@
 'use strict';
 var consumer = {};
 var os = require('os');
-var db = require('../models');
+var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
 consumer.name = os.hostname() + 'deleteFeeds';
 

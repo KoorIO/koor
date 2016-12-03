@@ -18,6 +18,11 @@
             "route_match": ["/api/v1/file*", "/api/v1/upload*",
                 "/api/v1/notification*", "/api/v1/feed*",
                 "/api/v1/feel*", "/api/v1/comment*", "/api/v1/post*"]
+        },
+        {
+            "docs": "http://localhost:3006/docs",
+            "base_path": "http://localhost:3006",
+            "route_match": ["/api/v1/chat*"]
         }
     ],
     "info": { "title": "Koor.IO API", "version": "1.0" },

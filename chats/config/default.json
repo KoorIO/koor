@@ -5,7 +5,7 @@
         "fileUrl": "http://files.koor.io"
     },
     "db": {
-        "uri": "mongodb://db:27017/socials"
+        "uri": "mongodb://db:27017/chats"
     },
     "logs": {
         "level": "debug",

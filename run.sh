@@ -25,6 +25,8 @@ cd $workdir/users && nodemon index.js &
 child_proc="$child_proc $!"
 cd $workdir/socials && nodemon index.js &
 child_proc="$child_proc $!"
+cd $workdir/chats && nodemon index.js &
+child_proc="$child_proc $!"
 cd $workdir/swagger && nodemon index.js &
 child_proc="$child_proc $!"
 cd $workdir/apps && CLOUDFLARE_ENABLE=false nodemon index.js &
