@@ -639,7 +639,6 @@ paths:
                   description: User Id
                   required: true
                   type: string
-                  default: 1
                 - name: page
                   in: path
                   description: Page Number

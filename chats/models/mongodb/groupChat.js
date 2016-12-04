@@ -1,8 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var GroupChat = new Schema({
+    groupId: {
+        type: String,
+        index: true
+    },
     name: {
         type: String,
         require: true
@@ -10,14 +13,18 @@ var GroupChat = new Schema({
     description: {
         type: String
     },
-    fileId: {
-        type: Schema.Types.ObjectId
+    objectId: {
+        type: Schema.Types.ObjectId,
+        index: true
     },
-    albumId: {
-        type: Schema.Types.ObjectId
+    objectType: {
+        type: String,
+        index: true
+    },
+    status: {
+        type: String,
+        index: true
     }
-});
-
-GroupChat.plugin(CreateUpdatedAt);
+}, { timestamps: true });
 
 module.exports = mongoose.model('GroupChat', GroupChat);

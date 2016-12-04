@@ -117,7 +117,7 @@ paths:
             tags:
                 - Chats
 
-    /api/v1/chats/list/{page}/{limit}:
+    /api/v1/chats/list/{groupId}/{page}/{limit}:
         get:
             summary: Get list chat
             description: |
@@ -125,6 +125,11 @@ paths:
             security:
                 - Bearer: []
             parameters:
+                - name: groupId
+                  in: path
+                  description: Group Id
+                  required: true
+                  type: string
                 - name: page
                   in: path
                   description: Page Number
@@ -151,20 +156,14 @@ paths:
             tags:
                 - Chats
 
-    /api/v1/chats/list/{userId}/{page}/{limit}:
+    /api/v1/groupChats/list/{page}/{limit}:
         get:
-            summary: Get list chat
+            summary: Get list Group Chats
             description: |
-                Get list of chat
+                Get list of Group Chats
             security:
                 - Bearer: []
             parameters:
-                - name: userId
-                  in: path
-                  description: User Id
-                  required: true
-                  type: string
-                  default: 1
                 - name: page
                   in: path
                   description: Page Number

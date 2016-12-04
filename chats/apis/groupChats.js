@@ -25,26 +25,29 @@ router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.GroupChat.count({
-        userId: req.body.userId
+        objectId: req.body.userId,
+        objectType: 'USER'
     }, function(err, c) {
         db.GroupChat
         .find({
-            userIds: { $elementMatch: req.body.userId }
+            objectId: req.body.userId,
+            objectType: 'USER'
         })
         .skip(skip)
         .limit(limit)
-        .sort({'_id': 'desc'})
-        .then(function(groupChats) {
+        .sort({'updatedAt': 'desc'})
+        .populate('group', 'name')
+        .then(function(chatMembers) {
             if (err) {
                 throw true;
             }
             var ret = {
                 count: c,
-                rows: groupChats
+                rows: chatMembers
             };
             res.json(ret);
         }).catch(function(e) {
-            res.status(500).json(e);
+            res.status(400).json(e);
         });
     });
 });

@@ -2,6 +2,7 @@
 var express = require('express'), 
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
+    utils = require('../helpers/utils'),
     services = require('../services'),
     os = require('os'),
     router = express.Router();
@@ -38,41 +39,67 @@ router.get('/list/:groupId/:page/:limit', function(req, res){
 // Create new chat
 router.post('/create', function(req, res){
     logger.info('Create New Chat', req.body.objectId, req.body.objectType);
-    if (!req.body.groupId) {
-        if (req.body.objectType === 'USER') {
-            services.User.getUserById({
-                userId: req.body.objectId,
-                accessToken: req.body.accessToken
-            }).then(function(user) {
-                var groupChat = new db.GroupChat({
-                    name: user.firstname + ' ' + user.lastname
-                });
-                groupChat.save(function() {
-                    db.ChatMember.insertMany([{
-                        groupId: groupChat._id,
+    var groupId = req.body.groupId || utils.makeUniqueGroupId({
+        from: {
+            objectType: 'USER',
+            objectId: req.body.userId
+        },
+        to: {
+            objectType: req.body.objectType,
+            objectId: req.body.objectId
+        }
+    });
+    db.GroupChat.findOne({
+        groupId: groupId
+    }).then(function(gc) {
+        if (gc) {
+            saveMessage();
+        } else {
+            if (req.body.objectType === 'USER') {
+                services.User.getUserById({
+                    userId: req.body.objectId,
+                    accessToken: req.body.accessToken
+                }).then(function(user) {
+                    db.GroupChat.insertMany([{
+                        groupId: groupId,
+                        name: req.user.firstname + ' ' + req.user.lastname,
                         objectId: req.body.objectId,
                         objectType: req.body.objectType
                     }, {
-                        groupId: groupChat._id,
+                        groupId: groupId,
+                        name: user.firstname + ' ' + user.lastname,
                         objectId: req.body.userId,
                         objectType: 'USER'
                     }], function(error, chatMembers) {
-                        saveMessage({
-                            groupId: groupChat._id
-                        });
+                        saveMessage();
                     });
-                })
-            });
+                });
+            }
+            if (req.body.objectType === 'DEVICE') {
+                services.Device.getDeviceById({ 
+                    deviceId: req.body.objectId,
+                    accessToken: req.body.accessToken
+                }).then(function(device) {
+                    db.GroupChat.insertMany([{
+                        groupId: groupId,
+                        name: req.user.firstname + ' ' + req.user.lastname,
+                        objectId: req.body.objectId,
+                        objectType: req.body.objectType
+                    }, {
+                        groupId: groupId,
+                        name: device.name,
+                        objectId: req.body.userId,
+                        objectType: 'USER'
+                    }], function(error, chatMembers) {
+                        saveMessage();
+                    });
+                });
+            }
         }
-        if (req.body.objectType === 'DEVICE') {
-            services.Device.getDeviceById(req.body.objectId).then(function(device) {
-                console.log(device);
-            });
-        }
-    }
-    function saveMessage(data) {
+    });
+    function saveMessage() {
         var chat = new db.Chat({
-            groupId: data.groupId,
+            groupId: groupId,
             objectId: req.body.objectId,
             objectType: req.body.objectType,
             message: req.body.message
@@ -82,6 +109,11 @@ router.post('/create', function(req, res){
                 logger.debug('Failed - Save Chat', error);
                 return res.status(500).json(error);
             } else {
+                db.GroupChat.update({
+                    groupId: groupId
+                }, {status: 'unread'}, function(err, numberAffected, rawResponse) {
+                    logger.debug('Unread', numberAffected, err);
+                });
                 return res.json(chat);
             }
         });

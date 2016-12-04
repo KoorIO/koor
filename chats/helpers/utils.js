@@ -18,6 +18,13 @@ var getHostnameWebsocket = function() {
     return items[Math.floor(Math.random()*items.length)];
 }
 
+var makeUniqueGroupId = function(data) {
+    var fromId = String(data.from.objectType) + '_' + String(data.from.objectId);
+    var toId = String(data.to.objectType) + '_' + String(data.to.objectId);
+
+    return (fromId > toId)?fromId + '_' + toId:toId + '_' + fromId;
+}
+
 var mapUsersToObjects = function(users, rows) {
     for (var k in rows) {
         for (var j in users.rows) {
@@ -34,5 +41,6 @@ module.exports = {
     makeUrl: makeUrl,
     getHostnameSocials: getHostnameSocials,
     getHostnameWebsocket: getHostnameWebsocket,
-    mapUsersToObjects: mapUsersToObjects
+    mapUsersToObjects: mapUsersToObjects,
+    makeUniqueGroupId: makeUniqueGroupId
 }

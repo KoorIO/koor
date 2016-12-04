@@ -1,14 +1,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Chat = new Schema({
     message: {
         type: String
     },
     groupId: {
-        type: Schema.Types.ObjectId,
-        ref: 'GroupChat'
+        type: String,
+        index: true
     },
     objectId: {
         type: Schema.Types.ObjectId,
@@ -18,8 +17,6 @@ var Chat = new Schema({
         type: String,
         index: true
     }
-});
-
-Chat.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('Chat', Chat);

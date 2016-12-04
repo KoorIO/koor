@@ -22,7 +22,7 @@
         {
             "docs": "http://localhost:3006/docs",
             "base_path": "http://localhost:3006",
-            "route_match": ["/api/v1/chat*"]
+            "route_match": ["/api/v1/chat*", "/api/v1/groupChat*"]
         }
     ],
     "info": { "title": "Koor.IO API", "version": "1.0" },

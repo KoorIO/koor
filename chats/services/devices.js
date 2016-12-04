@@ -7,7 +7,7 @@ var config = require('config');
 
 var getDeviceById = function(data) {
     var deferred = q.defer();
-    var url = utils.makeUrl(config.get('services.users.getDeviceById'), { deviceId: data.deviceId });
+    var url = utils.makeUrl(config.get('services.devices.getDeviceById'), { deviceId: data.deviceId });
     logger.debug('Get', url);
     request({
         url: url,
