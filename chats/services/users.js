@@ -26,6 +26,27 @@ var getFollowingsByUserId = function(data) {
     return deferred.promise;
 };
 
+var getUserById = function(data) {
+    var deferred = q.defer();
+    var url = utils.makeUrl(config.get('services.users.getUserById'), { userId: data.userId });
+    logger.debug('Get', url);
+    request({
+        url: url,
+        method: 'GET',
+        qs: {},
+        headers: {
+            'Authorization': data.accessToken
+        }
+    }, function(err, res, body) {
+        if (err || res.statusCode !== 200) {
+            deferred.reject(true);
+        } else {
+            deferred.resolve(JSON.parse(body));
+        }
+    });
+    return deferred.promise;
+};
+
 var getUsersByIds = function(data) {
     var deferred = q.defer();
     var url = utils.makeUrl(config.get('services.users.getUsersByIds'), { userIds: data.userIds.join() });
@@ -50,5 +71,6 @@ var getUsersByIds = function(data) {
 module.exports = {
     serviceName: 'User',
 	getFollowingsByUserId: getFollowingsByUserId,
-    getUsersByIds: getUsersByIds
+    getUsersByIds: getUsersByIds,
+    getUserById: getUserById
 };

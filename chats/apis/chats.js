@@ -2,23 +2,9 @@
 var express = require('express'), 
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
+    services = require('../services'),
     os = require('os'),
     router = express.Router();
-
-// get chat
-router.get('/get/:id', function(req, res){
-    logger.info('Get Chat Details', req.params.id);
-    db.Chat
-    .findOne({
-        _id: req.params.id
-    })
-    .then(function(chat) {
-        var ret = chat.toObject();
-        res.json(ret);
-    }).catch(function(e) {
-        res.status(400).send(JSON.stringify(e));
-    });
-});
 
 // get list chats
 router.get('/list/:groupId/:page/:limit', function(req, res){
@@ -52,19 +38,54 @@ router.get('/list/:groupId/:page/:limit', function(req, res){
 // Create new chat
 router.post('/create', function(req, res){
     logger.info('Create New Chat', req.body.objectId, req.body.objectType);
-    var chat = new db.Chat({
-        groupId: req.body.groupId,
-        userId: req.body.userId,
-        message: req.body.message
-    });
-    chat.save(function(error) {
-        if (error) {
-            logger.debug('Failed - Save Chat', error);
-            return res.status(500).json(error);
-        } else {
-            return res.json(chat);
+    if (!req.body.groupId) {
+        if (req.body.objectType === 'USER') {
+            services.User.getUserById({
+                userId: req.body.objectId,
+                accessToken: req.body.accessToken
+            }).then(function(user) {
+                var groupChat = new db.GroupChat({
+                    name: user.firstname + ' ' + user.lastname
+                });
+                groupChat.save(function() {
+                    db.ChatMember.insertMany([{
+                        groupId: groupChat._id,
+                        objectId: req.body.objectId,
+                        objectType: req.body.objectType
+                    }, {
+                        groupId: groupChat._id,
+                        objectId: req.body.userId,
+                        objectType: 'USER'
+                    }], function(error, chatMembers) {
+                        saveMessage({
+                            groupId: groupChat._id
+                        });
+                    });
+                })
+            });
         }
-    });
+        if (req.body.objectType === 'DEVICE') {
+            services.Device.getDeviceById(req.body.objectId).then(function(device) {
+                console.log(device);
+            });
+        }
+    }
+    function saveMessage(data) {
+        var chat = new db.Chat({
+            groupId: data.groupId,
+            objectId: req.body.objectId,
+            objectType: req.body.objectType,
+            message: req.body.message
+        });
+        chat.save(function(error) {
+            if (error) {
+                logger.debug('Failed - Save Chat', error);
+                return res.status(500).json(error);
+            } else {
+                return res.json(chat);
+            }
+        });
+    }
 });
 
 // Update chat

@@ -26,21 +26,22 @@ paths:
                   required: true
                   schema:
                       required:
-                          - chatType
-                          - content
+                          - objectType
+                          - objectId
+                          - message
                       properties:
-                          chatType:
+                          objectType:
                               type: string
-                              description: Chat Type
-                          content:
+                              description: Object Type
+                          objectId:
+                              type: string
+                              description: Object Id
+                          groupId:
+                              type: string
+                              description: Group Id
+                          message:
                               type: string
                               description: Message
-                          fileId:
-                              type: string
-                              description: File Id
-                          albumId:
-                              type: string
-                              description: Ilbum Id
             responses:
                 200:
                     description: OK
