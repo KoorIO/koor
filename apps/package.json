@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/thanhson1085/api-seed#readme",
   "dependencies": {
+    "babel-polyfill": "^6.16.0",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
     "config": "^1.19.0",

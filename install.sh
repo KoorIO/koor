@@ -52,7 +52,7 @@ cd $workdir/chats && npm install && \
     sed -i "s/\/s\//http:\/\/localhost:${SOCIALS_PORT}\//g" config/local.json && \
     sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
-    sed -i "s/\"port\": 80/\"port\": ${SOCIALS_PORT}/g" config/local.json
+    sed -i "s/\"port\": 80/\"port\": ${CHATS_PORT}/g" config/local.json
 wait
 echo "Installing Site ..."
 cd $workdir/site && npm install && bower install && \

@@ -395,7 +395,7 @@ router.get('/list/:page/:limit', function(req, res){
 router.post('/login', function(req, res){
     var username = req.body.username;
     var password = req.body.password;
-    logger.debug('User %s loggin', req.body.username);
+    logger.debug('User %s login', req.body.username);
 
     db.User.findOne({
         username: username,
