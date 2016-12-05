@@ -1,8 +1,6 @@
 FROM mhart/alpine-node:4.4
 MAINTAINER Nguyen Sy Thanh Son
 
-RUN apk add --update imagemagick
-
 RUN npm install -g pm2
 
 WORKDIR /build
