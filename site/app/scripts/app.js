@@ -399,9 +399,10 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/directives/header/header.js',
-                                'scripts/directives/sidebar/sidebar.js',
                                 'scripts/services/locale.js',
                                 'scripts/directives/locale/locale.js',
+                                'scripts/services/notifications.js',
+                                'scripts/services/socket.js',
                                 'scripts/services/users.js'
                             ]
                         });
@@ -493,4 +494,3 @@ angular
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
 });
-
