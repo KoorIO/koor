@@ -39,7 +39,8 @@
     "services": {
         "users": {
             "getFollowingsByUserId": "/u/api/v1/followers/following/list/:userId/:page/:limit",
-            "getUsersByIds": "/u/api/v1/users/getUsersByIds/:userIds"
+            "getUsersByIds": "/u/api/v1/users/getUsersByIds/:userIds",
+            "getUserById": "/u/api/v1/users/get/:userId"
         },
         "devices": {
             "getDeviceById": "/a/api/v1/devices/get/:deviceId"

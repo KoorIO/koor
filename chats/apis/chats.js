@@ -73,6 +73,8 @@ router.post('/create', function(req, res){
                     }], function(error, chatMembers) {
                         saveMessage();
                     });
+                }).catch(function(e) {
+                    logger.debug('Failed - get User Detail', e);
                 });
             }
             if (req.body.objectType === 'DEVICE') {
@@ -96,6 +98,8 @@ router.post('/create', function(req, res){
                 });
             }
         }
+    }).catch(function(e) {
+        logger.debug('Failed - save Group Chat', e);
     });
     function saveMessage() {
         var chat = new db.Chat({
