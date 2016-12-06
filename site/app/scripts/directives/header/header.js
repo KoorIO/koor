@@ -6,7 +6,7 @@ angular.module('siteSeedApp')
         templateUrl:'views/header/header.html',
         restrict: 'E',
         scope: {},
-        controller:function($scope, Notifications, Socket, APP_CONFIG, $cookies){
+        controller:function($scope, Users, Notifications, Socket, APP_CONFIG, $cookies){
             $scope.badge = 0;
             Notifications.list(1, 10).then(function(res) {
                 $scope.notifications = res.rows;
@@ -31,6 +31,12 @@ angular.module('siteSeedApp')
                 $scope.badge = 0;
                 Notifications.list(1, 10).then(function(res) {
                     $scope.notifications = res.rows;
+                });
+            };
+            $scope.search = function(s) {
+                return Users.search(s).then(function(res) {
+                    console.log(res.hits);
+                    return res.hits;
                 });
             };
         }

@@ -61,6 +61,7 @@
     },
     "localEnv": false,
     "websocket": "koor.io",
+    "mqtt": "koor.io",
     "protocols": {
         "http": "https://",
         "ws": "wss://"

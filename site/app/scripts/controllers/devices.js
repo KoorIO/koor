@@ -15,7 +15,7 @@ angular.module('siteSeedApp')
         });
     };
 })
-.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects, DeviceLogs) {
+.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects, DeviceLogs, APP_CONFIG) {
     var deviceId = $stateParams.deviceId;
     Projects.get($stateParams.projectId).then(function(p) {
         $scope.project = p;
@@ -24,7 +24,8 @@ angular.module('siteSeedApp')
             DeviceLogs.list(deviceId, 1, 20).then(function(logs) {
                 $scope.deviceLogs = logs.rows;
             });
-            var socket = Socket.connect(p.domain);
+            var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:p.domain;
+            var socket = Socket.connect(socketDomain);
             $scope.$on('$destroy', function() {
                 socket.disconnect();
             });

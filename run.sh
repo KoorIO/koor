@@ -19,7 +19,7 @@ then
     docker start koor_neo4j
 fi
 HOST_IP=`ifconfig eth0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'`
-if !(docker run --name koor_vernemq -d -p 1883:1883 -p 8080:8080 -e ENDPOINT_URL=http://"${HOST_IP}":3001/api/v1/mqtt registry.gitlab.com/thanhson1085/koor:broker)
+if !(docker run --name koor_vernemq -d -p 1883:1883 -p 8080:8080 -e ENDPOINT_URL=http://"${HOST_IP}":3001/api/v1/mqtt registry.gitlab.com/thanhson1085/koor:broker > /dev/null 2>&1)
 then
     docker start koor_vernemq
 fi
