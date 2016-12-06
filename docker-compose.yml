@@ -229,6 +229,7 @@ volumes:
     influxdb:
     elasticsearch:
     neo4j:
+    kapacitor:
 networks:
   front-net:
   back-net:

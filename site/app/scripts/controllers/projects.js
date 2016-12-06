@@ -57,7 +57,8 @@ angular.module('siteSeedApp')
         $scope.project = res;
         $scope.channelSubscribe = 'mqtt/demo';
         $scope.channelPublish = 'mqtt/demo';
-        var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
+        var mqttDomain = (APP_CONFIG.localEnv)?APP_CONFIG.mqtt:res.domain;
+        var client = kmqtt.connect(APP_CONFIG.protocols.ws + mqttDomain + '/mqtt');
         $scope.$on("$destroy", function() {
             client.end();
         });
@@ -98,7 +99,8 @@ angular.module('siteSeedApp')
         if ($scope.service === 'mqtt') {
             $scope.channelSubscribe = res.domain + '/mqtt/demo';
             $scope.loaded = true;
-            var client = kmqtt.connect(APP_CONFIG.protocols.ws + res.domain + '/mqtt');
+            var mqttDomain = (APP_CONFIG.localEnv)?APP_CONFIG.mqtt:res.domain;
+            var client = kmqtt.connect(APP_CONFIG.protocols.ws + mqttDomain + '/mqtt');
             $scope.$on("$destroy", function() {
                 client.end();
             });
