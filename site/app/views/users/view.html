@@ -1,47 +1,63 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header" translate="views.users.view.User" translate-value-name="{{user.firstname}}"></h1>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading" translate="views.users.view.UserDetail">
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <div ng-show="update_message" class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{update_message}}
-                    </div>
-                    <table class="table table-hover">
-                        <tbody>
-                        <tr>
-                            <td class="col-xs-4" translate="views.users.view.ID"></td>
-                            <td class="col-xs-8">{{user._id}}</td>
-                        </tr>
-                        <tr>
-                            <td translate="views.users.view.Username"></td>
-                            <td>{{user.username}}</td>
-                        </tr>
-                        <tr>
-                            <td translate="views.users.view.Firstname"></td>
-                            <td><a href="#">{{user.firstname || 'empty'}}</a></td>
-                        </tr>
-                        <tr>
-                            <td translate="views.users.view.Lastname"></td>
-                            <td><a href="#">{{user.lastname || 'empty'}}</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic" ng-show="!user.file">
+                    <img gravatar-src="user.email" class="img-responsive">
                 </div>
-                <!-- /.table-responsive -->
+                <div class="profile-userpic" ng-show="user.file">
+                    <img ng-src="{{user.file.urls.t600x600}}" class="img-responsive">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        {{user.firstname || 'empty'}} {{user.lastname || 'empty'}} 
+                    </div>
+                    <div class="profile-usertitle-job">
+                        {{ user.bio || empty }}
+                    </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-success btn-sm">Follow</button>
+                    <button type="button" class="btn btn-danger btn-sm">Message</button>
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="#">
+                            <i class="glyphicon glyphicon-home"></i>
+                            Overview </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <i class="glyphicon glyphicon-user"></i>
+                            Account Settings </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">
+                            <i class="glyphicon glyphicon-ok"></i>
+                            Tasks </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <i class="glyphicon glyphicon-flag"></i>
+                            Help </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END MENU -->
             </div>
-            <!-- /.panel-body -->
         </div>
-        <!-- /.panel -->
+        <div class="col-md-9">
+            <div class="profile-content">
+               Some user related content goes here...
+            </div>
+        </div>
     </div>
-    <div class="clearfix"></div>
 </div>
