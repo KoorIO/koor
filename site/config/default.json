@@ -34,7 +34,8 @@
             "login": "/u/api/v1/users/login",
             "github": "/u/api/v1/users/github",
             "list": "/u/api/v1/users/list/:page/:limit",
-            "get": "/u/api/v1/users/get/:userId",
+            "get": "/u/api/v1/users/get",
+            "getById": "/u/api/v1/users/get/:userId",
             "update": "/u/api/v1/users/update/:userId",
             "peopleYouMayKnow": "/u/api/v1/users/peopleYouMayKnow",
             "search": "/u/api/v1/users/search"

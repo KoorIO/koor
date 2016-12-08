@@ -5,6 +5,7 @@ var os = require('os');
 var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
 var utils = require('../helpers/utils');
+var services = require('../services');
 consumer.name = os.hostname() + 'projects';
 
 consumer.task = function(job, done){
@@ -17,16 +18,37 @@ consumer.task = function(job, done){
         domain: data.data.domain
     }).priority('high').save();
 
-    // save activity
-    q.create(os.hostname() + 'activities', data).priority('low').save();
+    services.User.getUserById(data).then(function(user) {
+        services.Project.getProjectById(data).then(function(project) {
+            if (project._id && user._id) {
+                delete project['secretKey'];
+                data.data.user = user;
+                data.data.object = project;
 
-    // save feed
-    if (data.type === 'CREATE_PROJECT' || data.type === 'CREATE_PROJECT') {
-        q.create(utils.getHostnameSocials() + 'feeds', data).priority('low').save();
-        q.create(os.hostname() + 'njProjects', data).priority('high').save();
-    }
+                // save activity
+                q.create(os.hostname() + 'activities', data).priority('low').save();
 
-    q.create(os.hostname() + 'esProjects', data).priority('high').save();
+                // save feed
+                if (data.type === 'CREATE_PROJECT' || data.type === 'CREATE_PROJECT') {
+                    var feed = {
+                        data: data.data,
+                        objectType: 'PROJECT',
+                        objectId: data.data._id,
+                        type: data.type,
+                        userId: data.userId
+                    }
+                    q.create(utils.getHostnameSocials() + 'feeds', feed).priority('low').save();
+                    q.create(os.hostname() + 'njProjects', data).priority('high').save();
+                }
+                q.create(os.hostname() + 'esProjects', data).priority('high').save();
+            }
+        }).catch(function(e) {
+            logger.error('Failed - get project detail', e);
+        });
+    }).catch(function(e) {
+        logger.error('Failed - get user detail', e);
+    });
+
     done();
 };
 

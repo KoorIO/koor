@@ -10,8 +10,9 @@ consumer.name = os.hostname() + 'notifications';
 consumer.task = function(job, done){
     var data = job.data;
     var notification = new db.Notification({
-        objectType: data.type,
-        objectId: data.id,
+        objectType: data.objectType,
+        objectId: data.objectId,
+        type: data.type,
         data: data.data,
         userId: data.userId
     });

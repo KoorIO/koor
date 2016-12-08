@@ -9,7 +9,12 @@ var Feed = new Schema({
         require: true,
         index: true
     },
-    id: {
+    objectType: {
+        type: String,
+        require: true,
+        index: true
+    },
+    objectId: {
         type: String,
         index: true
     },
@@ -23,7 +28,7 @@ var Feed = new Schema({
     }
 });
 
-Feed.index({type: 1, id: 1}, {unique: true});
+Feed.index({objectType: 1, objectId : 1, type: 1}, {unique: true});
 
 Feed.plugin(CreateUpdatedAt);
 

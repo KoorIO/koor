@@ -2,7 +2,7 @@
 angular.module('siteSeedApp')
 .controller('LoadingCtrl', function($rootScope, $scope, $state) {
     if ('username' in $rootScope.userInfo) {
-        $state.go('home');
+        $state.go('home.index');
     } else {
         $state.go('login');
     }

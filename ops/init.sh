@@ -4,7 +4,7 @@ echo Install DEV Enviroment ...
 git clone https://github.com/VundleVim/Vundle.vim.git /home/vagrant/.vim/bundle/Vundle.vim && \
     cd /tmp && git clone https://github.com/thanhson1085/sonnix.git && cd sonnix && \
     cat bashrc >> /home/vagrant/.bashrc && cat vimrc > /home/vagrant/.vimrc && \
-    vim +PluginInstall +qall
+    cat tmux.conf > /home/vagrant/.tmux.conf
 
 echo Git User Information
 git config --global user.email "thanhson1085@gmail.com"

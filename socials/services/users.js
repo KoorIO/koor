@@ -47,8 +47,27 @@ var getUsersByIds = function(data) {
     return deferred.promise;
 };
 
+var getUserById = function(data) {
+    var deferred = q.defer();
+    request({
+        url: utils.makeUrl(config.get('services.users.get'), { userId: data.userId }),
+        method: 'GET',
+        qs: {},
+        headers: {
+            'Authorization': data.accessToken
+        }
+    }, function(err, res, body) {
+        if (err) {
+            deferred.reject(err);
+        }
+        deferred.resolve(JSON.parse(body));
+    });
+    return deferred.promise;
+};
+
 module.exports = {
     serviceName: 'User',
 	getFollowingsByUserId: getFollowingsByUserId,
-    getUsersByIds: getUsersByIds
+    getUsersByIds: getUsersByIds,
+	getUserById: getUserById
 };

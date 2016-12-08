@@ -38,8 +38,9 @@
     },
     "services": {
         "users": {
-            "getFollowingsByUserId": "/u/api/v1/followers/following/list/:userId/:page/:limit",
-            "getUsersByIds": "/u/api/v1/users/getUsersByIds/:userIds"
+            "getFollowingsByUserId": "http://users/api/v1/followers/following/list/:userId/:page/:limit",
+            "getUsersByIds": "http://users/api/v1/users/getUsersByIds/:userIds",
+            "get": "http://users/api/v1/users/get/:userId"
         }
     },
     "unauthorization": [

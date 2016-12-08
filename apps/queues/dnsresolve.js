@@ -20,7 +20,8 @@ consumer.task = function(job, done){
             project.save(function() {
                 var notification = {
                     type: 'DNS_RESOLVED',
-                    id: project._id,
+                    objectId: project._id,
+                    objectType: 'PROJECT',
                     userId: project.userId,
                     data: project
                 };
@@ -52,7 +53,8 @@ consumer.task = function(job, done){
                 project.save(function() {
                     var notification = {
                         type: 'DNS_RESOLVED',
-                        id: project._id,
+                        objectId: project._id,
+                        objectType: 'PROJECT',
                         userId: project.userId,
                         data: project
                     };

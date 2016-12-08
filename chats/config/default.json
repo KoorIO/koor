@@ -1,8 +1,7 @@
 {
     "server": {
         "host": "0.0.0.0",
-        "port": 80,
-        "fileUrl": "http://files.koor.io"
+        "port": 80
     },
     "db": {
         "uri": "mongodb://db:27017/chats"
@@ -38,12 +37,12 @@
     },
     "services": {
         "users": {
-            "getFollowingsByUserId": "/u/api/v1/followers/following/list/:userId/:page/:limit",
-            "getUsersByIds": "/u/api/v1/users/getUsersByIds/:userIds",
-            "getUserById": "/u/api/v1/users/get/:userId"
+            "getFollowingsByUserId": "http://users/api/v1/followers/following/list/:userId/:page/:limit",
+            "getUsersByIds": "http://users/api/v1/users/getUsersByIds/:userIds",
+            "getUserById": "http://users/api/v1/users/get/:userId"
         },
         "devices": {
-            "getDeviceById": "/a/api/v1/devices/get/:deviceId"
+            "getDeviceById": "http://apps/api/v1/devices/get/:deviceId"
         }
     },
     "unauthorization": [

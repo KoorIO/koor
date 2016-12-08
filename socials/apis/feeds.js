@@ -19,6 +19,7 @@ router.get('/list/:page/:limit', function(req, res){
         for (var i in followings.rows) {
             friendIds.push(followings.rows[i]._id);
         }
+        friendIds.push(req.body.userId);
         db.Feed
         .find({
             userId: {$in: friendIds}

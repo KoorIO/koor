@@ -4,6 +4,11 @@ var CreateUpdatedAt = require('mongoose-timestamp');
 var q = require('q');
 
 var Notification = new Schema({
+    type: {
+        type: String,
+        require: true,
+        index: true
+    },
     objectType: {
         type: String,
         require: true,
@@ -27,7 +32,7 @@ var Notification = new Schema({
     }
 });
 
-Notification.index({objectType: 1, objectId: 1}, {unique: true});
+Notification.index({objectType: 1, objectId: 1, type: 1}, {unique: true});
 
 Notification.plugin(CreateUpdatedAt);
 

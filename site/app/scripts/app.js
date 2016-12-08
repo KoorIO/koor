@@ -403,7 +403,8 @@ angular
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/notifications.js',
                                 'scripts/services/socket.js',
-                                'scripts/services/users.js'
+                                'scripts/services/users.js',
+                                'scripts/services/feeds.js'
                             ]
                         });
                 }
@@ -420,6 +421,22 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/controllers/main.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('home.index', {
+            url: '/index',
+            controller: 'HomeIndexCtrl',
+            templateUrl: 'views/users/index.html',
+            resolve: {
+                loadMyDirectives: function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/controllers/users.js'
                             ]
                         });
                 }

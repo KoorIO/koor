@@ -43,7 +43,7 @@ var Project = new Schema({
 
 Project.plugin(CreateUpdatedAt);
 Project.statics = {
-    generateSecretKey: function (user) {
+    generateSecretKey: function () {
         var deferred = q.defer();
         crypto.randomBytes(32, function(ex, buf) {
             var t = buf.toString('hex');

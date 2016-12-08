@@ -48,8 +48,8 @@
             "get": "http://apps/api/v1/projects/get/:projectId"
         },
         "files": {
-            "get": "http://files/api/v1/files/get/:fileId",
-            "getByIds": "http://files/api/v1/files/getByIds/:fileIds"
+            "get": "http://socials/api/v1/files/get/:fileId",
+            "getByIds": "http://socials/api/v1/files/getByIds/:fileIds"
         }
     },
     "cloudflare": {
