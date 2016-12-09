@@ -24,12 +24,22 @@ angular.module('siteSeedApp')
     });
     Feeds.list().then(function(res) {
         $scope.feeds = res.rows;
-        console.log($scope.feeds);
     });
+
 })
-.controller('UserDetailCtrl', function($scope, Users, $stateParams) {
+.controller('UserDetailCtrl', function($scope, Users, $stateParams, Followers) {
     Users.getById($stateParams.userId).then(function(res) {
         $scope.user = res;
+        $scope.follow = function() {
+            Followers.create({followingId: $scope.user._id}).then(function() {
+                $scope.user.isFollowed = true;
+            });
+        };
+        $scope.unfollow = function() {
+            Followers.delete($scope.user._id).then(function() {
+                $scope.user.isFollowed = false;
+            });
+        };
     });
 })
 .controller('UserProfileCtrl', function($scope, Users, $cookies, $log) {

@@ -40,6 +40,13 @@
             "peopleYouMayKnow": "/u/api/v1/users/peopleYouMayKnow",
             "search": "/u/api/v1/users/search"
         },
+        "feeds": {
+            "list": "//api/v1/feeds/list/1/10"
+        },
+        "followers": {
+            "create": "/u/api/v1/followers/create",
+            "delete": "/u/api/v1/followers/delete/:userId"
+        },
         "projects": {
             "create": "/a/api/v1/projects/create",
             "list": "/a/api/v1/projects/list/:page/:limit",

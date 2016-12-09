@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="feed.html">
     <p ng-show="feed.type=='CREATE_PROJECT'">
-        Create a new project - <a>{{ feed.data.object.name }}</a>
+        Create a new project - <a ui-sref="app.projects.view({projectId: feed.data.object._id, service: 'dashboard'})">{{ feed.data.object.name }}</a>
     </p>
 </script>
 <div class="container">
@@ -25,12 +25,6 @@
                     </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
-                <!-- SIDEBAR BUTTONS -->
-                <div class="profile-userbuttons">
-                    <button type="button" class="btn btn-success btn-sm">Follow</button>
-                    <button type="button" class="btn btn-danger btn-sm">Message</button>
-                </div>
-                <!-- END SIDEBAR BUTTONS -->
                 <!-- SIDEBAR MENU -->
                 <div class="profile-usermenu">
                     <ul class="nav">
@@ -63,7 +57,7 @@
             <div class="profile-content">
                 <textarea class="form-control" placeholder="Enter here for tweet..." rows="3"></textarea>
                 <br>
-                <a href="#" class="btn btn-primary btn-sm pull-right">Tweet</a>
+                <a href="#" class="btn btn-primary btn-sm pull-right">Post</a>
                 <div class="clearfix"></div>
                 <hr>
                 <ul class="media-list">
@@ -76,7 +70,7 @@
                             <small class="text-muted">30 min ago</small>
                         </span>
                         <strong class="text-success">@ {{feed.data.user.firstname + ' ' + feed.data.user.lastname}}</strong>
-                        <div ng-inlcude="feed.html">
+                        <div ng-include="'feed.html'">
                         </div>
                     </div>
                     </li>
