@@ -4,7 +4,16 @@
         <header></header>
     </nav>
     <div id="user-page-wrapper">
-        <div ui-view></div>
+        <div class="container">
+            <div class="row profile">
+                <div class="col-md-3">
+                    <sidebar></sidebar>
+                </div>
+                <div class="col-md-9">
+                    <div ui-view></div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /#page-wrapper -->
 </div>

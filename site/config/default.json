@@ -41,11 +41,12 @@
             "search": "/u/api/v1/users/search"
         },
         "feeds": {
-            "list": "//api/v1/feeds/list/1/10"
+            "list": "/s/api/v1/feeds/list/1/10"
         },
         "followers": {
             "create": "/u/api/v1/followers/create",
-            "delete": "/u/api/v1/followers/delete/:userId"
+            "delete": "/u/api/v1/followers/delete/:userId",
+            "list": "/u/api/v1/followers/list/:page/:limit"
         },
         "projects": {
             "create": "/a/api/v1/projects/create",

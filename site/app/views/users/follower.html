@@ -1,0 +1,11 @@
+
+<div class="col-md-3" ng-repeat="follower in followers">
+    <div class="profile-usertitle">
+        <div class="profile-usertitle-name">
+            {{follower.firstname || 'empty'}} {{follower.lastname || 'empty'}} 
+        </div>
+        <div class="profile-usertitle-job">
+            {{ follower.bio || empty }}
+        </div>
+    </div>
+</div>

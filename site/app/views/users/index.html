@@ -3,79 +3,25 @@
         Create a new project - <a ui-sref="app.projects.view({projectId: feed.data.object._id, service: 'dashboard'})">{{ feed.data.object.name }}</a>
     </p>
 </script>
-<div class="container">
-    <div class="row profile">
-        <div class="col-md-3">
-            <div class="profile-sidebar">
-                <!-- SIDEBAR USERPIC -->
-                <div class="profile-userpic" ng-show="!user.file">
-                    <img gravatar-src="user.email" class="img-responsive">
-                </div>
-                <div class="profile-userpic" ng-show="user.file">
-                    <img ng-src="{{user.file.urls.t600x600}}" class="img-responsive">
-                </div>
-                <!-- END SIDEBAR USERPIC -->
-                <!-- SIDEBAR USER TITLE -->
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                        {{user.firstname || 'empty'}} {{user.lastname || 'empty'}} 
-                    </div>
-                    <div class="profile-usertitle-job">
-                        {{ user.bio || empty }}
-                    </div>
-                </div>
-                <!-- END SIDEBAR USER TITLE -->
-                <!-- SIDEBAR MENU -->
-                <div class="profile-usermenu">
-                    <ul class="nav">
-                        <li class="active">
-                            <a href="#">
-                            <i class="glyphicon glyphicon-home"></i>
-                            Home </a>
-                        </li>
-                        <li>
-                            <a ui-sref="app.projects.list">
-                            <i class="glyphicon glyphicon-ok"></i>
-                            Projects </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                            <i class="glyphicon glyphicon-flag"></i>
-                            Followers </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                            <i class="glyphicon glyphicon-flag"></i>
-                            Following </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- END MENU -->
+<div class="profile-content">
+    <textarea class="form-control" placeholder="Enter here for tweet..." rows="3"></textarea>
+    <br>
+    <a href="#" class="btn btn-primary btn-sm pull-right">Post</a>
+    <div class="clearfix"></div>
+    <hr>
+    <ul class="media-list">
+        <li class="media" ng-repeat="feed in feeds">
+        <a ui-sref="home.user_get({userId: feed.data.user._id})" class="pull-left">
+            <img ng-src="{{feed.data.user.file.urls.t600x600}}" class="img-responsive" width="50" alt="">
+        </a>
+        <div class="media-body">
+            <span class="text-muted pull-right">
+                <small class="text-muted">30 min ago</small>
+            </span>
+            <strong class="text-success">@ {{feed.data.user.firstname + ' ' + feed.data.user.lastname}}</strong>
+            <div ng-include="'feed.html'">
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="profile-content">
-                <textarea class="form-control" placeholder="Enter here for tweet..." rows="3"></textarea>
-                <br>
-                <a href="#" class="btn btn-primary btn-sm pull-right">Post</a>
-                <div class="clearfix"></div>
-                <hr>
-                <ul class="media-list">
-                    <li class="media" ng-repeat="feed in feeds">
-                    <a ui-sref="home.user_get({userId: feed.data.user._id})" class="pull-left">
-                        <img ng-src="{{feed.data.user.file.urls.t600x600}}" class="img-responsive" width="50" alt="">
-                    </a>
-                    <div class="media-body">
-                        <span class="text-muted pull-right">
-                            <small class="text-muted">30 min ago</small>
-                        </span>
-                        <strong class="text-success">@ {{feed.data.user.firstname + ' ' + feed.data.user.lastname}}</strong>
-                        <div ng-include="'feed.html'">
-                        </div>
-                    </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+        </li>
+    </ul>
 </div>

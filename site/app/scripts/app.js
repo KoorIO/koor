@@ -399,6 +399,7 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/directives/header/header.js',
+                                'scripts/directives/sidebar/sidebar.js',
                                 'scripts/services/locale.js',
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/notifications.js',
@@ -431,6 +432,22 @@ angular
             url: '/index',
             controller: 'HomeIndexCtrl',
             templateUrl: 'views/users/index.html',
+            resolve: {
+                loadMyDirectives: function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/controllers/users.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('home.follower', {
+            url: '/follower',
+            controller: 'HomeFollowerCtrl',
+            templateUrl: 'views/users/follower.html',
             resolve: {
                 loadMyDirectives: function($ocLazyLoad){
                     return $ocLazyLoad.load(

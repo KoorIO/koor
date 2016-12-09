@@ -18,14 +18,16 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('HomeIndexCtrl', function($scope, Users, Feeds) {
-    Users.get().then(function(res) {
-        $scope.user = res;
-    });
+.controller('HomeIndexCtrl', function($scope, Feeds, $rootScope) {
     Feeds.list().then(function(res) {
         $scope.feeds = res.rows;
     });
 
+})
+.controller('HomeFollowerCtrl', function($scope, Followers, $rootScope) {
+    Followers.list(1,10).then(function(res) {
+        $scope.followers = res.rows;
+    })
 })
 .controller('UserDetailCtrl', function($scope, Users, $stateParams, Followers) {
     Users.getById($stateParams.userId).then(function(res) {

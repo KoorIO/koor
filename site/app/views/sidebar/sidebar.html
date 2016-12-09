@@ -1,35 +1,46 @@
-<div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse">
-        <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
-                <div class="input-group custom-search-form">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-                </div>
-                <!-- /input-group -->
+<div class="profile-sidebar">
+    <!-- SIDEBAR USERPIC -->
+    <div class="profile-userpic" ng-show="!user.file">
+        <img gravatar-src="user.email" class="img-responsive">
+    </div>
+    <div class="profile-userpic" ng-show="user.file">
+        <img ng-src="{{user.file.urls.t600x600}}" class="img-responsive">
+    </div>
+    <!-- END SIDEBAR USERPIC -->
+    <!-- SIDEBAR USER TITLE -->
+    <div class="profile-usertitle">
+        <div class="profile-usertitle-name">
+            {{user.firstname || 'empty'}} {{user.lastname || 'empty'}} 
+        </div>
+        <div class="profile-usertitle-job">
+            {{ user.bio || empty }}
+        </div>
+    </div>
+    <!-- END SIDEBAR USER TITLE -->
+    <!-- SIDEBAR MENU -->
+    <div class="profile-usermenu">
+        <ul class="nav">
+            <li class="active">
+                <a href="#">
+                <i class="glyphicon glyphicon-home"></i>
+                Home </a>
             </li>
             <li>
-                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a ui-sref="app.projects.list">
+                <i class="glyphicon glyphicon-ok"></i>
+                Projects </a>
             </li>
-            <li ng-click="check(1)">
-                <a href="#"><i class="fa fa-users fa-fw"></i> Users<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" ng-class="{collapse: collapse != 1}">
-                    <li>
-                    <a href="#"><i class="fa fa-plus fa-fw"></i> New User</a>
-                    </li>
-                    <li>
-                    <a ui-sref="home.users({limit: 10, page: 1})">List User</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
+            <li>
+                <a ui-sref="home.follower">
+                <i class="glyphicon glyphicon-flag"></i>
+                Followers </a>
+            </li>
+            <li>
+                <a href="#">
+                <i class="glyphicon glyphicon-flag"></i>
+                Following </a>
             </li>
         </ul>
     </div>
-    <!-- /.sidebar-collapse -->
+    <!-- END MENU -->
 </div>
-<!-- /.navbar-static-side -->
-
