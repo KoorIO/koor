@@ -369,69 +369,23 @@ angular
                             name:'siteSeedApp',
                             files:[
                                 'scripts/directives/header/header.js',
+                                'scripts/directives/sidebar/sidebar-user.js',
                                 'scripts/services/notifications.js',
                                 'scripts/services/socket.js',
                                 'scripts/services/locale.js',
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/users.js',
+                                'scripts/services/followers.js',
                                 'scripts/controllers/users.js'
                             ]
                         });
                 }
             }
         })
-        .state('user.profiles', {
-            url: '/profiles',
-            controller: 'UserProfileCtrl',
-            templateUrl: 'views/profiles/view.html'
-        })
-        .state('user.settings', {
-            url: '/settings',
-            templateUrl: 'views/profiles/setting.html'
-        })
-        .state('home', {
-            url: '/home',
-            templateUrl: 'views/main.html',
-            resolve: {
-                loadMyDirectives:function($ocLazyLoad){
-                    return $ocLazyLoad.load(
-                        {
-                            name:'siteSeedApp',
-                            files:[
-                                'scripts/directives/header/header.js',
-                                'scripts/directives/sidebar/sidebar.js',
-                                'scripts/services/locale.js',
-                                'scripts/directives/locale/locale.js',
-                                'scripts/services/notifications.js',
-                                'scripts/services/socket.js',
-                                'scripts/services/users.js',
-                                'scripts/services/feeds.js',
-                                'scripts/services/followers.js'
-                            ]
-                        });
-                }
-            }
-        })
-        .state('home.dashboard', {
-            url: '/dashboard',
-            controller: 'MainCtrl',
-            templateUrl: 'views/dashboard/home.html',
-            resolve: {
-                loadMyDirectives: function($ocLazyLoad){
-                    return $ocLazyLoad.load(
-                        {
-                            name:'siteSeedApp',
-                            files:[
-                                'scripts/controllers/main.js'
-                            ]
-                        });
-                }
-            }
-        })
-        .state('home.index', {
-            url: '/index',
-            controller: 'HomeIndexCtrl',
-            templateUrl: 'views/users/index.html',
+        .state('user.get', {
+            url: '/get/:userId',
+            controller: 'UserDetailCtrl',
+            templateUrl: 'views/users/view.html',
             resolve: {
                 loadMyDirectives: function($ocLazyLoad){
                     return $ocLazyLoad.load(
@@ -444,7 +398,7 @@ angular
                 }
             }
         })
-        .state('home.follower', {
+        .state('user.follower', {
             url: '/follower',
             controller: 'HomeFollowerCtrl',
             templateUrl: 'views/users/follower.html',
@@ -459,6 +413,49 @@ angular
                         });
                 }
             }
+        })
+        .state('home', {
+            url: '/home',
+            templateUrl: 'views/main.html',
+            resolve: {
+                loadMyDirectives:function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/directives/header/header.js',
+                                'scripts/directives/sidebar/sidebar.js',
+                                'scripts/controllers/users.js',
+                                'scripts/services/locale.js',
+                                'scripts/directives/locale/locale.js',
+                                'scripts/services/notifications.js',
+                                'scripts/services/socket.js',
+                                'scripts/services/users.js',
+                                'scripts/services/feeds.js',
+                                'scripts/services/followers.js'
+                            ]
+                        });
+                }
+            }
+        })
+        .state('home.profiles', {
+            url: '/profiles',
+            controller: 'UserProfileCtrl',
+            templateUrl: 'views/profiles/view.html'
+        })
+        .state('home.settings', {
+            url: '/settings',
+            templateUrl: 'views/profiles/setting.html'
+        })
+        .state('home.index', {
+            url: '/index',
+            controller: 'HomeIndexCtrl',
+            templateUrl: 'views/profiles/index.html'
+        })
+        .state('home.follower', {
+            url: '/follower',
+            controller: 'HomeFollowerCtrl',
+            templateUrl: 'views/profiles/follower.html'
         })
         .state('home.users', {
             url: '/users/list/{page}/{limit}',
@@ -479,7 +476,7 @@ angular
         .state('home.user_get', {
             url: '/users/get/:userId',
             controller: 'UserDetailCtrl',
-            templateUrl: 'views/users/view.html',
+            templateUrl: 'views/profiles/view.html',
             resolve: {
                 loadMyDirectives: function($ocLazyLoad){
                     return $ocLazyLoad.load(

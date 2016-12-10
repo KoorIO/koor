@@ -40,7 +40,7 @@
     </form>
 </div>
 <script type="text/ng-template" id="searchTemplate.html">
-<a ui-sref="home.user_get({userId: match.model._id})">
+<a ui-sref="user.get({userId: match.model._id})">
     <img ng-src="{{match.model._source.file.urls.t100x100}}" width="32">
     <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
 </a>
@@ -80,9 +80,9 @@
         <img gravatar-src="userInfo.email" gravatar-size="18">  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-            <li><a ui-sref="user.profiles"><i class="fa fa-user fa-fw"></i> User Profile</a>
+            <li><a ui-sref="home.profiles"><i class="fa fa-user fa-fw"></i> User Profile</a>
             </li>
-            <li><a ui-sref="user.settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            <li><a ui-sref="home.settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
             </li>
             <li class="divider"></li>
             <li><a ui-sref="login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
