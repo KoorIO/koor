@@ -1,5 +1,5 @@
 
-<div class="col-md-3" ng-repeat="follower in followers track by $index">
+<div class="col-md-3" ng-repeat="follower in followers">
     <div class="profile-userpic" ng-show="!follower.file">
         <a ui-sref="user.get({userId: follower._id})">
             <img gravatar-src="follower.email" class="img-responsive"></a>
@@ -14,10 +14,5 @@
         <div class="profile-usertitle-job">
             {{ follower.bio || empty }}
         </div>
-    </div>
-    <div class="profile-userbuttons">
-        <button type="button" class="btn btn-success btn-sm" ng-click="follow($index, follower._id)" ng-show="!follower.isFollowed">Follow</button>
-        <button type="button" class="btn btn-primary btn-sm" ng-show="follower.isFollowed" ng-click="unfollow($index, follower._id)">Following</button>
-        <!--button type="button" class="btn btn-danger btn-sm">Message</button-->
     </div>
 </div>

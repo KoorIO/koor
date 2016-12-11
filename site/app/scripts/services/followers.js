@@ -41,6 +41,18 @@ angular.module('siteSeedApp').factory('Followers', function($resource, $q, APP_C
                 deferred.reject(res);
             });
             return deferred.promise;
+        },
+        listFollowing: function(page, limit){
+            var deferred = $q.defer();
+            var url = APP_CONFIG.services.followers.listFollowing;
+            var Followers = $resource(url, {limit: limit, page: page});
+            
+            Followers.get(function(res) {
+                deferred.resolve(res);
+            }, function(res) {
+                deferred.reject(res);
+            });
+            return deferred.promise;
         }
     };
 });

@@ -414,6 +414,22 @@ angular
                 }
             }
         })
+        .state('user.following', {
+            url: '/following',
+            controller: 'HomeFollowingCtrl',
+            templateUrl: 'views/users/following.html',
+            resolve: {
+                loadMyDirectives: function($ocLazyLoad){
+                    return $ocLazyLoad.load(
+                        {
+                            name:'siteSeedApp',
+                            files:[
+                                'scripts/controllers/users.js'
+                            ]
+                        });
+                }
+            }
+        })
         .state('home', {
             url: '/home',
             templateUrl: 'views/main.html',
@@ -456,6 +472,11 @@ angular
             url: '/follower',
             controller: 'HomeFollowerCtrl',
             templateUrl: 'views/profiles/follower.html'
+        })
+        .state('home.following', {
+            url: '/following',
+            controller: 'HomeFollowingCtrl',
+            templateUrl: 'views/profiles/following.html'
         })
         .state('home.users', {
             url: '/users/list/{page}/{limit}',

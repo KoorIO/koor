@@ -18,16 +18,31 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('HomeIndexCtrl', function($scope, Feeds, $rootScope) {
+.controller('HomeIndexCtrl', function($scope, Feeds) {
     Feeds.list().then(function(res) {
         $scope.feeds = res.rows;
     });
 
 })
-.controller('HomeFollowerCtrl', function($scope, Followers, $rootScope) {
+.controller('HomeFollowerCtrl', function($scope, Followers) {
     Followers.list(1,10).then(function(res) {
         $scope.followers = res.rows;
-    })
+    });
+    $scope.follow = function(idx, userId) {
+        Followers.create({followingId: userId}).then(function() {
+            $scope.followers[idx].isFollowed = true;
+        });
+    };
+    $scope.unfollow = function(idx, userId) {
+        Followers.delete(userId).then(function() {
+            $scope.followers[idx].isFollowed = false;
+        });
+    };
+})
+.controller('HomeFollowingCtrl', function($scope, Followers) {
+    Followers.listFollowing(1,10).then(function(res) {
+        $scope.followers = res.rows;
+    });
 })
 .controller('UserDetailCtrl', function($scope, Users, $stateParams, Followers) {
     Users.getById($stateParams.userId).then(function(res) {
