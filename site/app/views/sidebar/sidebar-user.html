@@ -17,6 +17,13 @@
         </div>
     </div>
     <!-- END SIDEBAR USER TITLE -->
+    <!-- SIDEBAR BUTTONS -->
+    <div class="profile-userbuttons">
+        <button type="button" class="btn btn-success btn-sm" ng-click="follow()" ng-show="!user.isFollowed">Follow</button>
+        <button type="button" class="btn btn-primary btn-sm" ng-show="user.isFollowed" ng-click="unfollow()">Following</button>
+        <!--button type="button" class="btn btn-danger btn-sm">Message</button-->
+    </div>
+    <!-- END SIDEBAR BUTTONS -->
     <!-- SIDEBAR MENU -->
     <div class="profile-usermenu">
         <ul class="nav">
@@ -36,7 +43,7 @@
                 Followers </a>
             </li>
             <li>
-                <a ui-sref="home.following">
+                <a href="#">
                 <i class="glyphicon glyphicon-flag"></i>
                 Following </a>
             </li>

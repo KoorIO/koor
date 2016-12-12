@@ -11,7 +11,7 @@
     <hr>
     <ul class="media-list">
         <li class="media" ng-repeat="feed in feeds">
-        <a ui-sref="home.user_get({userId: feed.data.user._id})" class="pull-left">
+        <a ui-sref="user.get({userId: feed.data.user._id})" class="pull-left">
             <img ng-src="{{feed.data.user.file.urls.t600x600}}" class="img-responsive" width="50" alt="">
         </a>
         <div class="media-body">
