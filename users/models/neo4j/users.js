@@ -31,7 +31,7 @@ var peopleYouMayKnow = function(data) {
     var session = driver.session();
     session
     .run('MATCH (u:Users)-[:FOLLOW]->(f:Users)-[:FOLLOW]->(p:Users) \
-        WHERE u.userId = {userId} RETURN DISTINCT p \
+        WHERE u.userId = {userId} AND not(u)-[:FOLLOW]->(p) AND p.userId <> {userId} RETURN DISTINCT p \
         SKIP {skip} \
         LIMIT {limit} \
         ', {userId: data.userId, limit: data.limit, skip: data.skip})
