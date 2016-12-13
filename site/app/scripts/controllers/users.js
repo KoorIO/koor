@@ -44,6 +44,21 @@ angular.module('siteSeedApp')
         $scope.followers = res.rows;
     });
 })
+.controller('HomeFindYourFriendCtrl', function($scope, Followers, Users) {
+    Users.peopleYouMayKnow(1, 10).then(function(res) {
+        $scope.friends = res.hits;
+    });
+    $scope.follow = function(idx, userId) {
+        Followers.create({followingId: userId}).then(function() {
+            $scope.friends[idx]._source.isFollowed = true;
+        });
+    };
+    $scope.unfollow = function(idx, userId) {
+        Followers.delete(userId).then(function() {
+            $scope.friends[idx]._source.isFollowed = false;
+        });
+    };
+})
 .controller('UserDetailCtrl', function($scope, Users, $stateParams, Followers) {
     Users.getById($stateParams.userId).then(function(res) {
         $scope.user = res;

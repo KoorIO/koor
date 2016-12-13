@@ -1,0 +1,23 @@
+
+<div class="col-md-3" ng-repeat="friend in friends track by $index">
+    <div class="profile-userpic" ng-show="!friend._source.file">
+        <a ui-sref="user.get({userId: friend._id})">
+            <img gravatar-src="friend._source.email" class="img-responsive"></a>
+    </div>
+    <div class="profile-userpic" ng-show="friend._source.file">
+        <img ng-src="{{friend._source.file.urls.t600x600}}" class="img-responsive">
+    </div>
+    <div class="profile-usertitle">
+        <div class="profile-usertitle-name">
+            {{friend._source.firstname || 'empty'}} {{friend._source.lastname || 'empty'}} 
+        </div>
+        <div class="profile-usertitle-job">
+            {{ friend._source.bio || empty }}
+        </div>
+    </div>
+    <div class="profile-userbuttons">
+        <button type="button" class="btn btn-success btn-sm" ng-click="follow($index, friend._id)" ng-show="!friend._source.isFollowed">Follow</button>
+        <button type="button" class="btn btn-primary btn-sm" ng-show="friend._source.isFollowed" ng-click="unfollow($index, friend._id)">Following</button>
+        <!--button type="button" class="btn btn-danger btn-sm">Message</button-->
+    </div>
+</div>

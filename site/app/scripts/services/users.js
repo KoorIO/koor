@@ -119,10 +119,10 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
             });
             return deferred.promise;
         },
-        peopleYouMayKnow: function(){
+        peopleYouMayKnow: function(page, limit){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.users.peopleYouMayKnow;
-            var Users = $resource(url);
+            var Users = $resource(url, {limit: limit, page: page});
             
             Users.get(function(res) {
                 deferred.resolve(res);

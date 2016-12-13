@@ -37,7 +37,7 @@
             "get": "/u/api/v1/users/get",
             "getById": "/u/api/v1/users/get/:userId",
             "update": "/u/api/v1/users/update/:userId",
-            "peopleYouMayKnow": "/u/api/v1/users/peopleYouMayKnow",
+            "peopleYouMayKnow": "/u/api/v1/users/peopleYouMayKnow/:page/:limit",
             "search": "/u/api/v1/users/search"
         },
         "feeds": {
@@ -46,7 +46,8 @@
         "followers": {
             "create": "/u/api/v1/followers/create",
             "delete": "/u/api/v1/followers/delete/:userId",
-            "list": "/u/api/v1/followers/list/:page/:limit"
+            "list": "/u/api/v1/followers/list/:page/:limit",
+            "listFollowing": "/u/api/v1/followers/following/list/:page/:limit"
         },
         "projects": {
             "create": "/a/api/v1/projects/create",

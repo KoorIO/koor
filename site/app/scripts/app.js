@@ -478,6 +478,11 @@ angular
             controller: 'HomeFollowingCtrl',
             templateUrl: 'views/profiles/following.html'
         })
+        .state('home.findYourFriend', {
+            url: '/findYourFriend',
+            controller: 'HomeFindYourFriendCtrl',
+            templateUrl: 'views/profiles/findYourFriend.html'
+        })
         .state('home.users', {
             url: '/users/list/{page}/{limit}',
             controller: 'ListUserCtrl',
