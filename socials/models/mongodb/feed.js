@@ -25,6 +25,10 @@ var Feed = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         index: true
+    },
+    score: {
+        type: String,
+        require: true
     }
 });
 

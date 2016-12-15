@@ -7,17 +7,17 @@ consumer.name = os.hostname() + 'deleteNotifications';
 
 consumer.task = function(job, done){
     var data = job.data;
-    logger.debug('Delete Notification', data.id);
-    db.Notification.findOneAndRemove({
-        objectType: data.type,
-        objectId: data.id
-    }).then(function(notification) {
-        if (notification) {
-            logger.debug('Removed', notification._id);
+    logger.debug('Delete Notification', data.objectId);
+    db.Notification.remove({
+        objectType: data.objectType,
+        objectId: data.objectId,
+    },function(e) {
+        if (!e) {
+            logger.debug('Removed');
+        } else {
+            logger.debug('Failed', e);
         }
-    }).catch(function(e) {
-        logger.debug('Failed', e)
-    });;
+    });
 
     done();
 };

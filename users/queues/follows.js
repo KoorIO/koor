@@ -13,20 +13,32 @@ consumer.name = os.hostname() + 'follows';
 consumer.task = function(job, done){
     var data = job.data;
     var q = require('../queues');
-    var feedData = {
-        type: 'FOLLOW_USER',
-        id: data.id,
-        data: data,
-        userId: data.followerId
-    };
-    q.create(utils.getHostnameSocials() + 'feeds', feedData).priority('high').save();
+    services.User.getUserById({
+        userId: data.followerId,
+        accessToken: data.accessToken
+    }).then(function(user) {
+        services.User.getUserById({
+            userId: data.userId,
+            accessToken: data.accessToken
+        }).then(function(follower) {
+            var feedData = {
+                type: 'FOLLOW_USER',
+                objectType: 'FOLLOWER',
+                objectId: data.id,
+                data: { user: user, follower: follower },
+                userId: data.followerId
+            };
+            q.create(utils.getHostnameSocials() + 'feeds', feedData).priority('high').save();
+            q.create(utils.getHostnameSocials() + 'notifications', {
+                type: 'FOLLOW_USER',
+                objectId: data.id,
+                objectType: 'FOLLOWER',
+                userId: data.userId,
+                data: { user: user, follower: follower },
+            }).priority('high').save();
+        });
+    });
     q.create(os.hostname() + 'njFollows', data).priority('high').save();
-	q.create(utils.getHostnameSocials() + 'notifications', {
-		type: 'FOLLOW_USER',
-        id: data.id,
-		userId: data.userId,
-		data: data
-	}).priority('high').save();
 
     done();
 };

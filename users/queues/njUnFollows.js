@@ -14,8 +14,7 @@ consumer.task = function(job, done){
 
     var session = driver.session();
     session
-    .run('START u=node(*) \
-        MATCH u-[rel:FOLLOW]->r \
+    .run('MATCH (u)-[rel:FOLLOW]->(r) \
         WHERE u.userId = {followerId} AND r.userId = {userId} \
         DELETE rel', {userId: data.userId, followerId: data.followerId})
     .subscribe({

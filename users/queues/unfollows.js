@@ -15,13 +15,15 @@ consumer.task = function(job, done){
     var q = require('../queues');
     var feedData = {
         type: 'FOLLOW_USER',
-        id: data._id
+        objectId: data._id,
+        objectType: 'FOLLOWER'
     };
     q.create(utils.getHostnameSocials() + 'deleteFeeds', feedData).priority('high').save();
     q.create(os.hostname() + 'njUnFollows', data).priority('high').save();
 	q.create(utils.getHostnameSocials() + 'deleteNotifications', {
         type: 'FOLLOW_USER',
-        id: data._id
+        objectId: data._id,
+        objectType: 'FOLLOWER'
 	}).priority('high').save();
 
     done();

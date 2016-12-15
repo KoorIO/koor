@@ -21,7 +21,8 @@ router.post('/create', function(req, res){
         q.create(os.hostname() + 'follows', {
             id: follower._id,
             userId: req.body.followingId,
-            followerId: req.body.userId
+            followerId: req.body.userId,
+            accessToken: req.body.accessToken
         }).priority('high').save();
         res.json(follower);
     });

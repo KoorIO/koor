@@ -22,7 +22,7 @@ consumer.task = function(job, done){
 
     notification.save(function(error) {
         if (error) {
-            logger.debug('Failed - Save Notification', data.userId);
+            logger.debug('Failed - Save Notification', error);
         } else {
             logger.debug('Saved Notification', notification._id);
         }
