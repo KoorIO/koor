@@ -5,6 +5,14 @@
             <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
         </div>
     </a>
+    <a ui-sref="user.get({userId: n.data.follower._id})" ng-show="n.type=='FOLLOW_USER'">
+        <div class="small">
+            <img gravatar-src="n.data.follower.email" gravatar-size="18" ng-show="!n.data.follower.file">
+            <img ng-src="{{n.data.follower.file.urls.t100x100}}" width="18" ng-show="n.data.follower.file">
+            <strong>{{ n.data.user.firstname + ' ' + n.data.user.lastname }}</strong> was followed you
+            <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
+        </div>
+    </a>
     <a ui-sref="app.devices.view({projectId: n.data.projectId, deviceId: n.data._id})" ng-show="n.type=='DEVICE_ON'">
         <div class="small">
             <i class="fa fa-circle fa-fw text-success small"></i> Device <strong>{{ n.data.name }}</strong> was connected
@@ -41,7 +49,8 @@
 </div>
 <script type="text/ng-template" id="searchTemplate.html">
 <a ui-sref="user.get({userId: match.model._id})">
-    <img ng-src="{{match.model._source.file.urls.t100x100}}" width="32">
+    <img gravatar-src="match.model._source.email" gravatar-size="18" ng-show="!match.model._source.file">
+    <img ng-src="{{match.model._source.file.urls.t100x100}}" width="18" ng-show="match.model._source.file">
     <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
 </a>
 </script>

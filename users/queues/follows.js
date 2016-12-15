@@ -16,11 +16,11 @@ consumer.task = function(job, done){
     services.User.getUserById({
         userId: data.followerId,
         accessToken: data.accessToken
-    }).then(function(user) {
+    }).then(function(follower) {
         services.User.getUserById({
             userId: data.userId,
             accessToken: data.accessToken
-        }).then(function(follower) {
+        }).then(function(user) {
             var feedData = {
                 type: 'FOLLOW_USER',
                 objectType: 'FOLLOWER',
