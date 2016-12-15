@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e '\033[0;32m'
 echo '
  _  _             _  _  
 | |// _  _  _    | |/ \ 
@@ -6,6 +7,7 @@ echo '
 |_|\\\_/\_/L| () |_|\_/ 
                         
 '
+echo -e '\033[0;37m'
 workdir=${PWD} 
 WEBSOCKET_PORT=5000
 APPS_PORT=3001

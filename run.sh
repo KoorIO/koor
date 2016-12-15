@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e '\033[0;32m'
 echo '
  _  _             _  _  
 | |// _  _  _    | |/ \ 
@@ -6,6 +7,7 @@ echo '
 |_|\\\_/\_/L| () |_|\_/ 
                         
 '
+echo -e '\033[0;37m'
                         
 _interupt() { 
     docker stop koor_elasticsearch koor_neo4j koor_vernemq
