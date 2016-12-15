@@ -1,4 +1,12 @@
 #!/bin/bash
+echo '
+ _  _             _  _  
+| |// _  _  _    | |/ \ 
+|  ( /o\/o\/_|   | ( o )
+|_|\\\_/\_/L| () |_|\_/ 
+                        
+'
+                        
 _interupt() { 
     docker stop koor_elasticsearch koor_neo4j koor_vernemq
     echo "Shutdown $child_proc"
@@ -9,15 +17,6 @@ _interupt() {
 trap _interupt INT TERM
 
 workdir=${PWD} 
-
-echo '
- _  _             _  _  
-| |// _  _  _    | |/ \ 
-|  ( /o\/o\/_|   | ( o )
-|_|\\\_/\_/L| () |_|\_/ 
-                        
-'
-                        
 
 if !(docker run -d -p 9200:9200 -p 9300:9300 --name koor_elasticsearch elasticsearch:2.4 > /dev/null 2>&1)
 then

@@ -37,7 +37,7 @@
             "get": "/u/api/v1/users/get",
             "getById": "/u/api/v1/users/get/:userId",
             "update": "/u/api/v1/users/update/:userId",
-            "peopleYouMayKnow": "/u/api/v1/users/peopleYouMayKnow/:page/:limit",
+            "peopleYouMayKnow": "/u/api/v1/recommendations/peopleYouMayKnow/:page/:limit",
             "search": "/u/api/v1/users/search"
         },
         "feeds": {

@@ -12,7 +12,7 @@ angular.module('siteSeedApp')
             $rootScope.userInfo = data;
             $cookies.put('userInfo', JSON.stringify(data));
             vm.error = null;
-            $state.go('app.projects.list');
+            $state.go('home.index');
         }).catch(function(){
             vm.error = 'Your Username or Password is incorrect, Please try again!';
         });

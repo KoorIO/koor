@@ -1,4 +1,11 @@
 #!/bin/bash
+echo '
+ _  _             _  _  
+| |// _  _  _    | |/ \ 
+|  ( /o\/o\/_|   | ( o )
+|_|\\\_/\_/L| () |_|\_/ 
+                        
+'
 workdir=${PWD} 
 WEBSOCKET_PORT=5000
 APPS_PORT=3001

@@ -501,7 +501,7 @@ angular
         })
         .state('home.user_get', {
             url: '/users/get/:userId',
-            controller: 'UserDetailCtrl',
+            controller: 'UserProfileCtrl',
             templateUrl: 'views/profiles/view.html',
             resolve: {
                 loadMyDirectives: function($ocLazyLoad){
