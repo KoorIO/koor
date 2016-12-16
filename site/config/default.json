@@ -43,6 +43,10 @@
         "feeds": {
             "list": "/s/api/v1/feeds/list/1/10"
         },
+        "files": {
+            "upload": "/s/api/v1/upload/images",
+            "uploadFiles": "/s/api/v1/upload/images"
+        },
         "followers": {
             "create": "/u/api/v1/followers/create",
             "delete": "/u/api/v1/followers/delete/:userId",

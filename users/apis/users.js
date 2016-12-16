@@ -35,7 +35,7 @@ router.post('/create', function(req, res){
                 delete newUser.salt;
             }
             // send email welcome to user
-            logger.debug('Send to email %s a token %s', newUser.email, to.token)
+            logger.debug('Send email to %s a token %s', newUser.email, to.token)
             q.create(os.hostname() + 'email', {
                 title: '[Koor.IO] Activation Email',
                 to: newUser.email,

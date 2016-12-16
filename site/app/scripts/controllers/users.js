@@ -18,10 +18,13 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('HomeIndexCtrl', function($scope, Feeds) {
+.controller('HomeIndexCtrl', function($scope, Feeds, Files) {
     Feeds.list().then(function(res) {
         $scope.feeds = res.rows;
     });
+
+    $scope.uploadData = Files.uploadData;
+    $scope.uploadFiles = Files.uploadFilesOnce;
 
 })
 .controller('HomeFollowerCtrl', function($scope, Followers) {

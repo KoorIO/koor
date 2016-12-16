@@ -9,6 +9,21 @@
     </p>
 </script>
 <div class="profile-content">
+    <h4>Upload on file select</h4>
+
+    <button ngf-select="uploadFiles($files)" multiple 
+        accept="image/*">Select Files</button>
+    <br>
+    <br>Files:
+    <ul>
+        <li ng-repeat="f in uploadData.files" style="font:smaller">
+        {{f.name}}
+        </li>
+    </ul>
+    <span class="progress" ng-show="uploadData.progress >= 0">
+        <div style="width:{{uploadData.progress}}%" ng-bind="uploadData.progress + '%'"></div>
+    </span>
+    {{uploadData.errorMsg}}
     <textarea class="form-control" placeholder="Enter here for tweet..." rows="3"></textarea>
     <br>
     <a href="#" class="btn btn-primary btn-sm pull-right">Post</a>

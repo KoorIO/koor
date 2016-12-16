@@ -446,6 +446,7 @@ angular
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/notifications.js',
                                 'scripts/services/socket.js',
+                                'scripts/services/files.js',
                                 'scripts/services/users.js',
                                 'scripts/services/feeds.js',
                                 'scripts/services/followers.js'

@@ -14,7 +14,8 @@ angular
     'kmqtt',
     'ui.gravatar',
     'chart.js',
-    'yaru22.angular-timeago'
+    'yaru22.angular-timeago',
+    'ngFileUpload'
 ])  
 /* jshint ignore:start */
 .constant('APP_CONFIG', /* @echo APP_CONFIG */)
