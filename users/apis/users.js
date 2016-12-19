@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
     services = require('../services'),
@@ -83,7 +83,7 @@ router.post('/resetpassword', function(req, res){
     var t = req.body.token;
     var today = moment.utc();
     logger.debug('Verify to Reset Password', t);
-    db.Token.findOne({ 
+    db.Token.findOne({
         token: t,
         expired_at: {'$gte': today.format(config.get('time_format')).toString()}
     }).then(function(token) {
@@ -112,7 +112,7 @@ router.post('/activate', function(req, res){
     var t = req.body.token;
     var today = moment.utc();
     logger.debug('Verify Activate Token', t);
-    db.Token.findOne({ 
+    db.Token.findOne({
         token: t,
         expired_at: {'$gte': today.format(config.get('time_format')).toString()}
     }).then(function(token) {
@@ -145,7 +145,7 @@ router.post('/github', function(req, res){
     req.body.client_secret = config.get('github.client_secret');
     var request_url = 'https://github.com/login/oauth/access_token';
     logger.info('Login via Github ...');
-    request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){ 
+    request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){
         if (err) {
             logger.error('Failed - Get Github Access Token', httpResponse);
             return res.status(401).send(JSON.stringify(err));
@@ -157,7 +157,7 @@ router.post('/github', function(req, res){
                 qs: { access_token: body.access_token },
                 json: true,
                 headers: { 'User-Agent': '' }
-            }, function(err, httpResponse, getEmailBody){ 
+            }, function(err, httpResponse, getEmailBody){
                 if (err) {
                     logger.error('Failed - Get Emails from Github', httpResponse);
                     return res.status(401).send(JSON.stringify(err));

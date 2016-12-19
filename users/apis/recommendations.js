@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     logger = require('../helpers/logger'),
     es = require('../models/elasticsearch'),
     nj = require('../models/neo4j'),

@@ -46,7 +46,7 @@ Token.statics = {
                 deferred.resolve(to);
             }).catch(function(e) {
                 deferred.reject(e);
-            });                 
+            });
         });
         // remove expire token
         _this.find({
@@ -72,12 +72,12 @@ Token.statics = {
                 logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
                 cache.set(to.token, JSON.stringify(user));
                 cache.expire(to.token, delta);
-                to = to.toObject(); 
+                to = to.toObject();
                 to['userId'] = user._id;
                 deferred.resolve(to);
             }).catch(function(e) {
                 deferred.reject(e);
-            });                 
+            });
         });
         // remove expire token
         _this.find({

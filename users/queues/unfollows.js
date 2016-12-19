@@ -20,11 +20,11 @@ consumer.task = function(job, done){
     };
     q.create(utils.getHostnameSocials() + 'deleteFeeds', feedData).priority('high').save();
     q.create(os.hostname() + 'njUnFollows', data).priority('high').save();
-	q.create(utils.getHostnameSocials() + 'deleteNotifications', {
+    q.create(utils.getHostnameSocials() + 'deleteNotifications', {
         type: 'FOLLOW_USER',
         objectId: data._id,
         objectType: 'FOLLOWER'
-	}).priority('high').save();
+    }).priority('high').save();
 
     done();
 };

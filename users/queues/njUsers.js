@@ -14,31 +14,31 @@ consumer.task = function(job, done){
     var type = 'users';
 
     services.User.getUserById(data).then(function(body) {
-		var session = driver.session();
+        var session = driver.session();
         if (!body._id) {
-			session
+            session
             .run('MATCH (u:Users {userId: {userId}}) DELETE u', { userId: body._id })
 			.subscribe({
-				onCompleted: function() {
-                    logger.debug('Delete Recommendation User', data.userId);
-					session.close();
-				},
-				onError: function(error) {
-					logger.error(error);
-				}
-			});
+    onCompleted: function() {
+        logger.debug('Delete Recommendation User', data.userId);
+        session.close();
+    },
+    onError: function(error) {
+        logger.error(error);
+    }
+});
         } else {
-			session
+            session
             .run('MERGE (u:Users {userId: {userId}})', { userId: body._id })
 			.subscribe({
-				onCompleted: function() {
-                    logger.debug('Create Recommendation User', data.userId);
-					session.close();
-				},
-				onError: function(error) {
-					logger.error(error);
-				}
-			});
+    onCompleted: function() {
+        logger.debug('Create Recommendation User', data.userId);
+        session.close();
+    },
+    onError: function(error) {
+        logger.error(error);
+    }
+});
         }
     }).catch(function(e) {
         logger.error(e)

@@ -22,7 +22,7 @@ var search = function(data) {
                 {
                     multi_match: {
                         query: data.query ,
-                        type: "cross_fields", 
+                        type: "cross_fields",
                         operator: "or",
                         fields: [ "firstname", "lastname" ]
                     }
@@ -66,7 +66,7 @@ var searchByUserIds = function(data) {
                         }
                     ]
                 }
-            } 
+            }
         }
     }, function (error, response) {
         if (error) {
