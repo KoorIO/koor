@@ -46,5 +46,9 @@
     "slug": "^0.9.1",
     "supertest": "^1.2.0",
     "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "nodemon": "^1.11.0"
   }
 }
