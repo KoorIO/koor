@@ -20,7 +20,7 @@ var Token = new Schema({
         index: true,
         required: true
     },
-    expired_at: {
+    expiredAt: {
         type: String,
         index: true,
         required: true
@@ -41,7 +41,7 @@ Token.statics = {
                 username: user.username,
                 userId: user._id,
                 token: t,
-                expired_at: tomorrow.toString()
+                expiredAt: tomorrow.toString()
             })).save(function(error, to){
                 deferred.resolve(to);
             }).catch(function(e) {
@@ -50,7 +50,7 @@ Token.statics = {
         });
         // remove expire token
         _this.find({
-            expired_at: {'$lt': today.format(config.get('time_format')).toString()}
+            expiredAt: {'$lt': today.format(config.get('time_format')).toString()}
         }).remove().exec();
         return deferred.promise;
     },
@@ -66,7 +66,7 @@ Token.statics = {
                 username: user.username,
                 userId: user._id,
                 token: t,
-                expired_at: tomorrow.toString()
+                expiredAt: tomorrow.toString()
             })).save(function(error, to){
                 var delta = config.get('token_expire');
                 logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
@@ -81,7 +81,7 @@ Token.statics = {
         });
         // remove expire token
         _this.find({
-            expired_at: {'$lt': today.format(config.get('time_format')).toString()}
+            expiredAt: {'$lt': today.format(config.get('time_format')).toString()}
         }).remove().exec();
         return deferred.promise;
     }

@@ -1,7 +1,5 @@
 'use strict';
-var fs = require('fs'),
-    path = require('path'),
-    q = require('q'),
+var q = require('q'),
     config = require('config'),
     es = require('../../helpers/es');
 
@@ -20,18 +18,18 @@ var search = function(data) {
         query.body.query.bool = {
             should: [
                 {
-                    multi_match: {
+                    'multi_match': {
                         query: data.query ,
-                        type: "cross_fields",
-                        operator: "or",
-                        fields: [ "firstname", "lastname" ]
+                        type: 'cross_fields',
+                        operator: 'or',
+                        fields: [ 'firstname', 'lastname' ]
                     }
                 },
                 {
                     match: {
                         email: {
                             query: data.query,
-                            type: "phrase_prefix"
+                            type: 'phrase_prefix'
                         }
                     }
                 }
@@ -57,7 +55,7 @@ var searchByUserIds = function(data) {
             from: data.form,
             size: data.size,
             query: {
-                constant_score: {
+                'constant_score': {
                     filter: [
                         {
                             terms: {

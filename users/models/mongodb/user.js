@@ -29,7 +29,7 @@ var User = new Schema({
     bio: {
         type: String
     },
-    hashed_password: {
+    hashedPassword: {
         type: String
     },
     isActive: {
@@ -61,7 +61,7 @@ User.virtual('password')
 .set(function(password) {
     this._password = password
     this.salt = this.makeSalt()
-    this.hashed_password = this.encryptPassword(password)
+    this.hashedPassword = this.encryptPassword(password)
 })
 .get(function() { return this._password })
 
@@ -69,7 +69,7 @@ User.path('username').validate(function (username) {
     return username.length;
 }, 'Username cannot be blank');
 
-User.path('hashed_password').validate(function (hashed_password) {
+User.path('hashedPassword').validate(function () {
     if (this._password) {
         return (this._password.length >=4) && (this._password.length <=20);
     } else {
@@ -102,7 +102,7 @@ User.path('email').validate(function (email, fn) {
     } else fn(true)
 }, 'Email already exists');
 
-User.path('hashed_password').validate(function (password) {
+User.path('hashedPassword').validate(function (password) {
     return password.length
 }, 'Password cannot be blank');
 
@@ -123,7 +123,7 @@ User.methods = {
 
     // Authenticate - check if the passwords are the same
     authenticate: function (password) {
-        return this.encryptPassword(password) === this.hashed_password
+        return this.encryptPassword(password) === this.hashedPassword
     },
 
     // Make salt

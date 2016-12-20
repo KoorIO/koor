@@ -32,7 +32,7 @@ router.get('/peopleYouMayKnow/:page/:limit', function(req, res){
                         return res.json(response);
                     });
                 }
-            }).catch(function(e) {
+            }).catch(function() {
                 return res.json({});
             });
         } else {

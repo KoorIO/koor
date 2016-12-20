@@ -1,7 +1,6 @@
 'use strict';
 var fs = require('fs'),
     path = require('path'),
-    config = require('config'),
     es = {};
 
 // import all file in this dir, except index.js

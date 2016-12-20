@@ -7,7 +7,6 @@ var express = require('express'),
     moment = require('moment'),
     request = require('request'),
     config = require('config'),
-    crypto = require('crypto'),
     os = require('os'),
     es = require('../models/elasticsearch'),
     router = express.Router();
@@ -85,7 +84,7 @@ router.post('/resetpassword', function(req, res){
     logger.debug('Verify to Reset Password', t);
     db.Token.findOne({
         token: t,
-        expired_at: {'$gte': today.format(config.get('time_format')).toString()}
+        expiredAt: {'$gte': today.format(config.get('time_format')).toString()}
     }).then(function(token) {
         db.User.findOne({
             username: token.username
@@ -114,7 +113,7 @@ router.post('/activate', function(req, res){
     logger.debug('Verify Activate Token', t);
     db.Token.findOne({
         token: t,
-        expired_at: {'$gte': today.format(config.get('time_format')).toString()}
+        expiredAt: {'$gte': today.format(config.get('time_format')).toString()}
     }).then(function(token) {
         db.User.findOne({
             username: token.username
@@ -135,26 +134,26 @@ router.post('/activate', function(req, res){
             }).priority('high').save();
             res.send(JSON.stringify(user));
         });
-    }).catch(function(e){
+    }).catch(function(){
         return res.status(401).send(JSON.stringify({}));
     });
 });
 
 // new user via github
 router.post('/github', function(req, res){
-    req.body.client_secret = config.get('github.client_secret');
-    var request_url = 'https://github.com/login/oauth/access_token';
+    req.body['client_secret'] = config.get('github.client_secret');
+    var requestUrl = 'https://github.com/login/oauth/access_token';
     logger.info('Login via Github ...');
-    request.post({url: request_url, form: req.body, json: true}, function(err, httpResponse, body){
+    request.post({url: requestUrl, form: req.body, json: true}, function(err, httpResponse, body){
         if (err) {
             logger.error('Failed - Get Github Access Token', httpResponse);
             return res.status(401).send(JSON.stringify(err));
         } else {
-            logger.info('Get Github Access Token', body.access_token);
-            request_url = 'https://api.github.com/user/emails';
+            logger.info('Get Github Access Token', body['access_token']);
+            requestUrl = 'https://api.github.com/user/emails';
             request.get({
-                url: request_url,
-                qs: { access_token: body.access_token },
+                url: requestUrl,
+                qs: { 'access_token': body['access_token'] },
                 json: true,
                 headers: { 'User-Agent': '' }
             }, function(err, httpResponse, getEmailBody){
@@ -176,9 +175,9 @@ router.post('/github', function(req, res){
                             username: emails[0],
                             isActive: true
                         };
-                        var user = new db.User(data);
+                        var usr = new db.User(data);
                         // create new user
-                        user.save(function(error, newUser){
+                        usr.save(function(error, newUser){
                             if (error) {
                                 return res.status(406).send(JSON.stringify({error}));
                             } else {
@@ -217,7 +216,7 @@ router.post('/github', function(req, res){
                             return res.send(JSON.stringify(to));
                         });
                     }
-                }).catch(function(e){
+                }).catch(function(){
                     res.status(500).send(JSON.stringify({}));
                 });
             });
@@ -431,8 +430,7 @@ router.get('/search', function(req, res){
         size: size
     }).then(function(response) {
         return res.json(response);
-    }).catch(function(e) {
-        console.log(e);
+    }).catch(function() {
         return res.json({});
     });
 });

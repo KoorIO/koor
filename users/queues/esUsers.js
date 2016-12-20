@@ -2,9 +2,6 @@
 var config = require('config');
 var consumer = {};
 var os = require('os');
-var db = require('../models/mongodb');
-var utils = require('../helpers/utils');
-var request = require('request');
 var logger = require('../helpers/logger');
 var es = require('../helpers/es');
 var services = require('../services');
@@ -21,7 +18,7 @@ consumer.task = function(job, done){
                 index: config.get('es.index'),
                 type: type,
                 id: data.userId
-            }, function (error, response) {
+            }, function () {
                 logger.debug('Delete a User in Search', data.userId);
             });
         } else {
@@ -31,7 +28,7 @@ consumer.task = function(job, done){
                 type: type,
                 id: data.userId,
                 body: body
-            }, function (error, response) {
+            }, function (error) {
                 if (error) {
                     logger.error('Failed - Save User Search', error);
                 }

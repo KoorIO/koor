@@ -1,7 +1,5 @@
 'use strict';
-var fs = require('fs'),
-    path = require('path'),
-    q = require('q'),
+var q = require('q'),
     logger = require('../../helpers/logger'),
     driver = require('../../helpers/neo4j');
 

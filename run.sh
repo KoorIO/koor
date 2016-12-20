@@ -36,7 +36,7 @@ fi
 
 cd $workdir/websocket && nodemon index.js &
 child_proc=$! 
-cd $workdir/users && nodemon index.js &
+cd $workdir/users && npm start &
 child_proc="$child_proc $!"
 cd $workdir/socials && nodemon index.js &
 child_proc="$child_proc $!"

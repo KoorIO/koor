@@ -1,4 +1,3 @@
-var chai = require('chai');
 var User = require('../models/user');
 
 describe('User Model', function() {
