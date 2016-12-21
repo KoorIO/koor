@@ -67,7 +67,7 @@ var getUserById = function(data) {
 
 module.exports = {
     serviceName: 'User',
-	getFollowingsByUserId: getFollowingsByUserId,
+    getFollowingsByUserId: getFollowingsByUserId,
     getUsersByIds: getUsersByIds,
-	getUserById: getUserById
+    getUserById: getUserById
 };

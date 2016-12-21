@@ -24,5 +24,5 @@ var getDeviceById = function(data) {
 
 module.exports = {
     serviceName: 'Device',
-	getDeviceById: getDeviceById
+    getDeviceById: getDeviceById
 };

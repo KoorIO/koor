@@ -17,7 +17,7 @@ consumer.task = function(job, done){
         }
     }).catch(function(e) {
         logger.debug('Failed', e)
-    });;
+    });
 
     done();
 };

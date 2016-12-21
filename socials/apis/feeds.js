@@ -1,9 +1,8 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     s = require('../services'),
-    os = require('os'),
     router = express.Router();
 
 // get list of notifications

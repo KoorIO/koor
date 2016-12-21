@@ -24,5 +24,5 @@ var getProjectById = function(data) {
 
 module.exports = {
     serviceName: 'Project',
-	getProjectById: getProjectById
+    getProjectById: getProjectById
 };

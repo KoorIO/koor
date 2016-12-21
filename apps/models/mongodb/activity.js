@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
-var q = require('q');
 
 var Activity = new Schema({
     type: {
@@ -14,7 +13,6 @@ var Activity = new Schema({
     },
     userId: {
         type: Schema.Types.ObjectId,
-        index: true,
         index: true
     },
     projectId: {

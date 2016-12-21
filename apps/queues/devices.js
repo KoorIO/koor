@@ -1,8 +1,6 @@
 'use strict';
-var config = require('config');
 var consumer = {};
 var os = require('os');
-var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
 var utils = require('../helpers/utils');
 consumer.name = os.hostname() + 'devices';
@@ -17,7 +15,7 @@ consumer.task = function(job, done){
         data: data.device
     };
     if (data.type === 'CREATE_DEVICE' || data.type === 'DELETE_DEVICE') {
-        q.create(utils.getHostnameSocials() + 'feeds', data).priority('low').save();
+        q.create(utils.getHostnameSocials() + 'feeds', feed).priority('low').save();
         q.create(os.hostname() + 'njDevices', data).priority('high').save();
     }
     q.create(os.hostname() + 'esDevices', data).priority('high').save();

@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     cache = require('../helpers/cache'),
@@ -34,14 +34,14 @@ router.post('/create', function(req, res){
 
     // remove data before insert new config
     db.AppConfig.remove({}, function() {
-        config.save(function(error, new_config){
+        config.save(function(error, newConfig){
             if (error) {
                 return res.status(406).send(JSON.stringify({error}));
             }
             // remove cache AppConfig value
             logger.debug('Remove AppConfig from Cache');
             cache.del('AppConfig');
-            res.send(JSON.stringify(new_config));
+            res.send(JSON.stringify(newConfig));
         });
     });
 });

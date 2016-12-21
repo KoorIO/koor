@@ -2,9 +2,6 @@
 var config = require('config');
 var consumer = {};
 var os = require('os');
-var db = require('../models/mongodb');
-var utils = require('../helpers/utils');
-var request = require('request');
 var logger = require('../helpers/logger');
 var es = require('../helpers/es');
 var services = require('../services');
@@ -24,8 +21,8 @@ consumer.task = function(job, done){
                 index: config.get('es.index'),
                 type: type,
                 id: data.data._id
-            }, function (error, response) {
-                logger.debug('Delete a Project in Search', data.data._id);
+            }, function (error) {
+                logger.debug('Delete a Project in Search', data.data._id, error);
             });
         } else {
             delete body['_id'];
@@ -34,7 +31,7 @@ consumer.task = function(job, done){
                 type: type,
                 id: data.data._id,
                 body: body
-            }, function (error, response) {
+            }, function (error) {
                 if (error) {
                     logger.error('Failed - Save Project Search', error);
                 }

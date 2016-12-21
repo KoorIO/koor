@@ -13,7 +13,6 @@ var DeviceLog = new Schema({
     },
     deviceId: {
         type: Schema.Types.ObjectId,
-        index: true,
         index: true
     }
 });

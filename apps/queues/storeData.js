@@ -4,7 +4,7 @@ var os = require('os');
 var logger = require('../helpers/logger');
 var db = require('../models/mongodb');
 var cache = require('../helpers/cache');
-var ObjectId = require('mongoose').Types.ObjectId; 
+var ObjectId = require('mongoose').Types.ObjectId;
 consumer.name = os.hostname() + 'store_data';
 
 consumer.task = function(job, done){
@@ -20,7 +20,7 @@ consumer.task = function(job, done){
                     fieldId: f._id,
                     data: value
                 });
-                storage.save(function(error, s) {
+                storage.save(function(error) {
                     if (error) {
                         throw true;
                     } else {
@@ -35,7 +35,7 @@ consumer.task = function(job, done){
             }
         });
     }).catch(function(e){
-        logger.error('Failed - Processing to store data');
+        logger.error('Failed - Processing to store data', e);
     });
     done();
 };

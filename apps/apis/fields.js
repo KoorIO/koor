@@ -1,9 +1,7 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
-    q = require('../queues'),
     logger = require('../helpers/logger'),
-    os = require('os'),
     slug = require('slug'),
     router = express.Router();
 
@@ -21,13 +19,13 @@ router.post('/create', function(req, res){
             description: req.body.description,
             projectId: req.body.projectId
         });
-        field.save(function(error, new_field){
+        field.save(function(error, newField){
             if (error) {
                 return res.status(406).send(JSON.stringify({error}));
             }
             // remove security attributes
-            new_field = field.toObject();
-            res.send(JSON.stringify(new_field));
+            newField = field.toObject();
+            res.send(JSON.stringify(newField));
         });
     });
 });
@@ -65,6 +63,9 @@ router.put('/update/:id', function(req, res){
         field.code = slug(req.body.name, {lower: true, replacement: '_'});
         field.description = req.body.description;
         field.save().then(function(error){
+            if (error) {
+                res.status(500).send(JSON.stringify(error));
+            }
             res.json(field);
         });
     }).catch(function(e){

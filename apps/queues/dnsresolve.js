@@ -10,8 +10,8 @@ consumer.name = os.hostname() + 'dnsresolve';
 
 consumer.task = function(job, done){
     var data = job.data;
-     
-    if (config.get('cloudflare.enable') === "false" || !config.get('cloudflare.enable')) {
+
+    if (config.get('cloudflare.enable') === 'false' || !config.get('cloudflare.enable')) {
         logger.debug('CloudFlare is disable', data.projectId);
         db.Project.findOne({
             _id: data.projectId
@@ -37,10 +37,10 @@ consumer.task = function(job, done){
                 logger.debug('Domain %s works', project.domain);
             });
         }).catch(function(e){
-            logger.debug('Failed - Update DNS Status for Project', project.domain);
+            logger.debug('Failed - Update DNS Status for Project', e);
         });
     } else {
-        dns.resolve4(data.domain, function (err, addresses) {
+        dns.resolve4(data.domain, function (err) {
             if (err) {
                 logger.debug('Domain %s does not work yet', data.domain);
                 return done();
@@ -70,7 +70,7 @@ consumer.task = function(job, done){
                     logger.debug('Domain %s works', project.domain);
                 });
             }).catch(function(e){
-                logger.debug('Failed - Update DNS Status for Project', project.domain);
+                logger.debug('Failed - Update DNS Status for Project', e);
             });
 
         });

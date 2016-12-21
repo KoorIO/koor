@@ -1,10 +1,9 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     utils = require('../helpers/utils'),
     services = require('../services'),
-    os = require('os'),
     router = express.Router();
 
 // get list feels
@@ -25,7 +24,7 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
         .sort({'_id': 'desc'})
         .then(function(feels) {
             if (err) {
-                console.log('nnnn', err);
+                logger.debug('Failed - query data', err);
                 throw true;
             }
             var userIds = [];
@@ -42,16 +41,15 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
             if (userIds.length > 0) {
                 services.User.getUsersByIds({ userIds: userIds, accessToken: req.body.accessToken })
                     .then(function(users) {
-                    rows = utils.mapUsersToObjects(users, rows);
-                    res.json(ret);
-                }).catch(function(e) {
-                    res.status(500).json(e);
-                });
+                        rows = utils.mapUsersToObjects(users, rows);
+                        res.json(ret);
+                    }).catch(function(e) {
+                        res.status(500).json(e);
+                    });
             } else {
                 res.json(ret);
             }
         }).catch(function(e) {
-            console.log('bb',e);
             res.status(500).json(e);
         });
     });

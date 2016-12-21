@@ -1,22 +1,20 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
-    q = require('../queues'),
     logger = require('../helpers/logger'),
-    os = require('os'),
     router = express.Router();
 
 // create a new api
 router.post('/create', function(req, res){
     var api = new db.Api(req.body);
     logger.debug('Create a New Api', req.body);
-    api.save(function(error, new_api){
+    api.save(function(error){
         if (error) {
             return res.status(406).send(JSON.stringify({error}));
         }
         // remove security attributes
-        new_api = api.toObject();
-        res.send(JSON.stringify(new_api));
+        var newApi = api.toObject();
+        res.send(JSON.stringify(newApi));
     });
 });
 

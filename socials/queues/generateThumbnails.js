@@ -20,10 +20,10 @@ consumer.task = function(job, done) {
             width: x,
             height: y
         }).then(function(image) {
-                logger.info('Resized and cropped: ' + image.width + ' x ' + image.height);
-            }, function (err) {
-                logger.error(err);
-            }
+            logger.info('Resized and cropped: ' + image.width + ' x ' + image.height);
+        }, function (err) {
+            logger.error(err);
+        }
         );
     };
 

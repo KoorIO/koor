@@ -1,10 +1,9 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     services = require('../services'),
     utils = require('../helpers/utils'),
-    os = require('os'),
     router = express.Router();
 
 // get comment
@@ -56,16 +55,16 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
             if (userIds.length > 0) {
                 services.User.getUsersByIds({ userIds: userIds, accessToken: req.body.accessToken })
                     .then(function(users) {
-                    rows = utils.mapUsersToObjects(users, rows);
-                    res.json(ret);
-                }).catch(function(e) {
-                    res.status(500).json(e);
-                });
+                        rows = utils.mapUsersToObjects(users, rows);
+                        res.json(ret);
+                    }).catch(function(e) {
+                        res.status(500).json(e);
+                    });
             } else {
                 res.json(ret);
             }
         }).catch(function(e) {
-            console.log(e);
+            logger.debug('Failed - query data', e);
             res.status(500).json(e);
         });
     });

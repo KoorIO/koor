@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
@@ -7,7 +7,7 @@ var express = require('express'),
     router = express.Router();
 
 // run a new api
-router.all('/:projectUrl/*', function(req, res, next){
+router.all('/:projectUrl/*', function(req, res){
     logger.debug('Run a Api %s %s', req.params.projectUrl, req.params[0]);
     db.Project.findOne({
         domain: req.params.projectUrl

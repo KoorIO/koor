@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
     os = require('os'),
@@ -156,7 +156,7 @@ router.post('/follow/:id', function(req, res){
     db.Device.findOne({
         _id: req.params.id
     }).then(function(device) {
-        followDevice = db.FollowDevice({
+        var followDevice = db.FollowDevice({
             userId: req.body.userId,
             deviceId: req.params.id
         });

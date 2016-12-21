@@ -1,8 +1,6 @@
 'use strict';
-var config = require('config');
 var consumer = {};
 var os = require('os');
-var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
 var utils = require('../helpers/utils');
 var services = require('../services');

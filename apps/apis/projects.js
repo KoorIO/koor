@@ -1,10 +1,8 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
-    cache = require('../helpers/cache'),
     logger = require('../helpers/logger'),
-    utils = require('../helpers/utils'),
     services = require('../services'),
     os = require('os'),
     config = require('config'),
@@ -33,6 +31,10 @@ router.post('/create', function(req, res){
                     }
                     project.domain = project._id + '.' + config.get('server.domain');
                     project.save(function(error) {
+                        if (error) {
+                            logger.debug('Failed - Save Project', error);
+                            return res.status(406).send(JSON.stringify({error}));
+                        }
                         q.create(os.hostname() + 'projects', {
                             projectId: project._id,
                             userId: project.userId,
@@ -81,7 +83,7 @@ router.get('/get/:id', function(req, res){
             res.json(project);
         }
     }).catch(function(e){
-        console.log(e);
+        logger.debug('Failed - query error', e);
         res.status(500).send(JSON.stringify(e));
     });
 });

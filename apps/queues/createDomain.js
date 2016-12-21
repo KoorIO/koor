@@ -40,7 +40,7 @@ consumer.task = function(job, done){
                         logger.debug('Saved CloudFlare DNS record ID to Project DB', body.result.id);
                     })
                 }).catch(function(e){
-                    logger.error('Failed - CloudFlare DNS record ID into Project DB', body.result.id);
+                    logger.error('Failed - CloudFlare DNS record ID into Project DB', body.result.id, e);
                 });
             }
         });

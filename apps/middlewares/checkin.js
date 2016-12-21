@@ -1,6 +1,4 @@
 'use strict';
-var _ = require('lodash');
-var config = require('config');
 var logger = require('../helpers/logger');
 var db = require('../models/mongodb');
 

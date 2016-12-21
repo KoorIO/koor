@@ -1,5 +1,4 @@
 'use strict';
-var config = require('config');
 var consumer = {};
 var os = require('os');
 var db = require('../models/mongodb');

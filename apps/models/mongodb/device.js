@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
-var q = require('q');
-var crypto = require('crypto');
 
 var Device = new Schema({
     name: {

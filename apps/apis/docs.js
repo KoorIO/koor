@@ -1,9 +1,7 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
-    q = require('../queues'),
     logger = require('../helpers/logger'),
-    os = require('os'),
     router = express.Router();
 
 // run a new api
@@ -54,8 +52,8 @@ router.all('/:projectUrl', function(req, res){
                                 });
                             }
                             paths[path][a.method.toLowerCase()]['responses'] = {
-                                "200": {
-                                    "description": "OK"
+                                '200': {
+                                    'description': 'OK'
                                 }
                             };
                         }

@@ -1,13 +1,11 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
-    q = require('../queues'),
     logger = require('../helpers/logger'),
-    os = require('os'),
     router = express.Router();
 
 // get data of field
-router.all('/:projectUrl/field/:fieldCode/:page', function(req, res, next){
+router.all('/:projectUrl/field/:fieldCode/:page', function(req, res){
     var limit = 100;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get Data for Field by Field Code', req.params.fieldCode, req.params.projectUrl);
@@ -21,7 +19,7 @@ router.all('/:projectUrl/field/:fieldCode/:page', function(req, res, next){
             db.Field.findOne({
                 projectId: p._id
             }).then(function(f) {
-                db.Storage.find({ 
+                db.Storage.find({
                     fieldId: f._id
                 })
                 .skip(skip)

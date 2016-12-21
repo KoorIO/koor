@@ -1,18 +1,16 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
-    q = require('../queues'),
     logger = require('../helpers/logger'),
-    moment = require('moment'),
     router = express.Router();
 
 // get data by filed Id
 router.get('/:fieldId', function(req, res){
     logger.info('Get Data for Field last 500 record', req.params.fieldId);
-    db.Storage.find({ 
+    db.Storage.find({
         fieldId: req.params.fieldId
     })
-    .limit(500) // limit for first version 
+    .limit(500) // limit for first version
     .sort({'_id': 'asc'})
     .then(function(data) {
         res.json(data);

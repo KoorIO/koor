@@ -1,5 +1,3 @@
-var chai = require('chai');
-var should = chai.should();
 var User = require('../models/user');
 
 describe('User Model', function() {

@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     logger = require('../helpers/logger'),
     db = require('../models/mongodb'),
     q = require('../queues'),
@@ -12,8 +12,8 @@ router.post('/auth_on_register', function(req, res){
     logger.debug('MQTT Auth On Register');
     req.setEncoding('utf8');
 
-    req.on('data', function(data) {
-        var data = JSON.parse(data);
+    req.on('data', function(d) {
+        var data = JSON.parse(d);
         logger.debug('Username', data.username);
         res.send(JSON.stringify({result: 'ok'}));
     });
@@ -49,8 +49,8 @@ router.post('/auth_on_publish', function(req, res){
     logger.debug('MQTT Auth On Publish');
     req.setEncoding('utf8');
 
-    req.on('data', function(data) {
-        var data = JSON.parse(data);
+    req.on('data', function(d) {
+        var data = JSON.parse(d);
         var topics = data.topic.split('/');
         var domain = topics[0];
         db.Project.findOne({
@@ -83,8 +83,8 @@ router.post('/on_subscribe', function(req, res){
     logger.debug('MQTT On Subscribe');
     req.setEncoding('utf8');
 
-    req.on('data', function(data) {
-        var data = JSON.parse(data);
+    req.on('data', function(d) {
+        var data = JSON.parse(d);
         logger.debug('Subscriber Id', data.subscriber_id);
         data.topics.forEach(function(topic) {
             logger.debug('Topic', topic.topic);
@@ -138,8 +138,8 @@ router.post('/on_client_gone', function(req, res){
     logger.debug('MQTT On Client Gone');
     req.setEncoding('utf8');
 
-    req.on('data', function(data) {
-        var data = JSON.parse(data);
+    req.on('data', function(d) {
+        var data = JSON.parse(d);
         logger.debug('Subscriber Id', data.subscriber_id);
         db.Device.findOne({
             subscriberId: data.subscriber_id
@@ -183,8 +183,8 @@ router.post('/on_client_offline', function(req, res){
     logger.debug('MQTT On Client Offline');
     req.setEncoding('utf8');
 
-    req.on('data', function(data) {
-        var data = JSON.parse(data);
+    req.on('data', function(d) {
+        var data = JSON.parse(d);
         logger.debug('Subscriber Id', data.subscriber_id);
         db.Device.findOne({
             subscriberId: data.subscriber_id
@@ -213,14 +213,13 @@ router.post('/on_client_offline', function(req, res){
                             name: device.name
                         }
                     }).priority('low').save();
-                    logger.debug('Device %s is OFF', deviceId);
+                    logger.debug('Device %s is OFF', device._id);
                 });
             });
         });
         res.send(JSON.stringify({result: 'ok'}));
     });
 });
-
 
 
 module.exports = router;

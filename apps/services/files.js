@@ -49,6 +49,6 @@ var getFileByIds = function(data) {
 
 module.exports = {
     serviceName: 'File',
-	getFileById: getFileById,
-	getFileByIds: getFileByIds
+    getFileById: getFileById,
+    getFileByIds: getFileByIds
 };

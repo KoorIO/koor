@@ -24,5 +24,5 @@ var getUserById = function(data) {
 
 module.exports = {
     serviceName: 'User',
-	getUserById: getUserById
+    getUserById: getUserById
 };

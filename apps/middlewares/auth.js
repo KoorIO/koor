@@ -8,7 +8,7 @@ module.exports = function(req, res, next) {
     if (req.method === 'OPTIONS') {
         return next();
     }
-    if (req.originalUrl.match(/^\/docs\/(.*)|^\/run\/(.*)/g) 
+    if (req.originalUrl.match(/^\/docs\/(.*)|^\/run\/(.*)/g)
         || req.originalUrl.match(/^\/get\/(.*)/g)) {
         return next();
     }

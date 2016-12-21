@@ -1,19 +1,17 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     fileHelper = require('../helpers/file'),
-    config = require('config'),
-    os = require('os'),
     router = express.Router(),
     fs = require('fs'),
+    os = require('os'),
     path = require('path'),
-    config = require('config'),
     q = require('../queues'),
-    sanitize = require("sanitize-filename"),
+    sanitize = require('sanitize-filename'),
     busboy = require('connect-busboy');
 
-router.use(busboy()); 
+router.use(busboy());
 
 router.post('/images', function(req, res) {
     var album = new db.Album({
@@ -30,7 +28,7 @@ router.post('/images', function(req, res) {
         var files = [];
         var albumId = album._id;
         req.busboy.on('field', function (fieldname, value) {
-            console.log('---->', fieldname, value);
+            logger.debug('---->', fieldname, value);
         });
         req.busboy.on('file', function (fieldname, img, filename) {
             var file = db.File({
