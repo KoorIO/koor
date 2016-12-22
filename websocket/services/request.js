@@ -11,12 +11,12 @@ function auth(){
 
     logger.debug('Request to url', url);
     request.get({
-        url: url, 
+        url: url,
         headers: {},
         json:true
     }, function (err, res, body) {
         if(err || res.statusCode !== 200){
-            logger.error("Get Object Data failed: ", err);
+            logger.error('Get Object Data failed: ', err);
             defer.reject(err);
         } else {
             defer.resolve(body);

@@ -4,7 +4,9 @@
   "description": "Distributed Websocket Starter Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --cache ./",
+    "start": "nodemon index.js --exec 'npm run lint && node'"
   },
   "author": "Nguyen Sy Thanh Son",
   "license": "MIT",

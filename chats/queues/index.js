@@ -20,7 +20,6 @@ fs.readdirSync(__dirname)
 .forEach(function(file){
     var consumer = require(path.join(__dirname, file));
     q.process(consumer.name, consumer.task);
-    
 });
 
 module.exports = q;

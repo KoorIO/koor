@@ -1,8 +1,7 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
-    os = require('os'),
     router = express.Router();
 
 // get groupChat
@@ -57,7 +56,7 @@ router.post('/create', function(req, res){
     logger.info('Create New GroupChat', req.body.userId, req.body.name);
     var userIds = (!req.body.friendId)?[req.body.userId]:[req.body.userId, req.body.friendId];
     var groupChat = new db.GroupChat({
-        userIds: [req.body.userId],
+        userIds: userIds,
         name: req.body.name,
         description: req.body.description
     });

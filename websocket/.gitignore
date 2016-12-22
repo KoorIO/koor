@@ -6,3 +6,5 @@ node_modules
 .bowerrc
 .editorconfig
 .jshintrc
+.eslintcache
+npm-debug.log

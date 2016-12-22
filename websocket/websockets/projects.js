@@ -7,7 +7,7 @@ var sub = require('redis').createClient({
     host: config.get('redis.host'),
     port: config.get('redis.port'),
     prefix: config.get('redis.prefix'),
-    auth_pass: config.get('redis.password')
+    'auth_pass': config.get('redis.password')
 });
 
 
@@ -37,7 +37,7 @@ exports = module.exports = function(io){
         logger.debug('New Client %s connected - host %s', socket.id, host);
         socket.join(host);
         var adminRoom = host + '-admins';
-        socket.on('admins', function (message) {
+        socket.on('admins', function () {
             logger.debug('New Client %s join Room %s', socket.id, adminRoom);
             socket.join(adminRoom);
         });

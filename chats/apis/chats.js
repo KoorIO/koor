@@ -1,10 +1,9 @@
 'use strict';
-var express = require('express'), 
+var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
     utils = require('../helpers/utils'),
     services = require('../services'),
-    os = require('os'),
     router = express.Router();
 
 // get list chats
@@ -70,7 +69,7 @@ router.post('/create', function(req, res){
                         name: user.firstname + ' ' + user.lastname,
                         objectId: req.body.userId,
                         objectType: 'USER'
-                    }], function(error, chatMembers) {
+                    }], function() {
                         saveMessage();
                     });
                 }).catch(function(e) {
@@ -78,7 +77,7 @@ router.post('/create', function(req, res){
                 });
             }
             if (req.body.objectType === 'DEVICE') {
-                services.Device.getDeviceById({ 
+                services.Device.getDeviceById({
                     deviceId: req.body.objectId,
                     accessToken: req.body.accessToken
                 }).then(function(device) {
@@ -92,7 +91,7 @@ router.post('/create', function(req, res){
                         name: device.name,
                         objectId: req.body.userId,
                         objectType: 'USER'
-                    }], function(error, chatMembers) {
+                    }], function() {
                         saveMessage();
                     });
                 });
@@ -115,7 +114,7 @@ router.post('/create', function(req, res){
             } else {
                 db.GroupChat.update({
                     groupId: groupId
-                }, {status: 'unread'}, function(err, numberAffected, rawResponse) {
+                }, {status: 'unread'}, function(err, numberAffected) {
                     logger.debug('Unread', numberAffected, err);
                 });
                 return res.json(chat);

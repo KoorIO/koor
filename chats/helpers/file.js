@@ -16,7 +16,7 @@ var fileToUrls = function fileToUrls(file) {
     return ret;
 }
 
-fileNameToThumbnail = function fileNameToThumbnail(file, ext, x, y) {
+var fileNameToThumbnail = function fileNameToThumbnail(file, ext, x, y) {
     return file + '-thumbnail-' + x + 'x' + y + ext;
 }
 
