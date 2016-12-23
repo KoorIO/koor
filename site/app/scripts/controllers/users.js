@@ -18,13 +18,29 @@ angular.module('siteSeedApp')
 
     $scope.forUnitTest = true;
 })
-.controller('HomeIndexCtrl', function($scope, Feeds, Files) {
+.controller('HomeIndexCtrl', function($scope, Feeds, Files, Posts) {
     Feeds.list().then(function(res) {
         $scope.feeds = res.rows;
     });
 
     $scope.uploadData = Files.uploadData;
     $scope.uploadFiles = Files.uploadFilesOnce;
+
+    $scope.createPost = function() {
+        if ($scope.post) {
+            var data = {
+                postType: 'POST',
+                content: $scope.post
+            };
+            if ($scope.uploadData.result) {
+                data.fileId = $scope.uploadData.result.files[0].fileId;
+                data.albumId = $scope.uploadData.result.albumId;
+            }
+            Posts.create(data).then(function() {
+                $scope.post = null;
+            });
+        }
+    };
 
 })
 .controller('HomeFollowerCtrl', function($scope, Followers) {

@@ -449,6 +449,7 @@ angular
                                 'scripts/services/files.js',
                                 'scripts/services/users.js',
                                 'scripts/services/feeds.js',
+                                'scripts/services/posts.js',
                                 'scripts/services/followers.js'
                             ]
                         });

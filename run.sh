@@ -40,11 +40,11 @@ cd $workdir/users && npm start &
 child_proc="$child_proc $!"
 cd $workdir/socials && npm start &
 child_proc="$child_proc $!"
-cd $workdir/chats && nodemon index.js &
+cd $workdir/chats && npm start &
 child_proc="$child_proc $!"
-cd $workdir/swagger && nodemon index.js &
+cd $workdir/swagger && npm start &
 child_proc="$child_proc $!"
-cd $workdir/apps && CLOUDFLARE_ENABLE=false nodemon index.js &
+cd $workdir/apps && CLOUDFLARE_ENABLE=false npm start &
 child_proc="$child_proc $!"
 cd $workdir/site && npm start &
 child_proc="$child_proc $!"

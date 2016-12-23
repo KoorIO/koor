@@ -14,6 +14,9 @@
         <div class="profile-usertitle-job">
             {{ friend._source.bio || empty }}
         </div>
+        <div class="text-muted small">
+            {{ friend._source.mutualFriends || 0 }} mutual friends
+        </div>
     </div>
     <div class="profile-userbuttons">
         <button type="button" class="btn btn-success btn-sm" ng-click="follow($index, friend._id)" ng-show="!friend._source.isFollowed">Follow</button>

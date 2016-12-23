@@ -1,6 +1,9 @@
 'use strict';
 var express = require('express'),
     db = require('../models/mongodb'),
+    q = require('../queues'),
+    os = require('os'),
+    services = require('../services'),
     logger = require('../helpers/logger'),
     router = express.Router();
 
@@ -12,8 +15,18 @@ router.get('/get/:id', function(req, res){
         _id: req.params.id
     })
     .then(function(post) {
-        var ret = post.toObject();
-        res.json(ret);
+        post = post.toObject();
+        if (post.fileId) {
+            services.File.getFileById({
+                fileId: post.fileId,
+                accessToken: req.body.accessToken
+            }).then(function(body) {
+                post.file = body;
+                res.json(post);
+            });
+        } else {
+            res.json(post);
+        }
     }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
@@ -64,6 +77,13 @@ router.post('/create', function(req, res){
             logger.debug('Failed - Save Post', error);
             return res.status(500).json(error);
         } else {
+            q.create(os.hostname() + 'posts', {
+                postId: post._id,
+                userId: post.userId,
+                accessToken: req.body.accessToken,
+                type: 'CREATE_POST',
+                data: post
+            }).priority('high').save();
             return res.json(post);
         }
     });

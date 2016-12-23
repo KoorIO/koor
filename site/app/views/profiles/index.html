@@ -2,6 +2,10 @@
     <p ng-show="feed.type=='CREATE_PROJECT'">
         Create a new project - <a ui-sref="app.projects.view({projectId: feed.data.object._id, service: 'dashboard'})">{{ feed.data.object.name }}</a>
     </p>
+    <p ng-show="feed.type=='CREATE_POST'">
+        <p>{{ feed.data.object.content }}</p>
+        <img ng-src="{{feed.data.object.file.urls.t600x600}}" class="img-responsive" alt="" ng-show="feed.data.object.file">
+    </p>
     <p ng-show="feed.type=='FOLLOW_USER'">
         <a ui-sref="user.get({userId: feed.data.follower._id})">{{ feed.data.follower.firstname + ' ' + feed.data.user.lastname}}</a>
         was followed
@@ -24,9 +28,9 @@
         <div style="width:{{uploadData.progress}}%" ng-bind="uploadData.progress + '%'"></div>
     </span>
     {{uploadData.errorMsg}}
-    <textarea class="form-control" placeholder="Enter here for tweet..." rows="3"></textarea>
+    <textarea class="form-control" placeholder="Enter here for your post..." rows="3" ng-model="post"></textarea>
     <br>
-    <a href="#" class="btn btn-primary btn-sm pull-right">Post</a>
+    <button ng-click="createPost()" class="btn btn-primary btn-sm pull-right">Post</button>
     <div class="clearfix"></div>
     <hr>
     <ul class="media-list">

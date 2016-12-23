@@ -10,16 +10,16 @@ var url = require('url');
 
 // cross origin
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
 
 // list all swagger document urls
-var listUrl = config.get("list_url");
+var listUrl = config.get('list_url');
 
 // general infor of your application
-var info = config.get("info");
+var info = config.get('info');
 app.get('/docs', function(req, res) {
     var schemes = [ req.protocol ];
     if (config.has('schemes')) {
@@ -32,7 +32,7 @@ app.get('/docs', function(req, res) {
             }
             else{
                 // combines paths
-                for (key in i.paths){
+                for (var key in i.paths){
                     a.paths[key] = i.paths[key];
                 }
                 // combines definitions
@@ -48,34 +48,34 @@ app.get('/docs', function(req, res) {
         ret.schemes = schemes;
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(ret));
-    }); 
+    });
 });
 var proxy = httpProxy.createProxyServer();
 
 listUrl.forEach(function(url){
     url.route_match.forEach(function(r){
         // GET proxy
-        app.get(r, function(req, res){ 
+        app.get(r, function(req, res){
             doForward(req, res, url.base_path, proxy);
         });
         // POST proxy
-        app.post(r, function(req, res){ 
+        app.post(r, function(req, res){
             doForward(req, res, url.base_path, proxy);
         });
         // PUT proxy
-        app.put(r, function(req, res){ 
+        app.put(r, function(req, res){
             doForward(req, res, url.base_path, proxy);
         });
         // PATCH proxy
-        app.patch(r, function(req, res){ 
+        app.patch(r, function(req, res){
             doForward(req, res, url.base_path, proxy);
         });
         // DELETE proxy
-        app.delete(r, function(req, res){ 
+        app.delete(r, function(req, res){
             doForward(req, res, url.base_path, proxy);
         });
         // OPTIONS proxy
-        app.options(r, function(req, res){ 
+        app.options(r, function(req, res){
             doForward(req, res, url.base_path, proxy);
         });
     });
@@ -86,8 +86,8 @@ var doForward = function(req, res, baseUrl, p) {
         console.log('doForward %s', baseUrl);
         console.log('With path', req.path);
         if (url.parse(baseUrl).protocol === 'https:') {
-            p.web(req, res, { 
-                target: baseUrl, 
+            p.web(req, res, {
+                target: baseUrl,
                 agent : https.globalAgent ,
                 headers: {
                     host: url.parse(baseUrl).hostname
@@ -97,7 +97,7 @@ var doForward = function(req, res, baseUrl, p) {
                 res.status(500).json({});
             });
         } else {
-            p.web(req, res, { 
+            p.web(req, res, {
                 target: baseUrl,
                 agent : http.globalAgent ,
                 headers: {
@@ -117,7 +117,7 @@ var doForward = function(req, res, baseUrl, p) {
 app.use('/', express.static(__dirname + '/swagger-ui/'));
 
 // Start web server at port 3000
-var port = config.get("port");
+var port = config.get('port');
 var server = app.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;

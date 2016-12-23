@@ -21,13 +21,13 @@ router.get('/peopleYouMayKnow/:page/:limit', function(req, res){
                 from: skip,
                 size: limit
             }).then(function(response) {
-                for (var i in response['hits']) {
+                for (const i in response['hits']) {
                     nj.User.countMutualFriends({
                         aId: req.body.userId,
                         bId: response['hits'][i]._id
                     }).then(function(result) {
                         if (result.records.length > 0) {
-                            response['hits'][i]._source.mutualFriends = parseInt(result.records[0]._fields);
+                            response['hits'][i]._source.mutualFriends = parseInt(result.records[0].length);
                         }
                         return res.json(response);
                     });

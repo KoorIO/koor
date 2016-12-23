@@ -37,10 +37,17 @@
         ]
     },
     "services": {
+        "posts": {
+            "get": "http://socials/api/v1/posts/get/:postId"
+        },
         "users": {
             "getFollowingsByUserId": "http://users/api/v1/followers/following/list/:userId/:page/:limit",
             "getUsersByIds": "http://users/api/v1/users/getUsersByIds/:userIds",
             "get": "http://users/api/v1/users/get/:userId"
+        },
+        "files": {
+            "get": "http://socials/api/v1/files/get/:fileId",
+            "getByIds": "http://socials/api/v1/files/getByIds/:fileIds"
         }
     },
     "unauthorization": [

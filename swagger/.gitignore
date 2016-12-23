@@ -2,3 +2,5 @@ node_modules
 *.swp
 *.swo
 *.log
+.eslintcache
+npm-debug.log
