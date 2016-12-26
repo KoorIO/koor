@@ -8,6 +8,15 @@ echo '
                         
 '
 echo -e '\033[0;37m'
+
+
+
+echo What is your GitHub Client ID?
+read github_client_id
+echo What is your GitHub Client Secret?
+read github_client_secret
+exit
+
 workdir=${PWD} 
 WEBSOCKET_PORT=5000
 APPS_PORT=3001
