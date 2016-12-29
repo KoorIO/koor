@@ -38,7 +38,7 @@
         "prefix": "koor.io"
     },
     "github": {
-        "client_secret": "xxxxxxxxx"
+        "client_secret": ":client_secret:"
     },
     "mailer": {
         "from": "\"Koor.IO\" <no-reply@koor.io>",
@@ -47,8 +47,8 @@
         "port": 465,
         "transportMethod": "SMTP",
         "auth": {
-            "user": "mail.user@mail.com",
-            "pass": "userpass"
+            "user": ":mailer:auth:user:",
+            "pass": ":mailer:auth:pass:"
         }
     },
     "hostnames": {

@@ -73,7 +73,7 @@
         }
     },
     "github": {
-        "clientId": "c6c1288d447c31c3e74c",
+        "clientId": ":clientId:",
         "redirectUrl": "#/github"
     },
     "localEnv": false,
