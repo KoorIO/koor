@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/id_rsa.pub"
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
-    sudo apt-get install -y git unzip wget curl
+    sudo apt-get install -y git unzip wget curl build-essential python-dev
   SHELL
   config.vm.provision :shell, path: "./ops/init.sh"
 
@@ -33,7 +33,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder ".", "/home/vagrant/projects/koor", type: "rsync",
-    rsync__exclude: [".git/", ".idea/", ".vagrant", "node_modules/", "bower_components/"]
+    rsync__exclude: [".idea/", "node_modules/", "bower_components/"]
+  config.gatling.rsync_on_startup = false
+  # run `vagrant gatling-rsync-auto` to sync the source code
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
