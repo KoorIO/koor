@@ -28,7 +28,9 @@ Vagrant.configure(2) do |config|
         rvm install ruby-2.3.3 && \
         rvm --default use ruby-2.3.3 && \
         gem install bundle && \
-        gem install rails
+        gem install rails && \
+        rvm @global do gem install compass && \
+        rvm @global do gem install sass
   SHELL
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
