@@ -122,3 +122,7 @@ cd $workdir/docs && virtualenv -p /usr/bin/python3 env && \
 wait
 echo "Installing Broker ..."
 cd $workdir/broker/plugins/vmq_webhooks && ./rebar3 compile
+
+wait
+echo "Building Broker ..."
+cd $workdir && docker-compose build broker
