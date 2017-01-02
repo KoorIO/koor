@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/id_rsa.pub"
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
-    sudo apt-get install -y git unzip wget curl build-essential python-dev
+    sudo apt-get install -y git unzip wget curl build-essential python-dev python3-dev libmysqlclient-dev
   SHELL
   config.vm.provision :shell, path: "./ops/init.sh"
 
@@ -29,6 +29,7 @@ Vagrant.configure(2) do |config|
         rvm --default use ruby-2.3.3 && \
         gem install bundle && \
         gem install rails && \
+        gem install msyql && \
         rvm @global do gem install compass && \
         rvm @global do gem install sass
   SHELL

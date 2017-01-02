@@ -10,7 +10,7 @@ echo '
 echo -e '\033[0;37m'
                         
 _interupt() { 
-    docker stop koor_elasticsearch koor_neo4j koor_vernemq
+    docker stop koor_elasticsearch koor_neo4j koor_vernemq koor_mysql
     echo "Shutdown $child_proc"
     kill -TERM "$child_proc" 2>/dev/null
     exit
@@ -27,6 +27,10 @@ fi
 if !(docker run -d -p 7474:7474 -p 7687:7687 --env=NEO4J_AUTH="neo4j/koor.10" --name koor_neo4j neo4j > /dev/null 2>&1)
 then
     docker start koor_neo4j
+fi
+if !(docker run -d -p 3306:3306 --name koor_mysql -e MYSQL_DATABASE=koor -e MYSQL_ALLOW_EMPTY_PASSWORD=yes mysql > /dev/null 2>&1)
+then
+    docker start koor_mysql
 fi
 HOST_IP=`ifconfig eth0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'`
 if !(docker run --name koor_vernemq -d -p 1883:1883 -p 8080:8080 -e ENDPOINT_URL=http://"${HOST_IP}":3001/api/v1/mqtt registry.gitlab.com/thanhson1085/koor:broker > /dev/null 2>&1)
@@ -49,6 +53,8 @@ child_proc="$child_proc $!"
 cd $workdir/site && npm start &
 child_proc="$child_proc $!"
 cd $workdir/land && gulp dev &
+child_proc="$child_proc $!"
+cd $workdir/cms && CMS_DATABASE_HOST=${HOST_IP} rails s -b 0.0.0.0 -p 3007 &
 child_proc="$child_proc $!"
 cd $workdir/docs && PATH=./env/bin/ && mkdocs serve --dev-addr=0.0.0.0:8000 &
 child_proc="$child_proc $!"
