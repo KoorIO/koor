@@ -28,9 +28,9 @@ router.post('/auth_on_subscribe', function(req, res){
         var domains = [];
         for (var k in topics.topics) {
             var topic = topics.topics[k].topic;
-            // alow koor.io/timer
+            // allow koor.io/timer
             if (topic === 'koor.io/timer') {
-                res.send(JSON.stringify({result: 'ok'}));
+                return res.send(JSON.stringify({result: 'ok'}));
             }
             domains.push(topic.split('/')[0]);
         }
@@ -57,7 +57,7 @@ router.post('/auth_on_publish', function(req, res){
         var data = JSON.parse(data);
         // allow koor.io/timer
         if (data.topic === 'koor.io/timer') {
-            res.send(JSON.stringify({result: 'ok'}));
+            return res.send(JSON.stringify({result: 'ok'}));
         }
         var topics = data.topic.split('/');
         var domain = topics[0];
@@ -80,7 +80,7 @@ router.post('/auth_on_publish', function(req, res){
                     }).priority('high').save();
                 }
                 logger.debug('OK!');
-                res.send(JSON.stringify({result: 'ok'}));
+                return res.send(JSON.stringify({result: 'ok'}));
             }
         });
     });
