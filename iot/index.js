@@ -7,7 +7,7 @@ client.on('connect', function (packet) {
     console.log('Connected');
     var CronJob = require('cron').CronJob;
     var job = new CronJob('* * * * * *', function() {
-        client.publish('koor.io/timer', Math.floor(Date.now() / 1000));
+        client.publish('koor.io/timer', Math.floor(Date.now() / 1000).toString());
     }, function() {},
     true,
     'GMT'
