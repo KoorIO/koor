@@ -5,7 +5,13 @@ var client = mqtt.connect(config.get('broker.url'));
 
 client.on('connect', function (packet) {
     console.log('Connected');
-    //client.subscribe('5814db3171d02f000eca3cf8.koor.io/devices/5814db41818638001b8e8bfa');
+    var CronJob = require('cron').CronJob;
+    var job = new CronJob('* * * * * *', function() {
+        client.publish('koor.io/timer', Math.floor(Date.now() / 1000));
+    }, function() {},
+    true,
+    'GMT'
+    );
 });
 
 client.on('message', function (topic, message) {
