@@ -19,7 +19,7 @@ before_script:
 deploy:
     when: manual
     script:
-        - ssh root@188.166.198.221 "cd /build && sudo git pull origin master"
+        - ssh root@188.166.198.221 "cd /build && sudo git fetch origin && git checkout ${CI_BUILD_REF}"
         - ssh root@188.166.198.221 "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose pull"
         - ssh root@188.166.198.221 "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose stop"
         - ssh root@188.166.198.221 "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose rm -f"
