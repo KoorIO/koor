@@ -20,7 +20,8 @@ angular.module('siteSeedApp')
 
     vm.connectGithub = function(){
         var url = 'https://github.com/login/oauth/authorize?scope=user:email&client_id=' + 
-        APP_CONFIG.github.clientId + '&redirect_url=' + APP_CONFIG.github.redirectUri;
+            APP_CONFIG.github.clientId + '&redirect_url=' + APP_CONFIG.github.redirectUrl;
+        console.log(url);
         window.location.replace(url);
     };
 })
