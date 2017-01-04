@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
         rvm --default use ruby-2.3.3 && \
         gem install bundle && \
         gem install rails && \
-        gem install msyql && \
+        gem install mysql && \
         rvm @global do gem install compass && \
         rvm @global do gem install sass
   SHELL
