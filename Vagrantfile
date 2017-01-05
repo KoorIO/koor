@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder ".", "/home/vagrant/projects/koor", type: "rsync",
-    rsync__exclude: [".idea/", "node_modules/", "bower_components/", "local.json"]
+    rsync__exclude: [".idea/", "env/" "node_modules/", "bower_components/", "local.json", "uploads/"]
   config.gatling.rsync_on_startup = false
   # run `vagrant gatling-rsync-auto` to sync the source code
 
