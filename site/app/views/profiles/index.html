@@ -13,26 +13,27 @@
     </p>
 </script>
 <div class="profile-content">
-    <h4>Upload on file select</h4>
-
-    <button ngf-select="uploadFiles($files)" multiple 
-        accept="image/*">Select Files</button>
-    <br>
-    <br>Files:
-    <ul>
-        <li ng-repeat="f in uploadData.files" style="font:smaller">
+    <div class="form-group">
+        <textarea class="form-control" placeholder="Enter here for your post..." rows="3" ng-model="post"></textarea>
+        <br />
+        <button ng-click="createPost()" class="btn btn-primary btn-sm pull-right">Post</button>
+        <button class="btn btn-primary btn-sm" ngf-select="uploadFiles($files)" multiple 
+            accept="image/*">Share Images</button>
+        <br />
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="f in uploadData.files">
         {{f.name}}
         </li>
     </ul>
-    <span class="progress" ng-show="uploadData.progress >= 0">
-        <div style="width:{{uploadData.progress}}%" ng-bind="uploadData.progress + '%'"></div>
-    </span>
-    {{uploadData.errorMsg}}
-    <textarea class="form-control" placeholder="Enter here for your post..." rows="3" ng-model="post"></textarea>
-    <br>
-    <button ng-click="createPost()" class="btn btn-primary btn-sm pull-right">Post</button>
     <div class="clearfix"></div>
-    <hr>
+    <p></p>
+    <div class="post-upload progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="70"
+            aria-valuemin="0" aria-valuemax="100" style="width:{{uploadData.progress}}%">
+            <span class="sr-only">{{uploadData.progress}}% Complete</span>
+        </div>
+    </div>
     <ul class="media-list">
         <li class="media" ng-repeat="feed in feeds">
         <a ui-sref="user.get({userId: feed.data.user._id})" class="pull-left">
