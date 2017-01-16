@@ -376,6 +376,7 @@ angular
                                 'scripts/directives/locale/locale.js',
                                 'scripts/services/users.js',
                                 'scripts/services/followers.js',
+                                'scripts/services/feeds.js',
                                 'scripts/controllers/users.js'
                             ]
                         });

@@ -7,7 +7,7 @@
         <img ng-src="{{feed.data.object.file.urls.t600x600}}" class="img-responsive" alt="" ng-show="feed.data.object.file">
     </p>
     <p ng-show="feed.type=='FOLLOW_USER'">
-        <a ui-sref="user.get({userId: feed.data.follower._id})">{{ feed.data.follower.firstname + ' ' + feed.data.user.lastname}}</a>
+        <a ui-sref="user.get({userId: feed.data.follower._id})">{{ feed.data.follower.firstname + ' ' + feed.data.follower.lastname}}</a>
         was followed
         <a ui-sref="user.get({userId: feed.data.user._id})">{{ feed.data.user.firstname + ' ' + feed.data.user.lastname }}</a>
     </p>

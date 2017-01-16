@@ -5,7 +5,29 @@ var express = require('express'),
     s = require('../services'),
     router = express.Router();
 
-// get list of notifications
+// get friend wall
+router.get('/wall/:userId/:page/:limit', function(req, res){
+    var limit = (req.params.limit)? parseInt(req.params.limit): 10;
+    var skip = (req.params.page)? limit * (req.params.page - 1): 0;
+    logger.info('Get friend wall', req.params.userId);
+    db.Feed
+    .find({
+        userId: req.params.userId
+    })
+    .skip(skip)
+    .limit(limit)
+    .sort({'_id': 'desc'})
+    .then(function(feeds) {
+        var ret = {
+            rows: feeds
+        };
+        res.json(ret);
+    }).catch(function(e) {
+        res.status(400).send(JSON.stringify(e));
+    });
+});
+
+// get list of feed
 router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;

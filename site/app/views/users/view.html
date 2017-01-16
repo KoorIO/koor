@@ -1,8 +1,35 @@
+<script type="text/ng-template" id="feed.html">
+    <p ng-show="feed.type=='CREATE_PROJECT'">
+        Create a new project - <a ui-sref="app.projects.view({projectId: feed.data.object._id, service: 'dashboard'})">{{ feed.data.object.name }}</a>
+    </p>
+    <p ng-show="feed.type=='CREATE_POST'">
+        <p>{{ feed.data.object.content }}</p>
+        <img ng-src="{{feed.data.object.file.urls.t600x600}}" class="img-responsive" alt="" ng-show="feed.data.object.file">
+    </p>
+    <p ng-show="feed.type=='FOLLOW_USER'">
+        <a ui-sref="user.get({userId: feed.data.follower._id})">{{ feed.data.follower.firstname + ' ' + feed.data.follower.lastname}}</a>
+        was followed
+        <a ui-sref="user.get({userId: feed.data.user._id})">{{ feed.data.user.firstname + ' ' + feed.data.user.lastname }}</a>
+    </p>
+</script>
 <div class="col-md-3">
     <sidebar-user></sidebar-user>
 </div>
 <div class="col-md-9">
-    <div class="profile-content">
-       Some user related content goes here...
-    </div>
+    <ul class="media-list">
+        <li class="media" ng-repeat="feed in feeds">
+        <a ui-sref="user.get({userId: feed.data.user._id})" class="pull-left">
+            <img gravatar-src="feed.data.user.email" gravatar-size="32" ng-show="!feed.data.user.file">
+            <img ng-src="{{feed.data.user.file.urls.t600x600}}" class="img-responsive" width="32" alt="" ng-show="feed.data.user.file">
+        </a>
+        <div class="media-body">
+            <span class="text-muted pull-right">
+                <small class="text-muted"><time-ago from-time='{{ feed.createdAt }}'></time-ago></small>
+            </span>
+            <strong class="text-success">@ {{feed.data.user.firstname + ' ' + feed.data.user.lastname}}</strong>
+            <div ng-include="'feed.html'">
+            </div>
+        </div>
+        </li>
+    </ul>
 </div>

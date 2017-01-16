@@ -191,6 +191,45 @@ paths:
             tags:
                 - Feeds
 
+    /api/v1/feeds/wall/{userId}/{page}/{limit}:
+        get:
+            summary: Get Friend Wall
+            description: |
+                Get Friend Wall
+            security:
+                - Bearer: []
+            parameters:
+                - name: userId
+                  in: path
+                  description: User Id
+                  required: true
+                  type: string
+                - name: page
+                  in: path
+                  description: Page Number
+                  required: true
+                  type: string
+                  default: 1
+                - name: limit
+                  in: path
+                  description: Limit Number
+                  required: true
+                  type: string
+                  default: 10
+            responses:
+                200:
+                    description: OK
+                401:
+                    description: Unauthorized
+                400:
+                    description: Bad Request
+                406:
+                    description: Not Acceptable
+                500:
+                    description: Server Internal error
+            tags:
+                - Feeds
+
     /api/v1/feeds/newer/{feedId}/{limit}:
         get:
             summary: Get User newer Feed

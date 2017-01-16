@@ -78,9 +78,12 @@ angular.module('siteSeedApp')
         });
     };
 })
-.controller('UserDetailCtrl', function($scope, Users, $stateParams, Followers) {
+.controller('UserDetailCtrl', function($scope, Users, $stateParams, Followers, Feeds) {
     Users.getById($stateParams.userId).then(function(res) {
         $scope.user = res;
+        Feeds.wall($stateParams.userId).then(function(wall) {
+            $scope.feeds = wall.rows;
+        });
         $scope.follow = function() {
             Followers.create({followingId: $scope.user._id}).then(function() {
                 $scope.user.isFollowed = true;
