@@ -4,6 +4,7 @@ stages:
 
 deploy:
     when: manual
+    state: deploy
     before_script:
         # Install ssh-agent if not already installed, it is required by Docker.
         # (change apt-get to yum if you use a CentOS-based image)
