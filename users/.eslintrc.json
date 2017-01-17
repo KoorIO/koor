@@ -10,8 +10,8 @@
         "sourceType": "module"
     },
     "rules": {
-        "indent": ["error", 4],
-        "camelcase": ["error",  {"properties": "always"}],
+        "indent": ["warn", 4],
+        "camelcase": ["warn",  {"properties": "always"}],
         "linebreak-style": ["error", "unix"],
         "no-trailing-spaces": 2,
         "eol-last": 2,

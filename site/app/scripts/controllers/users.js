@@ -96,6 +96,16 @@ angular.module('siteSeedApp')
         };
     });
 })
+.controller('UserFollowerCtrl', function($scope, Users, $stateParams, Followers, Feeds) {
+    Followers.listByUserId($stateParams.userId, 1, 10).then(function(res) {
+        $scope.followers = res.rows;
+    });
+})
+.controller('UserFollowingCtrl', function($scope, Users, $stateParams, Followers, Feeds) {
+    Followers.listFollowingByUserId($stateParams.userId, 1, 10).then(function(res) {
+        $scope.followers = res.rows;
+    });
+})
 .controller('UserProfileCtrl', function($scope, Users, $cookies, $log) {
     var userInfo = $cookies.get('userInfo') || '{}';
 

@@ -52,6 +52,8 @@
             "create": "/u/api/v1/followers/create",
             "delete": "/u/api/v1/followers/delete/:userId",
             "list": "/u/api/v1/followers/list/:page/:limit",
+            "listByUserId": "/u/api/v1/followers/list/:userId/:page/:limit",
+            "listFollowingByUserId": "/u/api/v1/followers/following/list/:userId/:page/:limit",
             "listFollowing": "/u/api/v1/followers/following/list/:page/:limit"
         },
         "posts": {

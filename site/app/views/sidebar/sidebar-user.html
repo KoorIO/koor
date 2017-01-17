@@ -19,7 +19,7 @@
     <!-- END SIDEBAR USER TITLE -->
     <!-- SIDEBAR BUTTONS -->
     <div class="profile-userbuttons">
-        <button type="button" class="btn btn-success btn-sm" ng-click="follow()" ng-show="!user.isFollowed">Follow</button>
+        <button type="button" class="btn btn-success btn-sm" ng-click="follow()" ng-show="!user.isFollowed && userInfo.userId !== user._id">Follow</button>
         <button type="button" class="btn btn-primary btn-sm" ng-show="user.isFollowed" ng-click="unfollow()">Following</button>
         <!--button type="button" class="btn btn-danger btn-sm">Message</button-->
     </div>
@@ -27,23 +27,18 @@
     <!-- SIDEBAR MENU -->
     <div class="profile-usermenu">
         <ul class="nav">
-            <li class="active">
-                <a href="#">
+            <li>
+                <a ui-sref="user.get({userId: user._id})">
                 <i class="glyphicon glyphicon-home"></i>
                 Home </a>
             </li>
             <li>
-                <a ui-sref="app.projects.list">
-                <i class="glyphicon glyphicon-ok"></i>
-                Projects </a>
-            </li>
-            <li>
-                <a ui-sref="home.follower">
+                <a ui-sref="user.follower({userId: user._id})">
                 <i class="glyphicon glyphicon-flag"></i>
                 Followers </a>
             </li>
             <li>
-                <a href="#">
+                <a ui-sref="user.following({userId: user._id})">
                 <i class="glyphicon glyphicon-flag"></i>
                 Following </a>
             </li>

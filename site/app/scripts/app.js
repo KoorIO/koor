@@ -400,8 +400,8 @@ angular
             }
         })
         .state('user.follower', {
-            url: '/follower',
-            controller: 'HomeFollowerCtrl',
+            url: '/follower/:userId',
+            controller: 'UserFollowerCtrl',
             templateUrl: 'views/users/follower.html',
             resolve: {
                 loadMyDirectives: function($ocLazyLoad){
@@ -416,8 +416,8 @@ angular
             }
         })
         .state('user.following', {
-            url: '/following',
-            controller: 'HomeFollowingCtrl',
+            url: '/following/:userId',
+            controller: 'UserFollowingCtrl',
             templateUrl: 'views/users/following.html',
             resolve: {
                 loadMyDirectives: function($ocLazyLoad){

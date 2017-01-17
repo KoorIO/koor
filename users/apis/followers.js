@@ -29,7 +29,6 @@ router.post('/create', function(req, res){
 });
 
 // unfollow a user
-// TODO: fix it tonight
 router.delete('/delete/:userId', function(req, res){
     logger.debug('User %s Unfollows %s', req.body.userId, req.params.userId);
     db.Follower.findOneAndRemove({
@@ -83,8 +82,8 @@ router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, r
                         var user = users[k].toObject();
                         delete user.hashed_password;
                         delete user.salt;
+                        user.isFollowed = false;
                         for (var ij in isFollows) {
-                            user.isFollowed = false;
                             if (String(isFollows[ij].userId) === String(user._id)) {
                                 user.isFollowed = true;
                                 break;
