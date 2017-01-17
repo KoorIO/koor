@@ -4,7 +4,7 @@ var os = require('os');
 var logger = require('../helpers/logger');
 consumer.name = os.hostname() + 'users';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var q = require('../queues');
     logger.debug('Queue', os.hostname(), 'users');

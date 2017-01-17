@@ -7,9 +7,9 @@ var cache = require('../helpers/cache');
 var ObjectId = require('mongoose').Types.ObjectId;
 consumer.name = os.hostname() + 'store_data';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
-    logger.debug('Store data for %s domain %s', data.projectId, data.domain)
+    logger.debug('Store data for %s domain %s', data.projectId, data.domain);
     db.Field.find({
         projectId: new ObjectId(data.projectId)
     }).then(function(fields) {
@@ -34,7 +34,7 @@ consumer.task = function(job, done){
                 });
             }
         });
-    }).catch(function(e){
+    }).catch(function(e) {
         logger.error('Failed - Processing to store data', e);
     });
     done();

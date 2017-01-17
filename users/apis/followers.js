@@ -8,13 +8,13 @@ var express = require('express'),
     router = express.Router();
 
 // follow a user
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     var follower = new db.Follower({
         userId: req.body.followingId,
         followerId: req.body.userId
     });
     logger.debug('User %s follows %s', req.body.userId, req.body.followingId);
-    follower.save(function(error){
+    follower.save(function(error) {
         if (error) {
             return res.status(406).send(JSON.stringify({error}));
         }
@@ -29,7 +29,7 @@ router.post('/create', function(req, res){
 });
 
 // unfollow a user
-router.delete('/delete/:userId', function(req, res){
+router.delete('/delete/:userId', function(req, res) {
     logger.debug('User %s Unfollows %s', req.body.userId, req.params.userId);
     db.Follower.findOneAndRemove({
         userId: req.params.userId,
@@ -45,7 +45,7 @@ router.delete('/delete/:userId', function(req, res){
 });
 
 // get list of followers
-router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, res){
+router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     var userId = req.params.userId || req.body.userId;
@@ -74,7 +74,7 @@ router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, r
             }).then(function(isFollows) {
                 db.User.find({
                     _id: { $in: userIds }
-                }).then(function(users){
+                }).then(function(users) {
                     var fileIds = [];
                     var rows = [];
                     for (var k in users) {
@@ -115,7 +115,7 @@ router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, r
                     }).catch(function() {
                         res.send(JSON.stringify(ret));
                     });
-                }).catch(function(e){
+                }).catch(function(e) {
                     res.status(500).send(JSON.stringify(e));
                 });
             });
@@ -126,7 +126,7 @@ router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, r
 });
 
 // get list of following
-router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limit'], function(req, res){
+router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limit'], function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     var userId = req.params.userId || req.body.userId;
@@ -155,7 +155,7 @@ router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limi
             }).then(function(isFollows) {
                 db.User.find({
                     _id: { $in: userIds }
-                }).then(function(users){
+                }).then(function(users) {
                     var fileIds = [];
                     var rows = [];
                     for (var k in users) {
@@ -163,7 +163,7 @@ router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limi
                         var user = users[k].toObject();
                         delete user.hashed_password;
                         delete user.salt;
-                        for (var ij in isFollows){
+                        for (var ij in isFollows) {
                             user.isFollowed = false;
                             if (String(isFollows[ij].userId) === String(user._id)) {
                                 user.isFollowed = true;
@@ -191,12 +191,12 @@ router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limi
                             }
 
                         });
-                        ret.rows = rows
+                        ret.rows = rows;
                         res.send(JSON.stringify(ret));
                     }).catch(function() {
                         res.send(JSON.stringify(ret));
                     });
-                }).catch(function(e){
+                }).catch(function(e) {
                     res.status(500).send(JSON.stringify(e));
                 });
             });

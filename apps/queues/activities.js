@@ -5,7 +5,7 @@ var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
 consumer.name = os.hostname() + 'activities';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var activity = new db.Activity({
         type: data.type,

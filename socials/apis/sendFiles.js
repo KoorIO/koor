@@ -7,7 +7,7 @@ var express = require('express'),
     router = express.Router();
 
 // get file
-router.get('/:userId/:albumId/:fileName', function(req, res){
+router.get('/:userId/:albumId/:fileName', function(req, res) {
     var filePath = path.join(__dirname, '/../uploads/', sanitize(req.params.userId),
                              sanitize(req.params.albumId), sanitize(req.params.fileName));
     logger.debug('Get', filePath);

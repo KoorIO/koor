@@ -5,13 +5,13 @@ var express = require('express'),
     router = express.Router();
 
 // get data of field
-router.all('/:projectUrl/field/:fieldCode/:page', function(req, res){
+router.all('/:projectUrl/field/:fieldCode/:page', function(req, res) {
     var limit = 100;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get Data for Field by Field Code', req.params.fieldCode, req.params.projectUrl);
     db.Project.findOne({
         domain: req.params.projectUrl
-    }, function(error, p){
+    }, function(error, p) {
         if (error || !p) {
             logger.debug('Failed - Query Project', error);
             return res.status(406).json({});

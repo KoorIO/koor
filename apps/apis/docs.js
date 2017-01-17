@@ -5,11 +5,11 @@ var express = require('express'),
     router = express.Router();
 
 // run a new api
-router.all('/:projectUrl', function(req, res){
+router.all('/:projectUrl', function(req, res) {
     logger.debug('Get Api Docs %s', req.params.projectUrl);
     db.Project.findOne({
         domain: req.params.projectUrl
-    }, function(error, p){
+    }, function(error, p) {
         if (error || !p) {
             return res.status(406).json({});
         } else {
@@ -28,7 +28,7 @@ router.all('/:projectUrl', function(req, res){
                         swagger['info']['title'] = p.name;
                         swagger['info']['version'] = '1.0';
                         var paths = {};
-                        for (var k in apis){
+                        for (var k in apis) {
                             var a = apis[k];
                             var path = '/' + a.path;
                             paths[path] = {};
@@ -60,7 +60,7 @@ router.all('/:projectUrl', function(req, res){
                         swagger['paths'] = paths;
                         return res.json(swagger);
                     }
-                } catch(e) {
+                } catch (e) {
                     return res.status(406).json({});
                 }
             });

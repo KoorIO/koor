@@ -6,7 +6,7 @@ var driver = require('../helpers/neo4j');
 
 consumer.name = os.hostname() + 'njFollows';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
 
     var session = driver.session();

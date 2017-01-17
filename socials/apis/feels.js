@@ -7,7 +7,7 @@ var express = require('express'),
     router = express.Router();
 
 // get list feels
-router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
+router.get('/list/:objectType/:objectId/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Feel.count({
@@ -56,7 +56,7 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
 });
 
 // Create new feel
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     logger.info('Create New Feel', req.body.objectId, req.body.objectType, req.body.feelType);
     var feel = new db.Feel({
         objectType: req.body.objectType,

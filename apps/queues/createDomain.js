@@ -7,7 +7,7 @@ var request = require('request');
 var db = require('../models/mongodb');
 consumer.name = os.hostname() + 'create_domain';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     if (config.get('cloudflare.enable')) {
         var options = {
@@ -38,8 +38,8 @@ consumer.task = function(job, done){
                     project.dnsId = body.result.id;
                     project.save(function() {
                         logger.debug('Saved CloudFlare DNS record ID to Project DB', body.result.id);
-                    })
-                }).catch(function(e){
+                    });
+                }).catch(function(e) {
                     logger.error('Failed - CloudFlare DNS record ID into Project DB', body.result.id, e);
                 });
             }

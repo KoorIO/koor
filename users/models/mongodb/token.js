@@ -42,7 +42,7 @@ Token.statics = {
                 userId: user._id,
                 token: t,
                 expiredAt: tomorrow.toString()
-            })).save(function(error, to){
+            })).save(function(error, to) {
                 deferred.resolve(to);
             }).catch(function(e) {
                 deferred.reject(e);
@@ -67,7 +67,7 @@ Token.statics = {
                 userId: user._id,
                 token: t,
                 expiredAt: tomorrow.toString()
-            })).save(function(error, to){
+            })).save(function(error, to) {
                 var delta = config.get('token_expire');
                 logger.debug('Set User %s to Cache - Exprited after %s seconds', user._id, delta);
                 cache.set(to.token, JSON.stringify(user));
@@ -85,6 +85,6 @@ Token.statics = {
         }).remove().exec();
         return deferred.promise;
     }
-}
+};
 
 module.exports = mongoose.model('Token', Token);

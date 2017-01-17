@@ -6,7 +6,7 @@ var logger = require('../helpers/logger');
 var cache = require('../helpers/cache');
 consumer.name = os.hostname() + 'notifications';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var notification = new db.Notification({
         objectType: data.objectType,

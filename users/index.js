@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // add modification header
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
     res.header('Content-Type', 'application/json');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
@@ -22,7 +22,7 @@ app.use(function(req, res, next){
 });
 
 // Swagger Docs
-app.get('/docs', function(req, res){
+app.get('/docs', function(req, res) {
     var docs = yaml.safeLoad(fs.readFileSync('./docs/swagger.yml', 'utf8'));
     res.send(JSON.stringify(docs));
 });

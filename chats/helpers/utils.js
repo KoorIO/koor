@@ -6,24 +6,24 @@ var makeUrl = function(url, params) {
         url = url.replace(myRegExp, '/' + params[param]);
     }
     return url;
-}
+};
 
 var getHostnameSocials = function() {
     var items = config.get('hostnames.socials');
     return items[Math.floor(Math.random()*items.length)];
-}
+};
 
 var getHostnameWebsocket = function() {
     var items = config.get('hostnames.websocket');
     return items[Math.floor(Math.random()*items.length)];
-}
+};
 
 var makeUniqueGroupId = function(data) {
     var fromId = String(data.from.objectType) + '_' + String(data.from.objectId);
     var toId = String(data.to.objectType) + '_' + String(data.to.objectId);
 
     return (fromId > toId)?fromId + '_' + toId:toId + '_' + fromId;
-}
+};
 
 var mapUsersToObjects = function(users, rows) {
     for (var k in rows) {
@@ -35,7 +35,7 @@ var mapUsersToObjects = function(users, rows) {
         }
     }
     return rows;
-}
+};
 
 module.exports = {
     makeUrl: makeUrl,
@@ -43,4 +43,4 @@ module.exports = {
     getHostnameWebsocket: getHostnameWebsocket,
     mapUsersToObjects: mapUsersToObjects,
     makeUniqueGroupId: makeUniqueGroupId
-}
+};

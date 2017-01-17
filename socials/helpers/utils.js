@@ -6,17 +6,17 @@ var makeUrl = function(url, params) {
         url = url.replace(myRegExp, '/' + params[param]);
     }
     return url;
-}
+};
 
 var getHostnameSocials = function() {
     var items = config.get('hostnames.socials');
     return items[Math.floor(Math.random()*items.length)];
-}
+};
 
 var getHostnameWebsocket = function() {
     var items = config.get('hostnames.websocket');
     return items[Math.floor(Math.random()*items.length)];
-}
+};
 
 var mapUsersToObjects = function(users, rows) {
     for (var k in rows) {
@@ -28,11 +28,11 @@ var mapUsersToObjects = function(users, rows) {
         }
     }
     return rows;
-}
+};
 
 module.exports = {
     makeUrl: makeUrl,
     getHostnameSocials: getHostnameSocials,
     getHostnameWebsocket: getHostnameWebsocket,
     mapUsersToObjects: mapUsersToObjects
-}
+};

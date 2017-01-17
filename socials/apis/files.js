@@ -6,7 +6,7 @@ var express = require('express'),
     router = express.Router();
 
 // get file details
-router.get('/get/:fileId', function(req, res){
+router.get('/get/:fileId', function(req, res) {
     logger.info('Get File Details', req.params.fileId);
     db.File
     .findOne({
@@ -22,7 +22,7 @@ router.get('/get/:fileId', function(req, res){
 });
 
 // get File by Ids
-router.get('/getByIds/:fileIds', function(req, res){
+router.get('/getByIds/:fileIds', function(req, res) {
     logger.info('Get File Details By Ids', req.params.fileIds);
     var fileIds = req.params.fileIds.split(',');
     db.File
@@ -44,7 +44,7 @@ router.get('/getByIds/:fileIds', function(req, res){
 
 
 // get album details
-router.get('/getAlbum/:albumId', function(req, res){
+router.get('/getAlbum/:albumId', function(req, res) {
     logger.info('Get Album Details', req.params.albumId);
     db.Album
     .findOne({

@@ -6,7 +6,7 @@ var logger = require('../helpers/logger');
 var cache = require('../helpers/cache');
 consumer.name = os.hostname() + 'feeds';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var feed = new db.Feed({
         objectId: data.objectId,

@@ -7,7 +7,7 @@ var es = require('../helpers/es');
 var services = require('../services');
 consumer.name = os.hostname() + 'esDevices';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var type = 'devices';
 

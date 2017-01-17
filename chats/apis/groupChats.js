@@ -5,7 +5,7 @@ var express = require('express'),
     router = express.Router();
 
 // get groupChat
-router.get('/get/:id', function(req, res){
+router.get('/get/:id', function(req, res) {
     logger.info('Get GroupChat Details', req.params.id);
     db.GroupChat
     .findOne({
@@ -20,7 +20,7 @@ router.get('/get/:id', function(req, res){
 });
 
 // get list groupChats
-router.get('/list/:page/:limit', function(req, res){
+router.get('/list/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.GroupChat.count({
@@ -52,7 +52,7 @@ router.get('/list/:page/:limit', function(req, res){
 });
 
 // Create new groupChat
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     logger.info('Create New GroupChat', req.body.userId, req.body.name);
     var userIds = (!req.body.friendId)?[req.body.userId]:[req.body.userId, req.body.friendId];
     var groupChat = new db.GroupChat({
@@ -81,8 +81,8 @@ router.put('/update/:id', function(req, res) {
         groupChat.description = req.body.description;
         groupChat.save(function() {
             res.json(groupChat);
-        })
-    }).catch(function(e){
+        });
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });

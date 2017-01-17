@@ -7,7 +7,7 @@ var driver = require('../helpers/neo4j');
 
 consumer.name = os.hostname() + 'njUsers';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
 
     services.User.getUserById(data).then(function(body) {
@@ -38,7 +38,7 @@ consumer.task = function(job, done){
 });
         }
     }).catch(function(e) {
-        logger.error(e)
+        logger.error(e);
     });
     done();
 };

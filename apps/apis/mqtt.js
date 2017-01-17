@@ -8,7 +8,7 @@ var express = require('express'),
     router = express.Router();
 
 // auth on register
-router.post('/auth_on_register', function(req, res){
+router.post('/auth_on_register', function(req, res) {
     logger.debug('MQTT Auth On Register');
     req.setEncoding('utf8');
 
@@ -20,7 +20,7 @@ router.post('/auth_on_register', function(req, res){
 });
 
 // auth on subscribe
-router.post('/auth_on_subscribe', function(req, res){
+router.post('/auth_on_subscribe', function(req, res) {
     req.setEncoding('utf8');
     logger.debug('MQTT Auth On Subscribe');
     req.on('data', function(data) {
@@ -49,7 +49,7 @@ router.post('/auth_on_subscribe', function(req, res){
 });
 
 // auth on publish
-router.post('/auth_on_publish', function(req, res){
+router.post('/auth_on_publish', function(req, res) {
     logger.debug('MQTT Auth On Publish');
     req.setEncoding('utf8');
 
@@ -87,7 +87,7 @@ router.post('/auth_on_publish', function(req, res){
 });
 
 // on subscribe
-router.post('/on_subscribe', function(req, res){
+router.post('/on_subscribe', function(req, res) {
     logger.debug('MQTT On Subscribe');
     req.setEncoding('utf8');
 
@@ -133,8 +133,8 @@ router.post('/on_subscribe', function(req, res){
                             }
                         });
                         logger.debug('Device %s is ON', deviceId);
-                    })
-                }).catch(function(){});
+                    });
+                }).catch(function() {});
             }
         });
         res.send(JSON.stringify({result: 'ok'}));
@@ -142,7 +142,7 @@ router.post('/on_subscribe', function(req, res){
 });
 
 // on client gone
-router.post('/on_client_gone', function(req, res){
+router.post('/on_client_gone', function(req, res) {
     logger.debug('MQTT On Client Gone');
     req.setEncoding('utf8');
 
@@ -187,7 +187,7 @@ router.post('/on_client_gone', function(req, res){
 });
 
 // on client offline
-router.post('/on_client_offline', function(req, res){
+router.post('/on_client_offline', function(req, res) {
     logger.debug('MQTT On Client Offline');
     req.setEncoding('utf8');
 

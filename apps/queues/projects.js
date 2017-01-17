@@ -6,7 +6,7 @@ var utils = require('../helpers/utils');
 var services = require('../services');
 consumer.name = os.hostname() + 'projects';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     logger.debug('Project Worker', data.projectId);
     var q = require('../queues');
@@ -34,7 +34,7 @@ consumer.task = function(job, done){
                         objectId: data.data._id,
                         type: data.type,
                         userId: data.userId
-                    }
+                    };
                     q.create(utils.getHostnameSocials() + 'feeds', feed).priority('low').save();
                     q.create(os.hostname() + 'njProjects', data).priority('high').save();
                 }

@@ -34,7 +34,7 @@ var search = function(data) {
                     }
                 }
             ]
-        }
+        };
     }
     es.search(query, function (error, response) {
         if (error) {
@@ -81,4 +81,4 @@ module.exports = {
     searchName: 'User',
     search: search,
     searchByUserIds: searchByUserIds
-}
+};

@@ -7,11 +7,11 @@ var express = require('express'),
     router = express.Router();
 
 // run a new api
-router.all('/:projectUrl/*', function(req, res){
+router.all('/:projectUrl/*', function(req, res) {
     logger.debug('Run a Api %s %s', req.params.projectUrl, req.params[0]);
     db.Project.findOne({
         domain: req.params.projectUrl
-    }, function(error, p){
+    }, function(error, p) {
         if (error) {
             logger.debug('Failed - Query Project', error);
             return res.status(406).json({});
@@ -44,7 +44,7 @@ router.all('/:projectUrl/*', function(req, res){
                             res.status(a.response.status).send(JSON.stringify(a.response.body));
                         }
                     }
-                } catch(e) {
+                } catch (e) {
                     logger.debug('Failed - Somethings went wrong', e);
                     return res.status(406).json({});
                 }

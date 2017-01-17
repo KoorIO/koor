@@ -45,11 +45,11 @@ var peopleYouMayKnow = function(data) {
         deferred.reject(e);
     });
     return deferred.promise;
-}
+};
 
 
 module.exports = {
     modelName: 'User',
     countMutualFriends: countMutualFriends,
     peopleYouMayKnow: peopleYouMayKnow
-}
+};

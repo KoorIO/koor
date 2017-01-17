@@ -7,7 +7,7 @@ var driver = require('../helpers/neo4j');
 
 consumer.name = os.hostname() + 'njDevices';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
 
     services.Device.getDeviceById({
@@ -41,7 +41,7 @@ consumer.task = function(job, done){
 });
         }
     }).catch(function(e) {
-        logger.error(e)
+        logger.error(e);
     });
     done();
 };

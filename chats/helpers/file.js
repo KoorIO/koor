@@ -14,11 +14,11 @@ var fileToUrls = function fileToUrls(file) {
     }
     ret['default'] = urljoin(config.get('server.fileUrl'), 'files', file.userId, file.albumId,file.fileName);
     return ret;
-}
+};
 
 var fileNameToThumbnail = function fileNameToThumbnail(file, ext, x, y) {
     return file + '-thumbnail-' + x + 'x' + y + ext;
-}
+};
 
 module.exports = {
     fileToUrls: fileToUrls,

@@ -5,7 +5,7 @@ var logger = require('../helpers/logger');
 var utils = require('../helpers/utils');
 consumer.name = os.hostname() + 'appNotifications';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
 
     var q = require('../queues');
@@ -15,7 +15,7 @@ consumer.task = function(job, done){
         type: 'FOLLOW_DEVICE',
         userId: data.userId,
         data: data
-    }
+    };
     q.create(utils.getHostnameSocials() + 'feeds', feed).priority('low').save();
     q.create(os.hostname() + 'esFollowDevices', data).priority('low').save();
     q.create(os.hostname() + 'njFollowDevices', data).priority('low').save();

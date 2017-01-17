@@ -6,7 +6,7 @@ var utils = require('../helpers/utils');
 
 consumer.name = os.hostname() + 'unfollows';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var q = require('../queues');
     logger.debug('Queue', os.hostname(), 'unfollows');

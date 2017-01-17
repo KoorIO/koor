@@ -5,7 +5,7 @@ var logger = require('../helpers/logger');
 var utils = require('../helpers/utils');
 consumer.name = os.hostname() + 'devices';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     logger.debug('Device Worker', data._id, data.projectId);
     var q = require('../queues');

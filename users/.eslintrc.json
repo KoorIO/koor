@@ -1,7 +1,11 @@
 {
     "root": true,
     "extends": "eslint:recommended",
-    "plugins": ["jasmine"],
+    "plugins": [
+        "jasmine",
+        "filenames",
+        "promise"
+    ],
     "env": {
         "node": true,
         "jasmine": true
@@ -10,13 +14,21 @@
         "sourceType": "module"
     },
     "rules": {
+        "filenames/match-regex": 2,
+        "promise/catch-or-return": "warn",
         "indent": ["warn", 4],
+        "no-trailing-spaces": 1,
+        "semi": ["warn", "always"],
+        "eol-last": 1,
+        "space-in-parens": ["warn", "never"],
+        "no-multiple-empty-lines": 1,
+        "prefer-const": "warn",
+        "no-mixed-spaces-and-tabs": 1,
+        "no-unused-vars": 1,
+        "no-console": 1,
+        "no-else-return": 1,
+        "space-before-blocks": 1,
         "camelcase": ["warn",  {"properties": "always"}],
-        "linebreak-style": ["error", "unix"],
-        "no-trailing-spaces": 2,
-        "eol-last": 2,
-        "quotes": ["error", "single"],
-        "space-in-parens": ["error", "never"],
-        "no-multiple-empty-lines": 1
+        "keyword-spacing": 1
     }
 }

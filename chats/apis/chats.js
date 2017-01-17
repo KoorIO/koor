@@ -7,7 +7,7 @@ var express = require('express'),
     router = express.Router();
 
 // get list chats
-router.get('/list/:groupId/:page/:limit', function(req, res){
+router.get('/list/:groupId/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Chat.count({
@@ -36,7 +36,7 @@ router.get('/list/:groupId/:page/:limit', function(req, res){
 });
 
 // Create new chat
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     logger.info('Create New Chat', req.body.objectId, req.body.objectType);
     var groupId = req.body.groupId || utils.makeUniqueGroupId({
         from: {
@@ -133,8 +133,8 @@ router.put('/update/:id', function(req, res) {
         chat.message = req.body.message;
         chat.save(function() {
             res.json(chat);
-        })
-    }).catch(function(e){
+        });
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });

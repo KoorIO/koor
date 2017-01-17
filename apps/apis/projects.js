@@ -9,7 +9,7 @@ var express = require('express'),
     router = express.Router();
 
 // create a new project
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     logger.debug('Create a New Project', req.body.name);
     db.Project.count({
         userId: req.body.userId
@@ -24,7 +24,7 @@ router.post('/create', function(req, res){
                     userId: req.body.userId,
                     secretKey: key
                 });
-                project.save(function(error){
+                project.save(function(error) {
                     if (error) {
                         logger.debug('Failed - Save Project', error);
                         return res.status(406).send(JSON.stringify({error}));
@@ -62,7 +62,7 @@ router.post('/create', function(req, res){
 });
 
 // get a project by id
-router.get('/get/:id', function(req, res){
+router.get('/get/:id', function(req, res) {
     logger.debug('Get Project By Id', req.params.id);
     db.Project.findOne({
         _id: req.params.id
@@ -82,19 +82,19 @@ router.get('/get/:id', function(req, res){
         } else {
             res.json(project);
         }
-    }).catch(function(e){
+    }).catch(function(e) {
         logger.debug('Failed - query error', e);
         res.status(500).send(JSON.stringify(e));
     });
 });
 
 // delete a project by id
-router.delete('/delete/:id', function(req, res){
+router.delete('/delete/:id', function(req, res) {
     logger.debug('Delete Project By Id', req.params.id);
     db.Project.findOneAndRemove({
         _id: req.params.id,
         userId: req.body.userId
-    }).then(function(project){
+    }).then(function(project) {
         // send message create a domain to queue
         q.create(os.hostname() + 'delete_domain', {
             domain: project.domain,
@@ -113,13 +113,13 @@ router.delete('/delete/:id', function(req, res){
             }
         }).priority('high').save();
         res.json({});
-    }).catch(function(e){
+    }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
     });
 });
 
 // update a project by id
-router.put('/update/:id', function(req, res){
+router.put('/update/:id', function(req, res) {
     logger.debug('Update Project By Id', req.params.id);
     db.Project.findOne({
         _id: req.params.id,
@@ -141,24 +141,24 @@ router.put('/update/:id', function(req, res){
                 }
             }).priority('high').save();
             res.json({});
-        })
-    }).catch(function(e){
+        });
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });
 
 // generate secret key
-router.get('/generate/secretKey', function(req, res){
+router.get('/generate/secretKey', function(req, res) {
     logger.debug('Generate Secret Key');
     db.Project.generateSecretKey().then(function(key) {
         res.json({'secret_key': key});
-    }).catch(function(e){
+    }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
     });
 });
 
 // get list of projects
-router.get('/list/:page/:limit', function(req, res){
+router.get('/list/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Project.count({

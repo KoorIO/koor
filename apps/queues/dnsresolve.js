@@ -8,7 +8,7 @@ var utils = require('../helpers/utils');
 var config = require('config');
 consumer.name = os.hostname() + 'dnsresolve';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
 
     if (config.get('cloudflare.enable') === 'false' || !config.get('cloudflare.enable')) {
@@ -36,7 +36,7 @@ consumer.task = function(job, done){
                 q.create(os.hostname() + 'activities', activity).priority('low').save();
                 logger.debug('Domain %s works', project.domain);
             });
-        }).catch(function(e){
+        }).catch(function(e) {
             logger.debug('Failed - Update DNS Status for Project', e);
         });
     } else {
@@ -69,7 +69,7 @@ consumer.task = function(job, done){
                     q.create(os.hostname() + 'activities', activity).priority('low').save();
                     logger.debug('Domain %s works', project.domain);
                 });
-            }).catch(function(e){
+            }).catch(function(e) {
                 logger.debug('Failed - Update DNS Status for Project', e);
             });
 

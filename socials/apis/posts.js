@@ -8,7 +8,7 @@ var express = require('express'),
     router = express.Router();
 
 // get post
-router.get('/get/:id', function(req, res){
+router.get('/get/:id', function(req, res) {
     logger.info('Get Post Details', req.params.postId);
     db.Post
     .findOne({
@@ -63,8 +63,8 @@ router.get([
 });
 
 // Create new post
-router.post('/create', function(req, res){
-    logger.info('Create New Post', req.body.postType)
+router.post('/create', function(req, res) {
+    logger.info('Create New Post', req.body.postType);
     var post = new db.Post({
         postType: req.body.postType,
         userId: req.body.userId,
@@ -99,8 +99,8 @@ router.put('/update/:id', function(req, res) {
         post.content = req.body.content;
         post.save(function() {
             res.json(post);
-        })
-    }).catch(function(e){
+        });
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });

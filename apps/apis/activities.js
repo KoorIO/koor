@@ -5,7 +5,7 @@ var express = require('express'),
     router = express.Router();
 
 // get list of activities
-router.get('/list/:projectId/:page/:limit', function(req, res){
+router.get('/list/:projectId/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get Activities', req.params.projectId);

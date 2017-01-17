@@ -34,7 +34,7 @@ router.post('/create', function(req, res) {
 });
 
 // get list of devices
-router.get('/list/:projectId/:page/:limit', function(req, res){
+router.get('/list/:projectId/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Device.count({ projectId: req.params.projectId }, function(err, c) {
@@ -86,7 +86,7 @@ router.get('/list/:projectId/:page/:limit', function(req, res){
 });
 
 // get a device by id
-router.get('/get/:id', function(req, res){
+router.get('/get/:id', function(req, res) {
     logger.debug('Get device By Id', req.params.id);
     db.Device.findOne({
         _id: req.params.id
@@ -103,17 +103,17 @@ router.get('/get/:id', function(req, res){
         } else {
             res.json(device);
         }
-    }).catch(function(e){
+    }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
     });
 });
 
 // delete a device by id
-router.delete('/delete/:id', function(req, res){
+router.delete('/delete/:id', function(req, res) {
     logger.debug('Delete Device By Id', req.params.id);
     db.Device.findOneAndRemove({
         _id: req.params.id
-    }).then(function(device){
+    }).then(function(device) {
         q.create(os.hostname() + 'devices', {
             type: 'DELETE_DEVICE',
             device: device,
@@ -121,13 +121,13 @@ router.delete('/delete/:id', function(req, res){
             userId: req.body.userId
         }).priority('high').save();
         res.json(device);
-    }).catch(function(e){
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });
 
 // update a device by id
-router.put('/update/:id', function(req, res){
+router.put('/update/:id', function(req, res) {
     logger.debug('Update Device By Id', req.params.id);
     db.Device.findOne({
         _id: req.params.id
@@ -145,13 +145,13 @@ router.put('/update/:id', function(req, res){
             }).priority('high').save();
             res.json({});
         });
-    }).catch(function(e){
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });
 
 // follow a device
-router.post('/follow/:id', function(req, res){
+router.post('/follow/:id', function(req, res) {
     logger.debug('Follow a Device', req.params.id);
     db.Device.findOne({
         _id: req.params.id
@@ -176,7 +176,7 @@ router.post('/follow/:id', function(req, res){
             }).priority('high').save();
             res.json(device);
         });
-    }).catch(function(e){
+    }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
     });
 });

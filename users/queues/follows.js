@@ -8,7 +8,7 @@ var services = require('../services');
 
 consumer.name = os.hostname() + 'follows';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     var q = require('../queues');
     logger.debug('Queue', os.hostname(), 'follows');

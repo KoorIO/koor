@@ -6,7 +6,7 @@ var logger = require('../helpers/logger');
 var request = require('request');
 consumer.name = os.hostname() + 'delete_domain';
 
-consumer.task = function(job, done){
+consumer.task = function(job, done) {
     var data = job.data;
     if (config.get('cloudflare.enable')) {
         var options = {

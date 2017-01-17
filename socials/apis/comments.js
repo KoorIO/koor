@@ -7,7 +7,7 @@ var express = require('express'),
     router = express.Router();
 
 // get comment
-router.get('/get/:id', function(req, res){
+router.get('/get/:id', function(req, res) {
     logger.info('Get Comment Details', req.params.id);
     db.Comment
     .findOne({
@@ -22,7 +22,7 @@ router.get('/get/:id', function(req, res){
 });
 
 // get list comments
-router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
+router.get('/list/:objectType/:objectId/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.Comment.count({
@@ -71,7 +71,7 @@ router.get('/list/:objectType/:objectId/:page/:limit', function(req, res){
 });
 
 // Create new comment
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     logger.info('Create New Comment', req.body.objectId, req.body.objectType);
     var comment = new db.Comment({
         objectType: req.body.objectType,
@@ -99,8 +99,8 @@ router.put('/update/:id', function(req, res) {
         comment.message = req.body.message;
         comment.save(function() {
             res.json(comment);
-        })
-    }).catch(function(e){
+        });
+    }).catch(function(e) {
         res.status(400).send(JSON.stringify(e));
     });
 });

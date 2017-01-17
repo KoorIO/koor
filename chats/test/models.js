@@ -9,7 +9,7 @@ describe('User Model', function() {
         user.save(function(err) {
             if (err) return done(err);
             done();
-        })
+        });
     });
     it('should delete a user', function(done) {
         User.remove({

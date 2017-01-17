@@ -6,7 +6,7 @@ var express = require('express'),
     router = express.Router();
 
 // get friend wall
-router.get('/wall/:userId/:page/:limit', function(req, res){
+router.get('/wall/:userId/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get friend wall', req.params.userId);
@@ -28,7 +28,7 @@ router.get('/wall/:userId/:page/:limit', function(req, res){
 });
 
 // get list of feed
-router.get('/list/:page/:limit', function(req, res){
+router.get('/list/:page/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get Feed User', req.body.userId);
@@ -57,11 +57,11 @@ router.get('/list/:page/:limit', function(req, res){
             res.status(400).send(JSON.stringify(e));
         });
 
-    })
+    });
 });
 
 // get new feeds
-router.get('/newer/:feedId/:limit', function(req, res){
+router.get('/newer/:feedId/:limit', function(req, res) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     logger.info('Get New Feed User', req.params.feedId);
     s.User.getFollowingsByUserId({
@@ -89,7 +89,7 @@ router.get('/newer/:feedId/:limit', function(req, res){
             res.status(400).send(JSON.stringify(e));
         });
 
-    })
+    });
 });
 
 module.exports = router;

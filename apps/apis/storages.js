@@ -5,7 +5,7 @@ var express = require('express'),
     router = express.Router();
 
 // get data by filed Id
-router.get('/:fieldId', function(req, res){
+router.get('/:fieldId', function(req, res) {
     logger.info('Get Data for Field last 500 record', req.params.fieldId);
     db.Storage.find({
         fieldId: req.params.fieldId

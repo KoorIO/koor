@@ -6,7 +6,7 @@ var express = require('express'),
     router = express.Router();
 
 // get app config
-router.get('/get', function(req, res){
+router.get('/get', function(req, res) {
     // get from cache
     cache.get('AppConfig', function(err, reply) {
         if (!err && reply) {
@@ -29,12 +29,12 @@ router.get('/get', function(req, res){
 });
 
 // create app config
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     var config = new db.AppConfig(req.body);
 
     // remove data before insert new config
     db.AppConfig.remove({}, function() {
-        config.save(function(error, newConfig){
+        config.save(function(error, newConfig) {
             if (error) {
                 return res.status(406).send(JSON.stringify({error}));
             }
