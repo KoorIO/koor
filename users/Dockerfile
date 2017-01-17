@@ -4,6 +4,8 @@ MAINTAINER Nguyen Sy Thanh Son
 RUN npm install -g pm2
 
 WORKDIR /build
+COPY ./package.json /build
+RUN npm install
 COPY ./ /build
 
 EXPOSE 3000

@@ -6,6 +6,8 @@ RUN apk add --update imagemagick
 RUN npm install -g pm2
 
 WORKDIR /build
+COPY ./package.json /build
+RUN npm install
 COPY ./ /build
 
 EXPOSE 3000

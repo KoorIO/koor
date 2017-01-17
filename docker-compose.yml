@@ -19,10 +19,11 @@ services:
     depends_on:
       - db
       - redis
+      - elasticsearch
+      - neo4j
     networks:
       - front-net
       - back-net
-
 
   apps:
     build: ./apps
@@ -31,10 +32,44 @@ services:
     depends_on:
       - db
       - redis
+      - elasticsearch
+      - neo4j
     environment:
       MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
       MAILER_AUTH_USER: ${MAILER_AUTH_USER}
       CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
+    networks:
+      - front-net
+      - back-net
+
+  socials:
+    build: ./socials
+    image: registry.gitlab.com/thanhson1085/koor:socials
+    restart: "on-failure:3"
+    environment:
+      MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
+      MAILER_AUTH_USER: ${MAILER_AUTH_USER}
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+      - neo4j
+    networks:
+      - front-net
+      - back-net
+
+  chats:
+    build: ./chats
+    image: registry.gitlab.com/thanhson1085/koor:chats
+    restart: "on-failure:3"
+    environment:
+      MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
+      MAILER_AUTH_USER: ${MAILER_AUTH_USER}
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+      - neo4j
     networks:
       - front-net
       - back-net
