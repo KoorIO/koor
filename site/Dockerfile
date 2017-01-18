@@ -20,6 +20,7 @@ COPY ./package.json /build/
 RUN npm install
 COPY ./bower.json /build/
 RUN bower --allow-root install -g
+COPY ./ /build
 RUN grunt build
 
 RUN cp -R ./dist/ /usr/share/nginx/html/
