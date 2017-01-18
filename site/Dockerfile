@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y curl \
                                          nodejs \
                                          rubygems
 
-RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-RUN apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
+RUN apt-get install -y nodej
 RUN npm install -g npm@latest
 RUN npm install -g grunt-cli bower
 RUN gem install sass
