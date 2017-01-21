@@ -68,9 +68,8 @@ router.post('/create', function(req, res) {
         if (error) {
             logger.debug('Failed - Save Feel', error);
             return res.status(500).json(error);
-        } else {
-            return res.json(feel);
         }
+        return res.json(feel);
     });
 });
 

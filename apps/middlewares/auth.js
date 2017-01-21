@@ -27,10 +27,9 @@ module.exports = function(req, res, next) {
                 req.body.accessToken = t;
                 logger.debug('Nice authorization %s !!!', JSON.parse(user)._id);
                 return next();
-            } else {
-                logger.debug('Access Denied %s !!!', t);
-                return res.status(401).send(JSON.stringify({}));
             }
+            logger.debug('Access Denied %s !!!', t);
+            return res.status(401).send(JSON.stringify({}));
         });
     } else {
         return next();

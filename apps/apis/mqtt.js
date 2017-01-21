@@ -131,6 +131,8 @@ router.post('/on_subscribe', function(req, res) {
                                     }
                                 }).priority('low').save();
                             }
+                        }).catch(function(e) {
+                            logger.debug('Faild - query project', e);
                         });
                         logger.debug('Device %s is ON', deviceId);
                     });
@@ -178,9 +180,13 @@ router.post('/on_client_gone', function(req, res) {
                         }
                     }).priority('low').save();
                     logger.debug('Device %s is OFF', device._id);
+                }).catch(function(e) {
+                    logger.debug('Failed - query project', e);
                 });
             });
 
+        }).catch(function(e) {
+            logger.debug('Failed - query device', e);
         });
         res.send(JSON.stringify({result: 'ok'}));
     });
@@ -222,8 +228,12 @@ router.post('/on_client_offline', function(req, res) {
                         }
                     }).priority('low').save();
                     logger.debug('Device %s is OFF', device._id);
+                }).catch(function(e) {
+                    logger.debug('Failed - query project', e);
                 });
             });
+        }).catch(function(e) {
+            logger.debug('Failed - query device', e);
         });
         res.send(JSON.stringify({result: 'ok'}));
     });

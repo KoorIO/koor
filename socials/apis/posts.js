@@ -8,7 +8,7 @@ var express = require('express'),
     router = express.Router();
 
 // get post
-router.get('/get/:id', function(req, res) {
+router.get('/get/:id', function(req, res, next) {
     logger.info('Get Post Details', req.params.postId);
     db.Post
     .findOne({
@@ -23,6 +23,9 @@ router.get('/get/:id', function(req, res) {
             }).then(function(body) {
                 post.file = body;
                 res.json(post);
+            }).catch(function(e) {
+                logger.debug('Failed - get file', e);
+                return next(e);
             });
         } else {
             res.json(post);
@@ -76,16 +79,15 @@ router.post('/create', function(req, res) {
         if (error) {
             logger.debug('Failed - Save Post', error);
             return res.status(500).json(error);
-        } else {
-            q.create(os.hostname() + 'posts', {
-                postId: post._id,
-                userId: post.userId,
-                accessToken: req.body.accessToken,
-                type: 'CREATE_POST',
-                data: post
-            }).priority('high').save();
-            return res.json(post);
         }
+        q.create(os.hostname() + 'posts', {
+            postId: post._id,
+            userId: post.userId,
+            accessToken: req.body.accessToken,
+            type: 'CREATE_POST',
+            data: post
+        }).priority('high').save();
+        return res.json(post);
     });
 });
 

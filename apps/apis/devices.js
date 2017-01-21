@@ -86,7 +86,7 @@ router.get('/list/:projectId/:page/:limit', function(req, res) {
 });
 
 // get a device by id
-router.get('/get/:id', function(req, res) {
+router.get('/get/:id', function(req, res, next) {
     logger.debug('Get device By Id', req.params.id);
     db.Device.findOne({
         _id: req.params.id
@@ -99,6 +99,9 @@ router.get('/get/:id', function(req, res) {
             }).then(function(body) {
                 device.file = body;
                 res.json(device);
+            }).catch(function(e) {
+                logger.debug('Failed - get files', e);
+                return next(e);
             });
         } else {
             res.json(device);

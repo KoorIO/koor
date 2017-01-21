@@ -32,12 +32,15 @@ router.get('/get/:id', function(req, res) {
 });
 
 // delete a api by id
-router.delete('/delete/:id', function(req, res) {
+router.delete('/delete/:id', function(req, res, next) {
     logger.debug('Delete Api By Id', req.params.id);
     db.Api.remove({
         _id: req.params.id
     }).then(function() {
         res.json({});
+    }).catch(function(e) {
+        logger.debug('Failed - remove api', e);
+        return next(e);
     });
 });
 

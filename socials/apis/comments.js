@@ -83,9 +83,8 @@ router.post('/create', function(req, res) {
         if (error) {
             logger.debug('Failed - Save Comment', error);
             return res.status(500).json(error);
-        } else {
-            return res.json(comment);
         }
+        return res.json(comment);
     });
 });
 

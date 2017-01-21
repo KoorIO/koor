@@ -21,10 +21,9 @@ consumer.task = function(job, done) {
             height: y
         }).then(function(image) {
             logger.info('Resized and cropped: ' + image.width + ' x ' + image.height);
-        }, function (err) {
-            logger.error(err);
-        }
-        );
+        }).catch(function(e) {
+            logger.error('Failed - resize image', e);
+        });
     };
 
     var thumbnails = config.get('thumbnails');

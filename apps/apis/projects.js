@@ -50,6 +50,9 @@ router.post('/create', function(req, res) {
                         res.send(JSON.stringify(project));
                     });
                 });
+            }).catch(function(e) {
+                logger.debug('Failed - generate Secret Key', e);
+                res.status(406).json({message: 'Project Limit'});
             });
         } else {
             logger.debug('Failed - Over Project Limit %s >= %s', c, req.user.projectLimit);
@@ -78,6 +81,9 @@ router.get('/get/:id', function(req, res) {
             }).then(function(body) {
                 project.file = body;
                 res.json(project);
+            }).catch(function(e) {
+                logger.debug('Failed - query error', e);
+                res.status(500).send(JSON.stringify(e));
             });
         } else {
             res.json(project);

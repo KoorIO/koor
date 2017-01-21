@@ -44,12 +44,15 @@ router.get('/get/:id', function(req, res) {
 });
 
 // delete a field by id
-router.delete('/delete/:id', function(req, res) {
+router.delete('/delete/:id', function(req, res, next) {
     logger.debug('Delete Field By Id', req.params.id);
     db.Field.remove({
         _id: req.params.id
     }).then(function() {
-        res.json({});
+        return res.json({});
+    }).catch(function(e) {
+        logger.debug('Failed - remove field', e);
+        return next(e);
     });
 });
 
@@ -67,6 +70,8 @@ router.put('/update/:id', function(req, res) {
                 res.status(500).send(JSON.stringify(error));
             }
             res.json(field);
+        }).catch(function(e) {
+            logger.debug('Failed - save field', e);
         });
     }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));

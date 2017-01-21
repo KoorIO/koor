@@ -37,6 +37,9 @@ app.use(require('./middlewares/auth'));
 // import routers
 app.use(require('./apis'));
 
+// handle error
+app.use(require('./middlewares/error'));
+
 // start server
 var server = app.listen(config.get('server.port'), config.get('server.host'), function () {
     var host = server.address().address;

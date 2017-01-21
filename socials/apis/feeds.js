@@ -28,7 +28,7 @@ router.get('/wall/:userId/:page/:limit', function(req, res) {
 });
 
 // get list of feed
-router.get('/list/:page/:limit', function(req, res) {
+router.get('/list/:page/:limit', function(req, res, next) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     logger.info('Get Feed User', req.body.userId);
@@ -57,11 +57,14 @@ router.get('/list/:page/:limit', function(req, res) {
             res.status(400).send(JSON.stringify(e));
         });
 
+    }).catch(function(e) {
+        logger.debug('Failed - query follower', e);
+        return next(e);
     });
 });
 
 // get new feeds
-router.get('/newer/:feedId/:limit', function(req, res) {
+router.get('/newer/:feedId/:limit', function(req, res, next) {
     var limit = (req.params.limit)? parseInt(req.params.limit): 10;
     logger.info('Get New Feed User', req.params.feedId);
     s.User.getFollowingsByUserId({
@@ -88,7 +91,9 @@ router.get('/newer/:feedId/:limit', function(req, res) {
         }).catch(function(e) {
             res.status(400).send(JSON.stringify(e));
         });
-
+    }).catch(function(e) {
+        logger.debug('Failed - get follower', e);
+        return next(e);
     });
 });
 
