@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var logger = require('../../helpers/logger');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 // Define User Schema
 var User = new Schema({
@@ -48,9 +47,7 @@ var User = new Schema({
     salt: {
         type: String
     }
-});
-
-User.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 // Define virtual fullname attribute
 User.virtual('fullname').get(function() {
@@ -72,9 +69,8 @@ User.path('username').validate(function (username) {
 User.path('hashedPassword').validate(function () {
     if (this._password) {
         return (this._password.length >=4) && (this._password.length <=20);
-    } else {
-        return true;
     }
+    return true;
 }, 'Password Length is invalid');
 
 User.path('username').validate(function (username, fn) {

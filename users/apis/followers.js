@@ -118,6 +118,8 @@ router.get(['/list/:page/:limit', '/list/:userId/:page/:limit'], function(req, r
                 }).catch(function(e) {
                     res.status(500).send(JSON.stringify(e));
                 });
+            }).catch(function(e) {
+                logger.debug('Failed - query follower', e);
             });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));
@@ -199,6 +201,8 @@ router.get(['/following/list/:page/:limit', '/following/list/:userId/:page/:limi
                 }).catch(function(e) {
                     res.status(500).send(JSON.stringify(e));
                 });
+            }).catch(function(e) {
+                res.status(500).send(JSON.stringify(e));
             });
         }).catch(function(e) {
             res.status(500).send(JSON.stringify(e));

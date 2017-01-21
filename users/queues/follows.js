@@ -46,8 +46,11 @@ consumer.task = function(job, done) {
                 },
                 template: 'follower'
             }).priority('high').save();
-
+        }).catch(function(e) {
+            logger.debug('Failed - get user detail', e);
         });
+    }).catch(function(e) {
+        logger.debug('Failed - get user detail', e);
     });
     q.create(os.hostname() + 'njFollows', data).priority('high').save();
 

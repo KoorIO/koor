@@ -30,6 +30,8 @@ router.get('/peopleYouMayKnow/:page/:limit', function(req, res) {
                             response['hits'][i]._source.mutualFriends = parseInt(result.records[0].length);
                         }
                         return res.json(response);
+                    }).catch(function(e) {
+                        logger.debug('Failed - count mutual friends', e);
                     });
                 }
             }).catch(function() {

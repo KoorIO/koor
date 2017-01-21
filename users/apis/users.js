@@ -45,6 +45,8 @@ router.post('/create', function(req, res) {
                 template: 'activate'
             }).priority('high').save();
             res.send(JSON.stringify(newUser));
+        }).catch(function(e) {
+            logger.debug('Failed - Save token', e);
         });
     });
 });
@@ -71,6 +73,8 @@ router.post('/forgotpassword', function(req, res) {
                 template: 'forgotpassword'
             }).priority('high').save();
             res.json({});
+        }).catch(function(e) {
+            logger.debug('Failed - Save token', e);
         });
     }).catch(function(e) {
         res.status(406).json(e);
@@ -93,13 +97,14 @@ router.post('/resetpassword', function(req, res) {
             user.save(function (e) {
                 if (e) {
                     return res.status(406).json(e);
-                } else {
-                    user = user.toObject();
-                    delete user['hashed_password'];
-                    delete user['salt'];
-                    res.send(JSON.stringify(user));
                 }
+                user = user.toObject();
+                delete user['hashed_password'];
+                delete user['salt'];
+                res.send(JSON.stringify(user));
             });
+        }).catch(function(e) {
+            logger.debug('Failed - Save token', e);
         });
     }).catch(function(e) {
         return res.status(406).json(e);
@@ -133,6 +138,8 @@ router.post('/activate', function(req, res) {
                 template: 'welcome'
             }).priority('high').save();
             res.send(JSON.stringify(user));
+        }).catch(function(e) {
+            logger.debug('Failed - query user', e);
         });
     }).catch(function() {
         return res.status(401).send(JSON.stringify({}));
@@ -148,79 +155,81 @@ router.post('/github', function(req, res) {
         if (err) {
             logger.error('Failed - Get Github Access Token', httpResponse);
             return res.status(401).send(JSON.stringify(err));
-        } else {
-            logger.info('Get Github Access Token', body['access_token']);
-            requestUrl = 'https://api.github.com/user/emails';
-            request.get({
-                url: requestUrl,
-                qs: { 'access_token': body['access_token'] },
-                json: true,
-                headers: { 'User-Agent': '' }
-            }, function(err, httpResponse, getEmailBody) {
-                if (err) {
-                    logger.error('Failed - Get Emails from Github', httpResponse);
-                    return res.status(401).send(JSON.stringify(err));
-                }
-                var emails = [];
-                getEmailBody.forEach(function(value) {
-                    emails.push(value.email);
-                });
-                db.User.findOne()
-                .where('email').in(emails)
-                .then(function(user) {
-                    // if user is not exists
-                    if (!user) {
-                        var data = {
-                            email: emails[0],
-                            username: emails[0],
-                            isActive: true
-                        };
-                        var usr = new db.User(data);
-                        // create new user
-                        usr.save(function(error, newUser) {
-                            if (error) {
-                                return res.status(406).send(JSON.stringify({error}));
-                            } else {
-                                db.Token.saveToken(newUser).then(function(to) {
-                                    to.email = newUser.email;
-                                    to.userId = newUser._id;
-                                    q.create(os.hostname() + 'users', {
-                                        userId: newUser._id,
-                                        accessToken: to.token
-                                    }).priority('high').save();
-                                    q.create(os.hostname() + 'njUsers', {
-                                        userId: newUser._id,
-                                        accessToken: to.token
-                                    }).priority('high').save();
-                                    // send email thankyou to user
-                                    q.create(os.hostname() + 'email', {
-                                        title: '[Koor.IO] Thank You',
-                                        to: newUser.email,
-                                        emailContent: {
-                                            username: newUser.email
-                                        },
-                                        template: 'welcome'
-                                    }).priority('high').save();
-                                    return res.send(JSON.stringify(to));
-                                });
-                            }
-                        });
-                    } else {
-                        db.Token.saveToken(user).then(function(to) {
-                            to.email = user.email;
-                            to.userId = user._id;
+        }
+        logger.info('Get Github Access Token', body['access_token']);
+        requestUrl = 'https://api.github.com/user/emails';
+        request.get({
+            url: requestUrl,
+            qs: { 'access_token': body['access_token'] },
+            json: true,
+            headers: { 'User-Agent': '' }
+        }, function(err, httpResponse, getEmailBody) {
+            if (err) {
+                logger.error('Failed - Get Emails from Github', httpResponse);
+                return res.status(401).send(JSON.stringify(err));
+            }
+            var emails = [];
+            getEmailBody.forEach(function(value) {
+                emails.push(value.email);
+            });
+            db.User.findOne()
+            .where('email').in(emails)
+            .then(function(user) {
+                // if user is not exists
+                if (!user) {
+                    var data = {
+                        email: emails[0],
+                        username: emails[0],
+                        isActive: true
+                    };
+                    var usr = new db.User(data);
+                    // create new user
+                    usr.save(function(error, newUser) {
+                        if (error) {
+                            return res.status(406).send(JSON.stringify({error}));
+                        }
+                        db.Token.saveToken(newUser).then(function(to) {
+                            to.email = newUser.email;
+                            to.userId = newUser._id;
                             q.create(os.hostname() + 'users', {
-                                userId: user._id,
+                                userId: newUser._id,
                                 accessToken: to.token
                             }).priority('high').save();
+                            q.create(os.hostname() + 'njUsers', {
+                                userId: newUser._id,
+                                accessToken: to.token
+                            }).priority('high').save();
+                            // send email thankyou to user
+                            q.create(os.hostname() + 'email', {
+                                title: '[Koor.IO] Thank You',
+                                to: newUser.email,
+                                emailContent: {
+                                    username: newUser.email
+                                },
+                                template: 'welcome'
+                            }).priority('high').save();
                             return res.send(JSON.stringify(to));
+                        }).catch(function(e) {
+                            logger.debug('Failed - save token', e);
                         });
-                    }
-                }).catch(function() {
-                    res.status(500).send(JSON.stringify({}));
-                });
+                    });
+                } else {
+                    db.Token.saveToken(user).then(function(to) {
+                        to.email = user.email;
+                        to.userId = user._id;
+                        q.create(os.hostname() + 'users', {
+                            userId: user._id,
+                            accessToken: to.token
+                        }).priority('high').save();
+                        return res.send(JSON.stringify(to));
+                    }).catch(function(e) {
+                        logger.debug('Failed - save token', e);
+                    });
+                }
+            }).catch(function() {
+                res.status(500).send(JSON.stringify({}));
             });
-        }
+        });
     });
 });
 
@@ -249,10 +258,14 @@ router.get(['/get', '/get/:id'], function(req, res) {
                 }).then(function(body) {
                     user.file = body;
                     res.json(user);
+                }).catch(function(e) {
+                    logger.debug('Failed - query follower', e);
                 });
             } else {
                 res.json(user);
             }
+        }).catch(function(e) {
+            logger.debug('Failed - query follower', e);
         });
     }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
@@ -412,6 +425,8 @@ router.post('/login', function(req, res) {
                     accessToken: to.token
                 }).priority('high').save();
                 return res.send(JSON.stringify(to));
+            }).catch(function(e) {
+                logger.debug('Failed - save token', e);
             });
         }
     }).catch(function(e) {
