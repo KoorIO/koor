@@ -41,7 +41,7 @@
             "search": "/u/api/v1/users/search"
         },
         "feeds": {
-            "list": "/s/api/v1/feeds/list/1/10"
+            "list": "/s/api/v1/feeds/list/1/10",
             "wall": "/s/api/v1/feeds/wall/:userId/1/10"
         },
         "files": {
