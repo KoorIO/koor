@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Device = new Schema({
     name: {
@@ -9,6 +8,18 @@ var Device = new Schema({
     },
     description: {
         type: String
+    },
+    address: String,
+    location: {
+        type: {
+            type: String,
+            enum: 'Point',
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            default: [0,0]
+        }
     },
     status: {
         type: Boolean,
@@ -30,8 +41,6 @@ var Device = new Schema({
         type: String,
         index: true
     }
-});
-
-Device.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('Device', Device);
