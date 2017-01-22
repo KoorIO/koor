@@ -64,9 +64,8 @@ router.post('/create', function(req, res) {
         if (error) {
             logger.debug('Failed - Save GroupChat', error);
             return res.status(500).json(error);
-        } else {
-            return res.json(groupChat);
         }
+        return res.json(groupChat);
     });
 });
 

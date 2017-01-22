@@ -36,7 +36,7 @@ router.get('/list/:groupId/:page/:limit', function(req, res) {
 });
 
 // Create new chat
-router.post('/create', function(req, res) {
+router.post('/create', function(req, res, next) {
     logger.info('Create New Chat', req.body.objectId, req.body.objectType);
     var groupId = req.body.groupId || utils.makeUniqueGroupId({
         from: {
@@ -94,6 +94,9 @@ router.post('/create', function(req, res) {
                     }], function() {
                         saveMessage();
                     });
+                }).catch(function(e) {
+                    logger.debug('Failed - get device', e);
+                    return next(e);
                 });
             }
         }
@@ -111,14 +114,13 @@ router.post('/create', function(req, res) {
             if (error) {
                 logger.debug('Failed - Save Chat', error);
                 return res.status(500).json(error);
-            } else {
-                db.GroupChat.update({
-                    groupId: groupId
-                }, {status: 'unread'}, function(err, numberAffected) {
-                    logger.debug('Unread', numberAffected, err);
-                });
-                return res.json(chat);
             }
+            db.GroupChat.update({
+                groupId: groupId
+            }, {status: 'unread'}, function(err, numberAffected) {
+                logger.debug('Unread', numberAffected, err);
+            });
+            return res.json(chat);
         });
     }
 });
