@@ -33,6 +33,13 @@ angular
     $translateProvider.preferredLanguage(APP_CONFIG.locales.preferredLocale);
     $translateProvider.useLocalStorage();
 })
+.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyAaTopiIVMSyOvZlbffo8ykyuUIhD-44P4',
+        v: '3.25', //defaults to latest 3.X anyhow
+        libraries: 'places' // Required for SearchBox.
+    });
+})
 .config([
     '$stateProvider',
     '$urlRouterProvider',

@@ -9,8 +9,15 @@ var express = require('express'),
     router = express.Router();
 
 // create a new device
-router.post('/create', function(req, res) {
+router.post('/create', function(req, res, next) {
     logger.debug('Create a New Device', req.body.name);
+    req.checkBody('fileId', 'FileId must be ObjectId').optional().isMongoId();
+
+    const errors = req.validationErrors(true);
+    if (errors) {
+        return next(errors);
+    }
+
     var device = new db.Device({
         name: req.body.name,
         projectId: req.body.projectId,
@@ -18,6 +25,16 @@ router.post('/create', function(req, res) {
         fileId: req.body.fileId,
         albumId: req.body.albumId
     });
+
+    var lat = req.body.lat || 0;
+    var long = req.body.long || 0;
+
+    device.address = req.body.address;
+    device.location = {
+        type: 'Point',
+        coordinates: [Number(long), Number(lat)]
+    };
+
     device.save(function(error) {
         if (error) {
             logger.debug('Failed - Save Device', error);

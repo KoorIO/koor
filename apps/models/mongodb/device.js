@@ -43,4 +43,6 @@ var Device = new Schema({
     }
 }, {timestamps: true});
 
+Device.index({ location : '2dsphere'});
+
 module.exports = mongoose.model('Device', Device);

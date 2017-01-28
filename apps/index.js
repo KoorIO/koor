@@ -7,10 +7,12 @@ var app = express();
 var bodyParser = require('body-parser');
 var logger = require('./helpers/logger');
 var yaml = require('js-yaml');
+var validator = require('express-validator');
 
 // body parse
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(validator({}));
 
 // add modification header
 app.use(function(req, res, next) {

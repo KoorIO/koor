@@ -262,6 +262,17 @@ paths:
                           albumId:
                               type: string
                               description: Album ID
+                          address:
+                              type: string
+                              description: Description
+                          lat:
+                              type: number
+                              format: float
+                              description: Latitude
+                          long:
+                              type: number
+                              format: float
+                              description: Longtitude
             responses:
                 200:
                     description: Returns a access token

@@ -1,12 +1,14 @@
 'use strict';
 angular.module('siteSeedApp')
-.controller('CreateDeviceCtrl', function($scope, Devices, $state, $stateParams) {
+.controller('CreateDeviceCtrl', function($scope, Devices, $state, $stateParams, uiGmapGoogleMapApi, $log) {
     var projectId = $stateParams.projectId;
     $scope.create = function() {
         var data  = {
             name: $scope.name,
             projectId: projectId,
-            description: $scope.description
+            description: $scope.description,
+            lat: $scope.map.markers[0].latitude,
+            long: $scope.map.markers[0].longitude
         };
         Devices.create(data).then(function() {
             $state.go('app.projects.view', { projectId: projectId , service: 'device'});
@@ -14,6 +16,78 @@ angular.module('siteSeedApp')
             $scope.message = 'Your Device Limit is 10.';
         });
     };
+    var defaultLocation = {
+        latitude: 21.0277644,
+        longitude: 105.83415979999995
+    };
+    var defaultMarker = {
+        id: 1,
+        latitude: 21.0277644,
+        longitude: 105.83415979999995
+    };
+    angular.extend($scope, {
+        map: {
+            center: defaultLocation,
+            zoom: 14,
+            markers: [defaultMarker],
+            events: {
+                click: function (map, eventName, originalEventArgs) {
+                    var e = originalEventArgs[0];
+                    var lat = e.latLng.lat(),lon = e.latLng.lng();
+                    var marker = {
+                        id: Date.now(),
+                        latitude: lat,
+                        longitude: lon
+                    };
+                    $scope.map.markers = [marker];
+                    $scope.$apply();
+                }
+            },
+            markersEvents: {
+                click: function(marker, eventName, model) {
+                    $scope.map.window.model = model;
+                    $scope.map.window.show = true;
+                }
+            },
+            window: {
+                marker: {},
+                show: false,
+                closeClick: function() {
+                    this.show = false;
+                },
+                options: {} 
+            }
+        },
+        searchbox: { 
+            template:'searchbox.tpl.html', 
+            events:{
+                places_changed: function (searchBox) {
+                    var place = searchBox.getPlaces();
+                    var lon = place[0].geometry.location.lng();
+                    var lat = place[0].geometry.location.lat();
+                    var marker = {
+                        id: Date.now(),
+                        latitude: lat,
+                        longitude: lon
+                    };
+                    $scope.map.center = {
+                        latitude: lat,
+                        longitude: lon
+                    }
+                    console.log($scope.map.center);
+                    $scope.map.markers = [marker];
+                    $scope.$apply();
+                }
+            }
+        },
+        options: {
+            scrollwheel: false
+        }
+    });
+
+    uiGmapGoogleMapApi.then(function(maps) {
+        maps.visualRefresh = true;
+    });
 })
 .controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects, DeviceLogs, APP_CONFIG) {
     var deviceId = $stateParams.deviceId;

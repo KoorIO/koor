@@ -15,7 +15,8 @@ angular
     'ui.gravatar',
     'chart.js',
     'yaru22.angular-timeago',
-    'ngFileUpload'
+    'ngFileUpload',
+    'uiGmapgoogle-maps'
 ])  
 /* jshint ignore:start */
 .constant('APP_CONFIG', /* @echo APP_CONFIG */)
