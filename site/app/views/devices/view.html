@@ -11,7 +11,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         {{update_message}}
     </div>
-    <table class="table table-hover">
+    <table class="table table-hover table-borderless">
         <tbody>
         <tr>
             <td>MQTT Subscriber Topic</td>
@@ -26,6 +26,18 @@
             <td><a href="#" editable-text="device.description" onaftersave="updateDevice()">{{device.description || 'empty'}}</a></td>
         </tr>
         <tr>
+            <td>Address</td>
+            <td><a href="#" editable-text="device.address" onaftersave="updateDevice()">{{device.address || 'empty'}}</a></td>
+        </tr>
+        <tr>
+            <td>Latitude</td>
+            <td><a href="#" editable-text="device.location.coordinates[1]" onaftersave="updateDevice()">{{device.location.coordinates[1] || 'empty'}}</a></td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td><a href="#" editable-text="device.location.coordinates[0]" onaftersave="updateDevice()">{{device.location.coordinates[0] || 'empty'}}</a></td>
+        </tr>
+        <tr>
             <td>Status</td>
             <td><i class="fa fa-circle" ng-class="device.status?'text-success':'text-danger'"></i></td>
         </tr>
@@ -33,4 +45,18 @@
     </table>
     <p ng-show="deviceLogs.length"><strong>Logs</strong></p>
     <p class="small" ng-repeat="log in deviceLogs" ng-include="'log.html'"></p>
+    <div id="map_canvas">
+
+        <script id="searchbox.tpl.html" type="text/ng-template">
+            <input type="text" class="form-control searchbox" placeholder="Search your location ...">
+        </script>
+        <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" events="map.events">
+        <ui-gmap-search-box template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
+        <ui-gmap-markers models="map.markers"
+        coords="'self'"
+        events="map.markersEvents"
+        options="'options'">
+        </ui-gmap-markers>
+        </ui-gmap-google-map>
+    </div>
 </div>

@@ -613,3 +613,7 @@ body {
     top: 10px !important;
     width: 200px;
 }
+
+.table-borderless td, .table-borderless th, .table-borderless tr {
+    border: 0 !important;
+}
