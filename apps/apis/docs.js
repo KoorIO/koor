@@ -2,6 +2,7 @@
 var express = require('express'),
     db = require('../models/mongodb'),
     logger = require('../helpers/logger'),
+    config = require('config'),
     router = express.Router();
 
 // run a new api
@@ -21,7 +22,7 @@ router.all('/:projectUrl', function(req, res) {
                     throw true;
                 } else {
                     var swagger = {};
-                    swagger['basePath'] = '/';
+                    swagger['basePath'] = config.get('docs.basePath') || '/run/' + req.params.projectUrl;
                     swagger['swagger'] = '2.0';
                     swagger['definitions'] = {};
                     swagger['info'] = {};

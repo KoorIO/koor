@@ -45,8 +45,8 @@ router.post('/create', function(req, res, next) {
             device: device,
             accessToken: req.body.accessToken,
             userId: req.body.userId
-        }).priority('high').save();
-        res.send(JSON.stringify(device));
+        }).priority('high').removeOnComplete(true).save();
+        res.json(device);
     });
 });
 

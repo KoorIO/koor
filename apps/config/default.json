@@ -4,6 +4,12 @@
         "port": 80,
         "domain": "koor.io"
     },
+    "docs": {
+        "basePath": "/"
+    },
+    "broker": {
+        "url": "mqtt://broker"
+    },
     "db": {
         "uri": "mongodb://db:27017/apps"
     },

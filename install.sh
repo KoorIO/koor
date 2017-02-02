@@ -56,6 +56,8 @@ cd $workdir/apps && npm install && \
     sed -i "s/build_websocket_1/${HOSTNAME}/g" config/local.json && \
     sed -i "s/es:9200/localhost:9200/g" config/local.json && \
     sed -i "s/bolt:\/\/neo4j/bolt:\/\/localhost/g" config/local.json && \
+    sed -i "s/mqtt:\/\/broker/mqtt:\/\/localhost/g" config/local.json && \
+    sed -i "s/\"basePath\": \"\/\"/\"basePath\": false/g" config/local.json && \
     sed -i "s/\/\/db:/\/\/localhost:/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${APPS_PORT}/g" config/local.json
 wait

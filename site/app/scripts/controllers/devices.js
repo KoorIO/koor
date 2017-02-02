@@ -7,6 +7,7 @@ angular.module('siteSeedApp')
             name: $scope.name,
             projectId: projectId,
             description: $scope.description,
+            address: $scope.address,
             lat: $scope.map.markers[0].latitude,
             long: $scope.map.markers[0].longitude
         };

@@ -5,12 +5,12 @@ var express = require('express'),
     router = express.Router();
 
 // create a new api
-router.post('/create', function(req, res) {
+router.post('/create', function(req, res, next) {
     var api = new db.Api(req.body);
     logger.debug('Create a New Api', req.body);
     api.save(function(error) {
         if (error) {
-            return res.status(406).send(JSON.stringify({error}));
+            return next(error);
         }
         // remove security attributes
         var newApi = api.toObject();
