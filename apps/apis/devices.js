@@ -154,6 +154,13 @@ router.put('/update/:id', function(req, res) {
     }).then(function(device) {
         device.name = req.body.name;
         device.description = req.body.description;
+        device.address = req.body.address;
+        var lat = req.body.location.coordinates[1] || 0;
+        var long = req.body.location.coordinates[0] || 0;
+        device.location = {
+            type: 'Point',
+            coordinates: [Number(long), Number(lat)]
+        };
         device.fileId = req.body.fileId;
         device.albumId = req.body.albumId;
         device.save(function() {

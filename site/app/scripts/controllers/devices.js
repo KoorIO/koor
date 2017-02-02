@@ -73,7 +73,7 @@ angular.module('siteSeedApp')
                     $scope.map.center = {
                         latitude: lat,
                         longitude: lon
-                    }
+                    };
                     $scope.map.markers = [marker];
                     $scope.$apply();
                 }
@@ -88,33 +88,8 @@ angular.module('siteSeedApp')
         maps.visualRefresh = true;
     });
 })
-.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects, DeviceLogs, APP_CONFIG, uiGmapGoogleMapApi) {
-    var deviceId = $stateParams.deviceId;
-    Projects.get($stateParams.projectId).then(function(p) {
-        $scope.project = p;
-        Devices.get(deviceId).then(function(res) {
-            $scope.device = res;
-            DeviceLogs.list(deviceId, 1, 20).then(function(logs) {
-                $scope.deviceLogs = logs.rows;
-            });
-            var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:p.domain;
-            var socket = Socket.connect(socketDomain);
-            $scope.$on('$destroy', function() {
-                socket.disconnect();
-            });
-            socket.on('device_data', function(data) {
-                if (data.deviceId === deviceId) {
-                    $scope.device.status = data.status;
-                    $scope.$apply();
-                }
-            });
-        });
-    });
-    $scope.updateDevice = function() {
-        Devices.update(deviceId, $scope.device).then(function(r) {
-            $scope.device.code = r.code;
-        });
-    };
+.controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects,
+    DeviceLogs, APP_CONFIG, uiGmapGoogleMapApi, $timeout) {
     var defaultLocation = {
         latitude: 21.0277644,
         longitude: 105.83415979999995
@@ -133,6 +108,8 @@ angular.module('siteSeedApp')
                 click: function (map, eventName, originalEventArgs) {
                     var e = originalEventArgs[0];
                     var lat = e.latLng.lat(),lon = e.latLng.lng();
+                    $scope.device.location.coordinates[0] = lon;
+                    $scope.device.location.coordinates[1] = lat;
                     var marker = {
                         id: Date.now(),
                         latitude: lat,
@@ -140,6 +117,7 @@ angular.module('siteSeedApp')
                     };
                     $scope.map.markers = [marker];
                     $scope.$apply();
+                    $scope.updateDevice();
                 }
             },
             markersEvents: {
@@ -164,6 +142,8 @@ angular.module('siteSeedApp')
                     var place = searchBox.getPlaces();
                     var lon = place[0].geometry.location.lng();
                     var lat = place[0].geometry.location.lat();
+                    $scope.device.location.coordinates[0] = lon;
+                    $scope.device.location.coordinates[1] = lat;
                     var marker = {
                         id: Date.now(),
                         latitude: lat,
@@ -172,9 +152,10 @@ angular.module('siteSeedApp')
                     $scope.map.center = {
                         latitude: lat,
                         longitude: lon
-                    }
+                    };
                     $scope.map.markers = [marker];
                     $scope.$apply();
+                    $scope.updateDevice();
                 }
             }
         },
@@ -186,4 +167,43 @@ angular.module('siteSeedApp')
     uiGmapGoogleMapApi.then(function(maps) {
         maps.visualRefresh = true;
     });
+    var deviceId = $stateParams.deviceId;
+    Projects.get($stateParams.projectId).then(function(p) {
+        $scope.project = p;
+        Devices.get(deviceId).then(function(res) {
+            $scope.device = res;
+            var marker = {
+                id: Date.now(),
+                latitude: $scope.device.location.coordinates[1],
+                longitude: $scope.device.location.coordinates[0]
+            };
+            $scope.map.center = {
+                latitude: $scope.device.location.coordinates[1],
+                longitude: $scope.device.location.coordinates[0]
+            };
+            $scope.map.markers = [marker];
+            $timeout(function() {
+                $scope.$apply();
+            });
+            DeviceLogs.list(deviceId, 1, 20).then(function(logs) {
+                $scope.deviceLogs = logs.rows;
+            });
+            var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:p.domain;
+            var socket = Socket.connect(socketDomain);
+            $scope.$on('$destroy', function() {
+                socket.disconnect();
+            });
+            socket.on('device_data', function(data) {
+                if (data.deviceId === deviceId) {
+                    $scope.device.status = data.status;
+                    $scope.$apply();
+                }
+            });
+        });
+    });
+    $scope.updateDevice = function() {
+        Devices.update(deviceId, $scope.device).then(function(r) {
+            $scope.device.code = r.code;
+        });
+    };
 });

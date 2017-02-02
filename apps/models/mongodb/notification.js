@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Notification = new Schema({
     type: {
@@ -19,8 +18,6 @@ var Notification = new Schema({
         type: Schema.Types.ObjectId,
         index: true
     }
-});
-
-Notification.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('Notification', Notification);

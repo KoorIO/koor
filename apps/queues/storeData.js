@@ -5,7 +5,7 @@ var logger = require('../helpers/logger');
 var db = require('../models/mongodb');
 var cache = require('../helpers/cache');
 var ObjectId = require('mongoose').Types.ObjectId;
-consumer.name = os.hostname() + 'store_data';
+consumer.name = os.hostname() + 'storeData';
 
 consumer.task = function(job, done) {
     var data = job.data;

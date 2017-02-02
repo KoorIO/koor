@@ -10,20 +10,7 @@ consumer.task = function(job, done) {
     var q = require('../queues');
     logger.debug('New App Notification', data.userId);
     // send to socials notifications
-    q.create(os.hostname() + 'notifications', data).priority('low').save();
-
-    var log = {
-        type: 'DEVICE_ON',
-        deviceId: data.data._id,
-        data: data.data
-    };
-    if (data.type === 'DEVICE_ON') {
-        q.create(os.hostname() + 'deviceLogs', log).priority('low').save();
-    }
-    if (data.type === 'DEVICE_OFF') {
-        log.type = 'DEVICE_OFF',
-        q.create(os.hostname() + 'deviceLogs', log).priority('low').save();
-    }
+    q.create(os.hostname() + 'notifications', data).priority('low').removeOnComplete(true).save();
 
     done();
 };

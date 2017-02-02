@@ -59,25 +59,43 @@ router.post('/auth_on_publish', function(req, res) {
         if (data.topic === 'koor.io/timer') {
             return res.send(JSON.stringify({result: 'ok'}));
         }
-        var topics = data.topic.split('/');
-        var domain = topics[0];
+        var arrTopic = data.topic.split('/');
+        var deviceId = arrTopic[2];
+        var domain = arrTopic[0];
         db.Project.findOne({
             domain: domain
         }, function(error, p) {
             if (error || !p) {
                 res.send(JSON.stringify({result: {error: 'You publish on unallowed channel'}}));
             } else {
-                if (topics.length > 1) {
+                if (arrTopic.length > 1) {
                     // send message store data to queue
                     var payload = {};
-                    payload[topics[1]] = data.payload;
-                    q.create(os.hostname() + 'store_data', {
+                    payload[arrTopic[1]] = data.payload;
+                    q.create(os.hostname() + 'storeData', {
                         projectId: p._id,
                         domain: domain,
                         query: {},
                         body: {},
                         payload: payload
-                    }).priority('high').save();
+                    }).priority('high').removeOnComplete(true).save();
+                    db.Device.findOne({
+                        _id: deviceId
+                    }).then(function(device) {
+                        q.create(os.hostname() + 'deviceLogs', {
+                            deviceId: device._id,
+                            type: 'ON_PUBLISH',
+                            data: {
+                                device: device,
+                                topic: data.topic,
+                                clientId: data.client_id,
+                                payload: data.payload,
+                                qos: data.qos
+                            }
+                        }).priority('high').removeOnComplete(true).save();
+                    }).catch(function(e) {
+                        logger.debug('Failed - query data', e);
+                    });
                 }
                 logger.debug('OK!');
                 return res.send(JSON.stringify({result: 'ok'}));
@@ -114,13 +132,23 @@ router.post('/on_subscribe', function(req, res) {
                         // save activity
                         db.Project.findOne({
                             domain: domain
-                        }).then(function(project) {
+                        }).lean().exec().then(function(project) {
                             if (project) {
+                                q.create(os.hostname() + 'deviceLogs', {
+                                    deviceId: device._id,
+                                    type: 'ON_SUBSCRIBE',
+                                    data: {
+                                        device: device,
+                                        topic: topic.topic,
+                                        qos: topic.topic.qos,
+                                        subscribeId: data.subscriber_id
+                                    }
+                                }).priority('high').removeOnComplete(true).save();
                                 q.create(os.hostname() + 'appNotifications', {
                                     userId: project.userId,
                                     type: 'DEVICE_ON',
                                     data: device
-                                }).priority('high').save();
+                                }).priority('high').removeOnComplete(true).save();
                                 q.create(os.hostname() + 'activities', {
                                     projectId: project._id,
                                     userId: project.userId,
@@ -129,7 +157,7 @@ router.post('/on_subscribe', function(req, res) {
                                         _id: device._id,
                                         name: device.name
                                     }
-                                }).priority('low').save();
+                                }).priority('high').removeOnComplete(true).save();
                             }
                         }).catch(function(e) {
                             logger.debug('Faild - query project', e);
@@ -164,6 +192,14 @@ router.post('/on_client_gone', function(req, res) {
                         domain: p.domain,
                         deviceId: device._id
                     }));
+                    q.create(os.hostname() + 'deviceLogs', {
+                        deviceId: device._id,
+                        type: 'ON_CLIENT_GONE',
+                        data: {
+                            device: device,
+                            subscribeId: data.subscriber_id
+                        }
+                    }).priority('high').removeOnComplete(true).save();
                     // save activiry
                     q.create(os.hostname() + 'appNotifications', {
                         userId: p.userId,

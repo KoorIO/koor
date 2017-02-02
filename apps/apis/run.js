@@ -33,13 +33,13 @@ router.all('/:projectUrl/*', function(req, res) {
                         res.set(a.response.headers);
 
                         // send message store data to queue
-                        q.create(os.hostname() + 'store_data', {
+                        q.create(os.hostname() + 'storeData', {
                             projectId: a.projectId,
                             domain: req.params.projectUrl,
                             query: req.query,
                             body: req.body,
                             payload: {}
-                        }).priority('high').save();
+                        }).priority('high').removeOnComplete(true).save();
 
                         res.status(a.response.status).send(JSON.stringify(a.response.body));
                     }

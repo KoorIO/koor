@@ -11,6 +11,7 @@ echo -e '\033[0;37m'
 
 workdir=${PWD} 
 WEBSOCKET_PORT=5000
+MQTT_WEBSOCKET_PORT=8080
 APPS_PORT=3001
 USERS_PORT=3000
 CHATS_PORT=3006
@@ -92,8 +93,8 @@ cd $workdir/site && npm install && bower install && \
     sed -i "s/\/c\//http:\/\/localhost:${CHATS_PORT}\//g" config/local.json && \
     sed -i "s/https:\/\//http:\/\//g" config/local.json && \
     sed -i "s/wss:\/\//ws:\/\//g" config/local.json && \
-    sed -i "s/\"mqtt\": \"koor.io\"/\"mqtt\": \"localhost:${APPS_PORT}\"/g" config/local.json && \
-    sed -i "s/\"websocket\": \"koor.io\"/\"websocket\": \"localhost:5000\"/g" config/local.json && \
+    sed -i "s/\"mqtt\": \"koor.io\"/\"mqtt\": \"localhost:${MQTT_WEBSOCKET_PORT}\"/g" config/local.json && \
+    sed -i "s/\"websocket\": \"koor.io\"/\"websocket\": \"localhost:${WEBSOCKET_PORT}\"/g" config/local.json && \
     sed -i "s/\"localEnv\": false/\"localEnv\": true/g" config/local.json
 
 if [ "$github_client_id" != "" ];

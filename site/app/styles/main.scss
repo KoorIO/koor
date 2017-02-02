@@ -617,3 +617,9 @@ body {
 .table-borderless td, .table-borderless th, .table-borderless tr {
     border: 0 !important;
 }
+code.device-log {
+    background: none;
+}
+code.device-log ul {
+    list-style: none;
+}

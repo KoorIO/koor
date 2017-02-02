@@ -1,6 +1,10 @@
 <script type="text/ng-template" id="log.html">
-    <span ng-show="log.type=='DEVICE_OFF'">Device was OFF <time-ago from-time='{{ log.createdAt }}'></time-ago></span>
-    <span ng-show="log.type=='DEVICE_ON'">Device was ON <time-ago from-time='{{ log.createdAt }}'></time-ago></span>
+<span ng-show="log.type=='ON_SUBSCRIBE'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON SUBSCRIBE<br />
+Topic: {{ log.data.topic}} </span>
+    <span ng-show="log.type=='ON_PUBLISH'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON PUBLISH<br />
+Topic: {{ log.data.topic }}<br />
+Payload: {{ log.data.payload }}</span>
+    <span ng-show="log.type=='ON_CLIENT_GONE'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON CLIENT GONE Subscribe ID: {{ log.data.subscribeId }} </span>
 </script>
 <div class="col-lg-12">
     <h1 class="page-header"><i class="fa fa-automobile"></i> <span>Device {{device.name}}</span></h1>
@@ -43,8 +47,7 @@
         </tr>
         </tbody>
     </table>
-    <p ng-show="deviceLogs.length"><strong>Logs</strong></p>
-    <p class="small" ng-repeat="log in deviceLogs" ng-include="'log.html'"></p>
+    <p><strong>Map</strong></p>
     <div id="map_canvas">
 
         <script id="searchbox.tpl.html" type="text/ng-template">
@@ -59,4 +62,6 @@
         </ui-gmap-markers>
         </ui-gmap-google-map>
     </div>
+    <p ng-show="deviceLogs.length"><strong>Logs</strong></p>
+    <code class="device-log"><ul><li class="small" ng-repeat="log in deviceLogs" ng-include="'log.html'"></li></ul></code>
 </div>

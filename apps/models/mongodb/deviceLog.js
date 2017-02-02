@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var DeviceLog = new Schema({
     type: {
@@ -15,8 +14,6 @@ var DeviceLog = new Schema({
         type: Schema.Types.ObjectId,
         index: true
     }
-});
-
-DeviceLog.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('DeviceLog', DeviceLog);
