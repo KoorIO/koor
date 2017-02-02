@@ -1,11 +1,3 @@
-<script type="text/ng-template" id="log.html">
-<span ng-show="log.type=='ON_SUBSCRIBE'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON SUBSCRIBE<br />
-Topic: {{ log.data.topic}} </span>
-    <span ng-show="log.type=='ON_PUBLISH'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON PUBLISH<br />
-Topic: {{ log.data.topic }}<br />
-Payload: {{ log.data.payload }}</span>
-    <span ng-show="log.type=='ON_CLIENT_GONE'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON CLIENT GONE Subscribe ID: {{ log.data.subscribeId }} </span>
-</script>
 <div class="col-lg-12">
     <h1 class="page-header"><i class="fa fa-automobile"></i> <span>Device {{device.name}}</span></h1>
 </div>
@@ -17,6 +9,10 @@ Payload: {{ log.data.payload }}</span>
     </div>
     <table class="table table-hover table-borderless">
         <tbody>
+        <tr>
+            <td>Debug Tools</td>
+            <td><a ui-sref="app.devices.logs({projectId: device.projectId, deviceId: device._id})"><strong>Realtime Logs</strong></a></td>
+        </tr>
         <tr>
             <td>MQTT Subscriber Topic</td>
             <td><code>{{ project.domain + "/devices/" + device._id }}</code></td>
@@ -62,6 +58,5 @@ Payload: {{ log.data.payload }}</span>
         </ui-gmap-markers>
         </ui-gmap-google-map>
     </div>
-    <p ng-show="deviceLogs.length"><strong>Logs</strong></p>
-    <code class="device-log"><ul><li class="small" ng-repeat="log in deviceLogs" ng-include="'log.html'"></li></ul></code>
+    <br />
 </div>

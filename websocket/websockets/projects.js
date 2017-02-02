@@ -14,6 +14,7 @@ var sub = require('redis').createClient({
 exports = module.exports = function(io){
     sub.subscribe('field_data');
     sub.subscribe('device_data');
+    sub.subscribe('device_logs');
     sub.subscribe('notifications');
     sub.on('message', function(channel, message) {
         var data = JSON.parse(message);
@@ -23,7 +24,13 @@ exports = module.exports = function(io){
         }
         if (channel === 'device_data') {
             logger.debug('Device %s change Status %s', data.deviceId, data.status);
-            io.sockets.in(adminRoom).emit('device_data', data);
+            var deviceRoom = 'devices_' + data.deviceId;
+            io.sockets.in(deviceRoom).emit('device_data', data);
+        }
+        if (channel === 'device_logs') {
+            logger.debug('Device %s logs %s', data.deviceId);
+            var deviceRoom = 'devices_' + data.deviceId;
+            io.sockets.in(deviceRoom).emit('device_logs', data);
         }
         if (channel === 'notifications') {
             logger.debug('Notification for user', data.userId);
@@ -45,6 +52,11 @@ exports = module.exports = function(io){
             var userRoom = data.userId + '-users';
             logger.debug('New Client %s join Room %s', socket.id, userRoom);
             socket.join(userRoom);
+        });
+        socket.on('devices', function (data) {
+            var deviceRoom = 'devices_' + data.deviceId;
+            logger.debug('New Client %s join Room %s', socket.id, deviceRoom);
+            socket.join(deviceRoom);
         });
         socket.on('test_message', function (message) {
             if ('socketId' in message) {

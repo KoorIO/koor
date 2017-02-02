@@ -288,6 +288,11 @@ angular
             controller: 'ViewDeviceCtrl',
             templateUrl: 'views/devices/view.html'
         })
+        .state('app.devices.logs', {
+            url: '/logs/:deviceId',
+            controller: 'LogsDeviceCtrl',
+            templateUrl: 'views/devices/logs.html'
+        })
         .state('app.devices.create', {
             url: '/create',
             templateUrl: 'views/devices/create.html',

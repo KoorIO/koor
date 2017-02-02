@@ -89,8 +89,27 @@ angular.module('siteSeedApp')
         maps.visualRefresh = true;
     });
 })
+.controller('LogsDeviceCtrl', function($scope, $stateParams, Socket, Projects,
+    DeviceLogs, APP_CONFIG) {
+    var deviceId = $stateParams.deviceId;
+    Projects.get($stateParams.projectId).then(function(p) {
+        $scope.project = p;
+        DeviceLogs.list(deviceId, 1, 100).then(function(logs) {
+            $scope.deviceLogs = logs.rows;
+        });
+        var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:p.domain;
+        var socket = Socket.connectDevices(deviceId, socketDomain);
+        $scope.$on('$destroy', function() {
+            socket.disconnect();
+        });
+        socket.on('device_logs', function(data) {
+            $scope.deviceLogs.unshift(data);
+            $scope.$apply();
+        });
+    });
+})
 .controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects,
-    DeviceLogs, APP_CONFIG, uiGmapGoogleMapApi, $timeout) {
+    APP_CONFIG, uiGmapGoogleMapApi, $timeout) {
     var defaultLocation = {
         latitude: 21.0277644,
         longitude: 105.83415979999995
@@ -186,11 +205,8 @@ angular.module('siteSeedApp')
             $timeout(function() {
                 $scope.$apply();
             });
-            DeviceLogs.list(deviceId, 1, 20).then(function(logs) {
-                $scope.deviceLogs = logs.rows;
-            });
             var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:p.domain;
-            var socket = Socket.connect(socketDomain);
+            var socket = Socket.connectDevices(deviceId, socketDomain);
             $scope.$on('$destroy', function() {
                 socket.disconnect();
             });

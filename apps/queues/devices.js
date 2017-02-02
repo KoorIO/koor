@@ -16,7 +16,7 @@ consumer.task = function(job, done) {
         objectType: 'DEVICE',
         objectId: data.device._id,
         data: {
-            device: data.device 
+            device: data.device
         }
     };
     if (data.type === 'CREATE_DEVICE' || data.type === 'DELETE_DEVICE') {
