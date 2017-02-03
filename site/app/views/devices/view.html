@@ -14,6 +14,11 @@
             <td><a ui-sref="app.devices.logs({projectId: device.projectId, deviceId: device._id})"><strong>Realtime Logs</strong></a></td>
         </tr>
         <tr>
+            <td>Test Tools</td>
+            <td> <a ui-sref="app.devices.mqtt({projectId: device.projectId, deviceId: device._id})"><strong>Sending MQTT messages</strong></a></td>
+        </tr>
+        </tr>
+        <tr>
             <td>MQTT Subscriber Topic</td>
             <td><code>{{ project.domain + "/devices/" + device._id }}</code></td>
         </tr>

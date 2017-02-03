@@ -30,15 +30,15 @@ consumer.task = function(job, done) {
             path: 'devices/' + data.device._id,
             method: 'POST',
             tags: ['Devices'],
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Encoding': 'UTF-8'
-            },
             description: 'Send messages to device ' + data.device._id,
             projectId: data.device.projectId,
             request: [ 'message' ],
             response: {
-                status: 200,
+                status: '200',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Encoding': 'UTF-8'
+                },
                 body: { message: 'OK' }
             }
         }).then(function(api) {

@@ -92,7 +92,11 @@ angular.module('siteSeedApp')
 .controller('LogsDeviceCtrl', function($scope, $stateParams, Socket, Projects,
     DeviceLogs, APP_CONFIG) {
     var deviceId = $stateParams.deviceId;
+    $scope.logsNumber = 0;
+    $scope.newDeviceLogs = [];
     Projects.get($stateParams.projectId).then(function(p) {
+        var docs = (APP_CONFIG.localEnv)?APP_CONFIG.docs + p.domain:'http://' + p.domain + '/docs';
+        $scope.swaggerUrl = 'http://petstore.swagger.io/?url=' + docs;
         $scope.project = p;
         DeviceLogs.list(deviceId, 1, 100).then(function(logs) {
             $scope.deviceLogs = logs.rows;
@@ -103,9 +107,50 @@ angular.module('siteSeedApp')
             socket.disconnect();
         });
         socket.on('device_logs', function(data) {
-            $scope.deviceLogs.unshift(data);
+            $scope.logsNumber++;
+            $scope.newDeviceLogs.unshift(data);
             $scope.$apply();
         });
+    });
+})
+.controller('MqttDevicesCtrl', function($scope, Projects, $stateParams, $state, $log, kmqtt, APP_CONFIG) {
+    var deviceId = $stateParams.deviceId;
+    Projects.get($stateParams.projectId).then(function(res) {
+        $scope.project = res;
+        $scope.isOn = false;
+        $scope.mqttMessage = 'Test messasge';
+        $scope.channel = 'devices/' + deviceId;
+        var mqttDomain = (APP_CONFIG.localEnv)?APP_CONFIG.mqtt:res.domain;
+        var client = kmqtt.connect(APP_CONFIG.protocols.ws + mqttDomain + '/mqtt');
+        $scope.$on("$destroy", function() {
+            client.end();
+        });
+
+        $scope.inbox = [];
+        client.on("message", function(topic, payload) {
+            var data = {
+                time: new Date(new Date().getTime()).toLocaleString(),
+                message: payload.toString()
+            };
+            $scope.inbox.push(data);
+            $scope.$apply();
+        });
+
+        $scope.subscribe = function() {
+            $scope.isOn = true;
+            client.subscribe(res.domain + '/' + $scope.channel);
+        };
+        $scope.subscribe();
+
+        $scope.unsubscribe = function() {
+            $scope.isOn = false;
+            client.unsubscribe(res.domain + '/' + $scope.channel);
+        };
+
+        $scope.publish = function() {
+            client.publish(res.domain + '/' + $scope.channel, $scope.mqttMessage);
+        };
+        $scope.loaded = true;
     });
 })
 .controller('ViewDeviceCtrl', function($scope, Devices, $stateParams, Socket, Projects,

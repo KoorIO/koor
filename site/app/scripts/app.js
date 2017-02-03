@@ -283,6 +283,11 @@ angular
                 }
             }
         })
+        .state('app.devices.mqtt', {
+            url: '/mqtt/:deviceId',
+            controller: "MqttDevicesCtrl",
+            templateUrl: 'views/devices/mqtt.html'
+        })
         .state('app.devices.view', {
             url: '/view/:deviceId',
             controller: 'ViewDeviceCtrl',

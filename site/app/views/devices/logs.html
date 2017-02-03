@@ -5,16 +5,25 @@ Topic: {{ log.data.topic}} </span>
 Topic: {{ log.data.topic }}<br />
 Payload: {{ log.data.payload }}</span>
     <span ng-show="log.type=='ON_CLIENT_GONE'">{{ log.createdAt | date: 'yyyy-MM-dd H:m:s Z' }}: ON CLIENT GONE Subscribe ID: {{ log.data.subscribeId }} </span>
+<span>&nbsp;<br />&nbsp;</span>
 </script>
 <div class="col-lg-12">
-    <h1 class="page-header"><i class="fa fa-history"></i> <span>Logs</span></h1>
+    <h1 class="page-header"><span class="badge">{{ logsNumber}}</span> <span>Logs</span></h1>
 </div>
 <!-- /.col-lg-12 -->
+<div class="col-lg-12">
+    <p class="small"><a href="{{ swaggerUrl }}" target="_blank">Try to send message from APIs to MQTT</a></p>
+</div>
 <div class="col-lg-12 code-container">
     <code class="device-log">
         <ul>
             <li><i class="fa fa-cog fa-spin fa-1 fa-fw"></i>
-            <span>Loading...</span></li>
+            <span>Waiting for new logs ...</span></li>
+            <li>&nbsp;</li>
+            <li ng-repeat="log in newDeviceLogs" ng-include="'log.html'"></li>
+        </ul>
+        <hr />
+        <ul>
             <li ng-repeat="log in deviceLogs" ng-include="'log.html'"></li>
         </ul>
     </code>

@@ -29,7 +29,7 @@ router.all(['/:projectUrl/devices/:deviceId', '/:projectUrl/devices/:deviceId/*'
                         logger.debug('Failed - Method does not match', req.method);
                         throw true;
                     } else {
-                        logger.debug('Perfect Request %s %s %s', req.params.projectUrl, req.params[0], a.response.status);
+                        logger.debug('Perfect Request %s %s %s', req.params.projectUrl, a.response.status);
                         res.set(a.response.headers);
 
                         // send message to devices
