@@ -2,7 +2,6 @@
 var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
-var utils = require('../helpers/utils');
 var services = require('../services');
 consumer.name = os.hostname() + 'projects';
 
@@ -35,7 +34,7 @@ consumer.task = function(job, done) {
                         type: data.type,
                         userId: data.userId
                     };
-                    q.create(utils.getHostnameSocials() + 'feeds', feed).priority('low').save();
+                    q.create('feeds', feed).priority('low').save();
                     q.create(os.hostname() + 'njProjects', data).priority('high').save();
                 }
                 q.create(os.hostname() + 'esProjects', data).priority('high').save();

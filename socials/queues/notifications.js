@@ -1,10 +1,9 @@
 'use strict';
 var consumer = {};
-var os = require('os');
 var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
 var cache = require('../helpers/cache');
-consumer.name = os.hostname() + 'notifications';
+consumer.name = 'notifications';
 
 consumer.task = function(job, done) {
     var data = job.data;
@@ -16,7 +15,7 @@ consumer.task = function(job, done) {
         userId: data.userId
     });
 
-    logger.debug('New Notification', data.userId, data.type, data.id);
+    logger.debug('New Notification', data.userId, data.type);
     cache.publish('notifications', JSON.stringify(notification));
 
     notification.save(function(error) {

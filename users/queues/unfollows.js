@@ -2,7 +2,6 @@
 var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
-var utils = require('../helpers/utils');
 
 consumer.name = os.hostname() + 'unfollows';
 
@@ -15,9 +14,9 @@ consumer.task = function(job, done) {
         objectId: data._id,
         objectType: 'FOLLOWER'
     };
-    q.create(utils.getHostnameSocials() + 'deleteFeeds', feedData).priority('high').save();
+    q.create('deleteFeeds', feedData).priority('high').save();
     q.create(os.hostname() + 'njUnFollows', data).priority('high').save();
-    q.create(utils.getHostnameSocials() + 'deleteNotifications', {
+    q.create('deleteNotifications', {
         type: 'FOLLOW_USER',
         objectId: data._id,
         objectType: 'FOLLOWER'

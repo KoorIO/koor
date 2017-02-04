@@ -1,9 +1,8 @@
 'use strict';
 var consumer = {};
-var os = require('os');
 var db = require('../models/mongodb');
 var logger = require('../helpers/logger');
-consumer.name = os.hostname() + 'deleteNotifications';
+consumer.name = 'deleteNotifications';
 
 consumer.task = function(job, done) {
     var data = job.data;

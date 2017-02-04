@@ -3,7 +3,6 @@ var express = require('express'),
     db = require('../models/mongodb'),
     q = require('../queues'),
     os = require('os'),
-    utils = require('../helpers/utils'),
     services = require('../services'),
     logger = require('../helpers/logger'),
     router = express.Router();
@@ -191,7 +190,7 @@ router.post('/follow/:id', function(req, res) {
             if (e) {
                 throw true;
             }
-            q.create(utils.getHostnameSocials() + 'notifications', {
+            q.create('notifications', {
                 type: 'FOLLOW_DEVICE',
                 id: device._id,
                 userId: device.userId,

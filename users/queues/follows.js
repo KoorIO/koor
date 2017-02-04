@@ -3,7 +3,6 @@ var config = require('config');
 var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
-var utils = require('../helpers/utils');
 var services = require('../services');
 
 consumer.name = os.hostname() + 'follows';
@@ -27,8 +26,8 @@ consumer.task = function(job, done) {
                 data: { user: user, follower: follower },
                 userId: data.followerId
             };
-            q.create(utils.getHostnameSocials() + 'feeds', feedData).priority('high').save();
-            q.create(utils.getHostnameSocials() + 'notifications', {
+            q.create('feeds', feedData).priority('high').save();
+            q.create('notifications', {
                 type: 'FOLLOW_USER',
                 objectId: data.id,
                 objectType: 'FOLLOWER',

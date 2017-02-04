@@ -2,7 +2,6 @@
 var consumer = {};
 var os = require('os');
 var logger = require('../helpers/logger');
-var utils = require('../helpers/utils');
 var db = require('../models/mongodb');
 consumer.name = os.hostname() + 'devices';
 
@@ -20,7 +19,7 @@ consumer.task = function(job, done) {
         }
     };
     if (data.type === 'CREATE_DEVICE' || data.type === 'DELETE_DEVICE') {
-        q.create(utils.getHostnameSocials() + 'feeds', feed).priority('low').save();
+        q.create('feeds', feed).priority('low').save();
         q.create(os.hostname() + 'njDevices', data).priority('high').save();
     }
     q.create(os.hostname() + 'esDevices', data).priority('high').save();
