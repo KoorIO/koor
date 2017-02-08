@@ -3,6 +3,7 @@ class AppUser
   store_in database: "users"
   store_in collection: "users"
 
-  field :email,              type: String, default: ""
+  field :email, type: String, default: ""
+  field :isActive, type: Boolean
 
 end

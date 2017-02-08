@@ -30,7 +30,7 @@ exports = module.exports = function(io) {
     }
     
     if (channel === 'device_logs') {
-      logger.debug('Device %s logs %s', data.deviceId);
+      logger.debug('Device %s logs', data.deviceId);
       const deviceRoom = 'devices_' + data.deviceId;
       io.sockets.in(deviceRoom).emit('device_logs', data);
     }

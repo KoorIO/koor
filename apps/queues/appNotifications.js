@@ -10,7 +10,7 @@ consumer.task = function(job, done) {
   var q = require('../queues');
   logger.debug('New App Notification', data.userId);
     // send to socials notifications
-  q.create(os.hostname() + 'notifications', data).priority('high').removeOnComplete(true).save();
+  q.create('notifications', data).priority('high').removeOnComplete(true).save();
 
   done();
 };

@@ -1,6 +1,9 @@
 <script type="text/ng-template" id="feed.html">
+    <p ng-show="feed.type=='CREATE_DEVICE'">
+        Create a new device - <strong>{{ feed.data.object.name }}</strong>
+    </p>
     <p ng-show="feed.type=='CREATE_PROJECT'">
-        Create a new project - <a ui-sref="app.projects.view({projectId: feed.data.object._id, service: 'dashboard'})">{{ feed.data.object.name }}</a>
+        Create a new project - <strong>{{ feed.data.object.name }}</strong>
     </p>
     <p ng-show="feed.type=='CREATE_POST'">
         <p>{{ feed.data.object.content }}</p>

@@ -26,7 +26,7 @@ consumer.task = function(job, done) {
         q.create(os.hostname() + 'activities', data).priority('low').save();
 
                 // save feed
-        if (data.type === 'CREATE_PROJECT' || data.type === 'CREATE_PROJECT') {
+        if (data.type === 'CREATE_PROJECT' || data.type === 'DELETE_PROJECT') {
           var feed = {
             data: data.data,
             objectType: 'PROJECT',
