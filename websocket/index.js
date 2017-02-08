@@ -21,27 +21,27 @@ app.set('view engine', 'handlebars');
 var adapter = require('socket.io-redis');
 var redis = require('redis').createClient;
 var pub = redis({
-    host: config.get('redis.host'),
-    port: config.get('redis.port'),
-    prefix: config.get('redis.prefix'),
-    'auth_pass': config.get('redis.password')
+  host: config.get('redis.host'),
+  port: config.get('redis.port'),
+  prefix: config.get('redis.prefix'),
+  'auth_pass': config.get('redis.password')
 });
 var sub = redis({
-    host: config.get('redis.host'),
-    port: config.get('redis.port'),
-    prefix: config.get('redis.prefix'),
-    'return_buffers': true,
-    'auth_pass': config.get('redis.password')
+  host: config.get('redis.host'),
+  port: config.get('redis.port'),
+  prefix: config.get('redis.prefix'),
+  'return_buffers': true,
+  'auth_pass': config.get('redis.password')
 });
 
 app.get('/', function (req, res) {
-    var url = config.get('protocols.http') + req.query.u;
-    res.render('index', {url: url});
+  var url = config.get('protocols.http') + req.query.u;
+  res.render('index', {url: url});
 });
 
 // Start web server at port 3000
 var io = require('socket.io').listen(app.listen(app.get('port'), app.get('host'), function () {
-    logger.info('Server up and running. Go to http://' + app.get('host') + ':' + app.get('port'));
+  logger.info('Server up and running. Go to http://' + app.get('host') + ':' + app.get('port'));
 }));
 io.adapter(adapter({ key: config.get('redis.prefix'), pubClient: pub, subClient: sub }));
 

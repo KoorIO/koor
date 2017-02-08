@@ -14,17 +14,17 @@ app.use(bodyParser.json());
 
 // add modification header
 app.use(function(req, res, next) {
-    res.header('Content-Type', 'application/json');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
-    next();
+  res.header('Content-Type', 'application/json');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
+  next();
 });
 
 // Swagger Docs
 app.get('/docs', function(req, res) {
-    var docs = yaml.safeLoad(fs.readFileSync('./docs/swagger.yml', 'utf8'));
-    res.send(JSON.stringify(docs));
+  var docs = yaml.safeLoad(fs.readFileSync('./docs/swagger.yml', 'utf8'));
+  res.send(JSON.stringify(docs));
 });
 
 // import middlewares
@@ -35,9 +35,9 @@ app.use(require('./apis'));
 
 // start server
 var server = app.listen(config.get('server.port'), config.get('server.host'), function () {
-    var host = server.address().address;
-    var port = server.address().port;
-    logger.info('Server start at http://%s:%s', host, port);
+  var host = server.address().address;
+  var port = server.address().port;
+  logger.info('Server start at http://%s:%s', host, port);
 });
 
 module.exports = app;

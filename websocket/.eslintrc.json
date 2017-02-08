@@ -16,7 +16,7 @@
     "rules": {
         "filenames/match-regex": 2,
         "promise/catch-or-return": "warn",
-        "indent": ["warn", 4],
+        "indent": ["warn", 2],
         "quotes": ["warn", "single"],
         "no-trailing-spaces": 1,
         "semi": ["warn", "always"],

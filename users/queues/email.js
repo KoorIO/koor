@@ -12,23 +12,23 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 
 consumer.task = function(job, done) {
-    var data = job.data;
-    var templateDir = path.join(__dirname, '../views/emails/', data.template);
-    var letter = new EmailTemplate(templateDir);
-    letter.render(data.emailContent, function (err, results) {
-        try {
-            logger.debug('Send email', data.title, data.to);
-            transporter.sendMail({
-                from: config.get('mailer.from'),
-                to: data.to,
-                subject: data.title,
-                html: results.html
-            });
-        } catch (e) {
-            logger.error(e);
-        }
-    });
-    done();
+  var data = job.data;
+  var templateDir = path.join(__dirname, '../views/emails/', data.template);
+  var letter = new EmailTemplate(templateDir);
+  letter.render(data.emailContent, function (err, results) {
+    try {
+      logger.debug('Send email', data.title, data.to);
+      transporter.sendMail({
+        from: config.get('mailer.from'),
+        to: data.to,
+        subject: data.title,
+        html: results.html
+      });
+    } catch (e) {
+      logger.error(e);
+    }
+  });
+  done();
 };
 
 module.exports = consumer;

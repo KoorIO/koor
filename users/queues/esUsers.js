@@ -8,37 +8,37 @@ var services = require('../services');
 consumer.name = os.hostname() + 'esUsers';
 
 consumer.task = function(job, done) {
-    var data = job.data;
-    var type = 'users';
+  var data = job.data;
+  var type = 'users';
 
-    logger.debug('Create Search User', data.userId);
-    services.User.getUserById(data).then(function(body) {
-        if (!body._id) {
-            es.delete({
-                index: config.get('es.index'),
-                type: type,
-                id: data.userId
-            }, function () {
-                logger.debug('Delete a User in Search', data.userId);
-            });
-        } else {
-            delete body['_id'];
-            es.index({
-                index: config.get('es.index'),
-                type: type,
-                id: data.userId,
-                body: body
-            }, function (error) {
-                if (error) {
-                    logger.error('Failed - Save User Search', error);
-                }
-                logger.debug('Create/Update a User in Search', data.userId);
-            });
+  logger.debug('Create Search User', data.userId);
+  services.User.getUserById(data).then(function(body) {
+    if (!body._id) {
+      es.delete({
+        index: config.get('es.index'),
+        type: type,
+        id: data.userId
+      }, function () {
+        logger.debug('Delete a User in Search', data.userId);
+      });
+    } else {
+      delete body['_id'];
+      es.index({
+        index: config.get('es.index'),
+        type: type,
+        id: data.userId,
+        body: body
+      }, function (error) {
+        if (error) {
+          logger.error('Failed - Save User Search', error);
         }
-    }).catch(function(e) {
-        logger.error(e);
-    });
-    done();
+        logger.debug('Create/Update a User in Search', data.userId);
+      });
+    }
+  }).catch(function(e) {
+    logger.error(e);
+  });
+  done();
 };
 
 module.exports = consumer;

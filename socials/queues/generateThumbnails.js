@@ -10,27 +10,27 @@ var config = require('config');
 consumer.name = os.hostname() + 'generateThumbnails';
 
 consumer.task = function(job, done) {
-    var data = job.data;
-    var extension = path.extname(data.path);
-    var file = path.basename(data.path, extension);
-    var resize = function(x,y) {
-        easyimg.resize({
-            src: path.join(data.path),
-            dst: path.join(path.dirname(data.path), fileHelper.fileNameToThumbnail(file, extension, x, y)),
-            width: x,
-            height: y
-        }).then(function(image) {
-            logger.info('Resized and cropped: ' + image.width + ' x ' + image.height);
-        }).catch(function(e) {
-            logger.error('Failed - resize image', e);
-        });
-    };
+  var data = job.data;
+  var extension = path.extname(data.path);
+  var file = path.basename(data.path, extension);
+  var resize = function(x,y) {
+    easyimg.resize({
+      src: path.join(data.path),
+      dst: path.join(path.dirname(data.path), fileHelper.fileNameToThumbnail(file, extension, x, y)),
+      width: x,
+      height: y
+    }).then(function(image) {
+      logger.info('Resized and cropped: ' + image.width + ' x ' + image.height);
+    }).catch(function(e) {
+      logger.error('Failed - resize image', e);
+    });
+  };
 
-    var thumbnails = config.get('thumbnails');
-    for (var k in thumbnails) {
-        resize(thumbnails[k][0], thumbnails[k][1]);
-    }
-    done();
+  var thumbnails = config.get('thumbnails');
+  for (var k in thumbnails) {
+    resize(thumbnails[k][0], thumbnails[k][1]);
+  }
+  done();
 };
 
 module.exports = consumer;

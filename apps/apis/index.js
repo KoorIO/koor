@@ -1,6 +1,6 @@
 'use strict';
 var express = require('express'),
-    router = express.Router();
+  router = express.Router();
 
 router.use('/api/v1/projects', require('./projects'));
 router.use('/api/v1/devices', require('./devices'));

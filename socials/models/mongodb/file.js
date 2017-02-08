@@ -3,21 +3,21 @@ var Schema = mongoose.Schema;
 var CreateUpdatedAt = require('mongoose-timestamp');
 
 var File = new Schema({
-    description: {
-        type: String
-    },
-    fileName: {
-        type: String,
-        require: true
-    },
-    userId: {
-        type: Schema.Types.ObjectId,
-        index: true
-    },
-    albumId: {
-        type: Schema.Types.ObjectId,
-        index: true
-    }
+  description: {
+    type: String
+  },
+  fileName: {
+    type: String,
+    require: true
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    index: true
+  },
+  albumId: {
+    type: Schema.Types.ObjectId,
+    index: true
+  }
 });
 
 File.plugin(CreateUpdatedAt);
