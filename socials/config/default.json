@@ -29,9 +29,6 @@
         }
     },
     "hostnames": {
-        "socials": [
-            "build_socials_1"
-        ],
         "websocket": [
             "build_websocket_1"
         ]

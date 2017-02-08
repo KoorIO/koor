@@ -10,6 +10,16 @@ angular.module('siteSeedApp').factory('Socket', function($log, APP_CONFIG) {
             });
             return socket;
         },
+        connectProjects: function(domain, projectId) {
+            var socket = io.connect(APP_CONFIG.protocols.http + domain);
+
+            socket.on('connect', function(){
+                socket.emit('projects', {
+                  projectId: projectId
+                });
+            });
+            return socket;
+        },
         connectDevices: function(deviceId, domain) {
             var socket = io.connect(APP_CONFIG.protocols.http + domain);
 

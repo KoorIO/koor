@@ -29,8 +29,11 @@ angular.module('siteSeedApp')
     Projects.get($stateParams.projectId).then(function(res) {
         $scope.project = res;
         var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:res.domain;
-        var socket = Socket.connect(socketDomain);
+        var socket = Socket.connectProjects(socketDomain, $stateParams.projectId);
         $scope.messages = [];
+        $scope.$on("$destroy", function() {
+            socket.disconnect();
+        });
         socket.on('test_message', function(data) {
             data.time = new Date(new Date().getTime()).toLocaleString();
             data.socketId = $stateParams.socketId;
@@ -118,6 +121,7 @@ angular.module('siteSeedApp')
         }
 
         if ($scope.service === 'api') {
+            $scope.runDocsUrl = (APP_CONFIG.localEnv)?APP_CONFIG.docs + res.domain:res.domain + '/docs';
             Apis.list($scope.project._id, page, limit).then(function(res) {
                 $scope.apis = res.rows;
                 $scope.count = res.count;
@@ -156,7 +160,7 @@ angular.module('siteSeedApp')
 
         if ($scope.service === 'websocket') {
             var socketDomain = (APP_CONFIG.localEnv)?APP_CONFIG.websocket:res.domain;
-            var socket = Socket.connect(socketDomain);
+            var socket = Socket.connectProjects(socketDomain, $stateParams.projectId);
             $scope.loaded = true;
             $scope.$on("$destroy", function() {
                 socket.disconnect();
