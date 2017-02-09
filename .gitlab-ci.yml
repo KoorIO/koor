@@ -41,6 +41,5 @@ build:
         - pip install docker-compose
     script:
         - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-        - docker-compose build
-        - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose up -d && docker-compose ps
-        - docker-compose push
+        - docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
+        - docker-compose -f docker-compose.yml -f docker-compose.dev.yml push

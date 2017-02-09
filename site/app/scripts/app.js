@@ -486,7 +486,8 @@ angular
         .state('home.index', {
             url: '/index',
             controller: 'HomeIndexCtrl',
-            templateUrl: 'views/profiles/index.html'
+            templateUrl: 'views/profiles/index.html',
+            activetab: 'home'
         })
         .state('home.follower', {
             url: '/follower',

@@ -56,13 +56,11 @@ var searchByUserIds = function(data) {
       size: data.size,
       query: {
         'constant_score': {
-          filter: [
-            {
-              terms: {
-                _id: data.userIds
-              }
+          filter: {
+            terms: {
+              _id: data.userIds
             }
-          ]
+          }
         }
       }
     }

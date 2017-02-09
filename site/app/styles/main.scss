@@ -572,7 +572,6 @@ body {
 }
 
 .profile-usermenu ul li a {
-  color: #93a3b5;
   font-size: 14px;
   font-weight: 400;
 }
@@ -584,18 +583,19 @@ body {
 
 .profile-usermenu ul li a:hover {
   background-color: #fafcfd;
-  color: #5b9bd1;
+  color: #0BB286;
+  border-right: solid 1px #0BB286;
 }
 
 .profile-usermenu ul li.active {
+  color: #0BB286;
   border-bottom: none;
 }
 
 .profile-usermenu ul li.active a {
-  color: #5b9bd1;
+  color: #0BB286;
   background-color: #f6f9fb;
-  border-left: 2px solid #5b9bd1;
-  margin-left: -2px;
+  border-right: 1px solid #0BB286;
 }
 
 /* Profile Content */

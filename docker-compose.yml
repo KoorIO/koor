@@ -107,6 +107,19 @@ services:
     networks:
       - front-net
 
+  cms:
+    build: ./cms
+    image: registry.gitlab.com/thanhson1085/backend:cms
+    depends_on:
+      - mongodb
+    environment:
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      RAILS_SERVE_STATIC_FILES: "yes"
+      RAILS_LOG_TO_STDOUT: "yes"
+    networks:
+      - back-net
+      - front-net
+
   redis:
     image: redis:alpine
     container_name: redis

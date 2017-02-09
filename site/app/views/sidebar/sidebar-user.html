@@ -1,8 +1,7 @@
 <div class="profile-sidebar">
     <!-- SIDEBAR USERPIC -->
     <div class="profile-userpic" ng-show="!user.file">
-        <img gravatar-src="user.email" class="img-responsive">
-    </div>
+        <img gravatar-src="user.email" class="img-responsive"> </div>
     <div class="profile-userpic" ng-show="user.file">
         <img ng-src="{{user.file.urls.t600x600}}" class="img-responsive">
     </div>
@@ -27,19 +26,19 @@
     <!-- SIDEBAR MENU -->
     <div class="profile-usermenu">
         <ul class="nav">
-            <li>
+            <li ng-class="{active: stateName == 'user.get'}" ng-click="changeRoute('user.get')">
                 <a ui-sref="user.get({userId: user._id})">
-                <i class="glyphicon glyphicon-home"></i>
+                <i class="fa fa-snowflake-o"></i>
                 Home </a>
             </li>
-            <li>
+            <li ng-class="{active: stateName == 'user.follower'}" ng-click="changeRoute('user.follower')">
                 <a ui-sref="user.follower({userId: user._id})">
-                <i class="glyphicon glyphicon-flag"></i>
+                <i class="fa fa-user-o"></i>
                 Followers </a>
             </li>
-            <li>
+            <li ng-class="{active: stateName == 'user.following'}" ng-click="changeRoute('user.following')">
                 <a ui-sref="user.following({userId: user._id})">
-                <i class="glyphicon glyphicon-flag"></i>
+                <i class="fa fa-user"></i>
                 Following </a>
             </li>
         </ul>

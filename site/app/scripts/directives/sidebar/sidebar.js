@@ -7,7 +7,11 @@ angular.module('siteSeedApp')
         restrict: 'E',
         scope: {
         },
-        controller: function($scope, Users) {
+        controller: function($scope, Users, $state, $timeout) {
+            $scope.stateName = $state.current.name;
+            $scope.changeRoute = function(stateName) {
+                $scope.stateName = stateName;
+            };
             Users.get().then(function(res) {
                 $scope.user = res;
             });

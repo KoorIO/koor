@@ -20,7 +20,7 @@ trap _interupt INT TERM
 
 workdir=${PWD} 
 
-if !(docker run -d -p 9200:9200 -p 9300:9300 --name koor_elasticsearch elasticsearch:2.4 > /dev/null 2>&1)
+if !(docker run -d -p 9200:9200 -p 9300:9300 --name koor_elasticsearch elasticsearch > /dev/null 2>&1)
 then
     docker start koor_elasticsearch
 fi

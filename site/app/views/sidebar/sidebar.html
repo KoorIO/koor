@@ -20,29 +20,29 @@
     <!-- SIDEBAR MENU -->
     <div class="profile-usermenu">
         <ul class="nav">
-            <li>
+            <li ng-class="{active: stateName == 'home.index'}">
                 <a href="#">
-                <i class="glyphicon glyphicon-home"></i>
+                <i class="fa fa-snowflake-o"></i>
                 Home </a>
             </li>
             <li>
                 <a ui-sref="app.projects.list">
-                <i class="glyphicon glyphicon-ok"></i>
+                <i class="fa fa-car"></i>
                 Projects </a>
             </li>
-            <li>
+            <li ng-class="{active: stateName == 'home.follower'}" ng-click="changeRoute('home.follower')">
                 <a ui-sref="home.follower">
-                <i class="glyphicon glyphicon-flag"></i>
+                <i class="fa fa-user-o"></i>
                 Followers </a>
             </li>
-            <li>
+            <li ng-class="{active: stateName == 'home.following'}" ng-click="changeRoute('home.following')">
                 <a ui-sref="home.following">
-                <i class="glyphicon glyphicon-flag"></i>
+                <i class="fa fa-user"></i>
                 Following </a>
             </li>
-            <li>
+            <li ng-class="{active: stateName == 'home.findYourFriend'}" ng-click="changeRoute('home.findYourFriend')">
                 <a ui-sref="home.findYourFriend">
-                <i class="glyphicon glyphicon-flag"></i>
+                <i class="fa fa-search"></i>
                 Find Your Friends </a>
             </li>
         </ul>
