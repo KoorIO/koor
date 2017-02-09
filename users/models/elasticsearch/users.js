@@ -9,7 +9,7 @@ var search = function(data) {
     index: config.get('es.index'),
     type: 'users',
     body:{
-      from: data.form,
+      from: data.from,
       size: data.size,
       query: { bool: {}}
     }
@@ -52,7 +52,7 @@ var searchByUserIds = function(data) {
     index: config.get('es.index'),
     type: 'users',
     body:{
-      from: data.form,
+      from: data.from,
       size: data.size,
       query: {
         'constant_score': {
