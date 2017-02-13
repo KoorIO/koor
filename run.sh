@@ -35,11 +35,11 @@ then
 fi
 if !(docker run -d -p 27017:27017 --name koor_mongo mongo > /dev/null 2>&1)
 then
-    docker start tomo_mongo
+    docker start koor_mongo
 fi
 if !(docker run --name koor_redis -p 6379:6379 -d redis > /dev/null 2>&1)
 then
-    docker start tomo_redis
+    docker start koor_redis
 fi
 
 cd $workdir/websocket && nodemon index.js &
