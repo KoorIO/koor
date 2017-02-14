@@ -9,7 +9,8 @@ services:
         tag: "docker.nginx"
     depends_on:
       - users
-      - swagger
+      - apps
+      - broker
       - fluentd
 
   kibana:
