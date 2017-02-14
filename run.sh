@@ -10,7 +10,7 @@ echo '
 echo -e '\033[0;37m'
                         
 _interupt() { 
-    docker stop koor_elasticsearch koor_neo4j koor_vernemq
+    docker stop koor_elasticsearch koor_neo4j koor_vernemq koor_redis koor_mongo
     echo "Shutdown $child_proc"
     kill -TERM "$child_proc" 2>/dev/null
     exit
@@ -32,6 +32,14 @@ HOST_IP=`ifconfig eth0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'
 if !(docker run --name koor_vernemq -d -p 1883:1883 -p 8080:8080 -e ENDPOINT_URL=http://"${HOST_IP}":3001/api/v1/mqtt registry.gitlab.com/thanhson1085/koor:broker > /dev/null 2>&1)
 then
     docker start koor_vernemq
+fi
+if !(docker run -d -p 27017:27017 --name koor_mongo mongo > /dev/null 2>&1)
+then
+    docker start koor_mongo
+fi
+if !(docker run --name koor_redis -p 6379:6379 -d redis > /dev/null 2>&1)
+then
+    docker start koor_redis
 fi
 
 cd $workdir/websocket && nodemon index.js &

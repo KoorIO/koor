@@ -111,7 +111,7 @@ services:
     build: ./cms
     image: registry.gitlab.com/thanhson1085/backend:cms
     depends_on:
-      - mongodb
+      - db
     environment:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       RAILS_SERVE_STATIC_FILES: "yes"
