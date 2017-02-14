@@ -419,7 +419,7 @@ router.post('/login', function(req, res) {
       db.Token.saveToken(user).then(function(to) {
         to.email = user.email;
         to.userId = user._id;
-                //TODO: it should remove after 2 month :)
+        //TODO: it should remove after 2 month :)
         q.create(os.hostname() + 'users', {
           userId: user._id,
           accessToken: to.token

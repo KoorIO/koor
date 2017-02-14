@@ -131,10 +131,10 @@ angular.module('siteSeedApp').factory('Users', function($resource, $q, APP_CONFI
             });
             return deferred.promise;
         },
-        search: function(){
+        search: function(s){
             var deferred = $q.defer();
             var url = APP_CONFIG.services.users.search;
-            var Users = $resource(url);
+            var Users = $resource(url, {s: s});
             
             Users.get(function(res) {
                 deferred.resolve(res);
