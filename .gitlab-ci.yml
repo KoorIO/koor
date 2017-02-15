@@ -1,6 +1,7 @@
 stages:
     - build
     - deploy
+    - restart
 
 deploy:
     when: manual
@@ -46,6 +47,7 @@ build:
 
 restart:
     when: manual
+    stage: restart
     before_script:
         # Install ssh-agent if not already installed, it is required by Docker.
         # (change apt-get to yum if you use a CentOS-based image)
@@ -64,5 +66,6 @@ restart:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     script:
-        - ssh root@188.166.198.221 "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose restart"
+        - ssh root@188.166.198.221 "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose stop"
+        - ssh root@188.166.198.221 "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose up -d"
 
