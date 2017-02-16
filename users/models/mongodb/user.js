@@ -17,6 +17,18 @@ var User = new Schema({
     required: true,
     lowercase: true
   },
+  githubId: {
+    type: String,
+    index: true
+  },
+  facebookId: {
+    type: String,
+    index: true
+  },
+  phone: {
+    type: String,
+    index: true
+  },
   fileId: {
     type: Schema.Types.ObjectId
   },

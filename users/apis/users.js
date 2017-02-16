@@ -147,7 +147,7 @@ router.post('/activate', function(req, res) {
 });
 
 // new user via github
-router.post('/github', function(req, res) {
+router.post('/github', function(req, res, next) {
   req.body['client_secret'] = config.get('github.client_secret');
   var requestUrl = 'https://github.com/login/oauth/access_token';
   logger.info('Login via Github ...');
@@ -157,78 +157,74 @@ router.post('/github', function(req, res) {
       return res.status(401).send(JSON.stringify(err));
     }
     logger.info('Get Github Access Token', body['access_token']);
-    requestUrl = 'https://api.github.com/user/emails';
-    request.get({
-      url: requestUrl,
-      qs: { 'access_token': body['access_token'] },
-      json: true,
-      headers: { 'User-Agent': '' }
-    }, function(err, httpResponse, getEmailBody) {
-      if (err) {
-        logger.error('Failed - Get Emails from Github', httpResponse);
-        return res.status(401).send(JSON.stringify(err));
-      }
-      var emails = [];
-      getEmailBody.forEach(function(value) {
-        emails.push(value.email);
+    services.Github.getEmails(body).then(function(emails) {
+      return services.Github.getUserInfo(body).then(function(githubUser) {
+        githubUser.email = emails[0].email;
+        return githubUser;
+
       });
-      db.User.findOne()
-            .where('email').in(emails)
-            .then(function(user) {
-                // if user is not exists
-              if (!user) {
-                var data = {
-                  email: emails[0],
-                  username: emails[0],
-                  isActive: true
-                };
-                var usr = new db.User(data);
-                    // create new user
-                usr.save(function(error, newUser) {
-                  if (error) {
-                    return res.status(406).send(JSON.stringify({error}));
-                  }
-                  db.Token.saveToken(newUser).then(function(to) {
-                    to.email = newUser.email;
-                    to.userId = newUser._id;
-                    q.create(os.hostname() + 'users', {
-                      userId: newUser._id,
-                      accessToken: to.token
-                    }).priority('high').save();
-                    q.create(os.hostname() + 'njUsers', {
-                      userId: newUser._id,
-                      accessToken: to.token
-                    }).priority('high').save();
-                            // send email thankyou to user
-                    q.create(os.hostname() + 'email', {
-                      title: '[Koor.IO] Thank You',
-                      to: newUser.email,
-                      emailContent: {
-                        username: newUser.email
-                      },
-                      template: 'welcome'
-                    }).priority('high').save();
-                    return res.send(JSON.stringify(to));
-                  }).catch(function(e) {
-                    logger.debug('Failed - save token', e);
-                  });
-                });
-              } else {
-                db.Token.saveToken(user).then(function(to) {
-                  to.email = user.email;
-                  to.userId = user._id;
-                  q.create(os.hostname() + 'users', {
-                    userId: user._id,
-                    accessToken: to.token
-                  }).priority('high').save();
-                  return res.send(JSON.stringify(to));
-                }).catch(function(e) {
-                  logger.debug('Failed - save token', e);
-                });
+    }).then(function(githubUser) {
+      db.User.findOne({
+        email: githubUser.email
+      })
+        .then(function(user) {
+          // if user is not exists
+          if (!user) {
+            var data = {
+              email: githubUser.email,
+              username: githubUser.login,
+              firstname: githubUser.name,
+              isActive: true
+            };
+            var usr = new db.User(data);
+            // create new user
+            usr.save(function(error, newUser) {
+              if (error) {
+                return res.status(406).send(JSON.stringify({error}));
               }
-            }).catch(function() {
-              res.status(500).send(JSON.stringify({}));
+              db.Token.saveToken(newUser).then(function(to) {
+                to.email = newUser.email;
+                to.userId = newUser._id;
+                q.create(os.hostname() + 'users', {
+                  userId: newUser._id,
+                  accessToken: to.token
+                }).priority('high').save();
+                q.create(os.hostname() + 'njUsers', {
+                  userId: newUser._id,
+                  accessToken: to.token
+                }).priority('high').save();
+                // send email thankyou to user
+                q.create(os.hostname() + 'email', {
+                  title: '[Koor.IO] Thank You',
+                  to: newUser.email,
+                  emailContent: {
+                    username: newUser.email
+                  },
+                  template: 'welcome'
+                }).priority('high').save();
+                return res.send(JSON.stringify(to));
+              }).catch(function(e) {
+                logger.debug('Failed - save token', e);
+              });
             });
+          } else {
+            db.Token.saveToken(user).then(function(to) {
+              to.email = user.email;
+              to.userId = user._id;
+              q.create(os.hostname() + 'users', {
+                userId: user._id,
+                accessToken: to.token
+              }).priority('high').save();
+              return res.send(JSON.stringify(to));
+            }).catch(function(e) {
+              logger.debug('Failed - save token', e);
+            });
+          }
+        }).catch(function() {
+          res.status(500).send(JSON.stringify({}));
+        });
+    }).catch(function(error) {
+      return next(error);
     });
   });
 });
