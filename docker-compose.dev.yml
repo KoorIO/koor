@@ -12,6 +12,10 @@ services:
       - apps
       - broker
       - fluentd
+    networks:
+      - front-net
+      - proxy-net
+      - monitor-net
 
   kibana:
     image: kibana
