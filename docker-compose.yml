@@ -186,7 +186,7 @@ services:
   neo4j:
     image: neo4j
     environment:
-      - NEO4J_AUTH="neo4j/koor.10"
+      - NEO4J_AUTH=neo4j/koor.10
     volumes:
       - "neo4j:/data"
     networks:
