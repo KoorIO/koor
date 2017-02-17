@@ -24,11 +24,15 @@ deploy:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     script:
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo git fetch origin && git checkout ${CI_BUILD_REF}"
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose pull"
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose stop"
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose rm -f"
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose up -d"
+        - ssh root@${SERVER_ADDRESS} "cd /build && sudo git fetch origin && git checkout ${CI_BUILD_REF}
+                                      && docker-compose pull
+                                      && docker-compose stop
+                                      && docker-compose rm -f
+                                      && GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+                                      MAILER_AUTH_USER=${MAILER_AUTH_USER}
+                                      MAILER_AUTH_PASS=${MAILER_AUTH_PASS}
+                                      CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
+                                      docker-compose up -d"
 
 build:
     stage: build
@@ -66,6 +70,10 @@ restart:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     script:
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose stop"
-        - ssh root@${SERVER_ADDRESS} "cd /build && sudo GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET} MAILER_AUTH_USER=${MAILER_AUTH_USER} MAILER_AUTH_PASS=${MAILER_AUTH_PASS} CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY} docker-compose up -d"
+        - ssh root@${SERVER_ADDRESS} "cd /build && docker-compose stop 
+          && GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+          MAILER_AUTH_USER=${MAILER_AUTH_USER}
+          MAILER_AUTH_PASS=${MAILER_AUTH_PASS}
+          CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
+          docker-compose up -d"
 
