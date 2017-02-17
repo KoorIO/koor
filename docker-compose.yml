@@ -200,84 +200,10 @@ services:
       - monitor-net
       - back-net
 
-  kibana:
-    image: kibana
-    ports:
-      - "5601:5601"
-    environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
-    networks:
-      - monitor-net
-
-  fluentd:
-    build: ./monitor/fluentd/.
-    image: registry.gitlab.com/thanhson1085/koor:fluentd
-    environment:
-      - ES_PORT_9200_TCP_ADDR=elasticsearch
-    networks:
-      - monitor-net
-      - front-net
-
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3000:3000"
-    depends_on:
-      - influxdb
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    networks:
-      - monitor-net
-      - back-net
-
-  kapacitor:
-    image: kapacitor
-    ports:
-      - "9092:9092"
-    depends_on:
-      - influxdb
-    volumes:
-      - ./monitor/kapacitor/kapacitor.conf:/etc/kapacitor/kapacitor.conf:ro
-      - "kapacitor:/var/lib/kapacitor"
-    networks:
-      - monitor-net
-
-  influxdb:
-    image: influxdb 
-    networks:
-      - monitor-net
-    volumes:
-        - "influxdb:/var/lib/influxdb"
-    ports:
-      - "8083:8083"
-      - "8086:8086"
-
-  telegraf:
-    image: telegraf
-    hostname: nodeone
-    depends_on:
-      - influxdb
-    environment:
-      - "HOST_PROC=/rootfs/proc"
-      - "HOST_SYS=/rootfs/sys"
-      - "HOST_ETC=/rootfs/etc"
-    volumes:
-      - ./monitor/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys:/rootfs/sys:ro
-      - /proc:/rootfs/proc:ro
-      - /etc:/rootfs/etc:ro
-    networks:
-      - monitor-net
-
 volumes:
     mongodb:
-    influxdb:
     elasticsearch:
     neo4j:
-    kapacitor:
 networks:
   front-net:
   back-net:
