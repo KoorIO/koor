@@ -164,6 +164,7 @@ services:
     networks:
       - front-net
       - proxy-net
+      - back-net
 
   haproxy:
     image: haproxy:alpine
