@@ -32,7 +32,8 @@ deploy:
                                       MAILER_AUTH_USER=${MAILER_AUTH_USER}
                                       MAILER_AUTH_PASS=${MAILER_AUTH_PASS}
                                       CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
-                                      docker-compose up -d"
+                                      SECRET_KEY_BASE=${SECRET_KEY_BASE}
+                                      docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
 
 build:
     stage: build
@@ -75,5 +76,6 @@ restart:
           MAILER_AUTH_USER=${MAILER_AUTH_USER}
           MAILER_AUTH_PASS=${MAILER_AUTH_PASS}
           CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
-          docker-compose up -d"
+          SECRET_KEY_BASE=${SECRET_KEY_BASE}
+          docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
 

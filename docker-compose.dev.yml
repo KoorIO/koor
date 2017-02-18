@@ -19,8 +19,6 @@ services:
 
   kibana:
     image: kibana
-    volumes:
-      - ./monitor/kibana/kibana.yml:/etc/kibana/kibana.yml
     depends_on:
       - elasticsearch
     networks:
@@ -45,7 +43,7 @@ services:
     volumes:
       - "grafana:/var/lib/grafana"
     environment:
-      - GF_SERVER_ROOT_URL=https://monitor.koor.io
+      - GF_SERVER_ROOT_URL=https://grafana.koor.io
       - GF_SECURITY_ADMIN_PASSWORD=Koor.10
     networks:
       - monitor-net
