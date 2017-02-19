@@ -42,6 +42,7 @@ map $http_upgrade $connection_upgrade {
 server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
+    root /usr/share/nginx/html/;
 
     location /u/api/ {
         rewrite ^/u/api/(.*)$ /api/$1 break;
