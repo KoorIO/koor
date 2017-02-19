@@ -11,7 +11,7 @@ COPY ./requirements.txt /build/
 RUN pip3 install -r requirements.txt
 COPY ./ /build
 RUN mkdocs build
-RUN cp -R ./site /usr/share/nginx/html
+RUN cp -R ./site/* /usr/share/nginx/html/
 
 EXPOSE 80 443
 

@@ -223,12 +223,28 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath:  /\.\.\//,
+        exclude: ['bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+            'bower_components/lodash/lodash.js',
+            'bower_components/markerclustererplus/src/markerclusterer.js',
+            'bower_components/google-maps-utility-library-v3-markerwithlabel/dist/markerwithlabel.js',
+            'bower_components/google-maps-utility-library-v3-infobox/dist/infobox.js',
+            'bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js',
+            'bower_components/js-rich-marker/src/richmarker.js',
+            'bower_components/angular-google-maps/dist/angular-google-maps.js']
       },
       test: {
         devDependencies: true,
         src: '<%= karma.unit.configFile %>',
         ignorePath:  /\.\.\//,
+        exclude: ['bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+            'bower_components/lodash/lodash.js',
+            'bower_components/markerclustererplus/src/markerclusterer.js',
+            'bower_components/google-maps-utility-library-v3-markerwithlabel/dist/markerwithlabel.js',
+            'bower_components/google-maps-utility-library-v3-infobox/dist/infobox.js',
+            'bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js',
+            'bower_components/js-rich-marker/src/richmarker.js',
+            'bower_components/angular-google-maps/dist/angular-google-maps.js'],
         fileTypes:{
           js: {
             block: /(([\s\t]*)\/{2}\s*?bower:\s*?(\S*))(\n|\r|.)*?(\/{2}\s*endbower)/gi,
@@ -456,6 +472,9 @@ module.exports = function (grunt) {
           cwd: '.',
           src: [
               'bower_components/ace-builds/src-min-noconflict/*',
+              'bower_components/angular-simple-logger/dist/*',
+              'bower_components/lodash/*',
+              'bower_components/angular-google-maps/dist/*'
           ],
           dest: '<%= yeoman.dist %>'
         }]

@@ -23,7 +23,7 @@ RUN bower --allow-root install -g
 COPY ./ /build
 RUN grunt build
 
-RUN cp -R ./dist/ /usr/share/nginx/html/
+RUN cp -R ./dist/* /usr/share/nginx/html/
 
 EXPOSE 80 443
 

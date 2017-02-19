@@ -6,6 +6,8 @@ RUN npm install -g pm2
 WORKDIR /build
 COPY ./package.json /build/package.json
 
+RUN npm install
+
 COPY . /build
 
 EXPOSE 80:80
