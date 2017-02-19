@@ -12,7 +12,7 @@ angular.module('siteSeedApp')
             $rootScope.userInfo = data;
             $cookies.put('userInfo', JSON.stringify(data));
             vm.error = null;
-            $state.go('home.index');
+            $state.go('app.projects.list');
         }).catch(function(){
             vm.error = 'Your Username or Password is incorrect, Please try again!';
         });
@@ -21,7 +21,6 @@ angular.module('siteSeedApp')
     vm.connectGithub = function(){
         var url = 'https://github.com/login/oauth/authorize?scope=user:email&client_id=' + 
             APP_CONFIG.github.clientId + '&redirect_url=' + APP_CONFIG.github.redirectUrl;
-        console.log(url);
         window.location.replace(url);
     };
 })
