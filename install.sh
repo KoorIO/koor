@@ -102,7 +102,7 @@ cd $workdir/site && npm install && bower install && \
 if [ "$github_client_id" != "" ];
 then
     cd $workdir/site && \
-        sed -i "s/:clientId:/${github_client_id}/g" config/local.json
+        sed -i "s/c6c1288d447c31c3e74c/${github_client_id}/g" config/local.json
 fi
 
 wait

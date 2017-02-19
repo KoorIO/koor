@@ -40,7 +40,7 @@ router.post('/create', function(req, res) {
         to: newUser.email,
         emailContent: {
           username: newUser.firstname,
-          url: config.get('client.url') + '#/activate/' + to.token
+          url: config.get('client.url') + '#!/activate/' + to.token
         },
         template: 'activate'
       }).priority('high').save();
@@ -68,7 +68,7 @@ router.post('/forgotpassword', function(req, res) {
         to: user.email,
         emailContent: {
           username: user.firstname || user.email,
-          url: config.get('client.url') + '#/resetpassword/' + to.token
+          url: config.get('client.url') + '#!/resetpassword/' + to.token
         },
         template: 'forgotpassword'
       }).priority('high').save();

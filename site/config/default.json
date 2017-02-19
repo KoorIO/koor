@@ -76,8 +76,8 @@
         }
     },
     "github": {
-        "clientId": ":clientId:",
-        "redirectUrl": "#/github"
+        "clientId": "c6c1288d447c31c3e74c",
+        "redirectUrl": "#!/github"
     },
     "localEnv": false,
     "websocket": "koor.io",
