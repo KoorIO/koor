@@ -1,5 +1,4 @@
 .rebar3
-_*
 .eunit
 *.o
 *.beam
@@ -12,5 +11,4 @@ log
 erl_crash.dump
 .rebar
 logs
-_build
 *~

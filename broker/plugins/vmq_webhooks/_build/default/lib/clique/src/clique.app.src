@@ -1,0 +1,11 @@
+{application,clique,
+             [{description,"A CLI library for erlang"},
+              {vsn,"3.0.1"},
+              {modules,[]},
+              {registered,[]},
+              {applications,[kernel,stdlib]},
+              {mod,{clique_app,[]}},
+              {env,[]},
+              {maintainers,["basho","Heinz N. Gies"]},
+              {licenses,["Apache"]},
+              {links,[{"Github","https://github.com/basho/clique"}]}]}.
