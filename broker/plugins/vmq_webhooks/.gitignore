@@ -4,6 +4,7 @@
 *.beam
 *.plt
 *.swp
+_*
 *.swo
 .erlang.cookie
 ebin

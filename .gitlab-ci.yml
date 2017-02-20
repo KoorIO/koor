@@ -2,6 +2,8 @@ stages:
     - build
     - deploy
     - restart
+    - maintenance
+    - rework
 
 deploy:
     when: manual
@@ -78,4 +80,50 @@ restart:
           CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
           SECRET_KEY_BASE=${SECRET_KEY_BASE}
           docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
+
+maintenance:
+    when: manual
+    stage: deploy
+    before_script:
+        # Install ssh-agent if not already installed, it is required by Docker.
+        # (change apt-get to yum if you use a CentOS-based image)
+        - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+          # Run ssh-agent (inside the build environment)
+        - eval $(ssh-agent -s)
+
+          # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+        - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+          # For Docker builds disable host key checking. Be aware that by adding that
+          # you are suspectible to man-in-the-middle attacks.
+          # WARNING: Use this only with the Docker executor, if you use it with shell
+          # you will overwrite your user's SSH config.
+        - mkdir -p ~/.ssh
+        - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    script:
+        - ssh root@${SERVER_ADDRESS} "docker cp /build/nginx/maintenance.template nginx:/usr/share/nginx/html/maintenance.html"
+
+rework:
+    when: manual
+    stage: deploy
+    before_script:
+        # Install ssh-agent if not already installed, it is required by Docker.
+        # (change apt-get to yum if you use a CentOS-based image)
+        - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+          # Run ssh-agent (inside the build environment)
+        - eval $(ssh-agent -s)
+
+          # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+        - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+          # For Docker builds disable host key checking. Be aware that by adding that
+          # you are suspectible to man-in-the-middle attacks.
+          # WARNING: Use this only with the Docker executor, if you use it with shell
+          # you will overwrite your user's SSH config.
+        - mkdir -p ~/.ssh
+        - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    script:
+        - ssh root@${SERVER_ADDRESS} "docker exec -it nginx rm -f /usr/share/nginx/html/maintenance.html"
 
