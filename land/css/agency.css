@@ -365,7 +365,7 @@ section h3.section-subheading {
   z-index: 2;
 }
 #pricing .pricing-item .pricing-block.active .list-group-item {
-  background-color: #0BB286;
+  background-color: #fff;
 }
 #pricing .pricing-item .pricing-block .list-group-item.pricing-caption {
   font-size: 24px;
@@ -382,8 +382,8 @@ section h3.section-subheading {
   line-height: 50px;
 }
 #pricing .pricing-item .pricing-block .list-group-item {
-  background-color: #ccc;
-  color: #fff;
+  background-color: #fff;
+  color: #0BB286;
   font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
   border: none;
   line-height: 35px;
