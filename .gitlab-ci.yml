@@ -78,7 +78,7 @@ restart:
           SECRET_KEY_BASE=${SECRET_KEY_BASE}
           docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
 
-maintenance:
+maintain:
     when: manual
     stage: deploy
     before_script:
