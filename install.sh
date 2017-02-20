@@ -34,7 +34,7 @@ cd $workdir/users && npm install && \
     sed -i "s/http:\/\/apps/http:\/\/localhost:${APPS_PORT}/g" config/local.json && \
     sed -i "s/build_socials_1/${HOSTNAME}/g" config/local.json && \
     sed -i "s/build_websocket_1/${HOSTNAME}/g" config/local.json && \
-    sed -i "s/es:9200/localhost:9200/g" config/local.json && \
+    sed -i "s/elasticsearch:9200/localhost:9200/g" config/local.json && \
     sed -i "s/bolt:\/\/neo4j/bolt:\/\/localhost/g" config/local.json && \
     sed -i "s/\"port\": 80/\"port\": ${USERS_PORT}/g" config/local.json
 
@@ -54,7 +54,7 @@ cd $workdir/apps && npm install && \
     sed -i "s/http:\/\/apps/http:\/\/localhost:${APPS_PORT}/g" config/local.json && \
     sed -i "s/build_socials_1/${HOSTNAME}/g" config/local.json && \
     sed -i "s/build_websocket_1/${HOSTNAME}/g" config/local.json && \
-    sed -i "s/es:9200/localhost:9200/g" config/local.json && \
+    sed -i "s/elasticsearch:9200/localhost:9200/g" config/local.json && \
     sed -i "s/bolt:\/\/neo4j/bolt:\/\/localhost/g" config/local.json && \
     sed -i "s/mqtt:\/\/broker/mqtt:\/\/localhost/g" config/local.json && \
     sed -i "s/\"basePath\": \"\/\"/\"basePath\": false/g" config/local.json && \

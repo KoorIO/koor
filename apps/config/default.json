@@ -24,7 +24,7 @@
         "prefix": "koor.io"
     },
     "es": {
-        "host": "es:9200",
+        "host": "elasticsearch:9200",
         "index": "koor.io"
     },
     "neo4j": {

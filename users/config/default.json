@@ -7,7 +7,7 @@
         "url": "https://koor.io/app/"
     },
     "es": {
-        "host": "es:9200",
+        "host": "elasticsearch:9200",
         "index": "koor.io"
     },
     "neo4j": {
