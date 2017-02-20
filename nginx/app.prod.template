@@ -98,7 +98,7 @@ server {
 server {
     listen 80;
     server_name kibana.koor.io;
-    location /s {
+    location / {
         proxy_pass http://m_kibana/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
