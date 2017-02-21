@@ -93,6 +93,29 @@ server {
         proxy_pass http://docs/;
     }
 
+    location / {
+        if (-f $document_root/maintenance.html) {
+            return 503;
+        }
+        proxy_pass http://fe_land/;
+        #auth_basic "Restricted Content";
+        #auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+
+    error_page 503 @maintenance;
+    location @maintenance {
+        rewrite ^(.*)$ /maintenance.html break;
+    }
+}
+
+server {
+    listen 80 http2;
+    server_name admin.koor.io;
+
+    location / {
+        return 301 /admin;
+    }
+
     location /admin {
         rewrite ^/(.*)$ /$1 break;
         proxy_pass http://be_cms;
@@ -113,24 +136,10 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
-
-    location / {
-        if (-f $document_root/maintenance.html) {
-            return 503;
-        }
-        proxy_pass http://fe_land/;
-        #auth_basic "Restricted Content";
-        #auth_basic_user_file /etc/nginx/.htpasswd;
-    }
-
-    error_page 503 @maintenance;
-    location @maintenance {
-        rewrite ^(.*)$ /maintenance.html break;
-    }
 }
 
 server {
-    listen 80;
+    listen 80 http2;
     server_name kibana.koor.io;
     location / {
         proxy_pass http://m_kibana/;
@@ -145,7 +154,7 @@ server {
 }
 
 server {
-    listen 80;
+    listen 80 http2;
     server_name grafana.koor.io;
     location / {
         proxy_pass http://m_grafana/;
