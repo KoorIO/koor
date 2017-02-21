@@ -121,7 +121,7 @@ angular.module('siteSeedApp')
         }
 
         if ($scope.service === 'api') {
-            $scope.runDocsUrl = (APP_CONFIG.localEnv)?APP_CONFIG.docs + res.domain:res.domain + '/docs';
+            $scope.runDocsUrl = (APP_CONFIG.localEnv)?APP_CONFIG.docs + res.domain:'http://' + res.domain + '/docs';
             Apis.list($scope.project._id, page, limit).then(function(res) {
                 $scope.apis = res.rows;
                 $scope.count = res.count;
