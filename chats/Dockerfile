@@ -2,7 +2,7 @@ FROM mhart/alpine-node:4.4
 MAINTAINER Nguyen Sy Thanh Son
 
 RUN apk add --update python \
-    make
+    make g++
 
 RUN npm install -g pm2
 

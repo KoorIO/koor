@@ -3,7 +3,7 @@ MAINTAINER Nguyen Sy Thanh Son
 
 RUN apk add --update imagemagick \
     python \
-    make
+    make g++
 
 RUN npm install -g pm2
 

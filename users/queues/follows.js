@@ -35,13 +35,13 @@ consumer.task = function(job, done) {
         data: { user: user, follower: follower },
       }).priority('high').save();
 
-            // send new follower email
+      // send new follower email
       q.create(os.hostname() + 'email', {
         title: '[Koor.IO] You have a new follower',
         to: user.email,
         emailContent: {
           username: user.firstname,
-          url: config.get('client.url') + '#/user/get/' + follower._id
+          url: config.get('client.url') + '#!/user/get/' + follower._id
         },
         template: 'follower'
       }).priority('high').save();
