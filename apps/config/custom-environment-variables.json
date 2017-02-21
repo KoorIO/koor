@@ -1,12 +1,13 @@
 {
-    "mailer": {
-        "auth": {
-            "user": "MAILER_AUTH_USER",
-            "pass": "MAILER_AUTH_PASS"
-        }
-    },
-    "cloudflare": {
-        "api_key": "CLOUDFLARE_API_KEY",
-        "enable": "CLOUDFLARE_ENABLE"
+  "mailer": {
+    "auth": {
+      "user": "MAILER_AUTH_USER",
+      "pass": "MAILER_AUTH_PASS"
     }
+  },
+  "cloudflare": {
+    "ip": "CLOUDFLARE_IP",
+    "api_key": "CLOUDFLARE_API_KEY",
+    "enable": "CLOUDFLARE_ENABLE"
+  }
 }
