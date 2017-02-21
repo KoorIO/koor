@@ -10,6 +10,10 @@ upstream be_apps {
     server apps;
 }
 
+upstream be_socials {
+    server socials;
+}
+
 upstream fe_site {
     server site;
 }
@@ -44,6 +48,11 @@ server {
     location /a/api/ {
         rewrite ^/a/api/(.*)$ /api/$1 break;
         proxy_pass http://be_apps/;
+    }
+
+    location /s/api/ {
+        rewrite ^/s/api/(.*)$ /api/$1 break;
+        proxy_pass http://be_socials/;
     }
 
     location /app/ {
