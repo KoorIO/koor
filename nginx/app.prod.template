@@ -109,7 +109,7 @@ server {
 }
 
 server {
-    listen 80 http2;
+    listen 80;
     server_name admin.koor.io;
 
     location / {
@@ -139,7 +139,7 @@ server {
 }
 
 server {
-    listen 80 http2;
+    listen 80;
     server_name kibana.koor.io;
     location / {
         proxy_pass http://m_kibana/;
@@ -154,7 +154,7 @@ server {
 }
 
 server {
-    listen 80 http2;
+    listen 80;
     server_name grafana.koor.io;
     location / {
         proxy_pass http://m_grafana/;
