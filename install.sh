@@ -118,11 +118,17 @@ wait
 echo "Installing Land ..."
 cd $workdir/land && npm install
 wait
+
 echo "Installing Docs ..."
-cd $workdir/docs && 
 cd $workdir/docs && virtualenv -p /usr/bin/python3 env && \
     source env/bin/activate && pip install -r requirements.txt
 wait
+
+echo "Installing CMS ..."
+cd $workdir/cms && bundle install && \
+  sed "s/host: redis/host: localhost/g" config/settings.yml > config/settings.local.yml
+wait
+
 echo "Installing Broker ..."
 cd $workdir/broker/plugins/vmq_webhooks && ./rebar3 compile
 

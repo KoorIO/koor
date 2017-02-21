@@ -26,6 +26,10 @@ upstream be_socket {
     server socket;
 }
 
+upstream be_cms {
+    server cms;
+}
+
 upstream be_mqtt {
     server broker:8080;
 }
@@ -87,6 +91,27 @@ server {
 
     location /docs/ {
         proxy_pass http://docs/;
+    }
+
+    location /admin {
+        rewrite ^/(.*)$ /$1 break;
+        proxy_pass http://be_cms;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /assets/ {
+        rewrite ^/assets/(.*)$ /assets/$1 break;
+        proxy_pass http://be_cms/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /users {
+        rewrite ^/(.*)$ /$1 break;
+        proxy_pass http://be_cms;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location / {

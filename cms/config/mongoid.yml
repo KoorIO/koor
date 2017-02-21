@@ -145,3 +145,10 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+
+production:
+  clients:
+    default:
+      database: cms
+      hosts:
+        - db:27017
