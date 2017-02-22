@@ -68,7 +68,8 @@ router.post('/create', function(req, res) {
 router.get('/get/:id', function(req, res) {
   logger.debug('Get Project By Id', req.params.id);
   db.Project.findOne({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function(project) {
     project = project.toObject();
     if (String(req.body.userId) !== String(project.userId)) {

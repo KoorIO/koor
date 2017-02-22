@@ -32,6 +32,11 @@ var Device = new Schema({
   albumId: {
     type: Schema.Types.ObjectId
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    index: true,
+    require: true
+  },
   projectId: {
     type: Schema.Types.ObjectId,
     index: true,

@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 var q = require('q');
 var crypto = require('crypto');
 
@@ -39,9 +38,8 @@ var Project = new Schema({
   albumId: {
     type: Schema.Types.ObjectId
   }
-});
+}, {timestamps: true});
 
-Project.plugin(CreateUpdatedAt);
 Project.statics = {
   generateSecretKey: function () {
     var deferred = q.defer();

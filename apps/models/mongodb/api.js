@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Api = new Schema({
   name: {
@@ -22,6 +21,11 @@ var Api = new Schema({
   description: {
     type: String
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    index: true,
+    require: true
+  },
   projectId: {
     type: Schema.Types.ObjectId,
     index: true,
@@ -34,8 +38,6 @@ var Api = new Schema({
   request: {
     type: Schema.Types.Mixed
   }
-});
-
-Api.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('Api', Api);

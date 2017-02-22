@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Storage = new Schema({
   data: {
@@ -11,8 +10,6 @@ var Storage = new Schema({
     index: true,
     require: true
   }
-});
-
-Storage.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('Storage', Storage);

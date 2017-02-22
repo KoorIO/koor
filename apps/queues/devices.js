@@ -31,7 +31,8 @@ consumer.task = function(job, done) {
   q.create(os.hostname() + 'esDevices', data).priority('high').save();
   if (data.type === 'CREATE_DEVICE') {
     db.Api.create({
-      name: data.device.name,
+      userId: data.userId,
+      name: 'Device ' + data.device.name,
       path: 'devices/' + data.device._id,
       method: 'POST',
       tags: ['Devices'],

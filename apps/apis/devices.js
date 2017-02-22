@@ -22,6 +22,7 @@ router.post('/create', function(req, res, next) {
     projectId: req.body.projectId,
     description: req.body.description,
     fileId: req.body.fileId,
+    userId: req.body.userId,
     albumId: req.body.albumId
   });
 
@@ -56,7 +57,8 @@ router.get('/list/:projectId/:page/:limit', function(req, res) {
   db.Device.count({ projectId: req.params.projectId }, function(err, c) {
     db.Device
         .find({
-          projectId: req.params.projectId
+          projectId: req.params.projectId,
+          userId: req.body.userId
         })
         .skip(skip)
         .limit(limit)
@@ -105,7 +107,8 @@ router.get('/list/:projectId/:page/:limit', function(req, res) {
 router.get('/get/:id', function(req, res, next) {
   logger.debug('Get device By Id', req.params.id);
   db.Device.findOne({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function(device) {
     device = device.toObject();
     if (device.fileId) {
@@ -131,7 +134,8 @@ router.get('/get/:id', function(req, res, next) {
 router.delete('/delete/:id', function(req, res) {
   logger.debug('Delete Device By Id', req.params.id);
   db.Device.findOneAndRemove({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function(device) {
     q.create(os.hostname() + 'devices', {
       type: 'DELETE_DEVICE',
@@ -146,10 +150,17 @@ router.delete('/delete/:id', function(req, res) {
 });
 
 // update a device by id
-router.put('/update/:id', function(req, res) {
+router.put('/update/:id', function(req, res, next) {
   logger.debug('Update Device By Id', req.params.id);
+  req.checkParams('id', 'id must be ObjectId').isMongoId();
+
+  const errors = req.validationErrors(true);
+  if (errors) {
+    return next(errors);
+  }
   db.Device.findOne({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function(device) {
     device.name = req.body.name;
     device.description = req.body.description;

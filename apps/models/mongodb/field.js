@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var CreateUpdatedAt = require('mongoose-timestamp');
 
 var Field = new Schema({
   name: {
@@ -13,13 +12,16 @@ var Field = new Schema({
     type: String,
     index: true
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    index: true,
+    require: true
+  },
   projectId: {
     type: Schema.Types.ObjectId,
     index: true,
     require: true
   }
-});
-
-Field.plugin(CreateUpdatedAt);
+}, {timestamps: true});
 
 module.exports = mongoose.model('Field', Field);

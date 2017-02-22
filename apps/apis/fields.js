@@ -17,7 +17,8 @@ router.post('/create', function(req, res) {
       name: req.body.name,
       code: slug(req.body.name, {lower: true, replacement: '_'}),
       description: req.body.description,
-      projectId: req.body.projectId
+      projectId: req.body.projectId,
+      userId: req.body.userId
     });
     field.save(function(error, newField) {
       if (error) {
@@ -34,7 +35,8 @@ router.post('/create', function(req, res) {
 router.get('/get/:id', function(req, res) {
   logger.debug('Get Field By Id', req.params.id);
   db.Field.findOne({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function(field) {
     field = field.toObject();
     res.send(JSON.stringify(field));
@@ -47,7 +49,8 @@ router.get('/get/:id', function(req, res) {
 router.delete('/delete/:id', function(req, res, next) {
   logger.debug('Delete Field By Id', req.params.id);
   db.Field.remove({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function() {
     return res.json({});
   }).catch(function(e) {
@@ -60,7 +63,8 @@ router.delete('/delete/:id', function(req, res, next) {
 router.put('/update/:id', function(req, res) {
   logger.debug('Update Field By Id', req.params.id);
   db.Field.findOne({
-    _id: req.params.id
+    _id: req.params.id,
+    userId: req.body.userId
   }).then(function(field) {
     field.name = req.body.name;
     field.code = slug(req.body.name, {lower: true, replacement: '_'});
@@ -85,7 +89,8 @@ router.get('/list/:projectId/:page/:limit', function(req, res) {
   db.Field.count({ projectId: req.params.projectId }, function(err, c) {
     db.Field
         .find({
-          projectId: req.params.projectId
+          projectId: req.params.projectId,
+          userId: req.body.userId
         })
         .skip(skip)
         .limit(limit)
