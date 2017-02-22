@@ -9,7 +9,7 @@
         <div class="small">
             <img gravatar-src="n.data.follower.email" gravatar-size="18" ng-show="!n.data.follower.file">
             <img ng-src="{{n.data.follower.file.urls.t100x100}}" width="18" ng-show="n.data.follower.file">
-            <strong>{{ n.data.user.firstname + ' ' + n.data.user.lastname }}</strong> was followed you
+            <strong>{{ n.data.follower.firstname + ' ' + n.data.follower.lastname }}</strong> was followed you
             <span class="pull-right text-muted small"><time-ago from-time='{{ n.createdAt }}'></time-ago></span>
         </div>
     </a>
