@@ -95,7 +95,8 @@ angular.module('siteSeedApp')
     $scope.logsNumber = 0;
     $scope.newDeviceLogs = [];
     Projects.get($stateParams.projectId).then(function(p) {
-        var docs = (APP_CONFIG.localEnv)?APP_CONFIG.docs + p.domain:'http://' + p.domain + '/docs';
+        var docs = (APP_CONFIG.localEnv)?APP_CONFIG.docs + p.domain:'http://' +p.domain;
+        docs = docs + '#!/Devices/post_devices_' + deviceId;
         $scope.swaggerUrl = 'http://petstore.swagger.io/?url=' + docs;
         $scope.project = p;
         DeviceLogs.list(deviceId, 1, 100).then(function(logs) {
