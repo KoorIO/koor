@@ -100,24 +100,31 @@ angular.module('siteSeedApp')
             $scope.loaded = true;
         }
         if ($scope.service === 'mqtt') {
-            $scope.channelSubscribe = res.domain + '/mqtt/demo';
-            $scope.loaded = true;
-            var mqttDomain = (APP_CONFIG.localEnv)?APP_CONFIG.mqtt:res.domain;
-            var client = kmqtt.connect(APP_CONFIG.protocols.ws + mqttDomain + '/mqtt');
-            $scope.$on("$destroy", function() {
-                client.end();
+            Devices.list($scope.project._id, 1, 10).then(function(devices) {
+                $scope.devices = devices.rows;
+                $scope.count = devices.count;
+                $scope.loaded = true;
             });
-            client.subscribe($scope.channelSubscribe);
+            $scope.pageChanged = function() {
+                Devices.list($scope.project._id, $scope.currentPage, limit).then(function(response){
+                    $scope.devices = response.rows;
+                    $scope.count = response.count;
+                });
+            };
+        }
 
-            $scope.inbox = [];
-            client.on("message", function(topic, payload) {
-                var data = {
-                    time: new Date(new Date().getTime()).toLocaleString(),
-                    message: payload.toString()
-                };
-                $scope.inbox.push(data);
-                $scope.$apply();
+        if ($scope.service === 'log') {
+            Devices.list($scope.project._id, 1, 10).then(function(devices) {
+                $scope.devices = devices.rows;
+                $scope.count = devices.count;
+                $scope.loaded = true;
             });
+            $scope.pageChanged = function() {
+                Devices.list($scope.project._id, $scope.currentPage, limit).then(function(response){
+                    $scope.devices = response.rows;
+                    $scope.count = response.count;
+                });
+            };
         }
 
         if ($scope.service === 'api') {
