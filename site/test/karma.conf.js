@@ -43,6 +43,7 @@ module.exports = function(config) {
       'bower_components/angular-chart.js/dist/angular-chart.js',
       'bower_components/angular-timeago/dist/angular-timeago.js',
       'bower_components/ng-file-upload/ng-file-upload.js',
+      'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'bower_components/angular-simple-logger/dist/angular-simple-logger.js',

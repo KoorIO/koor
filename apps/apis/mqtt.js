@@ -55,7 +55,7 @@ router.post('/auth_on_publish', function(req, res) {
 
   req.on('data', function(d) {
     var data = JSON.parse(d);
-        // allow koor.io/timer
+    // allow koor.io/timer
     if (data.topic === 'koor.io/timer') {
       return res.send(JSON.stringify({result: 'ok'}));
     }
@@ -69,33 +69,37 @@ router.post('/auth_on_publish', function(req, res) {
         res.send(JSON.stringify({result: {error: 'You publish on unallowed channel'}}));
       } else {
         if (arrTopic.length > 1) {
-                    // send message store data to queue
-          var payload = {};
-          payload[arrTopic[1]] = data.payload;
-          q.create(os.hostname() + 'storeData', {
-            projectId: p._id,
-            domain: domain,
-            query: {},
-            body: {},
-            payload: payload
-          }).priority('high').removeOnComplete(true).save();
-          db.Device.findOne({
-            _id: deviceId
-          }).then(function(device) {
-            q.create(os.hostname() + 'deviceLogs', {
-              deviceId: device._id,
-              type: 'ON_PUBLISH',
-              data: {
-                device: device,
-                topic: data.topic,
-                clientId: data.client_id,
-                payload: data.payload,
-                qos: data.qos
-              }
+          // send message store data to queue
+          if (arrTopic[1] === 'fields') {
+            var payload = {};
+            payload[arrTopic[2]] = data.payload;
+            q.create(os.hostname() + 'storeData', {
+              projectId: p._id,
+              domain: domain,
+              query: {},
+              body: {},
+              payload: payload
             }).priority('high').removeOnComplete(true).save();
-          }).catch(function(e) {
-            logger.debug('Failed - query data', e);
-          });
+          }
+          if (arrTopic[1] === 'devices') {
+            db.Device.findOne({
+              _id: deviceId
+            }).then(function(device) {
+              q.create(os.hostname() + 'deviceLogs', {
+                deviceId: device._id,
+                type: 'ON_PUBLISH',
+                data: {
+                  device: device,
+                  topic: data.topic,
+                  clientId: data.client_id,
+                  payload: data.payload,
+                  qos: data.qos
+                }
+              }).priority('high').removeOnComplete(true).save();
+            }).catch(function(e) {
+              logger.debug('Failed - query data', e);
+            });
+          }
         }
         logger.debug('OK!');
         return res.send(JSON.stringify({result: 'ok'}));

@@ -31,6 +31,7 @@ angular
     });
 
     $translateProvider.preferredLanguage(APP_CONFIG.locales.preferredLocale);
+    $translateProvider.useSanitizeValueStrategy('sanitize');
     $translateProvider.useLocalStorage();
 })
 .config(function(uiGmapGoogleMapApiProvider) {
@@ -326,6 +327,11 @@ angular
             url: '/view/:fieldId',
             controller: 'ViewFieldCtrl',
             templateUrl: 'views/fields/view.html'
+        })
+        .state('app.fields.mqtt', {
+            url: '/mqtt/:fieldCode',
+            controller: 'MqttFieldCtrl',
+            templateUrl: 'views/fields/mqtt.html'
         })
         .state('app.fields.create', {
             url: '/create',

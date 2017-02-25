@@ -1,6 +1,8 @@
 'use strict';
 var express = require('express'),
   db = require('../models/mongodb'),
+  q = require('../queues'),
+  os = require('os'),
   logger = require('../helpers/logger'),
   slug = require('slug'),
   router = express.Router();
@@ -26,6 +28,11 @@ router.post('/create', function(req, res) {
       }
             // remove security attributes
       newField = field.toObject();
+      q.create(os.hostname() + 'fields', {
+        userId: req.body.userId,
+        type: 'CREATE_FIELD',
+        field: newField
+      }).priority('high').removeOnComplete(true).save();
       res.send(JSON.stringify(newField));
     });
   });

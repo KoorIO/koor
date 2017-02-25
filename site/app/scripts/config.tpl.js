@@ -3,6 +3,7 @@ angular
     'ngTouch',
     'ngResource',
     'ngCookies',
+    'ngSanitize',
     'ui.router',
     'ui.bootstrap',
     'oc.lazyLoad',

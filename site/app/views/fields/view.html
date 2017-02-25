@@ -8,14 +8,12 @@
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-            <canvas id="line" class="chart chart-line" chart-data="field.data" chart-labels="field.labels">
-            </canvas> 
             <div class="table-responsive">
                 <div ng-show="update_message" class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     {{update_message}}
                 </div>
-                <table class="table table-hover">
+                <table class="table table-hover table-borderless">
                     <tbody>
                     <tr>
                         <td>Name</td>
@@ -30,6 +28,14 @@
                         <td><a href="#" editable-text="field.description" onaftersave="updateField()">{{field.description || 'empty'}}</a></td>
                     </tr>
                     <tr>
+                        <td>MQTT Topic</td>
+                        <td><a ui-sref="app.fields.mqtt({projectId: field.projectId, fieldCode: field.code})" target="_blank">Sending MQTT messages</a></td>
+                    </tr>
+                    <tr>
+                        <td>Restful API</td>
+                        <td><a href="{{ swaggerUrl }}" target="_blank">{{ project.domain + '/fields/' + field._id}}</a></td>
+                    </tr>
+                    <tr>
                         <td>Get Data</td>
                         <td><code>{{ 'curl -XGET --header "Content-Type: application/json"
                                 --header "Authorization:' + project.secretKey + '"
@@ -39,6 +45,8 @@
                 </table>
             </div>
             <!-- /.table-responsive -->
+            <canvas id="line" class="chart chart-line" chart-data="field.data" chart-labels="field.labels">
+            </canvas> 
         </div>
         <!-- /.panel-body -->
     </div>
