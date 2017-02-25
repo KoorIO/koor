@@ -101,7 +101,7 @@ maintain:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     script:
-        - ssh root@${SERVER_ADDRESS} "docker cp /build/nginx/maintenance.template nginx:/usr/share/nginx/html/maintenance.html"
+        - ssh root@${SERVER_ADDRESS} "docker cp /build/nginx/maintenance.template build_nginx_1:/usr/share/nginx/html/maintenance.html"
 
 rework:
     when: manual
@@ -124,5 +124,5 @@ rework:
         - mkdir -p ~/.ssh
         - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     script:
-        - ssh root@${SERVER_ADDRESS} "docker exec -it nginx rm -f /usr/share/nginx/html/maintenance.html"
+        - ssh root@${SERVER_ADDRESS} "docker exec -it build_nginx_1 rm -f /usr/share/nginx/html/maintenance.html"
 

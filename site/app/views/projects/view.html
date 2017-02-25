@@ -260,7 +260,9 @@
                     <div class="panel-heading">
                         MQTT
                     </div>
-                    <div class="panel-body" ng-repeat="device in devices track by $index">
+                    <div class="panel-body">
+                      <p ng-hide="devices.length">There are no Devices. Please <a ui-sref="app.devices.create({projectId: project._id, deviceId: device._id})"><strong>create Device</strong></a> to start working with Koor IO</p>
+                      <div ng-repeat="device in devices track by $index">
                         <div class="form-group">
                           <p class="form-control-static">Some MQTT Topics for device <a ui-sref="app.devices.view({projectId: device.projectId, deviceId: device._id})">{{ device.name }}</a>:</p>
                         </div>
@@ -279,6 +281,7 @@
                                 </tbody>
                             </table>
                         </div>
+                      </div>
                     </div>
                     <div class="row" ng-show="devices.length">
                         <div class="pull-right">
@@ -298,6 +301,7 @@
                         Realtime Logs
                     </div>
                     <div class="panel-body">
+                        <p ng-hide="devices.length">There are no Devices. Please <a ui-sref="app.devices.create({projectId: project._id, deviceId: device._id})"><strong>create Device</strong></a> to start working with Koor IO</p>
                         <div class="table-responsive" ng-show="devices.length">
                             <table class="table">
                                 <thead>

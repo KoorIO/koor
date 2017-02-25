@@ -13,6 +13,8 @@ class Field
   rails_admin do
     edit do
       field :name
+      field :user
+      field :project
     end
   end
 
