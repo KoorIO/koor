@@ -19,7 +19,7 @@ angular.module('siteSeedApp')
     var fieldId = $stateParams.fieldId;
     Projects.get($stateParams.projectId).then(function(p) {
         $scope.project = p;
-        var docs = (APP_CONFIG.localEnv)?APP_CONFIG.docs + p.domain:'http://' +p.domain;
+        var docs = (APP_CONFIG.localEnv)?APP_CONFIG.docs + p.domain:'http://' + p.domain + '/docs';
         docs = docs + '#!/Fields/post_fields_' + fieldId;
         $scope.swaggerUrl = 'http://petstore.swagger.io/?url=' + docs;
         Fields.get(fieldId).then(function(res) {
