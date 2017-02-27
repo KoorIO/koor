@@ -39,6 +39,9 @@
                     <label>DNS Status</label>
                     <p class="form-control-static"><i class="fa fa-circle" ng-class="(project.dnsStatus)?'text-success':'text-danger'"></i></p>
                 </div>
+                <div class="form-group">
+                  <a class="btn btn-success" ui-sref="app.devices.create({projectId: project._id})"><i class="fa fa-plus"></i> Create Device</a>
+                </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">

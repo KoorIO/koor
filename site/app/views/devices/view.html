@@ -23,6 +23,10 @@
             <td><code>{{ project.domain + "/devices/" + device._id }}</code></td>
         </tr>
         <tr>
+            <td>MQTT URL</td>
+            <td><code>mqtt://mqtt.koor.io</code>
+        </tr>
+        <tr>
             <td>Name</td>
             <td><a href="#" editable-text="device.name" onaftersave="updateDevice()">{{device.name || 'empty'}}</a></td>
         </tr>
