@@ -440,7 +440,16 @@ router.get('/search', function(req, res) {
     from: from,
     size: size
   }).then(function(response) {
-    return res.json(response);
+    const hits = response.hits.map(function(item) {
+      const ret = item._source;
+      delete ret.hashedPassword;
+      ret._id = item._id;
+      return ret;
+    });
+    return res.json({
+      count: response.total,
+      rows: hits
+    });
   }).catch(function() {
     return res.json({});
   });

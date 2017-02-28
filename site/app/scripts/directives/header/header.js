@@ -35,7 +35,7 @@ angular.module('siteSeedApp')
             };
             $scope.search = function(s) {
                 return Users.search(s).then(function(res) {
-                    return res.hits;
+                    return res.rows;
                 });
             };
         }

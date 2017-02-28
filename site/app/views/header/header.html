@@ -40,7 +40,7 @@
 <div class="col-sm-3 col-md-3">
     <form class="navbar-form" role="search">
     <div class="input-group">
-        <input type="text" ng-model="customSelected" placeholder="Search friends, devices" uib-typeahead="hit as hit._source.firstname + ' ' + hit._source.lastname for hit in search($viewValue)" class="form-control" typeahead-template-url="searchTemplate.html">
+        <input type="text" ng-model="customSelected" placeholder="Search friends, devices" uib-typeahead="hit as hit.firstname + ' ' + hit.lastname for hit in search($viewValue)" class="form-control" typeahead-template-url="searchTemplate.html">
         <div class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
         </div>
@@ -49,8 +49,8 @@
 </div>
 <script type="text/ng-template" id="searchTemplate.html">
 <a ui-sref="user.get({userId: match.model._id})">
-    <img gravatar-src="match.model._source.email" gravatar-size="18" ng-show="!match.model._source.file">
-    <img ng-src="{{match.model._source.file.urls.t100x100}}" width="18" ng-show="match.model._source.file">
+    <img gravatar-src="match.model.email" gravatar-size="18" ng-show="!match.model.file">
+    <img ng-src="{{match.model.file.urls.t100x100}}" width="18" ng-show="match.model.file">
     <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
 </a>
 </script>
