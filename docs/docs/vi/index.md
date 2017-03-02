@@ -6,70 +6,41 @@ Koor.IO (Gọi tắt là Co) là một IoT Platform Việt nam đầu tiên đư
 
 Sau khi tạo tài khoản và đăng nhập thành công, bạn có thể bắt đầu tạo một Project. Với mỗi một Project, Koor.IO sẽ tạo cho các bạn một subdomain. Subdomain này sẽ được sử dụng để gọi các Restful API và định danh các MQTT Topics của dự án.
 
+*Chú ý: Project Status biểu thị trạng thái của Project Subdomain. Khi Project Status chuyển từ màu đỏ sang màu Đỏ sang màu Xanh, thì có nghĩa rằng bạn có thể sử dụng được Restful API hay Websocket*
+
 Chúng tôi luôn hướng tới sự miễn phí vô hạn cho người dùng. Tuy nhiên, trong giai đoạn đầu, để tránh Spamer, chúng tôi sẽ giới hạn 10 Projects cho một tài khoản. Nếu các bạn có nhu cầu tạo nhiều hơn 10 dự án, các bạn có thể liên hệ trực tiếp với chúng tôi.
 
+### Thiết bị (Device)
+
+Việc đầu tiên khi bắt đầu một Project, đó là tạo các thiết bị (Device). Koor.IO hỗ trợ bạn tạo mới không giới hạn các thiết bị trong mỗi Project. Để tạo thiết bị, bạn chỉ việc cung cấp thông tin của nó. Tuy nhiên, bạn cũng có thể bổ sung các thông tin sau:
+- Môt tả thiết bị
+- Vị trí (Lat, Long)
+- Ảnh
+- Địa chỉ
+
+Sau khi tạo thiết bị thành công, bạn đã có thể **gửi dữ liệu tới thiết bị qua cả Restful API/MQTT, đồng thời có thể nhận dữ liệu gửi lên từ thiết bị qua MQTT**. Koor.IO hướng tới cung cấp giao diện thân thiện để bạn có thể làm những việc đó một cách dễ dàng nhất.
+
 ### Restful API
-You can create unlimited API each project. We support to run APIs on Swagger. This service will be very usefull for IoT Developer and Mobile Developer. You are not only able to create any [mockup restful API](https://koor.io), but also you can store the payload of Restful API requests.
+Restful API có thể được tạo tự động sau khi bạn tạo thành công một Thiết Bị. Những APIs được tạo tự động này mô tả cho bạn cách gửi dữ liệu tới thiết bị qua Restful API. Qua Swagger, bạn sẽ đễ dàng chạy thử việc gửi dữ liệu đó. Như vậy, bạn hoàn toàn có thể **gửi dữ liệu từ điện thoại thông minh tới Thiết Bị** thông qua API đó.
 
-### WebSocket
-You will easily to open a websocket connection and emit messages via 'test_message', 'broad_message' channel. 
-
-#### SocketIO client example
-For example, you have a project with domain: `57ee5f572c6xxxxxfe.koor.io`
-```html
-<script src="/socket.io/socket.io.js"></script>
-<script>
-var socket = io('http://57ee5f572c6xxxxxfe.koor.io');
-socket.on('test_message', function (data) {
-    console.log(data);
-    socket.emit('test_message', { my: 'data' });
-});
-</script>
-```
-
-After running your code in browser, you can access `https://koor.io` to see the message emited by your example
+Ngoài ra, Koor.IO cũng cho phép bạn tạo nhiều APIs khác nhau tùy theo nhu cầu. Chức năng này rất hữu ích với cả IoT và Mobile Developer.
 
 ### MQTT
-You can connect our MQTT broker and publish/subscrible any channel with format `[subdomain]/*`. Currently, we support both MQTT and MQTT over Websocket.
+Bạn hoàn toàn có thể gửi/nhận dữ liệu từ Thiết Bị bằng giao thức MQTT. Bạn chỉ việc sử dụng chính xác các thông tin sau cho MQTT:
+- MQTT Server: `mqtt://mqtt.koor.io`
+- MQTT Topics: `[domain_cua_du_an]/devices/[device_id] hoặc [domain_cua_du_an]/devices/[device_id]/[chuoi_ky_tu_tuy_bien]`
 
-- MQTT: `mqtt://mqtt.koor.io`
-- MQTT over Websocket: `ws://[project_domain]/mqtt`
+Ví dụ, Project của bạn có domain là `58b171f16882b6000fb33c42.koor.io`, và ID của Thiết Bị là `58b29d56791a89000f2dd3f4` thì MQTT Topics để gửi/nhận dữ liệu tới thiết bị sẽ có thể là: `58b171f16882b6000fb33c42.koor.io/devices/58b29d56791a89000f2dd3f4`, `58b171f16882b6000fb33c42.koor.io/devices/58b29d56791a89000f2dd3f4/test1` hoặc `58b171f16882b6000fb33c42.koor.io/devices/58b29d56791a89000f2dd3f4/test2`
 
-#### NodeJS MQTT client example
-For example, you have a project with domain: `57ee5f572c6xxxxxfe.koor.io.
-And you use MQTTJS to connect KoorIO broker, you can refer the source code below:
-```
-var mqtt = require('mqtt');
+*Chú ý: Ngay khi bạn Subscribe những MQTT Topics như trên, thì đèn trạng thái của Thiết Bị trên Koor.IO sẽ bật xanh. Khi không có kết nối MQTT tới các Topics đó, đèn trạng thái của thiết bị sẽ là màu đỏ.*
 
-var client = mqtt.connect('mqtt://mqtt.koor.io');
-
-client.on('connect', function (packet) {
-    console.log('Connected');
-    client.subscribe('57ee5f572c6xxxxxfe.koor.io/demo/hello');
-    client.publish('57ee5f572c6xxxxxfe.koor.io/demo/hello');
-});
-
-client.on('message', function (topic, message) {
-    // message is Buffer 
-    console.log(topic, message.toString());
-}); 
-
-```
-*Note: you only have permissions to subscribe/publish on the channels with prefix `57ee5f572c6xxxxxfe.koor.io`*
-
+### Logs Thời gian thực
+Koor.IO có chức năng *Realtime Logs để hỗ trợ giám sát/theo dõi dữ liệu gửi qua MQTT theo thời gian thực*. Điều đó có nghĩa rằng, tất cả các dữ liệu gửi đến hoặc gửi từ thiết bị bạn đều có thể quan sát được qua giao diện web. Đống thời các dữ liệu đó cũng được lưu lại dưới dạng Logs.
 
 ### Fields
-We supports you create custom fields. With Free Plan, You can create/update/delete maximum 10 custom fields for per project, and 500 records per custom field. Base on the custom fields, you will store the data pushed by the clients
-And you are also able to download your data by using API as below
-```
-curl -XGET --header "Content-Type: application/json" --header "Authorization:[project_secret_key]" https://[project_domain].koor.io/get/field/[field_code]/[page]
-```
+Chức năng sẽ giúp các bạn lưu *trữ dữ liệu gửi lên từ thiết bị và hiển thị lên biểu đồ*. Mỗi Field được tạo ra sẽ có một `fieldcode`. Sau khi bạn thành công một Field, hệ thống sẽ tự động tạo sẵn các Restful API để bạn có thể chạy thử. Ngoài ra, hệ thống cũng hỗ trợ ghi dữ liệu gửi lên từ thiết bị qua giao thức MQTT sử dụng chính xác các thông tin sau:
+- MQTT Server: `mqtt://mqtt.koor.io`
+- MQTT Topics: `[domain_cua_du_an]/fields/[field_code]`
 
-### Devices
-With Koor.IO, you are able to manage all devices in your Internet of Things.
-- Update Device Status realtime
-- Send/Receive data from devices on MQTT channel and Websocket
-- Receive data from devices on HTTP
-
-### Dashboard & Chart
-With Free Plan, we will show the chart of the data for maximum 500 records.
+### Các ví dụ
+[ESP8266 gửi dữ liệu qua giao thức MQTT](https://koor.io/docs/vi/esp8266_gui_du_lieu_qua_mqtt)

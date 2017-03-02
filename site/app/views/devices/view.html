@@ -10,6 +10,10 @@
     <table class="table table-hover table-borderless">
         <tbody>
         <tr>
+            <td>Device ID</td>
+            <td>{{ device._id }}</td>
+        </tr>
+        <tr>
             <td>Debug Tools</td>
             <td><a ui-sref="app.devices.logs({projectId: device.projectId, deviceId: device._id})"><strong>Realtime Logs</strong></a></td>
         </tr>

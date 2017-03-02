@@ -3,5 +3,6 @@ google_analytics: ['UA-53196177-5', 'koor.io']
 pages:
     - Home: index.md
     - Vi:
-        - Home: vi/index.md
+        - Tài liệu: vi/index.md
+        - ESP8266 gửi dữ liệu qua giao thức MQTT: vi/esp8266_gui_du_lieu_qua_mqtt.md
 theme_dir: koor
