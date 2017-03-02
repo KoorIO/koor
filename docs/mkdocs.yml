@@ -2,4 +2,6 @@ site_name: Koor.IO
 google_analytics: ['UA-53196177-5', 'koor.io']
 pages:
     - Home: index.md
+    - Vi:
+        - Home: vi/index.md
 theme_dir: koor
