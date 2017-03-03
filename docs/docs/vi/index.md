@@ -35,12 +35,13 @@ Ví dụ, Project của bạn có domain là `58b171f16882b6000fb33c42.koor.io`,
 *Chú ý: Ngay khi bạn Subscribe những MQTT Topics như trên, thì đèn trạng thái của Thiết Bị trên Koor.IO sẽ bật xanh. Khi không có kết nối MQTT tới các Topics đó, đèn trạng thái của thiết bị sẽ là màu đỏ.*
 
 ### Logs Thời gian thực
-Koor.IO có chức năng *Realtime Logs để hỗ trợ giám sát/theo dõi dữ liệu gửi qua MQTT theo thời gian thực*. Điều đó có nghĩa rằng, tất cả các dữ liệu gửi đến hoặc gửi từ thiết bị bạn đều có thể quan sát được qua giao diện web. Đống thời các dữ liệu đó cũng được lưu lại dưới dạng Logs.
+Koor.IO có chức năng **Realtime Logs để hỗ trợ giám sát/theo dõi dữ liệu gửi qua MQTT theo thời gian thực**. Điều đó có nghĩa rằng, tất cả các dữ liệu gửi đến hoặc gửi từ thiết bị bạn đều có thể quan sát được qua giao diện web. Đống thời các dữ liệu đó cũng được lưu lại dưới dạng Logs.
 
 ### Fields
-Chức năng sẽ giúp các bạn lưu *trữ dữ liệu gửi lên từ thiết bị và hiển thị lên biểu đồ*. Mỗi Field được tạo ra sẽ có một `fieldcode`. Sau khi bạn thành công một Field, hệ thống sẽ tự động tạo sẵn các Restful API để bạn có thể chạy thử. Ngoài ra, hệ thống cũng hỗ trợ ghi dữ liệu gửi lên từ thiết bị qua giao thức MQTT sử dụng chính xác các thông tin sau:
+Chức năng sẽ giúp các bạn lưu **trữ dữ liệu gửi lên từ thiết bị và hiển thị lên biểu đồ**. Mỗi Field được tạo ra sẽ có một `fieldcode`. Sau khi bạn thành công một Field, hệ thống sẽ tự động tạo sẵn các Restful API để bạn có thể chạy thử. Ngoài ra, hệ thống cũng hỗ trợ ghi dữ liệu gửi lên từ thiết bị qua giao thức MQTT sử dụng chính xác các thông tin sau:
 - MQTT Server: `mqtt://mqtt.koor.io`
 - MQTT Topics: `[domain_cua_du_an]/fields/[field_code]`
 
 ### Các ví dụ
-[ESP8266 gửi dữ liệu qua giao thức MQTT](https://koor.io/docs/vi/esp8266_gui_du_lieu_qua_mqtt)
+- [ESP8266 gửi dữ liệu qua giao thức MQTT](https://koor.io/docs/vi/esp8266_gui_du_lieu_qua_mqtt)
+- [ESP8266 gửi dữ liệu qua giao thức HTTP](https://koor.io/docs/vi/esp8266_dht11_gui_du_lieu_qua_http)

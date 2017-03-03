@@ -5,4 +5,5 @@ pages:
     - Vi:
         - Tài liệu: vi/index.md
         - ESP8266 gửi dữ liệu qua giao thức MQTT: vi/esp8266_gui_du_lieu_qua_mqtt.md
+        - ESP8266 gửi dữ liệu qua giao thức HTTP: vi/esp8266_dht11_gui_du_lieu_qua_http.md
 theme_dir: koor

@@ -1,3 +1,5 @@
+# ESP8266 gửi dữ liệu qua giao thức MQTT
+---
 Như các bạn biết, Internet Of Things là môt xu thế công nghệ được mọi người hướng tới nhiều nhất trong thời gian qua. Những Developer kinh nghiệm cũng tham gia nghiên cứu IOT nếu không muốn mình bị lạc hậu. Còn những Developers trẻ tuổi cũng háo hức học IOT để bắt đầu khởi nghiệp, hoặc để có một công việc tốt hơn trong tương lai.
 
 Ngày nay,  IOT hay Khoa Học Công Nghệ không còn là câu chuyện của các cá nhân, tổ chức. Chính phủ nước nhà cũng đã chung tay góp sức bằng nhiều chính sách hỗ trợ cụ thể với những khởi nghiệp trong lĩnh vực này.
