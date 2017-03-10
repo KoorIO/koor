@@ -58,5 +58,15 @@
         [300, 300], 
         [400, 400],
         [600, 600]
-    ]
+    ],
+    "aws": {
+      "key": "key_should_be_secured",
+      "secret": "secret_should_be_secured",
+      "region": "ap-southeast-1",
+      "s3": {
+        "bucket": "koorsys",
+        "endpoint": "https://s3-ap-southeast-1.amazonaws.com/koorsys/"
+      }
+    },
+    "fcm": "key_should_be_secured"
 }

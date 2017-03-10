@@ -1,3 +1,6 @@
 redis:
   host: redis
   port: 6379
+aws:
+  s3:
+    endpoint: https://s3-ap-southeast-1.amazonaws.com/koorsys/

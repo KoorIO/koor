@@ -7,8 +7,8 @@ class Api
   belongs_to :project, :class_name => 'Project', :foreign_key => 'projectId', :primary_key => :_id
 
   field :name,              type: String, default: ""
-  field :createdAt, type: Date
-  field :updatedAt, type: Date
+  field :createdAt, type: Time
+  field :updatedAt, type: Time
 
   rails_admin do
     edit do

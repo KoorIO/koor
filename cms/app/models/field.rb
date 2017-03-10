@@ -6,16 +6,9 @@ class Field
   belongs_to :user, :class_name => 'AppUser', :foreign_key => 'userId', :primary_key => :_id
   belongs_to :project, :class_name => 'Project', :foreign_key => 'projectId', :primary_key => :_id
 
-  field :name,              type: String, default: ""
-  field :createdAt, type: Date
-  field :updatedAt, type: Date
-
-  rails_admin do
-    edit do
-      field :name
-      field :user
-      field :project
-    end
-  end
+  field :name, type: String, default: ""
+  field :code, type: String, default: ""
+  field :description, type: String, default: ""
+  field :createdAt, type: Time
 
 end

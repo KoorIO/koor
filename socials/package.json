@@ -1,7 +1,7 @@
 {
-  "name": "api-seed",
+  "name": "socials",
   "version": "1.0.0",
-  "description": "A Seed Service with NodeJS and MongoDB",
+  "description": "Socials services",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/thanhson1085/api-seed#readme",
   "dependencies": {
+    "aws-sdk": "^2.26.0",
     "babel-polyfill": "^6.16.0",
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",

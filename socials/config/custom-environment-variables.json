@@ -1,8 +1,25 @@
 {
-    "mailer": {
-        "auth": {
-            "user": "MAILER_AUTH_USER",
-            "pass": "MAILER_AUTH_PASS"
-        }
+  "logs": {
+    "level": "LOGS_LEVEL"
+  },
+  "server": {
+    "key": "SERVER_KEY"
+  },
+  "aws": {
+    "key": "AWS_KEY",
+    "secret": "AWS_SECRET",
+    "s3": {
+      "endpoint": "AWS_S3_ENDPOINT"
     }
+  },
+  "fcm": "FCM_KEY",
+  "jwt": {
+    "key": "JWT_KEY"
+  },
+  "mailer": {
+    "auth": {
+      "user": "MAILER_AUTH_USER",
+      "pass": "MAILER_AUTH_PASS"
+    }
+  }
 }

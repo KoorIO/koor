@@ -7,5 +7,6 @@ class Device
   belongs_to :project, :class_name => 'Project', :foreign_key => 'projectId', :primary_key => :_id
 
   field :name, type: String, default: ""
+  field :createdAt, type: Time
 
 end
