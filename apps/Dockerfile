@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:4.4
+FROM node:6-alpine
 MAINTAINER Nguyen Sy Thanh Son
 
 RUN apk add --update \

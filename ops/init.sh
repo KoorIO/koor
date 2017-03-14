@@ -27,8 +27,8 @@ apt-get install -y python-virtualenv
 echo Installing ImageMagick ...
 apt-get install -y imagemagick
 
-echo Installing NodeJS 4x ...
-curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+echo Installing NodeJS 6x ...
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 apt-get install -y nodejs
 npm install -g npm@latest
 npm install -g nodemon grunt-cli gulp bower
