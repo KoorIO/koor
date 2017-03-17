@@ -5,7 +5,7 @@
     "angular": "1.6.1",
     "angular-animate": "1.6.1",
     "bootstrap-sass-official": "^3.2.0",
-    "angular-touch": "^1.4.0",
+    "angular-touch": "1.6.1",
     "angular-ui-router": "^0.3.2",
     "oclazyload": "^1.0.9",
     "font-awesome": "fontawesome#^4.6.3",
