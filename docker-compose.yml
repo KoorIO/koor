@@ -58,22 +58,6 @@ services:
       - front-net
       - back-net
 
-  chats:
-    build: ./chats
-    image: registry.gitlab.com/thanhson1085/koor:chats
-    restart: "on-failure:3"
-    environment:
-      MAILER_AUTH_PASS: ${MAILER_AUTH_PASS}
-      MAILER_AUTH_USER: ${MAILER_AUTH_USER}
-    depends_on:
-      - db
-      - redis
-      - elasticsearch
-      - neo4j
-    networks:
-      - front-net
-      - back-net
-
   socket:
     build: ./websocket
     image: registry.gitlab.com/thanhson1085/koor:socket
